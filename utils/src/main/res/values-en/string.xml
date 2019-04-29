@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="permission_rationale_message">You have rejected relevant permissions, which may cause the APP to crash. Please reauthorize</string>
+
+    <string name="permission_denied_forever_message">>You have rejected relevant permissions, which may cause the APP to crash. Please go to the setting page for authorization</string>
+
+
+</resources>

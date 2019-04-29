@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AndroidUtilsLib</string>
+
+    <string name="permission_rationale_message">您拒绝了相关权限,可能导致APP崩溃,请重新授权</string>
+
+    <string name="permission_denied_forever_message">>您拒绝了相关权限,可能导致APP崩溃,请到设置页面进行授权</string>
+
+</resources>

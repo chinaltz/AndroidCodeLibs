@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?><!--头部导航布局-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navBar"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@color/nav_light_bg">
+
+    <LinearLayout
+
+        android:id="@+id/nav_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="20dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:id="@+id/nav_left_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_gravity="center|left"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:src="@drawable/nav_back_black"
+            android:visibility="gone"/>
+
+        <TextView
+
+            android:id="@+id/nav_left_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:gravity="center|left"
+            android:paddingLeft="4dp"
+            android:text="返回"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:visibility="gone"
+          />
+
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/nav_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="标题"
+        android:textColor="@color/black"
+
+        android:textSize="17dp" />
+
+
+
+    <LinearLayout
+        android:id="@+id/nav_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="15dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:adjustViewBounds="true"
+            android:id="@+id/nav_right_icon"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_gravity="center|left"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/nav_back_black"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/nav_right_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:gravity="center|left"
+            android:paddingLeft="4dp"
+            android:text="返回"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="#e6e6e6" />
+</RelativeLayout>
+
