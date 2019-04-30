@@ -6,22 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".home.activity.MainActivity">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/view_navbar"
+
+    <com.androidcodelibs.androidutilslib.view.ALViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/dividerline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <com.androidcodelibs.androidutilslib.view.ALInnerViewPager
+    <View
+        android:id="@+id/dividerline"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="1dp"
+        android:background="#EEE"
         app:layout_constraintBottom_toTopOf="@+id/tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
-
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

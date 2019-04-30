@@ -19,7 +19,7 @@ import java.lang.reflect.Field;
  *     author: Blankj
  *     blog  : http://blankj.com
  *     time  : 2016/08/02
- *     desc  : utils about keyboard
+ *     desc  : utils about ui_keyboard
  * </pre>
  */
 public final class KeyboardUtils {

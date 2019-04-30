@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.os.StatFs;
+import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
 
 
@@ -39,6 +40,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 
 /**
@@ -924,6 +927,7 @@ public class FileUtils {
      *
      * @param context the context
      */
+    @RequiresPermission(WRITE_EXTERNAL_STORAGE)
     public static void initFileDir(Context context) {
 
         PackageInfo info = AppUtils.getPackageInfo(context);

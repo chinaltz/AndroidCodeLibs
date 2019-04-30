@@ -10,9 +10,12 @@ android {
         targetSdkVersion globalConfiguration.androidTargetSdkVersion
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -27,11 +30,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     def androidDependencies = rootProject.ext.androidDependencies
     implementation androidDependencies.appcompat_v7
     implementation androidDependencies.design
     implementation androidDependencies.recyclerView
     api project(':utils')
+    api 'com.alibaba:arouter-api:1.4.1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="nav_light_bg">#ffffff</color>
-    <color name="colorPrimary">#2C3549</color>
-    <color name="colorPrimaryDark">#2C3549</color>
-    <color name="colorAccent">#2C3549</color>
-    <color name="mainColor">#2C3549</color>
+    <color name="colorPrimary">#e83921</color>
+    <color name="colorPrimaryDark">#e83921</color>
+    <color name="colorAccent">#e83921</color>
+    <color name="mainColor">#e83921</color>
     <color name="commomBg">#F1F1F1</color>
     <!-- 透明色 -->
     <color name="transparent">#00000000</color>
