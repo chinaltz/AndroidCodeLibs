@@ -46,6 +46,7 @@ public class ALInnerViewPager extends ViewPager {
 	
 	/**
 	 * 拦截事件.
+	 *
 	 * @param ev the ev
 	 * @return true, if successful
 	 */

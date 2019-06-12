@@ -3,7 +3,6 @@ package com.androidcodelibs.appcode.home.activity;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +15,12 @@ import com.androidcodelibs.androidutilslib.view.ALViewPager;
 import com.androidcodelibs.appcode.R;
 import com.androidcodelibs.appcode.home.adapter.MainFragmentAdapter;
 import com.androidcodelibs.appcode.home.fragment.ViewFragment;
-import com.androidcodelibs.appcode.home.model.SampleListManager;
+import com.androidcodelibs.appcode.home.data.SampleListManager;
+import com.androidcodelibs.common.router.IRouter;
 
 import java.util.ArrayList;
 
-@Route(path = "/mian/MainActivity")
+@Route(path = IRouter.IRouter_MainActivity)
 public class MainActivity extends BaseActivity {
 
 
@@ -70,9 +70,9 @@ public class MainActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(4);
 
 
-        viewFragment = ViewFragment.newInstance(titleList[0], SampleListManager.getDatas(0));
-        viewFragment2 = ViewFragment.newInstance(titleList[1], SampleListManager.getDatas(1));
-        viewFragment3 = ViewFragment.newInstance(titleList[2], SampleListManager.getDatas(2));
+        viewFragment = ViewFragment.newInstance(titleList[0], SampleListManager.getDatas(0), 0);
+        viewFragment2 = ViewFragment.newInstance(titleList[1], SampleListManager.getDatas(1), 1);
+        viewFragment3 = ViewFragment.newInstance(titleList[2], SampleListManager.getDatas(2), 2);
         fragmentList = new ArrayList<>();
         fragmentList.add(viewFragment);
         fragmentList.add(viewFragment2);

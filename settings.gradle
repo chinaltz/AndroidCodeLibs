@@ -1,1 +1,1 @@
-include ':app', ':utils', ':base', ':listgrid'
+include ':app', ':utils', ':common', ':listgrid', ':entity'

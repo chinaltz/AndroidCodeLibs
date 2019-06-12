@@ -3,10 +3,21 @@
     package="com.androidcodelibs.listgrid">
 
     <application>
+
         <activity
-            android:name=".ListTestActivity"
+            android:name=".ListAndGridActivity"
             android:label="@string/title_activity_list_test"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!--城市选择/通讯录-->
+        <activity
+            android:name=".activity.CityListViewActivity"
+            android:screenOrientation="portrait" />
+        <!--九宫格解锁-->
+        <activity
+            android:name=".activity.NineLockActivity"
+            android:screenOrientation="portrait" />
+
+
     </application>
 
 </manifest>

@@ -1,8 +1,6 @@
 package com.androidcodelibs.appcode.home.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.androidcodelibs.androidutilslib.app.base.BaseFragment;
-import com.androidcodelibs.androidutilslib.utils.ISImageUtils;
 import com.androidcodelibs.androidutilslib.utils.LogUtils;
 import com.androidcodelibs.androidutilslib.view.listener.ALOnItemClickListener;
 import com.androidcodelibs.appcode.R;
-import com.androidcodelibs.appcode.home.adapter.SamplesAdapter;
-import com.androidcodelibs.appcode.home.model.SampleModel;
-import com.androidcodelibs.listgrid.ListTestActivity;
+import com.androidcodelibs.common.adapter.SamplesAdapter;
+import com.androidcodelibs.common.router.IRouter;
+import com.androidcodelibs.entity.common.SampleModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,9 +38,11 @@ public class ViewFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private static final String ARG_NAV_TITLE = "navtitle";
     private static final String ARG_LIST_DATA = "datas";
+    private static final String ARG_FRAGMENT_POSTION = "postion";
     private String navTitle;
     private List<SampleModel> datas;
     private SamplesAdapter samplesAdapter;
+    private int fragmentPostion;
     private Context mContext;
 
 
@@ -56,11 +54,12 @@ public class ViewFragment extends Fragment {
      *
      * @return ViewFragment 实例
      */
-    public static ViewFragment newInstance(String title, List<SampleModel> datas) {
+    public static ViewFragment newInstance(String title, List<SampleModel> datas, int postion) {
         ViewFragment fragment = new ViewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAV_TITLE, title);
         args.putSerializable(ARG_LIST_DATA, (Serializable) datas);
+        args.putInt(ARG_FRAGMENT_POSTION, postion);
         fragment.setArguments(args);
 
         return fragment;
@@ -72,6 +71,7 @@ public class ViewFragment extends Fragment {
         if (getArguments() != null) {
             navTitle = getArguments().getString(ARG_NAV_TITLE);
             datas = (List<SampleModel>) getArguments().getSerializable(ARG_LIST_DATA);
+            fragmentPostion = getArguments().getInt(ARG_FRAGMENT_POSTION);
         }
     }
 
@@ -109,10 +109,8 @@ public class ViewFragment extends Fragment {
             public void onItemClick(View view, int position) {
 
 // 2. 跳转并携带参数
-                ARouter.getInstance().build("/listgrid/ListTestActivity")
-                        .withLong("key1", 666L)
-                        .withString("key3", "888")
-                        .withSerializable("key4", new SampleModel("Jack", 11))
+                ARouter.getInstance()
+                        .build(IRouter.IRouter_ListAndGridActivity)
                         .navigation();
 
 
