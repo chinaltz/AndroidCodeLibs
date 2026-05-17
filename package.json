@@ -1,0 +1,9 @@
+{
+  "name": "jiqublog",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "publish:wechat": "node scripts/md-to-wechat.mjs",
+    "publish:wechat:all": "node scripts/md-to-wechat.mjs --all"
+  }
+}

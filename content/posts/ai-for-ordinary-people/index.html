@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>别再说「AI 跟我没关系」了：普通人能拿它做的 7 件事</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: #3B82F6;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .toolbar button:hover { background: #2563EB; }
+  .toolbar button.secondary {
+    background: #fff;
+    color: #3B82F6;
+    border: 1px solid #3B82F6;
+  }
+  .toolbar .hint { font-size: 13px; color: #6B7280; flex: 1; min-width: 200px; }
+  .meta { font-size: 12px; color: #9CA3AF; margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">复制后 → 公众号后台正文区粘贴。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:22px;font-weight:bold;line-height:1.4;margin:24px 0 16px;color:#111;">别再说「AI 跟我没关系」了：普通人能拿它做的 7 件事</h1>
+<p style="margin:12px 0;"><img src="images/header.png" alt="头图" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<pre style="font-family:Menlo,Consolas,'PingFang SC',monospace;background-color:#F8FAFC;color:#1E293B;border:1px solid #E2E8F0;padding:16px;border-radius:8px;text-align:left;font-size:12px;line-height:1.45;margin:12px 0;overflow-x:auto;white-space:pre;">╔══════════════════════════════════════════════════════════════╗</pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;">║   📱 App  🌐 网页  🛠 工具  🎵 音乐  🎬 视频  ✨ 特效  📝 报告  ║</p>
+<pre style="font-family:Menlo,Consolas,'PingFang SC',monospace;background-color:#F8FAFC;color:#1E293B;border:1px solid #E2E8F0;padding:16px;border-radius:8px;text-align:left;font-size:12px;line-height:1.45;margin:12px 0;overflow-x:auto;white-space:pre;">╚══════════════════════════════════════════════════════════════╝</pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;">你有没有这样想过：</p>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">「AI 火了一两年了，好像很厉害，但跟我有什么关系？我又不写代码。」</p></blockquote>
+<p style="margin:10px 0;line-height:1.8;color:#333;">或者更直接一点：</p>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">「我试过豆包，问了几句，感觉也就那样。」</p></blockquote>
+<p style="margin:10px 0;line-height:1.8;color:#333;">如果你有这种感觉，不是 AI 不好用，是还没人告诉你它到底能帮你做什么。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">一句话结论：AI 不是程序员专属武器，它是你的私人创作工坊。做 App、搭网站、写工具、出音乐、剪视频、做特效、写报告——你不需要懂任何技术。</strong></p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">今天就来把这件事说清楚。不画饼，不贩卖焦虑，每一件都是现在打开电脑就能做的事。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">一图看懂：7 大场景速览</h2>
+<p style="margin:12px 0;"><img src="images/scenes-overview.png" alt="场景速览" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">#</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">场景</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">你能得到什么</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">上手难度</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">1</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">📱 制作 Android 应用</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">一个能安装到手机的 App</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">⭐⭐⭐</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">2</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">🌐 制作网页</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">一个别人能访问的个人网站</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">⭐⭐</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">3</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">🛠 本地小工具</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">批量处理文件、自动填表的小程序</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">⭐⭐</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">4</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">🎵 做音乐</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">一首带歌词、有旋律的原创歌曲</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">⭐</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">5</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">🎬 制作视频</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">从脚本到成片的完整视频</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">⭐⭐</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">6</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">✨ 做特效</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">照片修图、动态效果、海报设计</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">⭐</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">7</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">📝 写报告</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">周报、调研、PPT、商业计划书</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">⭐</td></tr></tbody></table>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">📊 <strong style="font-weight:bold;">难度说明</strong>（从零 IT 经验的普通人视角）</p><p style="margin:4px 0;">⭐ = 打开网页/App 就能用，不需要学任何东西</p><p style="margin:4px 0;">⭐⭐ = 需要装一个免费软件 + 看 5 分钟教程</p><p style="margin:4px 0;">⭐⭐⭐ = 需要装软件 + 复制代码 + 可能需要试一两次</p><p style="margin:4px 0;">⭐⭐⭐⭐ = 需要多个工具配合 + 有一些踩坑概率</p><p style="margin:4px 0;">⭐⭐⭐⭐⭐ = 需要专业知识，不建议零基础硬刚</p></blockquote>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">场景一：📱 不用写一行代码，AI 帮你做 Android App   <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐⭐⭐</code></h2>
+<p style="margin:12px 0;"><img src="images/scene1-chat-vs-code.png" alt="场景一：对话vs代码" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">也许你一直以为……</h3>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">「做 App = 程序员 + 花几个月 + 花很多钱」</p></blockquote>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">实际情况是——</h3>
+<p style="margin:10px 0;line-height:1.8;color:#333;">现在你可以跟 AI 说一段话，它就能生成一个能用的 App。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">比如你想做一个「家庭记账本」，你只需要告诉 AI：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">我想做一个简单的 Android 记账 App，功能：
+1. 能记录收入和支出，选分类（吃饭、交通、购物……）
+2. 首页显示本月总支出和剩余预算
+3. 能查看历史账单列表
+4. 界面简洁大方，白底蓝按钮
+
+请给我完整的代码，并告诉我怎么在手机上安装。</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">你不需要理解任何一行代码。</strong> 你只需要：</p>
+<section style="background-color:#EFF6FF;border:1px solid #93C5FD;border-radius:10px;padding:16px 12px;margin:12px 0;text-align:center;-webkit-text-fill-color:#1E40AF;"><p style="margin:0;padding:0;color:#1E40AF;font-size:15px;line-height:1.9;font-weight:500;letter-spacing:0.02em;">① 把AI给的代码复制到工具里</p><p style="margin:10px 0 0;padding:0;color:#374151;font-size:14px;line-height:1.9;">        ↓</p></section>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0FFF4;border-left:4px solid #10B981;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">💡 <strong style="font-weight:bold;">核心心法</strong>：你负责「想清楚要什么」，AI 负责「把想法变成代码」。越具体的要求，出来的效果越好。</p></blockquote>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">会用到的工具</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">做什么</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">费用</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Claude Code / Cursor</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">AI 写代码的最强主力，说话就能出 App</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">有免费额度</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">Android Studio</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">把代码打包成 App 装到手机</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">ChatGPT / Claude / 豆包</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">让 AI 出方案、写代码、改 Bug</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费额度起步</td></tr></tbody></table>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">场景二：🌐 从零到上线，AI 帮你搭一个网页   <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐⭐</code></h2>
+<p style="margin:12px 0;"><img src="images/scene2.png" alt="场景一：对话vs代码" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">啥都不会？没问题。</h3>
+<p style="margin:10px 0;line-height:1.8;color:#333;">你是不是也被人说过「这年头每个人都该有个个人网站」？但一想到要学 HTML、CSS、域名、服务器……算了。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">现在不用。你只需要告诉 AI：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">帮我做一个个人主页，风格简洁清新。
+内容包括：
+- 头像和名字
+- 一句个人简介
+- 我的擅长领域（写作 / 摄影 / 设计）
+- 联系方式
+- 底部加一句「由 AI 辅助制作」
+
+颜色用浅蓝 + 白色，字体要大一点，适合手机看。</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">几分钟后，你就有了一页漂亮的个人网站。</strong> 后续要改什么，继续跟 AI 说就行：把背景换成渐变色、加一个作品展示区、加一个留言板……AI 改代码比你改 Word 文档还快。</p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">会用到的工具</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">做什么</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">费用</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">ChatGPT / Claude</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">生成网页代码</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">GitHub Pages / Vercel</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费网页托管，一键上线</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">VS Code（免费编辑器）</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">复制粘贴代码预览效果</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费</td></tr></tbody></table>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">场景三：🛠 让 AI 写一个本地小工具   <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐⭐</code></h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">这是 7 个场景里<strong style="font-weight:bold;">最实用</strong>的一个。因为小工具解决的是你每天的重复劳动。</p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">举几个立刻就能用的例子</h3>
+<p style="margin:12px 0;"><img src="images/scene3-tools.png" alt="场景三：工具卡片组" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">你每次手动做的事</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">AI 帮你做的工具</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">把 100 张图片重命名</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">一个批量重命名工具，拖进去就行</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">把 Excel 数据复制粘贴到 Word 模板</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">一个自动填表脚本</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">定期去某个网站看价格变化</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">一个价格监控提醒工具</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">把 PDF 里的表格提取出来</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">一个 PDF 表格提取器</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">一键把文件夹里的图片全部压缩</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">一个图片批量压缩工具</td></tr></tbody></table>
+<p style="margin:10px 0;line-height:1.8;color:#333;">还是那句话：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">我想做一个批量重命名图片的工具：
+- 支持拖入文件夹
+- 可以按「日期+序号」格式重命名
+- 支持预览改名效果
+- 点一下确认就全部改好
+请给我完整的代码。</code></pre>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">🧠 <strong style="font-weight:bold;">一个比喻</strong>：AI 写小工具，就像你请了一个「会写程序的秘书」。你描述流程，它把流程变成工具。你不懂编程，但你懂自己的需求——这就够了。</p></blockquote>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">场景四：🎵 零基础做一首歌   <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐</code></h2>
+<p style="margin:12px 0;"><img src="images/scene4-music.png" alt="场景四：歌曲封面" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">这个场景可能是最让人惊喜的。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">你不需要会任何乐器，不需要懂五线谱。AI 能做三件事：</p>
+<section style="background-color:#EFF6FF;border:1px solid #93C5FD;border-radius:10px;padding:16px 12px;margin:12px 0;text-align:center;-webkit-text-fill-color:#1E40AF;"><p style="margin:0;padding:0;color:#1E40AF;font-size:15px;line-height:1.9;font-weight:500;letter-spacing:0.02em;">  ✍️ 写歌词           🎼 生成旋律          🎤 合成演唱</p><p style="margin:10px 0 0;padding:0;color:#374151;font-size:14px;line-height:1.9;">告诉它主题和风格      选流行/古风/电子     AI用虚拟人声</p></section>
+<p style="margin:10px 0;line-height:1.8;color:#333;">比如你输入：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">帮我写一首歌，主题是「加班到深夜的打工人」。
+风格：轻快的民谣，带一点自嘲和幽默。
+歌词要接地气，不要文绉绉的。</code></pre>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">几分钟后你就会有一首「听起来还像那么回事」的歌。不一定能上排行榜，但足够你发朋友圈收获一堆「这也行？？？」的评论。</p></blockquote>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">会用到的工具</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">做什么</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Suno / Udio</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">AI 生成音乐（输入歌词直接出歌）</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">ChatGPT / Claude</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">写歌词主力</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">剪映</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">给歌曲配个简单视频，发视频平台</td></tr></tbody></table>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">场景五：🎬 从脚本到成片，AI 辅助做视频   <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐⭐</code></h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">做视频最累的从来不是按录制键，而是<strong style="font-weight:bold;">前面的策划和后面的剪辑</strong>。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">AI 正好在这两步上帮你大忙：</p>
+<section style="background-color:#EFF6FF;border:1px solid #93C5FD;border-radius:10px;padding:16px 12px;margin:12px 0;text-align:center;-webkit-text-fill-color:#1E40AF;"><p style="margin:0;padding:0;color:#1E40AF;font-size:15px;line-height:1.9;font-weight:500;letter-spacing:0.02em;">  📋 策划 ────→ ✍️ 脚本 ────→ 🎥 录制 ────→ ✂️ 剪辑 ────→ 📤 发布</p><p style="margin:10px 0 0;padding:0;color:#374151;font-size:14px;line-height:1.9;">    ✅ AI可帮      ✅ AI可帮      🙋 你来      ✅ AI可帮      🙋 你来</p></section>
+<p style="margin:12px 0;"><img src="images/scene5-video-flow.png" alt="场景五：视频制作流程" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">AI 能帮你做的：</h3>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">❶ 选题策划
+「我是做职场干货的博主，目标观众是 25-35 岁上班族。
+  帮我列 10 个能引发共鸣的视频选题，每个带一句话标题。」
+
+❷ 写脚本
+「帮我写一个 3 分钟的口播脚本，讲『面试时怎么谈薪资』，
+  要有开头悬念、中间 3 个方法、结尾行动号召。」
+
+❸ 自动剪辑
+- 剪映「智能字幕」：语音自动转字幕，识别准确率很高
+- AI 自动切镜头、去口癖、加背景音乐</code></pre>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">⚡ <strong style="font-weight:bold;">省流结论</strong>：做视频最磨人的几步，AI 都能帮你。你只需要负责对着镜头说。</p></blockquote>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">场景六：✨ 不会设计？AI 帮你做特效和设计   <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐</code></h2>
+<p style="margin:12px 0;"><img src="images/scene6.png" alt="场景六：Before/After 对比" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">不需要学 PS，不需要学 AE。你能做的事包括：</p>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">你想要的</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">怎么做</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">把一张老照片变清晰</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">上传到 AI 修图工具 → 一键增强</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">去掉照片里的路人</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">圈一下路人 → AI 自动消除</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">把照片背景换成海边/雪山</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">选一张图 → AI 自动抠图换背景</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">做一张活动海报</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">告诉 AI 主题和文字 → 自动生成设计稿</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">让照片里的人跳舞/说话</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">上传照片 → AI 生成动态视频</td></tr></tbody></table>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">💬 你唯一要学的「技能」：<strong style="font-weight:bold;">学会把想法说清楚。</strong> 剩下的，AI 干。</p></blockquote>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">场景七：📝 让 AI 帮你写报告、做 PPT   <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐</code></h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">这个场景覆盖了最多的人：上班族、学生、创业者、自由职业者。</p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">AI 写报告的三种用法</h3>
+<pre style="font-family:Menlo,Consolas,'PingFang SC',monospace;background-color:#F8FAFC;color:#1E293B;border:1px solid #E2E8F0;padding:16px;border-radius:8px;text-align:left;font-size:12px;line-height:1.45;margin:12px 0;overflow-x:auto;white-space:pre;">┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   用法 ①        │    │   用法 ②        │    │   用法 ③        │
+│   从零生成       │ →  │   素材整理       │ →  │   写完审查       │
+│                 │    │                 │    │                 │
+│ 告诉AI背景和目标 │    │ 把碎片信息丢给它 │    │ 让它扮演挑剔读者 │
+│ 它帮你搭好框架   │    │ 它帮你理清结构   │    │ 挑漏洞和不合理处 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘</pre>
+<p style="margin:12px 0;"><img src="images/scene7.png" alt="场景七：三栏对比" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">用法 1：从零生成</strong></p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">我是一名销售主管，需要写一份 Q2 季度工作总结。
+内容包括：业绩回顾、团队情况、问题分析、下季度计划。
+语气正式但不死板，控制在 1500 字以内。</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">用法 2：给你零碎信息，让它整理</strong></p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">下面是我这周干的活的碎片：
+- 见了 3 个客户，签了 1 家
+- 做了竞品分析 PPT（附在附件里）
+- 团队开了 2 次会讨论新方案
+- 整理了客户反馈，共收到 45 条
+
+请帮我整理成一份周报，结构清晰，发给总监看的。</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">用法 3：写完让它审</strong></p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">这是我写的一份项目方案，请你扮演挑剔的投资人，
+挑出逻辑漏洞、数据不清晰的地方、过度乐观的表述。</code></pre>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">🧰 附：AI 工具速查表</h2>
+<p style="margin:12px 0;"><img src="images/log.png" alt="场景七：三栏对比" style="max-width:100%;border-radius:8px;display:block;" /></p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">🗣️ 对话型 AI（聊天、写作、编程、头脑风暴）</h3>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0FFF4;border-left:4px solid #10B981;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">💡 <strong style="font-weight:bold;">普通用户看这里</strong>：国内模型完全够用，免费、直接访问、中文体验好。海外模型能力更强，但需要特殊网络环境且基本收费，有需要再折腾。</p></blockquote>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">🇨🇳 国内直连（推荐普通用户从这里开始）</strong></p>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">一句话介绍</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">费用</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">豆包</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">字节出品，中文对话体验好，有 App</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">通义千问</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">阿里出品，支持长文档、图片理解</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Kimi</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">月之暗面出品，能读超长文档</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">DeepSeek</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">国产开源，推理能力强，性价比高</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">文心一言</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">百度出品，国内生态整合好</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">混元</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">腾讯出品，微信生态内可用</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">智谱 GLM / 清言</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">清华系，代码和推理能力强</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费额度</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">MiMo（小米）</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">小米出品，MiMo V2.5 主打复杂推理和专业任务</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">开放平台体验</td></tr></tbody></table>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">🌐 海外模型（需要特殊网络环境，基础功能免费但有限额，进阶功能收费）</strong></p>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">一句话介绍</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">费用</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">ChatGPT</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">OpenAI 出品，最知名，功能全面</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费有限额，Plus $20/月</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">Claude</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">Anthropic 出品，长文写作和代码分析强</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费有限额，Pro $20/月</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Gemini</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">谷歌出品，与 Google 全家桶深度整合</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">免费有限额，Advanced 收费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">Grok</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">xAI（马斯克）出品，接入 X 平台实时信息</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">需 X Premium 订阅</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Llama（Meta）</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">Meta 开源模型，可本地部署，不依赖网络</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">开源免费</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">Copilot</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">微软出品，内置于 Windows / Office / Edge</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">免费有限额</td></tr></tbody></table>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#FFF8E6;border-left:4px solid #F59E0B;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">⚠️ <strong style="font-weight:bold;">注意</strong>：海外模型会检测访问来源，部分 IP 可能无法注册或使用，遇到问题换个节点试试。<br/>🔑 <strong style="font-weight:bold;">想用海外模型？先解决「通道」问题。</strong> 用什么工具、怎么装、怎么配——下一篇专门讲，关注后回复「<strong style="font-weight:bold;">通道</strong>」提前锁定。<br/>📌 <strong style="font-weight:bold;">这个表会过时。</strong> AI 发展太快，每隔几个月就有新模型冒出来，各家侧重点也不一样——有的擅长写作，有的擅长推理，有的擅长代码。不用追着每个都试，找一两个顺手的用熟就够了。我最近在体验小米新出的 <strong style="font-weight:bold;">MiMo V2.5</strong>，主打复杂推理和专业任务，感兴趣可以用我的邀请码 <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">3LTVTC</code> 注册 <a href="https://platform.xiaomimimo.com?ref=3LTVTC" style="color:#3B82F6;text-decoration:none;">MiMo 开放平台</a>，新用户双方各得 ¥10 体验金（注册后在控制台左下方填入，40 天有效）。</p><p style="margin:4px 0;">另外，<strong style="font-weight:bold;">DeepSeek V4 Pro 五月有限时折扣</strong>，现在用是个好时机。这类消息稍纵即逝，后续有新模型上线、免费额度、限时折扣，我都会第一时间发出来——关注博主不吃亏。</p></blockquote>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">🎨 AI 绘画 &amp; 设计</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">一句话介绍</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Midjourney</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">艺术风格最强，出图质量高</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">即梦 / 堆友</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">字节系，国内方便，免费额度多</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Canva AI</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">自带 AI 设计功能，做海报/PPT</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">通义万相</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">阿里出品，中文提示词友好</td></tr></tbody></table>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">🎬 AI 视频 &amp; 音频</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">一句话介绍</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">剪映</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">内置 AI 字幕、AI 剪辑</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">Suno</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">AI 音乐生成，输入歌词出歌</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">可灵</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">快手的 AI 视频生成</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">HeyGen</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">数字人播报，照片开口说话</td></tr></tbody></table>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">🛠 AI 编程（做 App / 网页 / 小工具）</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">工具</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">一句话介绍</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Claude Code</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">编程能力最强，命令行里说话就能写项目</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">Cursor</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">AI 编程工坊，所见即所得，新手友好</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">GitHub Copilot</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">微软 OpenAI Codex 驱动，VS Code 里直接用</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">Replit</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">在线编程，浏览器里就能做，零安装</td></tr></tbody></table>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">⚠️ 说点实在的：AI 也有软肋</h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">在兴奋地打开工具之前，有几件事你要知道：</p>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">❌ 不要做这些</h3>
+<pre style="font-family:Menlo,Consolas,'PingFang SC',monospace;background-color:#F8FAFC;color:#1E293B;border:1px solid #E2E8F0;padding:16px;border-radius:8px;text-align:left;font-size:12px;line-height:1.45;margin:12px 0;overflow-x:auto;white-space:pre;">┌─────────────────────────────────────────────────────────────┐
+│  🔒 不要把身份证、合同、客户名单直接发给 AI                   │
+│     ——你的数据可能被用于训练                                  │
+├─────────────────────────────────────────────────────────────┤
+│  🔍 不要 100% 相信 AI 给的事实                                │
+│     ——数字、政策、法律条款，要二次核对                         │
+├─────────────────────────────────────────────────────────────┤
+│  📝 不要指望一次对话就出完美成品                               │
+│     ——AI 是好的第一稿，但你需要把关                           │
+├─────────────────────────────────────────────────────────────┤
+│  😌 不要觉得「不会用 = 笨」                                   │
+│     ——会用 AI 不是什么高级技能，就是一个新工具                  │
+└─────────────────────────────────────────────────────────────┘</pre>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">✅ 记住这条金线</h3>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;"><strong style="font-weight:bold;">你负责判断、把关、做决定。AI 负责打草稿、跑腿、做重复劳动。</strong></p></blockquote>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">📌 今天的小结</h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">今天只需要记住三件事：</p>
+<ul style="margin:10px 0;padding-left:24px;line-height:1.8;list-style:disc;"><li style="margin:4px 0;"><strong style="font-weight:bold;">AI 不是程序员专属</strong>——做 App、搭网站、写工具、出音乐、剪视频、做特效、写报告，普通人全都能上手</li>
+<li style="margin:4px 0;"><strong style="font-weight:bold;">你只需要学会「描述需求」</strong>——把你想做的事说清楚，AI 就能帮你做出来</li>
+<li style="margin:4px 0;"><strong style="font-weight:bold;">从今天就能开始</strong>——打开任何一个免费 AI 工具，用文中的提示词试一次</li></ul>
+<p style="margin:10px 0;line-height:1.8;color:#333;">现在就可以试：打开豆包或 Kimi，把下面这句话发给它，看看它给你什么：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">帮我写一份这周的工作周报框架，我是做销售的，本周见了 3 个客户。</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;">不用想太多，发出去就是了。</p>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">下一期预告：<strong style="font-weight:bold;">《网络加速工具指南：ClashX 安装与配置》</strong>——工欲善其事，先要有通道。</p><p style="margin:4px 0;">📌 关注后回复「<strong style="font-weight:bold;">工具箱</strong>」获取本文所有工具的官网链接合集。</p><p style="margin:4px 0;">📌 关注后回复「<strong style="font-weight:bold;">通道</strong>」提前锁定下期内容。</p></blockquote>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><em style="font-style:italic;color:#6B7280;">有问题？评论区告诉我，下篇可能就从你的问题写起。</em></p>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><em style="font-style:italic;color:#6B7280;">如果这篇对你有用，转发给你那个「还在犹豫要不要试试 AI」的朋友。</em></p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<p style="margin:10px 0;line-height:1.8;color:#333;"><em style="font-style:italic;color:#6B7280;">本文插画由 <a href="https://jimeng.jianying.com" style="color:#3B82F6;text-decoration:none;">即梦 AI</a> 和 <a href="https://tongyi.aliyun.com/wanxiang" style="color:#3B82F6;text-decoration:none;">通义万相</a> 生成。</em></p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/5/17 21:16:23</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+async function copyArticle() {
+  selectArticle();
+  try {
+    const el = document.getElementById('article');
+    const html = el.innerHTML;
+    const text = el.innerText;
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      document.execCommand('copy');
+    }
+    alert('✅ 已复制！请到微信公众号后台 → 正文编辑区 → Cmd+V 粘贴');
+  } catch (e) {
+    try {
+      document.execCommand('copy');
+      alert('✅ 已复制（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

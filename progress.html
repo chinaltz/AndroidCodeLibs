@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技趣星球 · 文章进度看板</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --green: #22c55e;
+    --yellow: #eab308;
+    --orange: #f97316;
+    --red: #ef4444;
+    --purple: #a855f7;
+    --pink: #ec4899;
+    --radius: 12px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 48px 0 32px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .header .logo {
+    font-size: 40px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+  }
+  .header .subtitle { color: var(--muted); font-size: 16px; letter-spacing: 4px; }
+
+  /* Stats Cards */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-card .number {
+    font-size: 36px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-card .label { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  /* Progress bar */
+  .progress-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .progress-section h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+  .progress-bar-outer {
+    height: 12px;
+    background: #1a2332;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--accent), var(--purple));
+    transition: width .5s ease;
+  }
+  .progress-label { text-align: right; font-size: 13px; color: var(--muted); }
+
+  /* Section */
+  .section {
+    margin-bottom: 36px;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon { font-size: 24px; }
+  .section-title .badge {
+    font-size: 11px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+  .badge-phase1 { background: #1d4ed8; color: #bfdbfe; }
+  .badge-phase2 { background: #6d28d9; color: #ddd6fe; }
+  .badge-phase3 { background: #0f766e; color: #99f6e4; }
+
+  /* Article Table */
+  .article-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+  }
+  .article-table th {
+    text-align: left;
+    color: var(--muted);
+    font-size: 12px;
+    letter-spacing: 1px;
+    padding: 0 12px 8px;
+    text-transform: uppercase;
+  }
+  .article-table td {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+  .article-table tr td:first-child { border-radius: 8px 0 0 8px; }
+  .article-table tr td:last-child { border-radius: 0 8px 8px 0px; }
+
+  /* Status badges */
+  .status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .status-done { background: #166534; color: #bbf7d0; }
+  .status-writing { background: #854d0e; color: #fef08a; }
+  .status-planned { background: #334155; color: #94a3b8; }
+  .status-draft { background: #1e3a5f; color: #93c5fd; }
+
+  .article-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .num-planned { background: #334155; color: #94a3b8; }
+  .num-active { background: #1d4ed8; color: #bfdbfe; }
+  .num-done { background: #166534; color: #bbf7d0; }
+
+  /* Benefit cards */
+  .benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .benefit-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+  .benefit-card .type {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .benefit-card .desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* Timeline */
+  .timeline {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 32px;
+  }
+  .timeline h3 {
+    font-size: 16px;
+    color: var(--muted);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .week-block {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .week-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .week-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 15px;
+    padding-top: 4px;
+  }
+  .week-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .week-item {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+  }
+  .item-article { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
+  .item-benefit { background: #3b1f4e; border-color: #a855f7; color: #d8b4fe; }
+  .item-hot { background: #4a1d23; border-color: #f97316; color: #fed7aa; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .benefit-grid { grid-template-columns: 1fr; }
+    .article-table { font-size: 12px; }
+    .article-table th:nth-child(5),
+    .article-table td:nth-child(5) { display: none; }
+    .week-block { grid-template-columns: 1fr; gap: 8px; }
+    .header .logo { font-size: 30px; }
+  }
+
+  @media (max-width: 480px) {
+    .stats { grid-template-columns: 1fr 1fr; }
+    .article-table th:nth-child(4),
+    .article-table td:nth-child(4) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">技趣星球</div>
+    <div class="subtitle">用 技 术 创 造 乐 趣</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="number" id="totalArticles">10</div>
+      <div class="label">规划文章</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="publishedArticles">0</div>
+      <div class="label">已发布</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="inProgressArticles">0</div>
+      <div class="label">写作中</div>
+    </div>
+    <div class="stat-card">
+      <div class="number" id="overallProgress">0%</div>
+      <div class="label">整体进度</div>
+    </div>
+  </div>
+
+  <!-- Overall Progress Bar -->
+  <div class="progress-section">
+    <h3>📊 整体进度</h3>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="mainProgressBar" style="width:0%"></div>
+    </div>
+    <div class="progress-label">0 / 10 篇已完成</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">🚀</span> 第一阶段 · 开局三篇
+      <span class="badge badge-phase1">起步期</span>
+    </div>
+    <table class="article-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>标题</th>
+          <th>方向</th>
+          <th>引流点</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="article-num num-planned">1</span></td>
+          <td>AI 对普通人可以做什么？7 大场景 + 工具清单</td>
+          <td>AI 扫盲</td>
+          <td>实用性收藏</td>
+          <td><span class="status status-planned">待写</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">2</span></td>
+          <td>翻墙工具使用指南：ClashX 安装与配置</td>
+          <td>工具教程</td>
+          <td>关注回复获取订阅地址</td>
+          <td><span class="status status-planned">待写</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">3</span></td>
+          <td>AI 软件工具扫盲：你该知道的那些名字</td>
+          <td>工具扫盲</td>
+          <td>工具对比表</td>
+          <td><span class="status status-planned">待写</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">🔧</span> 第二阶段 · 案例实操
+      <span class="badge badge-phase2">深度期</span>
+    </div>
+    <table class="article-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>标题</th>
+          <th>场景</th>
+          <th>周期</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="article-num num-planned">4</span></td>
+          <td>不用写代码：AI 帮你做第一个 Android App</td>
+          <td>制作 Android 应用</td>
+          <td>1-2 周</td>
+          <td><span class="status status-planned">待规划</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">5</span></td>
+          <td>从零到上线：AI 帮你搭一个个人网页</td>
+          <td>制作网页</td>
+          <td>1-2 周</td>
+          <td><span class="status status-planned">待规划</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">6</span></td>
+          <td>让 AI 帮你写一个本地小工具</td>
+          <td>本地小工具</td>
+          <td>1-2 周</td>
+          <td><span class="status status-planned">待规划</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">7</span></td>
+          <td>零基础玩 AI 音乐：从旋律到成品</td>
+          <td>做音乐</td>
+          <td>1-2 周</td>
+          <td><span class="status status-planned">待规划</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">8</span></td>
+          <td>AI 视频制作全流程：从脚本到剪辑</td>
+          <td>制作视频</td>
+          <td>1-2 周</td>
+          <td><span class="status status-planned">待规划</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">9</span></td>
+          <td>AI 特效入门：不会 AE 也能出效果</td>
+          <td>做特效</td>
+          <td>1-2 周</td>
+          <td><span class="status status-planned">待规划</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">10</span></td>
+          <td>AI 帮你写报告：从周报到调研，统统搞定</td>
+          <td>写报告</td>
+          <td>1-2 周</td>
+          <td><span class="status status-planned">待规划</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">📡</span> 第三阶段 · 热点与扩展
+      <span class="badge badge-phase3">弹性期</span>
+    </div>
+    <table class="article-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>内容方向</th>
+          <th>触发条件</th>
+          <th>频率</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="article-num num-planned">-</span></td>
+          <td>热点新闻解读（AI 新产品、行业大事件）</td>
+          <td>有热点时</td>
+          <td>即时</td>
+          <td><span class="status status-planned">待触发</span></td>
+        </tr>
+        <tr>
+          <td><span class="article-num num-planned">-</span></td>
+          <td>读者选题投票 & 定制内容</td>
+          <td>粉丝互动</td>
+          <td>按需</td>
+          <td><span class="status status-planned">待触发</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Small Benefits -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">🎁</span> 小福利计划（隔三差五）
+      <span class="badge badge-phase1">日常</span>
+    </div>
+    <div class="benefit-grid">
+      <div class="benefit-card">
+        <div class="type">🛠 工具资源包</div>
+        <div class="desc">5 个免费 AI 工具合集、本周实用 App 推荐</div>
+      </div>
+      <div class="benefit-card">
+        <div class="type">📋 提示词模板</div>
+        <div class="desc">写报告的 10 个万能提示词、做 PPT 的提示词套装</div>
+      </div>
+      <div class="benefit-card">
+        <div class="type">🆓 限免信息</div>
+        <div class="desc">本周限免 App / 工具 / 资源站点速递</div>
+      </div>
+      <div class="benefit-card">
+        <div class="type">💬 读者问答</div>
+        <div class="desc">上期留言问题统一回复、常见踩坑解答</div>
+      </div>
+      <div class="benefit-card">
+        <div class="type">📦 资源合集</div>
+        <div class="desc">ClashX 配置模板、AI 工具导航站清单</div>
+      </div>
+      <div class="benefit-card">
+        <div class="type">🎯 快速技巧</div>
+        <div class="desc">一个 AI 命令搞定一个任务、30 秒小窍门</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Publishing Timeline -->
+  <div class="timeline">
+    <h3>📅 建议发布节奏（前 8 周）</h3>
+
+    <div class="week-block">
+      <div class="week-label">第 1 周</div>
+      <div class="week-items">
+        <span class="week-item item-article">📝 第1篇：AI 能做什么</span>
+        <span class="week-item item-article">📝 第2篇：ClashX 教程</span>
+        <span class="week-item item-article">📝 第3篇：AI 工具扫盲</span>
+        <span class="week-item item-benefit">🎁 福利 ×2</span>
+      </div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">第 2 周</div>
+      <div class="week-items">
+        <span class="week-item item-benefit">🎁 福利 ×1</span>
+        <span class="week-item item-benefit">🎁 福利 ×1</span>
+        <span class="week-item item-article">📝 第4篇准备中...</span>
+      </div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">第 3 周</div>
+      <div class="week-items">
+        <span class="week-item item-article">📝 第4篇：Android App</span>
+        <span class="week-item item-benefit">🎁 福利 ×1</span>
+      </div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">第 4-5 周</div>
+      <div class="week-items">
+        <span class="week-item item-article">📝 第5篇：搭网页</span>
+        <span class="week-item item-benefit">🎁 福利 ×3</span>
+        <span class="week-item item-hot">🔥 视情况追热点</span>
+      </div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">第 6-7 周</div>
+      <div class="week-items">
+        <span class="week-item item-article">📝 第6篇：本地小工具</span>
+        <span class="week-item item-benefit">🎁 福利 ×2</span>
+      </div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-label">第 8 周+</div>
+      <div class="week-items">
+        <span class="week-item item-article">📝 第7-10篇 按序推进</span>
+        <span class="week-item item-benefit">🎁 福利每周 1-2 次</span>
+        <span class="week-item item-hot">🔥 热点即时跟进</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Strategy -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">📈</span> 发布频率 & 运营策略
+    </div>
+    <table class="article-table">
+      <thead>
+        <tr>
+          <th>内容类型</th>
+          <th>建议频率</th>
+          <th>说明</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>开局扫盲文</strong></td>
+          <td>每 1-2 天 1 篇</td>
+          <td>前 3 篇集中发布，快速建立内容基础，让新读者有东西可看</td>
+        </tr>
+        <tr>
+          <td><strong>案例实操</strong></td>
+          <td>每 1-2 周 1 篇</td>
+          <td>需要实际动手验证、截图、录屏，周期较长但深度高</td>
+        </tr>
+        <tr>
+          <td><strong>小福利</strong></td>
+          <td>每周 1-2 次</td>
+          <td>轻量内容，保持账号活跃度，培养读者定期查看的习惯</td>
+        </tr>
+        <tr>
+          <td><strong>热点跟进</strong></td>
+          <td>有热点时即时发</td>
+          <td>AI 圈每周都有新闻，挑与读者相关的写，借势引流</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    技趣星球 · 用技术创造乐趣 &nbsp;|&nbsp; 最后更新：<span id="lastUpdate"></span>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  const articles = [
+    { num:1, status:'planned' }, { num:2, status:'planned' }, { num:3, status:'planned' },
+    { num:4, status:'planned' }, { num:5, status:'planned' }, { num:6, status:'planned' },
+    { num:7, status:'planned' }, { num:8, status:'planned' }, { num:9, status:'planned' },
+    { num:10, status:'planned' }
+  ];
+
+  function updateStats() {
+    const done = articles.filter(a => a.status === 'done').length;
+    const writing = articles.filter(a => a.status === 'writing').length;
+    const total = articles.length;
+    const pct = Math.round((done / total) * 100);
+
+    document.getElementById('publishedArticles').textContent = done;
+    document.getElementById('inProgressArticles').textContent = writing;
+    document.getElementById('overallProgress').textContent = pct + '%';
+    document.getElementById('mainProgressBar').style.width = pct + '%';
+    document.querySelector('.progress-label').textContent = done + ' / ' + total + ' 篇已完成';
+  }
+
+  document.getElementById('lastUpdate').textContent = new Date().toISOString().slice(0, 10);
+  updateStats();
+})();
+</script>
+</body>
+</html>

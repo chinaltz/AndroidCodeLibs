@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(mkdir:*)",
+      "Read(//private/var/folders/**)",
+      "Read(//private/tmp/**)",
+      "Read(//Users/litingzhe/Downloads/**)",
+      "WebFetch(domain:github.com)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
