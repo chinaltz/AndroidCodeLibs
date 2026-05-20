@@ -410,8 +410,18 @@ function extractTitle(md) {
   return m ? m[1].trim() : '文章预览';
 }
 
-function convertPost(postDir) {
-  const mdPath = join(postDir, 'index.md');
+function convertPost(postDir, options = {}) {
+  const usePublished = options.usePublished;
+  const publishedPath = join(postDir, 'index.published.md');
+  const localPath = join(postDir, 'index.md');
+
+  let mdPath = localPath;
+  if (usePublished && existsSync(publishedPath)) {
+    mdPath = publishedPath;
+  } else if (usePublished) {
+    console.warn(`⚠️  无 index.published.md，回退 index.md: ${relative(ROOT, postDir)}`);
+  }
+
   if (!existsSync(mdPath)) {
     console.error(`跳过（无 index.md）: ${postDir}`);
     return false;
@@ -456,35 +466,39 @@ function printUsage() {
 
 用法:
   node scripts/md-to-wechat.mjs <文章目录>
+  node scripts/md-to-wechat.mjs <文章目录> --published
   node scripts/md-to-wechat.mjs --all
 
 示例:
   node scripts/md-to-wechat.mjs content/posts/ai-for-ordinary-people
+  node scripts/md-to-wechat.mjs content/posts/ai-for-ordinary-people --published
 
-生成 index.html 后，用浏览器打开，点「一键复制正文」粘贴到公众号。
+--published  读取 index.published.md（公网图链，适合公众号/HTML 预览）
 `);
 }
 
 const args = process.argv.slice(2);
+const usePublished = args.includes('--published');
+const filteredArgs = args.filter((a) => a !== '--published');
 
-if (args.includes('--help') || args.includes('-h')) {
+if (filteredArgs.includes('--help') || filteredArgs.includes('-h')) {
   printUsage();
   process.exit(0);
 }
 
-if (args.includes('--all')) {
+if (filteredArgs.includes('--all')) {
   const posts = findAllPosts();
   if (!posts.length) {
     console.error('未找到 content/posts/*/index.md');
     process.exit(1);
   }
   let n = 0;
-  for (const p of posts) if (convertPost(p)) n++;
+  for (const p of posts) if (convertPost(p, { usePublished })) n++;
   console.log(`\n共生成 ${n} 篇`);
   process.exit(0);
 }
 
-const input = args[0];
+const input = filteredArgs[0];
 if (!input) {
   printUsage();
   process.exit(1);
@@ -496,4 +510,4 @@ if (!postDir) {
   process.exit(1);
 }
 
-convertPost(postDir);
+convertPost(postDir, { usePublished });

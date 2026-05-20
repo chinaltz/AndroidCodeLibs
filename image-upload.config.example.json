@@ -1,0 +1,18 @@
+{
+  "provider": "smms",
+  "_readme": "无腾讯云 COS 时，用 smms 即可。复制本文件为 image-upload.config.json 并填入 token。",
+  "smms": {
+    "token": "到 https://sm.ms 登录 → API Token 页面复制"
+  },
+  "github": {
+    "_comment": "仅当 GitHub 仓库为公开时适用",
+    "owner": "your-github-user",
+    "repo": "AndroidCodeLibs",
+    "branch": "main",
+    "tokenEnv": "GITHUB_TOKEN"
+  },
+  "baseUrl": {
+    "_comment": "已有其它对象存储/CDN 时再用，需先把 images 手动上传到该目录",
+    "prefix": "https://your-cdn.example.com/content/posts/your-slug/images"
+  }
+}

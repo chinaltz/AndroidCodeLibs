@@ -16,8 +16,8 @@
 | `content/posts/[slug]/` | 每篇文章独立文件夹，含 `index.md` + `images/` |
 | `CONTEXT.md` | MD ↔ SKILL 同步索引（改 plan/发布相关须同步） |
 | `plan/` | 平台清单、发布方案、注册追踪 HTML |
-| `.claude/skills/` | 全部 Agent Skills（含发布平台、同步上下文） |
-| `CLAUDE.md` | 本文件，项目上下文缓存 |
+| `.Codex/skills/` | 全部 Agent Skills（含发布平台、同步上下文） |
+| `AGENTS.md` | 本文件，项目上下文缓存 |
 
 ## 上下文同步约定
 

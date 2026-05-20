@@ -40,12 +40,6 @@ content/posts/
 
 文章内图片引用路径：`./images/xxx.png`
 
-## 发布前图片上传
-
-定稿后执行 `npm run publish:post -- content/posts/[slug]`，生成 `index.published.md`（公网图链）。  
-配置：`image-upload.config.json`（见 `image-upload.config.example.json`）。  
-文档：`docs/图片上传与多平台发布.md`
-
 ## 文章导出（定稿后一键生成 HTML + Word）
 
 | 命令 | 输出 | 说明 |

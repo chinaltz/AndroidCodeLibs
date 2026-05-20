@@ -71,7 +71,7 @@ argument-hint: "[文章主题]"
 - 输出修改优先级
 
 ### ⑧ 发布就绪
-- 读取 `.claude/skills/publish-platforms/SKILL.md` 获取 **第一梯队 + 第二梯队** 平台清单与格式要求
+- 读取 `.Codex/skills/publish-platforms/SKILL.md` 获取 **第一梯队 + 第二梯队** 平台清单与格式要求
 - 生成「公众号版」：含封面建议、摘要、话题标签
 - 生成「知乎版」：含知乎话题标签、开头引导关注
 - 生成「掘金版」：含技术标签、封面图

@@ -3,7 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "publish:wechat": "node scripts/md-to-wechat.mjs",
-    "publish:wechat:all": "node scripts/md-to-wechat.mjs --all"
+    "build:html": "node scripts/md-to-wechat.mjs",
+    "build:html:all": "node scripts/md-to-wechat.mjs --all",
+    "build:docx": "python3 scripts/md-to-docx.py",
+    "build:docx:all": "python3 scripts/md-to-docx.py --all",
+    "convert": "node scripts/convert.mjs",
+    "convert:published": "node scripts/convert.mjs --published",
+    "upload:images": "node scripts/upload-images.mjs",
+    "publish:post": "node scripts/publish-post.mjs",
+    "build:all": "node scripts/convert.mjs",
+    "publish:wechat": "npm run build:html",
+    "publish:wechat:all": "npm run build:html:all",
+    "build:video": "python3 scripts/gen-video.py"
   }
 }

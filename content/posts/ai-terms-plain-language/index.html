@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大模型、提示词听不懂？一篇 AI 人话词典讲透</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #333;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid #E5E7EB;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: #3B82F6;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .toolbar button:hover { background: #2563EB; }
+  .toolbar button.secondary {
+    background: #fff;
+    color: #3B82F6;
+    border: 1px solid #3B82F6;
+  }
+  .toolbar .hint { font-size: 13px; color: #6B7280; flex: 1; min-width: 200px; }
+  .meta { font-size: 12px; color: #9CA3AF; margin-top: 24px; padding-top: 16px; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">复制后 → 公众号后台正文区粘贴。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:22px;font-weight:bold;line-height:1.4;margin:24px 0 16px;color:#111;">大模型、提示词听不懂？一篇 AI 人话词典讲透</h1>
+<pre style="font-family:Menlo,Consolas,'PingFang SC',monospace;background-color:#F8FAFC;color:#1E293B;border:1px solid #E2E8F0;padding:16px;border-radius:8px;text-align:left;font-size:12px;line-height:1.45;margin:12px 0;overflow-x:auto;white-space:pre;">╔══════════════════════════════════════════════════════════════╗
+║  📖 看懂 AI 黑话  │  关注 AI技趣星球  │  回复 KXSW 领订阅配置  ║
+╚══════════════════════════════════════════════════════════════╝</pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;">朋友发来一段话：</p>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">「这个大模型多模态很强，Prompt 写好省 Token，再上个 Agent……」</p></blockquote>
+<p style="margin:10px 0;line-height:1.8;color:#333;">你点头微笑，心里只有一句：<strong style="font-weight:bold;">每个字都认识，连起来像外语。</strong></p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">上一篇聊了 <a href="../ai-for-ordinary-people/index.md" style="color:#3B82F6;text-decoration:none;">AI 能帮普通人做什么</a>。这篇是系列第二篇：<strong style="font-weight:bold;">把常见 AI 名词翻成人话</strong>，不背概念，不堆术语。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">一句话结论：先搞懂 5 个词——大模型、提示词、上下文、幻觉、多模态；其余知道大概即可，够你在聊天里不再装懂。</strong></p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">难度 ⭐｜打开豆包 / Kimi 就能对照着看。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">30 秒自测：你能猜对几个？</h2>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">说法</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">更像？</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">「我 Token 不够了」</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">① 手机没流量　② AI 聊天额度快用完</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">「它幻觉了」</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">① AI 睡着了　② AI 一本正经瞎编</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">「开个智能体」</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">① 给 AI 充电　② AI 自己分几步办事</td></tr></tbody></table>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">答案：</strong> ①②② 都选右边。   （Token＝字票；幻觉＝瞎编但很像真的；智能体＝跑腿助理。）</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">错两个以上没关系，往下读 5 分钟补齐。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">三档记词法：不用全背</h2>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">档位</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">怎么办</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">词</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">必懂</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">建议截图下面表格</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">大模型、提示词、上下文、幻觉、多模态</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">常见</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">懂大概</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">智能体、Token、场景按钮、深度思考、联网</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">知道即可</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">刷到别慌</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">小模型、Skills、RAG、微调</td></tr></tbody></table>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">名词背得再多，不如把任务说清楚。<strong style="font-weight:bold;">提示词</strong> 比 <strong style="font-weight:bold;">Prompt</strong> 这个英文名重要得多。</p></blockquote>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">速查表（建议截图）</h3>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">词</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">人话</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">比喻</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">大模型</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">会聊天、能写作的 AI</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">读过很多书的接话高手</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">提示词</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">你给 AI 的任务说明</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">写给实习生的任务纸条</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">上下文</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">AI 还能记住的聊天内容</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">桌上材料太多，最早的被盖住</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">幻觉</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">编错了但语气很真</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">不会做题却写得特自信</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">多模态</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">能看图、听声、读字</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">不只看菜单，还能看菜品图</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><strong style="font-weight:bold;">智能体</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">你给目标，它分步做完</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">雇跑腿助理，不只问路</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;"><strong style="font-weight:bold;">Token</strong></td><td style="padding:9px 12px;border:1px solid #E5E7EB;">按字数扣的「字票」</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">越长越费，不必精算</td></tr></tbody></table>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">大模型：你说的「AI」，多半就是它</h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">「帮我用 AI 写周报」——这里的 AI，聊天场景里通常就是 <strong style="font-weight:bold;">大模型</strong>。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">豆包、Kimi、通义、ChatGPT、Claude……像不同品牌的奶茶：都叫奶茶，口味和价位不一样。</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">你：周末去哪玩？
+简化理解：读过很多资料 → 猜最合适的回答 → 说成一句人话</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">小模型？</strong> 轻量版，App 常自动选。你只需：简单用默认，难题开「更强模型」或「深度思考」。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">提示词：最值得练的一招</h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">提示词</strong> 和 <strong style="font-weight:bold;">Prompt</strong> 是一回事。国内界面常写中文，英文文章写 Prompt。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">❌ 模糊：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">帮我写点东西。</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;">✅ 清楚：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">我是小学语文老师。把下面通知改成家长能看懂的语气，
+不超过 200 字，分 3 条，语气温和：
+
+本学期加强阅读，请配合督促孩子每天阅读 20 分钟。</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">背景 + 任务 + 标准。</strong> 像给同事发微信，写完整就行。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">Token：当「字票」记</h2>
+<ul style="margin:10px 0;padding-left:24px;line-height:1.8;list-style:disc;"><li style="margin:4px 0;">你输入的字 + AI 回复的字，都要花字票。  </li>
+<li style="margin:4px 0;">免费额度没了，常见原因之一就是聊太多、贴太长。  </li>
+<li style="margin:4px 0;">实用规则：<strong style="font-weight:bold;">先贴重点，别整本 PDF 一把梭。</strong></li></ul>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">智能体：从「问答」到「跑腿」</h2>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;"></th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">普通聊天</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">智能体</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">像</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">问路</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">雇助理</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">你做</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">问一句</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">定一个目标</td></tr></tbody></table>
+<p style="margin:10px 0;line-height:1.8;color:#333;">国内写 <strong style="font-weight:bold;">智能体</strong>，英文写 <strong style="font-weight:bold;">Agent</strong>，先当一回事。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">Skills？</strong> 普通人可忽略。你点的「写周报」「润色」「总结」= 厂商写好的 <strong style="font-weight:bold;">场景按钮</strong>，比背 Skills 实在。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">三个易踩坑词</h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">上下文</strong> — 聊太长会忘前文。重要要求放 <strong style="font-weight:bold;">最新一条</strong>，或先说「请总结上文再继续」。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">幻觉</strong> — 假数据、假出处也可能语气很真。</p>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#F0F7FF;border-left:4px solid #3B82F6;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">AI 是草稿机，不是公证处。钱、健康、法律，必须自己核对。</p></blockquote>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">多模态</strong> — 能发图、发语音、让它画图。记住：<strong style="font-weight:bold;">能看能听能读字，就是多模态。</strong></p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">App 按钮背后是啥？</h2>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">你点的</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">其实是</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">对话</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">自己写提示词</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">写作 / 总结</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">预设提示词模板</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">智能体</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">多步跑腿</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">深度思考</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">想久一点，适合难题</td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">联网</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">先搜再答，问「今天」的事</td></tr></tbody></table>
+<p style="margin:10px 0;line-height:1.8;color:#333;">点场景 = 点套餐，不用从零下菜单。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">用一次 AI 的完整路径</h2>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">打开 App（大模型）
+  → 写提示词或点场景
+  → 在上下文里回答（花字票）
+  → 要新的？开联网
+  → 查有没有幻觉
+  → 能用就收工</code></pre>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">想试 ChatGPT、Claude？网络环境说明 <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">⭐⭐</code></h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">国内直连海外 AI，常打不开或一直转圈。这和提示词无关，是 <strong style="font-weight:bold;">网络环境</strong> 问题。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">常见步骤：<code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">装客户端 → 导入订阅配置 → 选节点 → 开开关 → 再打开网页</code></p>
+<blockquote style="margin:12px 0;padding:12px 16px;background:#FFF8E6;border-left:4px solid #F59E0B;border-radius:0 6px 6px 0;color:#444;"><p style="margin:4px 0;">⚠️ 仅用于 <strong style="font-weight:bold;">个人学习新技术、查阅公开资料、体验公开 AI 产品</strong>。请遵守法律法规。配置来源自行甄别。</p></blockquote>
+<p style="margin:10px 0;line-height:1.8;color:#333;"><strong style="font-weight:bold;">领取方式（正文不贴链接）：</strong></p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">关注微信公众号：AI技趣星球
+后台回复：KXSW
+获取订阅配置说明（用于学习试用海外模型）</code></pre>
+<p style="margin:10px 0;line-height:1.8;color:#333;">KXSW =「科学上网」拼音首字母。请勿在评论区公开链接。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">边界提醒</h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">1. 名词懂 ≠ 会用，多写两次提示词才是真进步。   2. 联网也不等于全对，来源要扫一眼。   3. 智能体再省事，合同、报销、医疗须你自己终审。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">今天的小结</h2>
+<p style="margin:10px 0;line-height:1.8;color:#333;">记住这五句：</p>
+<ul style="margin:10px 0;padding-left:24px;line-height:1.8;list-style:disc;"><li style="margin:4px 0;"><strong style="font-weight:bold;">大模型</strong> — 会接话的 AI 本体  </li>
+<li style="margin:4px 0;"><strong style="font-weight:bold;">提示词</strong> — 任务纸条，越清楚越靠谱  </li>
+<li style="margin:4px 0;"><strong style="font-weight:bold;">上下文 / 幻觉 / 多模态</strong> — 记性、瞎编、能看能听  </li>
+<li style="margin:4px 0;"><strong style="font-weight:bold;">智能体</strong> — 跑腿模式；日常先用 <strong style="font-weight:bold;">场景按钮</strong>  </li>
+<li style="margin:4px 0;"><strong style="font-weight:bold;">Token</strong> — 字票，越长越费  </li></ul>
+<h3 style="font-size:16px;font-weight:bold;margin:20px 0 8px;color:#333;">立刻试一次</h3>
+<p style="margin:10px 0;line-height:1.8;color:#333;">复制给豆包 / Kimi：</p>
+<pre style="background-color:#F3F4F6;color:#1F2937;border:1px solid #E5E7EB;padding:16px;border-radius:8px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:12px 0;white-space:pre-wrap;"><code style="color:#1F2937;background-color:transparent;">请用大白话解释「幻觉」和「提示词」，
+各举一个生活比喻（每个不超过 2 句），
+再出 1 道选择题考我是否听懂。</code></pre>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<h2 style="font-size:18px;font-weight:bold;margin:32px 0 12px;color:#111;border-left:4px solid #3B82F6;padding-left:10px;">关注 · 领取 · 转发</h2>
+<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:15px;"><thead><tr><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">你需要</th><th style="background:#3B82F6;color:#fff;padding:10px 12px;text-align:left;font-weight:bold;border:1px solid #3B82F6;">操作</th></tr></thead><tbody><tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">名词速查图</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">关注 <strong style="font-weight:bold;">AI技趣星球</strong>，回复 <strong style="font-weight:bold;">名词卡</strong></td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">AI 工具链接</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">回复 <strong style="font-weight:bold;">工具箱</strong></td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;">海外模型试用配置</td><td style="padding:9px 12px;border:1px solid #E5E7EB;">回复 <strong style="font-weight:bold;">KXSW</strong></td></tr>
+<tr><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;">上一篇</td><td style="padding:9px 12px;border:1px solid #E5E7EB;background:#F9FAFB;"><a href="../ai-for-ordinary-people/index.md" style="color:#3B82F6;text-decoration:none;">AI 对普通人能做什么？</a></td></tr></tbody></table>
+<p style="margin:10px 0;line-height:1.8;color:#333;">觉得这篇帮你听懂了 AI 黑话，欢迎 <strong style="font-weight:bold;">转发</strong> 给那个总在点头、其实没听懂的朋友。</p>
+<p style="margin:10px 0;line-height:1.8;color:#333;">评论区可扔你听懵的词，高频词会收进名词卡。</p>
+<hr style="border:none;border-top:1px solid #eee;margin:28px 0;" />
+<p style="margin:10px 0;line-height:1.8;color:#333;"><em style="font-style:italic;color:#6B7280;">正文无外链图，知乎/掘金可直接导入本 MD；公众号建议上传 1 张封面后，用 <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#E53E3E;">index.html</code> 一键复制正文。</em></p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/5/20 18:15:59</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+async function copyArticle() {
+  selectArticle();
+  try {
+    const el = document.getElementById('article');
+    const html = el.innerHTML;
+    const text = el.innerText;
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      document.execCommand('copy');
+    }
+    alert('✅ 已复制！请到微信公众号后台 → 正文编辑区 → Cmd+V 粘贴');
+  } catch (e) {
+    try {
+      document.execCommand('copy');
+      alert('✅ 已复制（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>
