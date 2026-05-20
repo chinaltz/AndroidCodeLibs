@@ -12,6 +12,7 @@
 | 博客品牌、口号、定位 | `plan/03_技趣星球_博客介绍.md` | `.claude/skills/draft-post/SKILL.md`（若影响写作模板） |
 | 发布流水线步骤变更 | — | `.claude/skills/publish-workflow/SKILL.md` |
 | 新增专用能力 | 本文件 `CONTEXT.md` | `.claude/skills/<新skill名>/SKILL.md` |
+| 文章视觉风格 / 星球风 UI | `scripts/md-to-wechat.mjs`（导出样式） | `.agents/skills/star-article-style/SKILL.md` |
 
 ## 目录结构
 
@@ -23,10 +24,11 @@
 │   ├── 03_技趣星球_博客介绍.md
 │   ├── 平台注册进度追踪.html
 │   └── 头像图标.html
-└── .claude/skills/                     ← 全部 Skills（9 个）
+└── .agents/skills/                     ← 全部 Skills（含星球文章风格）
     ├── draft-post / improve-style / …
     ├── publish-workflow
     ├── publish-platforms
+    ├── star-article-style
     └── sync-context
 ```
 
