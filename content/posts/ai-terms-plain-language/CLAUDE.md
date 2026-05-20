@@ -4,12 +4,13 @@
 - **标题**：大模型、提示词听不懂？一篇 AI 人话词典讲透
 - **难度**：⭐
 - **系列**：第 2 篇（接 `ai-for-ordinary-people`）
-- **引流**：关注微信公众号 **AI技趣星球**，回复 **KXSW**，免费分享科学上网订阅地址（用于学习试用海外模型）
+- **引流**：关注微信公众号 **AI技趣星球**，转发本文或回复关键词获取资源
 - **配图**：正文 **0 张**（表格+ASCII）；公众号 **封面 1 张** 即可
 - **导出**：`npm run convert -- content/posts/ai-terms-plain-language`
 
 ## 发布检查
 
+- [ ] 敏感词检查（翻墙/Clash/VPN/科学上网等已清除）
 - [ ] `npm run convert` 生成 html + docx
 - [ ] 知乎/掘金：导入 `index.md`
 - [ ] 公众号：封面传后台 + `index.html` 一键复制

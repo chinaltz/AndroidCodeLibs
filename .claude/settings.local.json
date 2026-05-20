@@ -22,7 +22,8 @@
       "Bash(pip3 install moviepy)",
       "Bash(pip3 install:*)",
       "Read(//System/Library/Fonts/**)",
-      "Bash(ffprobe:*)"
+      "Bash(ffprobe:*)",
+      "Bash(npm run convert:*)"
     ],
     "deny": [],
     "ask": []
