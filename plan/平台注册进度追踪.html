@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技趣星球 - 平台注册进度追踪</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .stat-box {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px 40px;
+            text-align: center;
+            color: white;
+        }
+        .stat-box .number {
+            font-size: 3em;
+            font-weight: bold;
+        }
+        .stat-box .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        .section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section h2 .emoji {
+            font-size: 1.2em;
+        }
+        .tier {
+            margin-bottom: 25px;
+        }
+        .tier:last-child {
+            margin-bottom: 0;
+        }
+        .tier-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 15px;
+            padding: 8px 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        .tier-title.must {
+            background: #ff4757;
+            color: white;
+        }
+        .tier-title.should {
+            background: #ffa502;
+            color: white;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .checkbox-cell {
+            width: 40px;
+            text-align: center;
+        }
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        .platform-name {
+            font-weight: bold;
+            color: #333;
+            min-width: 120px;
+        }
+        .platform-link {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .platform-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        .platform-id, .platform-account, .platform-password {
+            color: #888;
+            font-size: 0.9em;
+        }
+        .platform-id input, .platform-account input, .platform-password input {
+            border: 1px dashed #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .platform-id input {
+            width: 120px;
+        }
+        .platform-account input {
+            width: 150px;
+        }
+        .platform-password input {
+            width: 120px;
+            font-family: monospace;
+        }
+        .notes {
+            color: #666;
+            font-size: 0.85em;
+        }
+        .notes input {
+            border: 1px dashed #ccc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 0.9em;
+        }
+        .action-cell {
+            width: 80px;
+            text-align: center;
+        }
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .save-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .save-btn:active {
+            transform: scale(0.98);
+        }
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 40px;
+            opacity: 0.8;
+        }
+        .progress-bar {
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            height: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: white;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+        .export-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .export-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .export-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+        .success-msg {
+            background: #dfe6e9;
+            color: #00b894;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            table {
+                font-size: 0.8em;
+            }
+            th, td {
+                padding: 8px 5px;
+            }
+            .platform-id input, .platform-account input, .platform-password input {
+                width: 80px;
+            }
+            .save-btn {
+                padding: 4px 10px;
+                font-size: 0.75em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 技趣星球</h1>
+            <p>博客发布平台注册进度 · 第一梯队 + 第二梯队</p>
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="number" id="totalCount">11</div>
+                    <div class="label">总平台数</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="registeredCount">0</div>
+                    <div class="label">已完成</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="progressPercent">0%</div>
+                    <div class="label">完成进度</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="export-section">
+                <button class="export-btn" onclick="exportAllData()">📥 导出所有数据为 JSON</button>
+                <div class="success-msg" id="exportSuccess">✓ 数据已导出到 platforms.json 文件</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2><span class="emoji">📡</span> 博客发布主平台</h2>
+
+            <div class="tier">
+                <div class="tier-title must">⭐ 第一梯队（必注）</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell">✓</th>
+                            <th>平台名称</th>
+                            <th>注册地址</th>
+                            <th>登录账号</th>
+                            <th>密码</th>
+                            <th>账号ID</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-platform="微信公众号">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">微信公众号</td>
+                            <td><a class="platform-link" href="https://mp.weixin.qq.com/" target="_blank">mp.weixin.qq.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="知乎">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">知乎</td>
+                            <td><a class="platform-link" href="https://www.zhihu.com/" target="_blank">zhihu.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="掘金">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">掘金</td>
+                            <td><a class="platform-link" href="https://juejin.cn/" target="_blank">juejin.cn</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="CSDN">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">CSDN</td>
+                            <td><a class="platform-link" href="https://www.csdn.net/" target="_blank">csdn.net</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tier">
+                <div class="tier-title should">📌 第二梯队（建议）</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell">✓</th>
+                            <th>平台名称</th>
+                            <th>注册地址</th>
+                            <th>登录账号</th>
+                            <th>密码</th>
+                            <th>账号ID</th>
+                            <th>备注</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-platform="简书">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">简书</td>
+                            <td><a class="platform-link" href="https://www.jianshu.com/" target="_blank">jianshu.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="今日头条">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">今日头条</td>
+                            <td><a class="platform-link" href="https://www.toutiao.com/" target="_blank">toutiao.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="百家号">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">百家号</td>
+                            <td><a class="platform-link" href="https://baijiahao.baidu.com/" target="_blank">baijiahao.baidu.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="思否(SegmentFault)">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">思否(SegmentFault)</td>
+                            <td><a class="platform-link" href="https://segmentfault.com/" target="_blank">segmentfault.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="博客园">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">博客园</td>
+                            <td><a class="platform-link" href="https://www.cnblogs.com/" target="_blank">cnblogs.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="小红书">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">小红书</td>
+                            <td><a class="platform-link" href="https://www.xiaohongshu.com/" target="_blank">xiaohongshu.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="网易号">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">网易号</td>
+                            <td><a class="platform-link" href="https://mp.163.com/" target="_blank">mp.163.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="抖音">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">抖音</td>
+                            <td><a class="platform-link" href="https://creator.douyin.com/" target="_blank">creator.douyin.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                        <tr data-platform="快手">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">快手</td>
+                            <td><a class="platform-link" href="https://cp.kuaishou.com/" target="_blank">cp.kuaishou.com</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>📅 技趣星球 · 博客发布主平台 | 数据自动保存到 localStorage，可导出为 JSON</p>
+        </div>
+    </div>
+
+    <script>
+        function updateStats() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            const registered = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percent = total ? Math.round((registered / total) * 100) : 0;
+
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('registeredCount').textContent = registered;
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressFill').style.width = percent + '%';
+        }
+
+        function saveRow(btn) {
+            const row = btn.parentElement.parentElement;
+            const platform = row.dataset.platform;
+            const checkbox = row.querySelector('input[type="checkbox"]');
+            const account = row.querySelector('.platform-account input').value;
+            const password = row.querySelector('.platform-password input').value;
+            const platformId = row.querySelector('.platform-id input').value;
+            const notes = row.querySelector('.notes input').value;
+
+            const data = {
+                platform: platform,
+                registered: checkbox.checked,
+                account: account,
+                password: password,
+                platformId: platformId,
+                notes: notes,
+                updatedAt: new Date().toISOString()
+            };
+
+            const savedData = JSON.parse(localStorage.getItem('platformData') || '{}');
+            savedData[platform] = data;
+            localStorage.setItem('platformData', JSON.stringify(savedData));
+
+            btn.style.background = '#00b894';
+            btn.textContent = '已保存';
+            setTimeout(() => {
+                btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                btn.textContent = '保存';
+            }, 2000);
+        }
+
+        function exportAllData() {
+            const savedData = JSON.parse(localStorage.getItem('platformData') || '{}');
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const exportData = {
+                version: '2.0',
+                blog: '技趣星球',
+                exportTime: new Date().toISOString(),
+                totalPlatforms: checkboxes.length,
+                tiers: {
+                    tier1: ['微信公众号', '知乎', '掘金', 'CSDN'],
+                    tier2: ['简书', '今日头条', '百家号', '思否(SegmentFault)', '博客园', '小红书', '网易号', '抖音', '快手']
+                },
+                platforms: savedData
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'platforms.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            document.getElementById('exportSuccess').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('exportSuccess').style.display = 'none';
+            }, 3000);
+        }
+
+        function loadSavedData() {
+            const savedData = JSON.parse(localStorage.getItem('platformData') || '{}');
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const platform = row.dataset.platform;
+                if (savedData[platform]) {
+                    const data = savedData[platform];
+                    row.querySelector('input[type="checkbox"]').checked = data.registered;
+                    row.querySelector('.platform-account input').value = data.account || '';
+                    row.querySelector('.platform-password input').value = data.password || '';
+                    row.querySelector('.platform-id input').value = data.platformId || '';
+                    row.querySelector('.notes input').value = data.notes || '';
+                }
+            });
+        }
+
+        updateStats();
+        loadSavedData();
+    </script>
+</body>
+</html>

@@ -14,7 +14,15 @@
 | `README.md` | 博客简介 |
 | `content-plan.md` | 详细文章计划（含难度评级） |
 | `content/posts/[slug]/` | 每篇文章独立文件夹，含 `index.md` + `images/` |
+| `CONTEXT.md` | MD ↔ SKILL 同步索引（改 plan/发布相关须同步） |
+| `plan/` | 平台清单、发布方案、注册追踪 HTML |
+| `.claude/skills/` | 全部 Agent Skills（含发布平台、同步上下文） |
 | `CLAUDE.md` | 本文件，项目上下文缓存 |
+
+## 上下文同步约定
+
+变更 `plan/` 或发布相关 SKILL 时：**自动**同步 MD 与 SKILL，无需用户提醒。  
+规则：`.cursor/rules/context-sync.mdc` · 索引：`CONTEXT.md` · Skill：`sync-context`
 
 ## 内容目录结构
 
@@ -42,7 +50,7 @@ content/posts/
 | ⭐⭐⭐⭐ | 需要多个工具配合 + 有踩坑概率 |
 | ⭐⭐⭐⭐⭐ | 需要专业知识，不建议零基础硬刚 |
 
-## Skills 总览（7 个）
+## Skills 总览（9 个）
 
 | Skill | 用途 | 调用方式 |
 |-------|------|----------|
@@ -53,6 +61,8 @@ content/posts/
 | `/generate-images` | **生成配图方案、即梦/Midjourney提示词、ASCII排版装饰、封面设计，所有方案标注操作难度** | 手动 / 自动 |
 | `/review-post` | 按5条内容原则全面审查文章 | 手动 / 自动 |
 | `/publish-workflow` | **一键跑通8步发布流水线，输出多平台适配版** | 手动 |
+| `/publish-platforms` | 第一/二梯队平台清单、格式速查、发布顺序 | 手动 / 自动 |
+| `/sync-context` | 变更 plan 或 SKILL 后自动双向同步 MD 与 SKILL | 自动 |
 
 ## 文章发布全流程（8 步流水线）
 

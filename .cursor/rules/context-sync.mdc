@@ -1,0 +1,27 @@
+---
+description: plan 与发布 SKILL 变更后自动同步 MD 与 SKILL
+globs: plan/**,.claude/skills/**
+alwaysApply: false
+---
+
+# 上下文同步规则
+
+完成用户对 `plan/` 或 `.claude/skills/` 的变更后，**必须**同步文档与技能。
+
+## 必做流程
+
+1. 查阅根目录 `CONTEXT.md` 的「文件 ↔ Skill 映射」
+2. 完成用户要求的变更
+3. 同步 MD：`plan/*.md` 及 `plan/平台注册进度追踪.html`（若涉及平台）
+4. 同步 SKILL：`.claude/skills/**/SKILL.md`
+5. 新类型先更新 `CONTEXT.md`
+
+## 原则
+
+- 改平台清单 → 同时改 `01_内容平台清单.md`、HTML 追踪表、`publish-platforms/SKILL.md`
+- 改发布工具/流程 → 同时改 `02_全平台同步发布方案.md` 与 `publish-workflow/SKILL.md`
+- 不在 SKILL 中写账号密码
+
+## 回复用户时
+
+简要说明已同步的 MD 和 SKILL 路径。

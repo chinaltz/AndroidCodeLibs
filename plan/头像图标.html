@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI技趣星球 - 头像图标</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .tip {
+            margin-top: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 AI技趣星球 - 头像图标</h1>
+        <img 
+            class="avatar" 
+            src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=A%20modern%20tech%20avatar%20icon%20combining%20elements%20from%20Codex%20AI%20code%20assistant%2C%20Claude%20AI%20chatbot%2C%20Cursor%20code%20editor%2C%20DeepSeek%20AI%2C%20and%20programming%20code%20elements%2C%20space%20planet%20theme%2C%20minimalist%20design%2C%20gradient%20blue%20purple%20cyan%20color%20scheme%2C%20clean%20white%20background%2C%20flat%20design%2C%20professional%20tech%20style%2C%20circular%20avatar%2C%20futuristic%20look&image_size=square_hd"
+            alt="AI技趣星球头像"
+            onclick="downloadImage()"
+        >
+        <br>
+        <button class="download-btn" onclick="downloadImage()">⬇️ 下载头像</button>
+        <p class="tip">点击头像或按钮即可下载</p>
+    </div>
+
+    <script>
+        function downloadImage() {
+            const img = document.querySelector('.avatar');
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'AI技趣星球_头像.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

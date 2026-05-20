@@ -6,6 +6,8 @@ argument-hint: "[文章主题]"
 
 # 文章发布全流程
 
+> 若变更发布平台或同步工具，须同步 `plan/*.md` 与本 skill，见根目录 `CONTEXT.md`。
+
 一次性跑通博客文章从选题到发布就绪的完整流程。输入主题，输出一份可直接发布到公众号/知乎/掘金/个人博客的完整文章。
 
 ## 流水线步骤
@@ -69,10 +71,12 @@ argument-hint: "[文章主题]"
 - 输出修改优先级
 
 ### ⑧ 发布就绪
+- 读取 `.claude/skills/publish-platforms/SKILL.md` 获取 **第一梯队 + 第二梯队** 平台清单与格式要求
 - 生成「公众号版」：含封面建议、摘要、话题标签
 - 生成「知乎版」：含知乎话题标签、开头引导关注
 - 生成「掘金版」：含技术标签、封面图
 - 生成「个人博客版」：纯 Markdown，适合静态站点
+- 按需生成第二梯队适配提示：简书/头条/百家号/思否/博客园/小红书/网易号/抖音/快手
 - 将最终文章写入 `content/posts/[slug]/index.md`
 - **生成公众号 HTML**：在 `content/posts/[slug]/index.html` 中生成富文本版，浏览器打开后点「一键复制正文」粘贴到公众号后台
 - **多平台同步**：推荐使用 Wechatsync 插件（见下方「多平台发布方案」）
@@ -98,7 +102,7 @@ argument-hint: "[文章主题]"
 
 **工具**：[Wechatsync](https://github.com/wechatsync/Wechatsync)（开源 Chrome 插件，免费）
 
-**支持平台**：微信公众号、知乎、掘金、简书、头条号、WordPress 等 10+ 平台
+**支持平台**：微信公众号、知乎、掘金、简书、头条号等（与 `publish-platforms` skill 第一/二梯队对齐）
 
 **安装步骤**：
 1. Chrome 应用商店搜索「Wechatsync」安装，或从 GitHub Releases 下载 `.crx` 手动安装
