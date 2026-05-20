@@ -15,19 +15,19 @@
 ### 1. `header.png`
 
 用途：公众号头图 / 文章首图  
-尺寸：1200 × 510，适合 2.35:1 头图裁剪  
-画面：普通人打开「AI 人话词典」，周围漂浮大模型、提示词、Token、Agent 等标签，强调「把黑话翻译成人话」。
+尺寸：2560 × 1440，16:9，风格对齐第一篇文章头图  
+画面：普通人站在彩色光束前方，光束分别照向「大模型、提示词、Token、幻觉、多模态」五个概念图标，深蓝紫科技背景，右下角保留即梦 AI 风格标识。
 
 **即梦提示词（可选重绘，💫💫💫）**：
 
 ```text
-扁平插画风格，普通人坐在桌前翻开一本写着「AI 人话词典」的书，周围漂浮中文标签「大模型」「提示词」「Token」「Agent」「多模态」，浅蓝和暖橙配色，干净明亮，轻松幽默，公众号头图构图，横版 2.35:1，高清，无水印
+深蓝紫科技感插画，普通人背影站在画面底部中央，脚下发出多束彩色光线，光线分别照向五个悬浮概念图标：大模型、提示词 Prompt、Token、幻觉、多模态，画面风格与 AI 工具科普封面一致，柔和发光，轻微颗粒质感，横版 16:9，高清
 ```
 
 **Midjourney 提示词（可选重绘，💫💫💫）**：
 
 ```text
-flat editorial illustration, an everyday person opening a book labeled "AI plain-language dictionary", floating Chinese-style keyword tags around the book, large model, prompt, token, agent, multimodal concepts visualized as friendly cards, clean light blue and warm orange palette, bright and approachable, WeChat article header composition --ar 2.35:1 --v 6
+deep blue purple tech editorial illustration, back view of an everyday person standing at the bottom center, colorful light beams spreading upward to five floating concept icons, large model, prompt, token, hallucination warning, multimodal image and audio, soft glow, subtle grain, consistent with an AI tool explainer header image --ar 16:9 --v 6
 ```
 
 ### 2. `terms-overview.png`

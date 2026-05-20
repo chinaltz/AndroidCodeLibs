@@ -1,348 +1,461 @@
 #!/usr/bin/env python3
 """
-根据 Markdown 文章生成竖版摘要短视频（9:16 抖音/小红书）
-输出: content/posts/<slug>/summary-video.mp4
+Generate a complete Douyin-ready asset pack for a post.
+
+Usage:
+  npm run build:video -- content/posts/<slug>
+  python3 scripts/gen-video.py content/posts/<slug>
+
+Outputs:
+  content/posts/<slug>/social/douyin/douyin-summary-video.mp4
+  content/posts/<slug>/social/douyin/douyin-summary-video.with-audio.mp4
+  content/posts/<slug>/social/douyin/douyin-cover.png
+  content/posts/<slug>/social/douyin/douyin-subtitles.srt
+  content/posts/<slug>/social/douyin/douyin-script.md
+  content/posts/<slug>/social/UPLOAD.md
 """
 
-import sys, os, subprocess, math, colorsys
+from __future__ import annotations
+
+import re
+import shutil
+import subprocess
+import sys
+from dataclasses import dataclass
 from pathlib import Path
+
 from PIL import Image, ImageDraw, ImageFont
-import io
 
 ROOT = Path(__file__).resolve().parent.parent
-POSTS_DIR = ROOT / 'content' / 'posts'
-FONT_PATH = '/System/Library/Fonts/Hiragino Sans GB.ttc'
-FONT_FALLBACK = '/System/Library/Fonts/STHeiti Light.ttc'
+W, H = 1080, 1920
+FPS = 24
+DEFAULT_DURATION = 33.0
 
-W, H = 1080, 1920  # 9:16 竖版
-FPS = 25
-DURATION = 30  # 秒
-
-# 颜色方案
-BG_GRAY = (18, 22, 30)
+BG = (18, 22, 30)
+PANEL = (30, 38, 52)
 WHITE = (255, 255, 255)
-BLUE = (59, 130, 246)
-BLUE_DARK = (30, 64, 175)
-GREEN = (16, 185, 129)
-AMBER = (217, 119, 6)
-PINK = (219, 39, 119)
-CYAN = (8, 145, 178)
+MUTED = (166, 176, 194)
+BLUE = (66, 133, 244)
+GREEN = (20, 184, 166)
+AMBER = (245, 158, 11)
+PINK = (236, 72, 153)
 
-SCENES = [
-    {"icon": "📱", "text": "做 App", "color": BLUE, "star": 3},
-    {"icon": "🌐", "text": "搭网站", "color": GREEN, "star": 2},
-    {"icon": "🛠", "text": "写小工具", "color": AMBER, "star": 2},
-    {"icon": "🎵", "text": "做音乐", "color": PINK, "star": 1},
-    {"icon": "🎬", "text": "做视频", "color": BLUE_DARK, "star": 2},
-    {"icon": "✨", "text": "做特效", "color": PINK, "star": 1},
-    {"icon": "📝", "text": "写报告", "color": CYAN, "star": 1},
+FONT_CANDIDATES = [
+    "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    "/System/Library/Fonts/STHeiti Light.ttc",
+    "/System/Library/Fonts/PingFang.ttc",
+    "/Library/Fonts/Arial Unicode.ttf",
 ]
 
-def get_font(size):
-    try: return ImageFont.truetype(FONT_PATH, size)
-    except: return ImageFont.truetype(FONT_FALLBACK, size)
 
-def text_size(draw, text, font):
-    bbox = draw.textbbox((0, 0), text, font=font)
-    return bbox[2] - bbox[0], bbox[3] - bbox[1]
+@dataclass
+class Scene:
+    start: float
+    end: float
+    visual: str
+    voice: str
+    subtitle: str
 
-def draw_centered_text(draw, text, y, font, color=WHITE, max_w=None):
-    """居中绘制文字，返回底部y坐标"""
-    lines = []
-    if max_w:
-        words = text.split()
-        current = ""
-        for w in words:
-            test = current + (" " if current else "") + w
-            if text_size(draw, test, font)[0] <= max_w:
-                current = test
-            else:
-                lines.append(current)
-                current = w
-        if current: lines.append(current)
-    else:
-        lines = text.split('\n')
 
-    line_h = text_size(draw, "A", font)[1] + 4
+def get_font(size: int) -> ImageFont.FreeTypeFont:
+    for path in FONT_CANDIDATES:
+        try:
+            return ImageFont.truetype(path, size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
+
+
+def text_size(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.ImageFont) -> tuple[int, int]:
+    box = draw.textbbox((0, 0), text, font=font)
+    return box[2] - box[0], box[3] - box[1]
+
+
+def wrap_text(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.ImageFont, max_width: int) -> list[str]:
+    text = re.sub(r"\s+", " ", text.strip())
+    if not text:
+        return []
+
+    lines: list[str] = []
+    current = ""
+    for char in text:
+        test = current + char
+        if text_size(draw, test, font)[0] <= max_width or not current:
+            current = test
+        else:
+            lines.append(current)
+            current = char
+    if current:
+        lines.append(current)
+    return lines
+
+
+def draw_center(
+    draw: ImageDraw.ImageDraw,
+    text: str,
+    y: int,
+    font: ImageFont.ImageFont,
+    fill: tuple[int, int, int] = WHITE,
+    max_width: int = 900,
+    line_gap: int = 16,
+) -> int:
+    lines = wrap_text(draw, text, font, max_width)
+    line_h = text_size(draw, "字", font)[1] + line_gap
     for line in lines:
         tw, _ = text_size(draw, line, font)
-        draw.text(((W - tw) / 2, y), line, font=font, fill=color)
+        draw.text(((W - tw) / 2, y), line, font=font, fill=fill)
         y += line_h
-    return y + 6
+    return y
 
-def gradient_xy(draw, w, h, c1, c2, vertical=True):
-    """绘制渐变背景"""
-    for i in range(w if not vertical else h):
-        t = i / (w if not vertical else h)
-        r = int(c1[0] + (c2[0] - c1[0]) * t)
-        g = int(c1[1] + (c2[1] - c1[1]) * t)
-        b = int(c1[2] + (c2[2] - c1[2]) * t)
-        if vertical:
-            draw.line([(0, i), (w, i)], fill=(r, g, b))
-        else:
-            draw.line([(i, 0), (i, h)], fill=(r, g, b))
 
-def make_scene_0_title(out_dir):
-    """场景0: 标题页 0-3s"""
-    imgs = []
-    for f in range(int(3 * FPS)):
-        t = f / (3 * FPS)
-        alpha = min(t * 2, 1.0)
-        img = Image.new('RGB', (W, H), BG_GRAY)
-        draw = ImageDraw.Draw(img)
-        font_title = get_font(72)
-        font_sub = get_font(32)
-
-        # "AI" 大字
-        y = H // 2 - 180
-        draw_centered_text(draw, "AI", y, font_title, BLUE)
-        y += 100
-        draw_centered_text(draw, "跟普通人没关系？", y, font_title, WHITE)
-        y += 100
-        draw_centered_text(draw, "它能帮你做这 7 件事", y+20, font_sub, (170,170,170))
-
-        # 底部提示线
-        if t > 0.5:
-            y2 = H - 120
-            draw_centered_text(draw, "全部 · 不需要懂技术 · 现在就能做", y2, get_font(22), (120,120,120))
-
-        imgs.append(img)
-    return imgs
-
-def make_scene_1_icons(out_dir):
-    """场景1: 7个图标快闪 3-7s"""
-    imgs = []
-    frames = int(4 * FPS)
-    for f in range(frames):
-        t = f / frames
-        idx = int(t * 7)  # 当前图标索引
-        img = Image.new('RGB', (W, H), BG_GRAY)
-        draw = ImageDraw.Draw(img)
-        font_icon = get_font(120)
-        font_label = get_font(42)
-        font_title = get_font(28)
-
-        # 标题
-        draw_centered_text(draw, "普通人能拿 AI 做什么？", 100, font_title, (150, 150, 150))
-
-        icon_y = H // 2 - 80
-        label_y = icon_y + 160
-
-        # 当前大图标
-        s = SCENES[idx]
-        draw_centered_text(draw, s["icon"], icon_y, font_icon, WHITE)
-        draw_centered_text(draw, s["text"], label_y, font_label, s["color"])
-
-        # 星星
-        star_y = label_y + 60
-        stars = "⭐" * s["star"]
-        draw_centered_text(draw, stars, star_y, get_font(24))
-
-        # 进度点
-        dots_y = H - 140
-        dot_x = W // 2 - 7 * 10
-        for i in range(7):
-            c = s["color"] if i == idx else (60, 60, 60)
-            draw.ellipse([dot_x + i * 28 + 4, dots_y, dot_x + i * 28 + 16, dots_y + 12], fill=c)
-
-        imgs.append(img)
-    return imgs
-
-def make_scene_2_rapid(out_dir):
-    """场景2-3: 快速切换「做App/搭网站/写工具」7-15s"""
-    imgs = []
-    frames = int(8 * FPS)
-    labels_1 = ["做 App", "搭网站", "写小工具"]
-    labels_2 = ["做音乐", "剪视频", "做特效", "写报告"]
-    icons_1 = ["📱", "🌐", "🛠"]
-    icons_2 = ["🎵", "🎬", "✨", "📝"]
-    colors_all = [SCENES[0]["color"], SCENES[1]["color"], SCENES[2]["color"],
-                  BLUE_DARK, PINK, PINK, CYAN]
-
-    for f in range(frames):
-        t = f / frames
-        img = Image.new('RGB', (W, H), BG_GRAY)
-        draw = ImageDraw.Draw(img)
-
-        if t < 0.5:
-            # 前三项
-            sub_t = t * 2
-            idx = int(sub_t * 3)
-            label = labels_1[idx] if idx < 3 else labels_1[2]
-            icon = icons_1[idx] if idx < 3 else icons_1[2]
-            color = colors_all[idx] if idx < 3 else colors_all[2]
-        else:
-            # 后四项
-            sub_t = (t - 0.5) * 2
-            idx = int(sub_t * 4)
-            label = labels_2[idx] if idx < 4 else labels_2[3]
-            icon = icons_2[idx] if idx < 4 else icons_2[3]
-            color = colors_all[3 + idx] if (3 + idx) < 7 else colors_all[6]
-
-        draw_centered_text(draw, icon, H // 2 - 120, get_font(140), WHITE)
-        draw_centered_text(draw, label, H // 2 + 80, get_font(60), color)
-        draw_centered_text(draw, "不需要写代码", H // 2 + 160, get_font(28), (150, 150, 150))
-
-        imgs.append(img)
-    return imgs
-
-def make_scene_3_stars(out_dir):
-    """场景4: 难度星级 15-22s"""
-    imgs = []
-    frames = int(7 * FPS)
-    for f in range(frames):
-        t = f / frames
-        img = Image.new('RGB', (W, H), BG_GRAY)
-        draw = ImageDraw.Draw(img)
-        font_title = get_font(36)
-        font_star = get_font(48)
-        font_desc = get_font(24)
-
-        draw_centered_text(draw, "上手有多难？", 200, font_title, WHITE)
-
-        items = [
-            ("⭐⭐⭐", "1 件需要装软件+复制代码", (255, 255, 200)),
-            ("⭐⭐", "2 件需要装软件+看5分钟教程", (200, 255, 200)),
-            ("⭐", "4 件打开网页就能做", (150, 220, 255)),
-        ]
-
-        y = 420
-        for stars, desc, color in items:
-            # 星级
-            draw_centered_text(draw, stars, y, font_star, color)
-            # 描述
-            draw_centered_text(draw, desc, y + 60, font_desc, (180, 180, 180))
-            y += 170
-
-        # 底部大字
-        draw_centered_text(draw, "没有一件需要专业知识", H - 220, get_font(32), GREEN)
-
-        draw_centered_text(draw, "零编程 · 纯小白友好", H - 140, get_font(22), (130, 130, 130))
-
-        imgs.append(img)
-    return imgs
-
-def make_scene_4_core(out_dir):
-    """场景5: 核心心法 22-27s"""
-    imgs = []
-    frames = int(5 * FPS)
-    for f in range(frames):
-        t = f / frames
-        img = Image.new('RGB', (W, H), BG_GRAY)
-        draw = ImageDraw.Draw(img)
-
-        # 大字
-        font_big = get_font(64)
-        font_mid = get_font(36)
-        font_small = get_font(26)
-
-        draw_centered_text(draw, "你只需要做一件事", H // 2 - 160, font_mid, (180, 180, 180))
-        draw_centered_text(draw, "描述需求", H // 2 - 50, font_big, BLUE)
-        draw_centered_text(draw, "→", H // 2 + 30, get_font(40), WHITE)
-        draw_centered_text(draw, "AI 负责实现", H // 2 + 90, font_big, GREEN)
-
-        draw_centered_text(draw, "把想法变成现实，你说就行", H - 200, font_small, (150, 150, 150))
-
-        imgs.append(img)
-    return imgs
-
-def make_scene_5_cta(out_dir):
-    """场景6: 结尾 CTA 27-30s"""
-    imgs = []
-    frames = int(3 * FPS)
-    for f in range(frames):
-        t = f / frames
-        img = Image.new('RGB', (W, H), BG_GRAY)
-        draw = ImageDraw.Draw(img)
-        font_cta = get_font(48)
-        font_sub = get_font(30)
-        font_hashtag = get_font(24)
-
-        y = H // 2 - 100
-        draw_centered_text(draw, "想知道具体怎么做？", y, font_cta, WHITE)
-        draw_centered_text(draw, "关注我 · 下期手把手教你", y + 80, font_sub, BLUE)
-
-        y2 = H - 200
-        draw_centered_text(draw, "#AI工具 #普通人学AI #干货分享", y2, font_hashtag, (120, 120, 120))
-
-        imgs.append(img)
-    return imgs
-
-def generate_video(out_path):
-    out_dir = out_path.parent
-    tmp_dir = out_dir / '.video_tmp'
-    tmp_dir.mkdir(exist_ok=True)
-
-    print("🎬 生成视频帧...")
-    all_frames = (
-        make_scene_0_title(tmp_dir) +
-        make_scene_1_icons(tmp_dir) +
-        make_scene_2_rapid(tmp_dir) +
-        make_scene_3_stars(tmp_dir) +
-        make_scene_4_core(tmp_dir) +
-        make_scene_5_cta(tmp_dir)
+def draw_pill(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, fill: tuple[int, int, int]) -> None:
+    font = get_font(30)
+    tw, th = text_size(draw, text, font)
+    pad_x, pad_y = 26, 12
+    draw.rounded_rectangle(
+        [x, y, x + tw + pad_x * 2, y + th + pad_y * 2],
+        radius=18,
+        fill=fill,
     )
-    print(f"  共 {len(all_frames)} 帧")
+    draw.text((x + pad_x, y + pad_y - 2), text, font=font, fill=WHITE)
 
-    # 调整帧数到 target FPS * DURATION
-    target_frames = FPS * DURATION
-    if len(all_frames) < target_frames:
-        # 复制最后一帧补足
-        last = all_frames[-1]
-        all_frames.extend([last] * (target_frames - len(all_frames)))
-    elif len(all_frames) > target_frames:
-        # 均匀抽样
-        step = len(all_frames) / target_frames
-        all_frames = [all_frames[int(i * step)] for i in range(target_frames)]
 
-    print(f"  编码 {len(all_frames)} 帧 → {out_path.name}...")
-    # 用 ffmpeg 将帧序列编码为 MP4
+def time_to_seconds(value: str) -> tuple[float, float]:
+    cleaned = value.strip().replace("－", "-").replace("~", "-").replace("—", "-")
+    parts = [p.strip() for p in cleaned.split("-")]
+    if len(parts) != 2:
+        raise ValueError(f"Invalid time range: {value}")
+    return float(parts[0]), float(parts[1])
+
+
+def seconds_to_srt_time(value: float) -> str:
+    millis = int(round(value * 1000))
+    hours = millis // 3_600_000
+    millis %= 3_600_000
+    minutes = millis // 60_000
+    millis %= 60_000
+    seconds = millis // 1000
+    millis %= 1000
+    return f"{hours:02d}:{minutes:02d}:{seconds:02d},{millis:03d}"
+
+
+def read_title(post_dir: Path) -> str:
+    md = post_dir / "index.md"
+    for line in md.read_text(encoding="utf-8").splitlines():
+        if line.startswith("# "):
+            return line[2:].strip()
+    return post_dir.name.replace("-", " ")
+
+
+def read_first_bold_summary(post_dir: Path) -> str:
+    text = (post_dir / "index.md").read_text(encoding="utf-8")
+    match = re.search(r"\*\*(一句话结论[:：].+?)\*\*", text)
+    if match:
+        return match.group(1)
+    for line in text.splitlines():
+        line = line.strip()
+        if line and not line.startswith(("#", "!", "|", ">", "`", "-", "╔", "║", "╚")):
+            return re.sub(r"[*_`]", "", line)
+    return "普通人也能上手的 AI 实操内容。"
+
+
+def default_scenes(post_dir: Path) -> list[Scene]:
+    title = read_title(post_dir)
+    summary = read_first_bold_summary(post_dir).replace("一句话结论：", "").replace("一句话结论:", "")
+    short_title = title if len(title) <= 28 else title[:27] + "…"
+    short_summary = summary if len(summary) <= 46 else summary[:45] + "…"
+    return [
+        Scene(0, 3.5, "开场标题卡", f"今天用大白话讲清楚：{short_title}", short_title),
+        Scene(3.5, 7.5, "痛点卡", "如果你也觉得 AI 很火，但不知道和自己有什么关系，这条先收藏。", "AI 很火，但到底怎么用？"),
+        Scene(7.5, 12.5, "结论卡", short_summary, short_summary),
+        Scene(12.5, 18.5, "方法卡", "记住一个简单方法：先说背景，再说任务，最后说你要的标准。", "背景 + 任务 + 标准"),
+        Scene(18.5, 25.5, "避坑卡", "不要只问一句帮我写点东西。要求越清楚，AI 越容易给出能用的结果。", "要求越清楚，结果越能用"),
+        Scene(25.5, 33, "关注引导卡", "关注 AI技趣星球，继续看普通人也能照做的 AI 实操教程。", "关注 AI技趣星球"),
+    ]
+
+
+def parse_script(script_path: Path) -> list[Scene]:
+    if not script_path.exists():
+        return []
+
+    scenes: list[Scene] = []
+    in_table = False
+    for raw in script_path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if line.startswith("| 秒数 ") and "口播" in line:
+            in_table = True
+            continue
+        if not in_table:
+            continue
+        if not line.startswith("|"):
+            if scenes:
+                break
+            continue
+        if re.match(r"^\|\s*-+", line):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 4:
+            continue
+        try:
+            start, end = time_to_seconds(cells[0])
+        except ValueError:
+            continue
+        scenes.append(Scene(start, end, cells[1], cells[2], cells[3]))
+    return scenes
+
+
+def make_script_markdown(post_dir: Path, scenes: list[Scene]) -> str:
+    title = read_title(post_dir)
+    duration = scenes[-1].end if scenes else DEFAULT_DURATION
+    voice = "\n\n".join(scene.voice for scene in scenes)
+    rows = "\n".join(
+        f"| {scene.start:g}-{scene.end:g} | {scene.visual} | {scene.voice} | {scene.subtitle} |"
+        for scene in scenes
+    )
+    return f"""# 抖音短视频脚本 · {title}
+
+时长：约 {duration:g} 秒
+比例：9:16
+素材：`douyin-summary-video.with-audio.mp4` + `douyin-cover.png`
+
+## 分镜脚本
+
+| 秒数 | 画面 | 口播 | 字幕 |
+|------|------|------|------|
+{rows}
+
+## 完整口播词
+
+```text
+{voice}
+```
+
+## 发布标题
+
+```text
+{title[:30]}
+```
+
+## 发布文案
+
+```text
+{read_first_bold_summary(post_dir)}
+
+关注微信公众号「AI技趣星球」，继续看普通人也能照做的 AI 实操教程。
+
+#AI #人工智能 #普通人学AI #AI工具 #科技干货
+```
+"""
+
+
+def make_srt(scenes: list[Scene]) -> str:
+    blocks = []
+    for index, scene in enumerate(scenes, start=1):
+        blocks.append(
+            f"{index}\n"
+            f"{seconds_to_srt_time(scene.start)} --> {seconds_to_srt_time(scene.end)}\n"
+            f"{scene.subtitle}"
+        )
+    return "\n\n".join(blocks) + "\n"
+
+
+def make_upload_markdown(post_dir: Path) -> str:
+    title = read_title(post_dir)
+    return f"""# 多平台上传清单 · {title}
+
+## 抖音短视频
+
+上传目录：`social/douyin/`
+
+上传素材：
+
+- `douyin-summary-video.with-audio.mp4`：9:16 竖屏短视频，带静音音轨，优先上传这个
+- `douyin-summary-video.mp4`：无音轨备份版
+- `douyin-cover.png`：9:16 封面图
+- `douyin-script.md`：口播、字幕、发布文案
+- `douyin-subtitles.srt`：外挂字幕，可导入剪映
+
+剪映处理：
+
+- [ ] 导入 `douyin-summary-video.with-audio.mp4`
+- [ ] 复制 `douyin-script.md` 的完整口播词，使用文本朗读 / AI 配音生成口播
+- [ ] 导入 `douyin-subtitles.srt`
+- [ ] 添加低音量 BGM，口播音量高于 BGM
+- [ ] 导出 1080p、9:16、MP4
+
+发布检查：
+
+- [ ] 口播能听清
+- [ ] 字幕没有贴到底部按钮区
+- [ ] 封面选择 `douyin-cover.png`
+- [ ] 标题、文案、话题标签已复制
+"""
+
+
+def create_card(scene: Scene, title: str, index: int, total: int) -> Image.Image:
+    img = Image.new("RGB", (W, H), BG)
+    draw = ImageDraw.Draw(img)
+
+    accent = [BLUE, GREEN, AMBER, PINK][index % 4]
+    draw.rectangle([0, 0, W, 18], fill=accent)
+    draw_pill(draw, "AI技趣星球", 72, 84, accent)
+    draw_pill(draw, f"{index + 1}/{total}", W - 210, 84, PANEL)
+
+    draw_center(draw, scene.visual, 250, get_font(44), MUTED, 860)
+
+    main = scene.subtitle if scene.subtitle else scene.voice
+    y = draw_center(draw, main, 610, get_font(72), WHITE, 880, 22)
+
+    if scene.voice and scene.voice != main:
+        draw_center(draw, scene.voice, max(y + 70, 1020), get_font(38), MUTED, 840, 18)
+
+    draw.rounded_rectangle([86, H - 340, W - 86, H - 190], radius=30, fill=PANEL)
+    draw_center(draw, "普通人也能照做的 AI 实操教程", H - 296, get_font(36), WHITE, 820)
+    draw_center(draw, "关注微信公众号 AI技趣星球", H - 244, get_font(30), MUTED, 820)
+    return img
+
+
+def create_cover(post_dir: Path, cover_path: Path, scenes: list[Scene]) -> None:
+    title = read_title(post_dir)
+    img = Image.new("RGB", (W, H), BG)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([0, 0, W, 24], fill=BLUE)
+    draw.rectangle([0, H - 24, W, H], fill=GREEN)
+    draw_pill(draw, "AI 入门", 76, 100, BLUE)
+    draw_center(draw, title, 460, get_font(78), WHITE, 880, 22)
+    if scenes:
+        draw_center(draw, scenes[0].subtitle, 900, get_font(44), MUTED, 820, 18)
+    draw.rounded_rectangle([96, 1260, W - 96, 1470], radius=34, fill=PANEL)
+    draw_center(draw, "大白话讲清楚", 1310, get_font(48), WHITE, 800)
+    draw_center(draw, "普通人学 AI", 1380, get_font(38), GREEN, 800)
+    draw_center(draw, "AI技趣星球", H - 190, get_font(38), MUTED, 860)
+    img.save(cover_path)
+
+
+def generate_video(video_path: Path, scenes: list[Scene]) -> None:
+    duration = scenes[-1].end if scenes else DEFAULT_DURATION
+    total_frames = int(round(duration * FPS))
+    title = "AI技趣星球"
+
     cmd = [
-        'ffmpeg', '-y',
-        '-f', 'rawvideo',
-        '-vcodec', 'rawvideo',
-        '-s', f'{W}x{H}',
-        '-pix_fmt', 'rgb24',
-        '-r', str(FPS),
-        '-i', '-',
-        '-c:v', 'libx264',
-        '-pix_fmt', 'yuv420p',
-        '-preset', 'medium',
-        '-crf', '23',
-        '-movflags', '+faststart',
-        str(out_path)
+        "ffmpeg",
+        "-y",
+        "-f",
+        "rawvideo",
+        "-vcodec",
+        "rawvideo",
+        "-s",
+        f"{W}x{H}",
+        "-pix_fmt",
+        "rgb24",
+        "-r",
+        str(FPS),
+        "-i",
+        "-",
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        "-preset",
+        "medium",
+        "-crf",
+        "23",
+        "-movflags",
+        "+faststart",
+        str(video_path),
     ]
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    for img in all_frames:
+    assert proc.stdin is not None
+
+    for frame in range(total_frames):
+        t = frame / FPS
+        scene_index = next(
+            (i for i, scene in enumerate(scenes) if scene.start <= t < scene.end),
+            len(scenes) - 1,
+        )
+        img = create_card(scenes[scene_index], title, scene_index, len(scenes))
         proc.stdin.write(img.tobytes())
+
     proc.stdin.close()
     proc.wait()
+    if proc.returncode != 0:
+        raise RuntimeError("ffmpeg video encoding failed")
 
-    # 清理临时文件
-    import shutil
-    shutil.rmtree(tmp_dir, ignore_errors=True)
 
-    if proc.returncode == 0:
-        size_mb = out_path.stat().st_size / 1024 / 1024
-        print(f"✅ {out_path.relative_to(ROOT)} ({size_mb:.1f} MB)")
-        return True
-    else:
-        print(f"❌ ffmpeg 编码失败")
-        return False
+def add_silent_audio(video_path: Path, output_path: Path, duration: float) -> None:
+    cmd = [
+        "ffmpeg",
+        "-y",
+        "-i",
+        str(video_path),
+        "-f",
+        "lavfi",
+        "-t",
+        f"{duration:g}",
+        "-i",
+        "anullsrc=channel_layout=stereo:sample_rate=44100",
+        "-shortest",
+        "-c:v",
+        "copy",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "64k",
+        str(output_path),
+    ]
+    result = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    if result.returncode != 0:
+        raise RuntimeError("ffmpeg audio muxing failed")
 
-def main():
+
+def ensure_tools() -> None:
+    if shutil.which("ffmpeg") is None:
+        raise RuntimeError("需要先安装 ffmpeg，才能生成 mp4")
+
+
+def main() -> None:
     if len(sys.argv) < 2:
         print("用法: python3 scripts/gen-video.py <文章目录>")
         sys.exit(1)
 
-    slug = sys.argv[1]
-    post_dir = (ROOT / slug).resolve() if not slug.startswith('/') else Path(slug)
-    if not (post_dir / 'index.md').exists():
-        print(f"找不到文章: {post_dir}")
+    ensure_tools()
+
+    arg = Path(sys.argv[1])
+    post_dir = arg if arg.is_absolute() else (ROOT / arg)
+    post_dir = post_dir.resolve()
+    if not (post_dir / "index.md").exists():
+        print(f"找不到文章 index.md: {post_dir}")
         sys.exit(1)
 
-    out_path = post_dir / 'summary-video.mp4'
-    generate_video(out_path)
+    social_dir = post_dir / "social"
+    douyin_dir = social_dir / "douyin"
+    douyin_dir.mkdir(parents=True, exist_ok=True)
 
-if __name__ == '__main__':
+    script_path = douyin_dir / "douyin-script.md"
+    scenes = parse_script(script_path) or default_scenes(post_dir)
+
+    if not script_path.exists():
+        script_path.write_text(make_script_markdown(post_dir, scenes), encoding="utf-8")
+    (douyin_dir / "douyin-subtitles.srt").write_text(make_srt(scenes), encoding="utf-8")
+    upload_path = social_dir / "UPLOAD.md"
+    if not upload_path.exists():
+        upload_path.write_text(make_upload_markdown(post_dir), encoding="utf-8")
+
+    cover_path = douyin_dir / "douyin-cover.png"
+    video_path = douyin_dir / "douyin-summary-video.mp4"
+    audio_video_path = douyin_dir / "douyin-summary-video.with-audio.mp4"
+
+    print("生成封面...")
+    create_cover(post_dir, cover_path, scenes)
+    print("生成竖版视频...")
+    generate_video(video_path, scenes)
+    print("添加静音音轨...")
+    add_silent_audio(video_path, audio_video_path, scenes[-1].end)
+
+    for path in [cover_path, video_path, audio_video_path, script_path, douyin_dir / "douyin-subtitles.srt", upload_path]:
+        size = path.stat().st_size / 1024 / 1024
+        print(f"OK {path.relative_to(ROOT)} ({size:.2f} MB)")
+
+
+if __name__ == "__main__":
     main()
