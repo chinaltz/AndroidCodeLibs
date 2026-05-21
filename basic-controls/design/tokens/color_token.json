@@ -1,0 +1,119 @@
+{
+  "$schema": "https://basic-controls.local/schemas/color-token.schema.json",
+  "meta": {
+    "name": "Basic Controls Sky Planet Color Tokens",
+    "version": "0.1.0",
+    "source": "Migrated from BaseWidget and reskinned with the 技趣星球 blue-sky planet article style.",
+    "themeSwitching": "Swap this file, or swap a theme object under themes, to recolor/reskin the component library."
+  },
+  "themes": {
+    "sky_planet_day": {
+      "primitive": {
+        "sky": {
+          "50": "#F9FDFF",
+          "100": "#F4FBFF",
+          "150": "#E5F6FF",
+          "200": "#DDF4FF",
+          "300": "#C8EAFF",
+          "400": "#8BD5FF",
+          "500": "#31A8FF",
+          "600": "#1479D6"
+        },
+        "cloud": {
+          "white": "#FFFFFF",
+          "paper": "#FEFFFF",
+          "soft": "#F6FBFF",
+          "border": "#E4F5FF",
+          "mist": "#D8F0FF"
+        },
+        "sun": {
+          "300": "#FFE79A",
+          "400": "#FFD166",
+          "soft": "#FFF7D7"
+        },
+        "aurora": {
+          "400": "#70E5DE",
+          "500": "#43CFC7",
+          "600": "#16A9A1"
+        },
+        "coral": {
+          "400": "#FF8A95",
+          "500": "#FF6B7A",
+          "600": "#E24C5C"
+        },
+        "ink": {
+          "300": "#7895AE",
+          "400": "#365D82",
+          "500": "#173A62",
+          "600": "#0F2A49"
+        },
+        "neutral": {
+          "white": "#FFFFFF",
+          "black": "#000000",
+          "overlay": "#173A6259",
+          "transparent": "#00000000"
+        }
+      },
+      "semantic": {
+        "brand": {
+          "primary": "{primitive.sky.500}",
+          "primaryHover": "{primitive.sky.400}",
+          "primaryActive": "{primitive.sky.600}",
+          "primarySubtle": "{primitive.sky.150}"
+        },
+        "status": {
+          "success": "{primitive.aurora.500}",
+          "successHover": "{primitive.aurora.400}",
+          "successActive": "{primitive.aurora.600}",
+          "warning": "{primitive.sun.400}",
+          "warningHover": "{primitive.sun.300}",
+          "warningActive": "{primitive.sun.400}",
+          "danger": "{primitive.coral.500}",
+          "dangerHover": "{primitive.coral.400}",
+          "dangerActive": "{primitive.coral.600}"
+        },
+        "text": {
+          "primary": "{primitive.ink.500}",
+          "secondary": "{primitive.ink.400}",
+          "tertiary": "{primitive.ink.300}",
+          "inverse": "{primitive.neutral.white}",
+          "disabled": "{primitive.ink.300}",
+          "dialogTitle": "{primitive.ink.500}",
+          "dialogBody": "{primitive.ink.400}"
+        },
+        "background": {
+          "page": "{primitive.sky.200}",
+          "pageEnd": "{primitive.sky.50}",
+          "surface": "{primitive.cloud.paper}",
+          "surfaceRaised": "{primitive.cloud.white}",
+          "surfaceSubtle": "{primitive.cloud.soft}",
+          "surfaceDisabled": "{primitive.cloud.border}",
+          "menu": "{primitive.cloud.white}",
+          "modalScrim": "{primitive.neutral.overlay}"
+        },
+        "border": {
+          "default": "{primitive.sky.300}",
+          "light": "{primitive.cloud.border}",
+          "control": "{primitive.sky.300}",
+          "focus": "{primitive.sky.500}",
+          "warning": "{primitive.sun.400}",
+          "danger": "{primitive.coral.500}"
+        },
+        "control": {
+          "buttonDefaultBg": "{primitive.cloud.white}",
+          "buttonDefaultText": "{primitive.ink.500}",
+          "buttonPrimaryBg": "{primitive.sky.500}",
+          "buttonPrimaryText": "{primitive.neutral.white}",
+          "buttonRaisedShadow": "{primitive.sky.300}",
+          "checkboxBg": "{primitive.cloud.paper}",
+          "switchOffBg": "{primitive.cloud.border}",
+          "switchOnBg": "{primitive.sky.400}",
+          "selectHighlight": "{primitive.sky.150}",
+          "loadingStripeA": "{primitive.sky.400}",
+          "loadingStripeB": "{primitive.aurora.500}",
+          "loadingBorder": "{primitive.sky.300}"
+        }
+      }
+    }
+  }
+}

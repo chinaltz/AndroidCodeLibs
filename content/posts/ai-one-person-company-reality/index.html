@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 一人公司，不是让 AI 替你当老板</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">复制后 → 公众号后台正文区粘贴。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">AI 一人公司，不是让 AI 替你当老板</h1>
+<p style="margin:18px 0;"><img src="images/header.png" alt="头图：AI 一人公司冷静指南" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">一人公司冷静指南</p><p style="margin:4px 0;">关注 AI技趣星球，一起用技术创造乐趣。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">前两篇文章发出去后，已经有朋友开始问我：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">「AI 现在能写文案、画图、写代码，那网上说的 AI 一人公司，是不是已经可以做了？」</p><p style="margin:4px 0;">「一个人创建 IT 公司，让 AI 写写代码，然后产品自己跑起来，是不是快成现实了？」</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先交一盆冷水：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">可以，但很难。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难的不是让 AI 写几段代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难的是你要知道让它写什么、为什么这样写、写完怎么验收、出了问题怎么改。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一句话结论：AI 可以把一个人的能力放大，但不会自动把一个外行变成老板。想做 AI 一人公司，第一步不是幻想一步到位，而是补一点行业基础。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">上手难度：入门级 2/5   不需要马上写代码，但需要先看懂软件是怎么从想法变成产品的。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先说人话：AI 像员工，不像万能按钮</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把 AI 想成一个很能干的实习生。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它会写东西，会查资料，会写代码，会改图。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但它有一个前提：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">你得会派活。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你只说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我做一个有人愿意用的软件。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 大概率会给你一堆看起来很热闹、但落不了地的方案。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就像你跟装修师傅说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我装一个以后能升值的房子。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">师傅也会懵。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你至少要说清楚：谁住、几口人、预算多少、要不要书房、厨房多久做一次饭。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">做软件也是一样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 能帮你干活，但你得知道这件活怎么拆。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>各行各业都有知识壁垒</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">网上有个常见误会：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">「既然大家用的都是同一个 AI，我也能让它干专业人的活。」</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这句话只对了一半。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">大家可能用的是同一个模型，但每个人给 AI 的任务说明不一样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">专业的人会说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我把这个用户登录流程改成手机号验证码登录。
+要求：
+1. 验证码 60 秒内不能重复发送
+2. 登录失败超过 5 次需要限制
+3. 后端接口要返回明确错误码
+4. 前端要处理加载中、失败、验证码倒计时
+5. 补充基本测试用例</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不懂的人可能只会说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我做一个登录功能。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">两句话看起来差不多，结果差很多。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这不是谁更会念咒语。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是专业知识会变成更准确的提示词。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">老师问 AI，能把年级、课程、学生基础说清楚。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">店主问 AI，能把商品、客群、活动规则说清楚。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">程序员问 AI，能把页面、接口、数据库、测试说清楚。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以，AI 时代不是「专业没用了」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更像是：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">专业知识变成了调度 AI 的说明书。</strong></p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>软件不是一段代码，而是一条流水线</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我们拿软件行业举例。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为软件开发确实是最早被 AI 明显影响的行业之一。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但如果你不是程序员，想靠 AI 做一个能持续被人使用的软件，还是有难度。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">原因很简单：一个软件从无到有，不是只有「开发」这一步。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">大厂也好，几个人的小团队也好，大概都绕不开这几步。</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">阶段</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">人话解释</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">常见产物</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">通常谁负责</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">需求分析</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">先搞清楚到底要解决什么问题</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">需求分析文档</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">需求分析师 / 产品</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">产品原型</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">画出软件大概长什么样</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Axure / 墨刀原型图、流程图</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">产品经理</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">UI 设计</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">把草图变成好看的界面</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">设计稿、图标、配色</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">UI 设计师</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">开发实现</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">把设计变成能运行的软件</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">代码、接口、数据库</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">前端 / 后端 / 移动端</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">测试验收</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">找问题，确认能不能上线</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">测试用例、缺陷列表</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">测试工程师</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">上线运营</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">让用户能访问，持续改进</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">发布记录、用户反馈</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">运维 / 运营 / 产品</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人以为：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">想法 → AI 写代码 → 上线就有人用</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">真实情况更像：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">想法
+  → 需求讲清楚
+  → 页面画出来
+  → 功能拆成任务
+  → AI 写代码
+  → 人来检查
+  → 修 Bug
+  → 上线
+  → 找用户
+  → 继续改</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 可以帮你加速很多环节。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但它不能替你决定：这个东西有没有人需要。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>一人公司最难的，不是「一人」</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一人公司听起来很酷。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但它真正的意思不是「一个人什么都不用懂」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它更像是：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">一个人同时扮演产品、设计、开发、测试、运营和销售，再用 AI 把每个角色的体力活省下来。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不是躺在沙发上当老板。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你更像一个小导演。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 是摄影、灯光、剪辑、场务。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但剧本往哪走，镜头拍什么，最后能不能上映，还是你负责。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果做 IT 型产品，至少要补这几类基础：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你要懂一点什么</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">为什么重要</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">不用学到什么程度</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">需求表达</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">让 AI 知道做什么</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">能写清楚用户、场景、功能</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">产品流程</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">避免功能东一块西一块</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">能画简单流程图即可</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">基础技术词</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">看懂 AI 给你的方案</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">知道前端、后端、数据库、接口</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">测试意识</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">防止软件看着能用，实际一堆坑</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">会列常见使用场景</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">运营常识</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">软件没人用就很难持续</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">知道去哪找第一批用户</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些不是为了把你训练成程序员。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是让你能把 AI 产出的东西接住。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>一个现实例子：AI 角色团队</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">GitHub 上有个项目叫 <a href="https://github.com/msitarzewski/agency-agents" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">agency-agents</a>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它的思路很有意思：把 AI 设计成一组不同岗位的「虚拟同事」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如前端开发、后端架构、移动应用、产品、设计、营销、销售、测试等。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把它理解成一套 AI 角色库。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它更适合有一定基础的人参考。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">新手不用急着安装。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先看懂它的思路就够了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">当你要做软件时，不是只跟一个万能 AI 聊天，而是让不同角色分别处理不同问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">例如：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">你是产品经理。
+请帮我把「家庭记账 App」拆成 5 个最小可做功能。
+每个功能写清楚：
+1. 用户为什么需要
+2. 页面上要有什么
+3. 做到什么程度算完成
+4. 哪些功能先不要做</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">再换一个角色：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">你是测试工程师。
+请根据下面的记账 App 功能，列出 10 个最容易出错的场景。
+要求用普通人能看懂的话描述，不要写专业测试术语。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这类工具的价值，不是帮你自动开公司。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它真正提醒我们：做产品本来就需要很多角色，只是现在这些角色可以先用 AI 来模拟。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但你仍然要学会当那个调度的人。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>想试试？从一个超小软件开始</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你真的想体验 AI 做软件，别一上来就做平台。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要一开始就做：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">AI 记账社区</li>
+<li style="margin:4px 0;">本地生活服务平台</li>
+<li style="margin:4px 0;">在线教育系统</li>
+<li style="margin:4px 0;">企业管理系统</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些不是不能做。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是新手一上来做，很容易卡死。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">建议从一个「只解决自己一个小问题」的软件开始。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">小问题</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">可以做的小工具</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">上手难度</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">图片太多不好整理</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">批量重命名工具</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">入门级 2/5</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每周写日报烦</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">日报生成模板</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">零门槛 1/5</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">经常忘记续费</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">订阅提醒表</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">零门槛 1/5</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">家里开销记不住</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">极简记账页面</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">入门级 2/5</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">文件夹太乱</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">文件分类脚本</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">入门级 2/5</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你要练的不是「做出一个伟大产品」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你要先练三件事：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">把问题说清楚。</li>
+<li style="margin:6px 0;padding-left:2px;">把功能拆小。</li>
+<li style="margin:6px 0;padding-left:2px;">让 AI 交付后，你能检查。</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这三件事练会了，再谈后续发展才靠谱。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>给 AI 的第一条任务，不要让它直接写代码</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人第一步就问：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我写一个 App。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一步太急了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更好的问法是：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想做一个给自己用的小工具，主题是：[写你的想法]。
+
+请先不要写代码。
+请帮我做 4 件事：
+1. 判断这个想法适不适合新手做
+2. 把它拆成 3 个最小功能
+3. 写出每个功能的使用流程
+4. 告诉我哪些功能先不要做
+
+要求：
+- 用普通人能听懂的话
+- 不要使用太多专业术语
+- 最后给我一个「第一天可以完成」的版本</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">等 AI 帮你把需求拆清楚，再让它写页面、写代码、写测试。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就像做饭。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">别一上来就开火。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先看菜谱，备菜，确认锅够不够。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>边界提醒：AI 一人公司不是万能按钮</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里把冷水泼透一点。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第一，AI 写出的代码不等于能上线。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它可能能跑，但安全、性能、数据保存、异常处理都要检查。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第二，软件能用不等于有人长期使用。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多产品失败，不是技术差，而是没人需要。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第三，一个人做公司，最缺的不是代码，而是判断。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">判断用户要不要，判断功能做不做，判断问题先改哪一个。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">记住一条简单规则：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">AI 可以帮你省力，但不能替你负责。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">涉及商业功能、用户资料、重要文件、个人信息、健康相关、资金相关的事情，更要谨慎。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要把 AI 的回答当最终结论。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 4 件事：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">AI 一人公司可以做，但不是一步到位。</li>
+<li style="margin:4px 0;">专业知识会变成更好的提示词。</li>
+<li style="margin:4px 0;">软件从想法到上线，至少有需求、原型、设计、开发、测试、运营。</li>
+<li style="margin:4px 0;">新手先做一个小工具，别一上来做大平台。</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你想立刻开始，今天就做一个小动作：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">打开豆包、Kimi 或 DeepSeek，把下面这段复制进去。</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想用 AI 做一个小软件，但我是零基础。
+我的想法是：[写下你的想法]。
+
+请你不要直接写代码。
+先帮我判断：
+1. 这个想法适不适合新手
+2. 最小版本只保留哪 3 个功能
+3. 每个功能的使用流程是什么
+4. 我需要补哪些基础知识
+5. 第一天应该完成什么
+
+请用普通人能听懂的话回答。
+如果我的想法太大，请直接帮我砍小。</code></pre>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/5/21 21:59:26</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+async function copyArticle() {
+  selectArticle();
+  try {
+    const el = document.getElementById('article');
+    const html = el.innerHTML;
+    const text = el.innerText;
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      document.execCommand('copy');
+    }
+    alert('✅ 已复制！请到微信公众号后台 → 正文编辑区 → Cmd+V 粘贴');
+  } catch (e) {
+    try {
+      document.execCommand('copy');
+      alert('✅ 已复制（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>
