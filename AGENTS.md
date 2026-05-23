@@ -13,7 +13,7 @@
 | `progress.html` | HTML 进度看板，浏览器打开即可查看文章计划与进度 |
 | `README.md` | 博客简介 |
 | `content-plan.md` | 详细文章计划（含难度评级） |
-| `content/posts/[slug]/` | 每篇文章独立文件夹，含 `index.md` + `images/` |
+| `content/posts/[NN-slug]/` | 每篇文章独立文件夹，含 `index.md` + `images/`；新文章默认两位序号前缀 |
 | `CONTEXT.md` | MD ↔ SKILL 同步索引（改 plan/发布相关须同步） |
 | `plan/` | 平台清单、发布方案、注册追踪 HTML |
 | `.Codex/skills/` | 全部 Agent Skills（含发布平台、同步上下文） |
@@ -26,11 +26,11 @@
 
 ## 内容目录结构
 
-每篇文章使用独立文件夹，文章正文和图片资源隔离：
+每篇文章使用带序号前缀的独立文件夹，文章正文和图片资源隔离：
 
 ```
 content/posts/
-└── [文章slug]/
+└── [NN-文章slug]/
     ├── index.md        # 文章正文
     └── images/         # 该文章专属图片
         ├── header.png
@@ -38,11 +38,13 @@ content/posts/
         └── ...
 ```
 
+新文章目录默认使用两位序号前缀，例如 `03-ai-one-person-company-reality`。序号按内容计划/发布时间顺序递增；历史未编号目录不主动重命名，除非用户明确要求。
+
 文章内图片引用路径：`./images/xxx.png`
 
 ## 发布前图片上传
 
-定稿后执行 `npm run publish:post -- content/posts/[slug]`，生成 `index.published.md`（公网图链）。  
+定稿后执行 `npm run publish:post -- content/posts/[NN-slug]`，生成 `index.published.md`（公网图链）。  
 配置：`image-upload.config.json`（见 `image-upload.config.example.json`）。  
 文档：`docs/图片上传与多平台发布.md`
 
@@ -58,12 +60,12 @@ content/posts/
 
 **示例**：
 ```bash
-npm run convert content/posts/ai-for-ordinary-people
+npm run convert content/posts/01-ai-for-ordinary-people
 ```
 
 执行后输出到文章目录下：
 ```
-content/posts/[slug]/
+content/posts/[NN-slug]/
 ├── index.md          # 原始 Markdown
 ├── index.html        # 公众号预览 HTML（带一键复制按钮）
 ├── [文章标题].docx    # Word 文档（图片已嵌入）

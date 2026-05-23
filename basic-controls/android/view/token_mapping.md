@@ -124,8 +124,8 @@ Use this for Button, Input, Card, Select trigger, and Dialog panels.
 
 - Extends `AppCompatTextView` or `FrameLayout`.
 - Uses `StateListDrawable` for enabled / pressed / disabled states.
-- Primary: `control.buttonPrimaryBg`, white text, pill radius.
-- Default: `control.buttonDefaultBg`, `border.control`, `text.primary`.
+- Primary: `control.button.primaryBackground`, white text, pill radius.
+- Default: `control.button.defaultBackground`, `border.control`, `text.primary`.
 - Pressed state: reduce translationY or shadow offset.
 
 ### BasicInputView

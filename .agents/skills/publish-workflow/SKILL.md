@@ -77,8 +77,9 @@ argument-hint: "[文章主题]"
 - 生成「掘金版」：含技术标签、封面图
 - 生成「个人博客版」：纯 Markdown，适合静态站点
 - 按需生成第二梯队适配提示：简书/头条/百家号/思否/博客园/小红书/网易号/抖音/快手
-- 将最终文章写入 `content/posts/[slug]/index.md`
-- **发布就绪**：配图齐、审完后执行 `npm run publish:post -- content/posts/[slug]`（上传图 → `index.published.md` → HTML/DOCX）
+- 将最终文章写入 `content/posts/[NN-slug]/index.md`
+- **目录命名规则**：新文章目录默认加两位序号前缀，例如 `01-ai-for-ordinary-people`、`02-ai-terms-plain-language`、`03-ai-one-person-company-reality`。序号按内容计划/发布时间顺序递增；历史文章未编号时，不主动重命名旧目录，除非用户明确要求。
+- **发布就绪**：配图齐、审完后执行 `npm run publish:post -- content/posts/[NN-slug]`（上传图 → `index.published.md` → HTML/DOCX）
 - **多平台同步**：推荐使用 Wechatsync 插件（见下方「多平台发布方案」）
 
 ### ⑧⁺ 图片上传 + 一键导出
@@ -87,8 +88,8 @@ argument-hint: "[文章主题]"
 
 ```bash
 cp image-upload.config.example.json image-upload.config.json
-npm run upload:images -- content/posts/[slug] --dry-run   # 预览替换结果
-npm run publish:post -- content/posts/[slug]              # 正式上传并导出
+npm run upload:images -- content/posts/[NN-slug] --dry-run   # 预览替换结果
+npm run publish:post -- content/posts/[NN-slug]              # 正式上传并导出
 ```
 
 | 产出 | 用途 |
@@ -98,7 +99,7 @@ npm run publish:post -- content/posts/[slug]              # 正式上传并导�
 | `<标题>.docx` | Word 嵌入本地图，存档用 |
 | `images/upload-manifest.json` | 本地↔远程映射，避免重复上传 |
 
-仅本地预览：`npm run convert -- content/posts/[slug]`  
+仅本地预览：`npm run convert -- content/posts/[NN-slug]`  
 方案对比：`docs/图片上传与多平台发布.md`  
 少图省时：`docs/少图多平台发布策略.md`（公众号正文可无图，仅传封面）
 
@@ -116,7 +117,7 @@ npm run publish:post -- content/posts/[slug]              # 正式上传并导�
 
 ### 方案 A：手动 HTML 复制（公众号首选）
 
-1. 用浏览器打开 `content/posts/[slug]/index.html`
+1. 用浏览器打开 `content/posts/[NN-slug]/index.html`
 2. 点击顶部 **「一键复制正文」**
 3. 到微信公众号后台 → 正文编辑区 → 粘贴
 4. **图片需在公众号后台逐张上传**（本地路径公众号无法读取）

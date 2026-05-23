@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="basic_controls_library_name">Basic Controls</string>
+    <declare-styleable name="BasicView">
+        
+        <attr format="string" name="basicVariant"/>
+        
+        <attr format="string" name="basicText"/>
+        
+        <attr format="string" name="basicTitle"/>
+        
+        <attr format="string" name="basicMessage"/>
+        
+        <attr format="boolean" name="basicSelected"/>
+        
+        <attr format="boolean" name="basicDisabled"/>
+    </declare-styleable>
+</resources>

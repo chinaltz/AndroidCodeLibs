@@ -300,17 +300,22 @@ labeled 'Before → After', --ar 16:9 --v 6
 
 ## 图片存放规范（重要）
 
-每篇文章使用独立文件夹，资源隔离：
+每篇文章使用带序号前缀的独立文件夹，资源隔离：
 
 ```
 content/posts/
-└── [文章slug]/          # 文章独立文件夹，slug = 文章URL标识
+└── [NN-slug]/           # 文章独立文件夹，NN=两位序号，slug=文章URL标识
     ├── index.md         # 文章正文
     └── images/          # 该文章专属图片目录
         ├── header.png
         ├── scene1-xxx.png
         └── ...
 ```
+
+目录命名规则：
+- 新文章默认使用 `NN-slug`，例如 `03-ai-one-person-company-reality`
+- `NN` 按内容计划/发布时间顺序递增，使用两位数字
+- 历史文章如果没有编号，不主动重命名；只有用户明确要求时再迁移旧目录和引用
 
 ### 文件命名规范
 
@@ -336,12 +341,12 @@ content/posts/
 每处配图方案必须包含存放路径提示：
 
 ```
-📁 保存路径：content/posts/[文章slug]/images/[文件名].png
+📁 保存路径：content/posts/[NN-文章slug]/images/[文件名].png
 ```
 
 例如：
 ```
-📁 保存路径：content/posts/ai-for-ordinary-people/images/scene2-webpage.png
+📁 保存路径：content/posts/01-ai-for-ordinary-people/images/scene2-webpage.png
 ```
 
 ### 已有图片的处理原则

@@ -1,0 +1,64 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.techfun.basiccontrols.samples-debug-5:/values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/packaged_res/debug/packageDebugResources/values/values.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,126",
+                        "endLines": "2,16",
+                        "endColumns": "70,24",
+                        "endOffsets": "121,552"
+                    },
+                    "to": {
+                        "startLines": "3,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "115,538",
+                        "endLines": "3,23",
+                        "endColumns": "70,24",
+                        "endOffsets": "181,964"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "363"
+                    },
+                    "to": {
+                        "startLines": "4",
+                        "startColumns": "4",
+                        "startOffsets": "186",
+                        "endLines": "9",
+                        "endColumns": "12",
+                        "endOffsets": "533"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "59",
+                        "endOffsets": "71"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "59",
+                        "endOffsets": "110"
+                    }
+                }
+            ]
+        }
+    ]
+}

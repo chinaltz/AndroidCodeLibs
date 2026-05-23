@@ -1,0 +1,44 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.techfun.basiccontrols.samples"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+9        android:targetSdkVersion="35" />
+10
+11    <application
+11-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:3:5-18:19
+12        android:allowBackup="false"
+12-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:4:9-36
+13        android:debuggable="true"
+14        android:extractNativeLibs="false"
+15        android:label="@string/app_name"
+15-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:5:9-41
+16        android:resizeableActivity="true"
+16-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:6:9-42
+17        android:supportsRtl="true"
+17-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:7:9-35
+18        android:theme="@style/Theme.BasicControlsSamples" >
+18-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:8:9-58
+19        <activity
+19-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:9:9-17:20
+20            android:name="com.techfun.basiccontrols.samples.MainActivity"
+20-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:10:13-41
+21            android:exported="true" >
+21-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:11:13-36
+22            <intent-filter>
+22-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:12:13-16:29
+23                <action android:name="android.intent.action.MAIN" />
+23-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:13:17-69
+23-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:13:25-66
+24
+25                <category android:name="android.intent.category.LAUNCHER" />
+25-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:15:17-77
+25-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:15:27-74
+26            </intent-filter>
+27        </activity>
+28    </application>
+29
+30</manifest>

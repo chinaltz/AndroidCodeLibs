@@ -1,0 +1,10 @@
+R_DEF: Internal format may change without notice
+local
+attr? basicDisabled
+attr? basicMessage
+attr? basicSelected
+attr? basicText
+attr? basicTitle
+attr? basicVariant
+string basic_controls_library_name
+styleable BasicView basicVariant basicText basicTitle basicMessage basicSelected basicDisabled

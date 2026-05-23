@@ -1,0 +1,56 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:1:1-20:12
+INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:1:1-20:12
+INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:1:1-20:12
+INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:1:1-20:12
+MERGED from [:basiccontrols] /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:2:1-7:12
+	package
+		INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:1:11-69
+application
+ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:3:5-18:19
+INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:3:5-18:19
+	android:extractNativeLibs
+		INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml
+	android:supportsRtl
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:7:9-35
+	android:label
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:5:9-41
+	android:resizeableActivity
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:6:9-42
+	android:allowBackup
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:4:9-36
+	android:theme
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:8:9-58
+activity#com.techfun.basiccontrols.samples.MainActivity
+ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:9:9-17:20
+	android:exported
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:11:13-36
+	android:name
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:10:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:12:13-16:29
+action#android.intent.action.MAIN
+ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:13:17-69
+	android:name
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:13:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:15:17-77
+	android:name
+		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:15:27-74
+uses-sdk
+INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml
+INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml
+MERGED from [:basiccontrols] /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+MERGED from [:basiccontrols] /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/merged_manifest/debug/processDebugManifest/AndroidManifest.xml:5:5-44
+	android:targetSdkVersion
+		INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml

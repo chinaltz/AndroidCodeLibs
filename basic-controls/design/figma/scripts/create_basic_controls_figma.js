@@ -406,7 +406,7 @@ function addTokenBoards(page) {
 
   const sizeCard = auto('Size Tokens', 'VERTICAL', { p: 16, gap: 10, fill: C.sand50, radius: 18, stroke: C.sand300 });
   append(sizeCard, text('Card Title', 'Control Heights', 16, C.wood700, 'Bold'));
-  [['sm 32', 32], ['md 40', 40], ['buttonMd 45', 45], ['lg 48', 48]].forEach(([name, h]) => {
+  [['sm 32', 32], ['md 40', 40], ['buttonMedium 45', 45], ['lg 48', 48]].forEach(([name, h]) => {
     const sample = rect('height/' + name, 150, h, C.sunSoft, 50, C.sun500, 2);
     append(sizeCard, sample);
   });

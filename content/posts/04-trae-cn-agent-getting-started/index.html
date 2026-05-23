@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trae CN 目前免费：普通人 10 分钟做出网页</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">复制后 → 公众号后台正文区粘贴。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">Trae CN 目前免费：普通人 10 分钟做出网页</h1>
+<p style="margin:18px 0;"><img src="images/header.png" alt="头图：Trae CN 入门指南" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">零成本 · 跟着做就能出页面</p><p style="margin:4px 0;">关注 AI技趣星球，一起用技术创造乐趣。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">前面几篇，我们已经聊过 <a href="../ai-for-ordinary-people/index.md" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">AI 能做什么</a>，也把 <a href="../ai-terms-plain-language/index.md" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">大模型、提示词、Agent 这些名词</a> 翻成了人话。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但很多朋友看到这里，还是会卡在一个问题：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">「我知道 Agent 是会自己干活的 AI 了，可我到底该打开哪个软件试？」</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天就从一个免费、中文友好、适合新手体验的工具开始：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Trae CN</strong>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一句话结论：Trae CN 可以理解成一个带 AI 助手的编程软件。目前国内个人版可以免费用，海外版已经有付费订阅。对普通人来说，它是接触 Agent IDE 最省事的第一站。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">上手难度：⭐⭐   需要安装一个软件，跟着提示词试一次，大概 10 到 20 分钟能跑完。</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">先说清楚：</p><p style="margin:4px 0;">价格和权益可能会变。本文写作时，Trae CN 个人版显示免费，企业版收费；海外版已有 Pro 等付费订阅。你实际使用前，以官网页面为准。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">下面文章里的几张图，都是按本文 Prompt 实际操作出来的截图。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以先快速扫一眼：先看 Trae 怎么理解需求，再看第一次生成的页面，最后看继续美化后的效果。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先说人话：Trae CN 像一个会写代码的装修队</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你想做一个小网页，传统流程大概是这样：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">学 HTML
+  → 学 CSS
+  → 学 JavaScript
+  → 装开发工具
+  → 自己写代码
+  → 出错了自己查</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这对普通人不太友好。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Trae CN 的感觉更像是：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">你说清楚想要什么
+  → AI 帮你拆任务
+  → AI 写代码
+  → AI 修改文件
+  → 你看效果
+  → 不满意继续提要求</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把它想成一个会写代码的装修队。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不需要自己会砌墙、铺地板、接电线。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但你要说清楚：房间做什么用、想要什么风格、哪些东西必须有。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">做网页也是一样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不是在背代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你是在练习把需求说清楚。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Trae CN 是什么？和普通聊天 AI 有什么区别</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Trae CN 是一个 AI 编程工具，也可以叫 AI IDE。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">IDE 这个词不用怕。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以先理解成「写代码用的软件」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">普通聊天 AI 像微信里的朋友。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你问它一句，它回你一段。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但 Trae CN 更进一步。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它可以直接看到你的项目文件，帮你创建文件、改代码、解释报错。</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你要做的事</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">普通聊天 AI</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">Trae CN</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">生成一段代码</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">可以</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">可以</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">直接创建网页文件</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">不方便</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">可以</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">根据项目继续修改</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">需要你复制粘贴</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">更顺手</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">运行后看哪里报错</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">你要把报错贴给它</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">可以围绕项目继续处理</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以它更接近我们前面说的 Agent：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">你给目标，它自己分几步去完成。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">当然，别把它想成万能按钮。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">现在最适合新手用它做的，是小网页、小工具、学习项目、代码练习。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">真正复杂的商业系统，还是需要懂产品、测试和发布。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>为什么值得试 Trae CN？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Trae CN 背后是字节跳动——就是抖音、剪映、飞书那家公司。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它一向擅长做「普通人也能打开就用」的产品。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Trae CN 可以理解为同一条路：把偏专业的写代码，变成你和 AI 助手一起协作。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">对我们这个系列来说，重点就一件事：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">今天能不能打开软件，做出一点看得见的东西。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更现实一点说，它适合当你的第一把钥匙。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为后面还有更进阶的工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如 Claude Code、一些命令行 Agent、MCP 工具链。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些工具很强，但新手第一次用会遇到很多前置步骤：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">安装 Node.js
+  → 配终端环境
+  → 配命令行工具
+  → 配账号和 Key
+  → 处理报错</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你一上来就卡在这些地方，很容易还没体验到 AI 的威力，就先被安装过程劝退。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Trae CN 的好处是：先把 Agent IDE 装起来。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">等你以后想用 Claude Code 这类进阶工具，也可以让 Trae 帮你一步步检查环境、解释报错、生成安装命令。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以我的建议很简单：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">先装一个 Trae CN，先做出一个小东西。</p><p style="margin:4px 0;">不要一开始就把自己扔进复杂工具链里。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">可以先这样理解这条路线：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">阶段</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合工具</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你要做什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">第一次体验 Agent IDE</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Trae CN</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">安装软件，写 Prompt，生成一个小页面</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">进一步做真实项目</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Trae CN + 项目文件</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">让 AI 帮你改页面、解释报错、整理代码</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">更进阶的自动化开发</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Claude Code 等命令行工具</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">需要装环境、配命令行、理解更多开发概念</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以本文不是说 Trae CN 是唯一选择。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是说：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">如果你刚开始接触 Agent IDE，它目前是最适合先上手的一种方式。</strong></p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第一步：安装和打开 Trae CN</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">打开官网下载：<a href="https://www.trae.cn/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">https://www.trae.cn/</a></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更详细的安装说明可以看官方文档：<a href="https://www.volcengine.com/docs/86677/2227856" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">快速入门</a></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">安装过程和普通软件差不多。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">大致就是：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">打开官网
+  → 下载 Trae CN
+  → 安装
+  → 用手机号登录账号
+  → 新建或打开一个文件夹</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">建议你第一次不要打开一堆旧项目。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">新建一个空文件夹就行。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如叫：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">my-first-trae-page</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这样 AI 改什么文件，你一眼就能看明白。</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">新手规则：第一次只做一个小页面，不要一上来做 App、商城、后台系统。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第二步：先用对话区讲清楚需求</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">打开 Trae CN 后，你会看到 AI 对话区域（有的版本入口叫「对话」或 Chat，都是同一个意思）。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以先不要急着让它写代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先让它帮你确认需求。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以复制这段：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想用 Trae CN 做一个非常简单的前端网页。
+
+目标：
+做一个「学生错题复盘小工具」页面。
+
+读者：
+给初中生、高中生或家长看，打开后能快速整理今天做错的题目，并得到复盘建议。
+
+页面需要包含：
+1. 顶部标题和一句简介
+2. 一个学科选择区域：语文、数学、英语
+3. 一个错题原因选择区域：概念没懂、粗心看错、步骤漏写、时间不够
+4. 一个输入框：写下这道错题的简短描述
+5. 一个「生成复盘建议」按钮
+6. 页面底部显示复盘建议，包括：今天要补什么、明天怎么练、下次考试前提醒
+
+风格：
+清爽、明亮、适合手机浏览。
+颜色用浅蓝、白色和一点黄色点缀，整体像一个轻量学习工具，不要做成幼儿风。
+
+请先帮我整理页面结构，不要急着写代码。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一步很重要。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为很多人用 AI 写代码，一上来就说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我做个网页。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这太模糊。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 不知道你要做给谁看，也不知道页面上该有什么。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先让它整理结构，相当于先画草图。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我按上面那段 Prompt 发出去后，Trae CN 会先给出页面结构规划（还不会立刻写代码）。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这是第一张真实操作截图：</p>
+<p style="margin:18px 0;"><img src="images/trae-process-chat.png" alt="在 Trae CN 对话区整理页面结构" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你能看到：它没有直接莽着写代码，而是先把需求拆成「顶部 / 表单 / 按钮 / 结果区」，还附带了一个线框图。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">确认结构没问题，再进入下一步写代码。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第三步：再让 Trae CN 生成页面</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">等它把结构说清楚后，你再发第二段：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">现在请根据上面的结构，帮我生成一个可直接打开的前端页面。
+
+要求：
+1. 使用 HTML、CSS、JavaScript 写在同一个 index.html 文件里
+2. 页面适配手机和电脑
+3. 学科和错题原因可以点击选择，并有选中状态
+4. 点击「生成复盘建议」按钮后，在页面底部根据选择内容显示建议
+5. 代码要尽量简单，适合新手看懂
+
+请直接创建或修改项目里的 index.html 文件。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这段提示词里有几个关键点：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">写法</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">为什么有用</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">同一个 index.html 文件</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">新手最容易打开</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">适配手机和电脑</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">避免只在电脑上好看</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">点击按钮后显示结果</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">让页面不只是静态海报</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">适合新手看懂</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">让 AI 少写复杂代码</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">生成完成后，你可以在文件列表里找到 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">index.html</code>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果 Trae CN 提供预览或运行按钮，就直接点。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果没有，也可以在电脑上用浏览器打开这个 HTML 文件。</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">不同版本的 Trae CN，界面上的入口名字可能略有差别（比如叫「对话」「Chat」「智能体」）。不用纠结名字，流程一样：先聊清楚结构，再让它写 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">index.html</code>。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第一次生成：能用了，但还可以更好看</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">按第二段 Prompt 生成并打开 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">index.html</code> 后，<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第一次</strong>效果通常是这样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">功能已经齐全，但样式还比较朴素：</p>
+<p style="margin:18px 0;"><img src="images/trae-page-first.png" alt="第一次生成的前端页面：学生错题复盘小工具" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">页面上已经有：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">顶部标题和简介</li>
+<li style="margin:4px 0;">学科选择（语文、数学、英语）</li>
+<li style="margin:4px 0;">错题原因选择</li>
+<li style="margin:4px 0;">错题描述输入框</li>
+<li style="margin:4px 0;">点击「生成复盘建议」后的底部建议</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">到这一步，说明 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Agent 流程已经跑通</strong>：你说需求，它改文件，浏览器能打开。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">别急着追求完美。先确认能点、能出结果，再像改稿一样慢慢美化。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>不满意怎么办？继续像改稿一样改</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一次生成的页面，不一定完美。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这很正常。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不要急着重开。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">直接让 Trae CN 修改。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请继续修改这个页面：
+
+1. 顶部标题太普通，请改得更像一个学习效率工具
+2. 学科按钮和错题原因按钮之间的间距再大一点
+3. 按钮颜色改成更明显的蓝色
+4. 手机屏幕下按钮自动换行，不要挤在一行
+5. 页面底部增加一句「复盘建议仅供学习参考，真正掌握还需要自己重新做一遍」
+
+只修改现有 index.html，不要新建其他文件。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">还想再好看一点？可以再发一段，专门要「视觉效果」：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请继续美化这个页面，让整体更美观、更像学习工具：
+
+1. 学科和错题原因选项增加图标或 emoji，选中状态更明显
+2. 按钮和卡片用清爽渐变，层次更清楚
+3. 生成复盘建议按钮更醒目
+4. 保持适合手机浏览，不要加复杂动画
+5. 页面底部保留「复盘建议仅供学习参考」的提醒
+
+只修改现有 index.html，不要新建其他文件。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我按上面两段改稿 Prompt 迭代后，页面会变成这样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你会发现：图标、渐变、选中态都更清晰，已经有点像一个轻量学习工具了。</p>
+<p style="margin:18px 0;"><img src="images/trae-page-improved.png" alt="改稿美化后的前端页面效果" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你看，这就像让同事改稿。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一次先出初稿（能用的页面）。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第二次改布局、间距、颜色。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第三次专门要「更好看」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 写代码并不神秘。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它只是把「改稿」这件事，扩展到了网页和软件里。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一句话：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">你说一段需求，真的能变成一个能打开的页面；不满意就继续说一句。</strong></p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>新手最容易踩的 4 个坑</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第一，目标太大。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要一上来做「小红书同款 App」「完整电商网站」「自动赚钱系统」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先做一页网页。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第二，需求太虚。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">「高级一点」「好看一点」「像大厂一样」都不够清楚。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你最好说：颜色、内容、按钮、布局、适合手机还是电脑。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第三，不看效果就继续加功能。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">每生成一次，先打开看。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">看完再改。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第四，把 AI 当成不会出错的专家。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 可能写出看似能用、实际有问题的代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以新手练习项目没问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">涉及钱、账号、隐私数据，就要格外谨慎。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">错题复盘这种页面如果以后要「保存记录」，也别一上来就让 AI 接真实学生姓名、学校等隐私信息。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>一个更稳的 Prompt 模板</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">以后你想让 Trae CN 做小页面，可以套这个模板：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想做一个【页面主题】。
+
+目标读者：
+【谁会打开这个页面】
+
+页面目的：
+【打开后希望他做什么】
+
+页面内容：
+1. 【模块一】
+2. 【模块二】
+3. 【模块三】
+
+交互：
+【有没有按钮、筛选、输入框、点击效果】
+
+风格：
+【清爽 / 专业 / 可爱 / 科技感 / 适合手机】
+
+技术要求：
+请用 HTML、CSS、JavaScript 写成一个 index.html。
+代码尽量简单，适合新手看懂。
+请直接创建或修改当前项目文件。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不需要把技术词背得很熟。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先把方括号里的内容换成自己的需求。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就够你开始了。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 5 件事：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">Trae CN 是一个 AI 编程工具，适合体验入门级 Agent IDE。</li>
+<li style="margin:4px 0;">目前 Trae CN 国内个人版可以免费体验，海外版已有付费订阅。</li>
+<li style="margin:4px 0;">它和普通聊天 AI 的区别，是能围绕项目文件帮你做事。</li>
+<li style="margin:4px 0;">第一次练习不要贪大，做一个 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">index.html</code> 小网页最稳。</li>
+<li style="margin:4px 0;">Prompt 要写清楚目标读者、页面内容、交互和风格。</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">下一步你可以直接照着本文的 Prompt，在 Trae CN 里生成「学生错题复盘小工具」页面。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果生成出来不好看，不要觉得失败。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">继续发一句：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请根据当前页面继续改进，让它更适合手机阅读，视觉更清爽，按钮更明显，但不要增加复杂功能。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就是普通人接触 Agent 最好的方式：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不用先学一堆术语。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先让它帮你做出一个看得见的小东西。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">等这个小东西跑通了，再去研究 Claude Code、命令行工具、自动化工作流，就不会那么慌。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">先装一个 Trae CN，开启你的 AI Agent IDE 之旅。</strong></p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/5/23 09:54:24</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+async function copyArticle() {
+  selectArticle();
+  try {
+    const el = document.getElementById('article');
+    const html = el.innerHTML;
+    const text = el.innerText;
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      document.execCommand('copy');
+    }
+    alert('✅ 已复制！请到微信公众号后台 → 正文编辑区 → Cmd+V 粘贴');
+  } catch (e) {
+    try {
+      document.execCommand('copy');
+      alert('✅ 已复制（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

@@ -24,6 +24,8 @@
 │   ├── 03_技趣星球_博客介绍.md
 │   ├── 平台注册进度追踪.html
 │   └── 头像图标.html
+├── content/posts/
+│   └── NN-slug/                         ← 新文章默认两位序号前缀
 └── .agents/skills/                     ← 全部 Skills（含星球文章风格）
     ├── draft-post / improve-style / …
     ├── publish-workflow
@@ -31,6 +33,8 @@
     ├── star-article-style
     └── sync-context
 ```
+
+文章目录命名：新文章默认 `NN-slug`，如 `03-ai-one-person-company-reality`。`NN` 按内容计划/发布时间顺序递增；历史未编号目录不主动重命名。
 
 ## 当前状态快照（2026-05-20）
 

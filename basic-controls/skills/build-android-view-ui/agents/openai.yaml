@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build Android View UI"
+  short_description: "Token-driven Java Android View UI libraries."
+  default_prompt: "Use $build-android-view-ui to build or extend a Java Android View component library driven by color_token.json and style_token.json, with matching Samples and Figma-ready tokens."

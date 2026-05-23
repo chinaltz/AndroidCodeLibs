@@ -6,7 +6,7 @@ Create a reusable Android native View basic component system for 技趣星球.
 
 The first engineering target is Java + XML + classic Android View. Compose is intentionally not part of the first implementation pass.
 
-The design language is `Sky Planet`: bright blue sky, white cloud surfaces, soft light-blue borders, rounded controls, clean reading density, and a friendly optimistic mood.
+The design language is `Sky Planet Island`: bright blue sky, white cloud surfaces, soft light-blue borders, rounded controls, and a friendly game-like mood. Component shape and interaction can reference `animal-island-ui`, but colors must come from the Sky Planet token set instead of the original warm parchment / brown palette.
 
 This replaces the old Animal Island skin while keeping the original BaseWidget token architecture.
 
@@ -34,10 +34,31 @@ Components must only reference semantic token keys.
 - Page background: sky blue to near-white gradient with soft cloud shapes.
 - Surfaces: white or cloud white.
 - Borders: light blue, usually 2px for outer card/control borders and 1px for table or internal lines.
-- Shadows: soft sky shadows, avoid heavy dark shadows.
+- Shadows: use game-like bottom lift shadows for clickable controls, mapped to sky/cloud tokens. Avoid heavy dark elevation shadows.
 - Main action: sky blue button with white text.
 - Highlights: sunshine yellow underline or small chip only.
-- Avoid: purple gradients, dark sci-fi panels, beige/brown island palette, complex game-like decoration.
+- Shapes: prefer pill buttons and inputs, organic rounded cards/dialogs, and soft illustrated dividers.
+- Interaction: clickable elements can lift 1dp on hover/focus and press down 2dp on active state.
+- Avoid: purple gradients, dark sci-fi panels, beige/brown island palette, direct Nintendo/Animal Crossing assets, complex game-like decoration.
+
+## Style Reference Mapping
+
+Reference sources:
+
+- `animal-island-ui` online demo and GitHub repository.
+- Useful transferable traits: pill controls, 3D bottom shadow, organic card/modal silhouettes, rounded friendly typography, illustrated dividers, playful but readable component density.
+- Non-transferable traits: original brown text palette, parchment backgrounds, Nintendo-like assets, proprietary visual motifs.
+
+Sky Planet mapping:
+
+| animal-island-ui trait | Basic Controls mapping |
+|------------------------|------------------------|
+| Warm parchment surfaces | `background.surface`, `background.surfaceRaised`, `background.surfaceSubtle` cloud tokens |
+| Brown borders/text | `border.control`, `text.primary`, `text.secondary` blue-ink tokens |
+| Mint teal primary | `brand.primary` sky blue token |
+| Yellow focus | `status.warning` / sunshine token only for focus accents |
+| Bottom game shadow | `shadow.surfaceCloudLift`, `shadow.buttonRaisedRest`, `shadow.controlPressed` |
+| Organic modal/card shape | `radius.cardOrganic`, `radius.dialogOrganic`, Android fallback with large rounded `GradientDrawable` |
 
 ## Components
 
@@ -159,11 +180,11 @@ Reference coverage: `Digital Channel Product Line Component` includes a broad pr
 
 ## Figma Variable Naming
 
-- Color primitive: `color/primitive/sky/500`
+- Color primitive: `color/primitive/sky/brandPrimary`
 - Color semantic: `color/semantic/brand/primary`
 - Space: `space/4`
 - Radius: `radius/pill`
-- Size: `size/control-height/md`
+- Size: `size/control-height/buttonMedium`
 - Font size: `font/size/md`
 - Border width: `border/width/default`
 - Motion: `motion/duration/base`

@@ -1,0 +1,86 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.techfun.basiccontrols-release-3:/values/values.xml",
+            "map": [
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "70",
+                        "endOffsets": "82"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "70",
+                        "endOffsets": "121"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/main/res/values/attrs.xml",
+                    "from": {
+                        "startLines": "5",
+                        "startColumns": "4",
+                        "startOffsets": "108",
+                        "endLines": "18",
+                        "endColumns": "24",
+                        "endOffsets": "788"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "126",
+                        "endLines": "16",
+                        "endColumns": "24",
+                        "endOffsets": "552"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "com.techfun.basiccontrols-mergeReleaseResources-1:/values/values.xml",
+            "map": [
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "70",
+                        "endOffsets": "82"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "70",
+                        "endOffsets": "121"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/main/res/values/attrs.xml",
+                    "from": {
+                        "startLines": "5",
+                        "startColumns": "4",
+                        "startOffsets": "108",
+                        "endLines": "18",
+                        "endColumns": "24",
+                        "endOffsets": "788"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "126",
+                        "endLines": "16",
+                        "endColumns": "24",
+                        "endOffsets": "552"
+                    }
+                }
+            ]
+        }
+    ]
+}
