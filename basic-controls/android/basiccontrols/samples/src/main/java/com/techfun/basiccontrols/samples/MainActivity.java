@@ -21,19 +21,28 @@ import com.techfun.basiccontrols.widget.BasicButton;
 import com.techfun.basiccontrols.widget.BasicCardView;
 import com.techfun.basiccontrols.widget.BasicCheckboxView;
 import com.techfun.basiccontrols.widget.BasicChipView;
+import com.techfun.basiccontrols.widget.BasicCodeBlockView;
+import com.techfun.basiccontrols.widget.BasicCollapseView;
+import com.techfun.basiccontrols.widget.BasicDividerView;
 import com.techfun.basiccontrols.widget.BasicEmptyView;
 import com.techfun.basiccontrols.widget.BasicInputView;
 import com.techfun.basiccontrols.widget.BasicListItemView;
 import com.techfun.basiccontrols.widget.BasicLoadingDialog;
 import com.techfun.basiccontrols.widget.BasicLoadingView;
+import com.techfun.basiccontrols.widget.BasicModalDialog;
 import com.techfun.basiccontrols.widget.BasicRefreshLayout;
 import com.techfun.basiccontrols.widget.BasicProgressView;
 import com.techfun.basiccontrols.widget.BasicRadioView;
+import com.techfun.basiccontrols.widget.BasicSelectView;
 import com.techfun.basiccontrols.widget.BasicSwitchView;
+import com.techfun.basiccontrols.widget.BasicTableView;
 import com.techfun.basiccontrols.widget.BasicTabsView;
 import com.techfun.basiccontrols.widget.BasicToast;
+import com.techfun.basiccontrols.widget.BasicTypewriterView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Basic Controls 可运行样例页面。
@@ -72,17 +81,22 @@ public class MainActivity extends Activity {
 
         addHeader();
         addButtonSamples();
+        addDividerSamples();
         addInputSamples();
+        addSelectSamples();
         addCardSamples();
+        addCollapseSamples();
         addAlertSamples();
         addBadgeSamples();
         addChipSamples();
         addSelectionSamples();
         addSwitchSamples();
         addProgressSamples();
+        addDataDisplaySamples();
         addListItemSamples();
         addEmptySamples();
         addTabsSamples();
+        addModalSamples();
         addToastSamples();
         BasicRefreshLayout refreshLayout = new BasicRefreshLayout(this);
         refreshLayout.setContentView(scrollView);
@@ -125,6 +139,12 @@ public class MainActivity extends Activity {
         content.addView(button("Disabled primary", BasicButton.VARIANT_PRIMARY, true), withTopMargin(10));
     }
 
+    /** 覆盖 Divider 分隔场景。 */
+    private void addDividerSamples() {
+        addSectionTitle("Divider");
+        content.addView(new BasicDividerView(this), withTopMargin(10));
+    }
+
     /** 覆盖 BasicInputView 的默认、焦点、错误、禁用场景。 */
     private void addInputSamples() {
         addSectionTitle("Inputs");
@@ -148,6 +168,21 @@ public class MainActivity extends Activity {
         content.addView(disabled, withTopMargin(10));
     }
 
+    /** 覆盖 Select 下拉选择场景。 */
+    private void addSelectSamples() {
+        addSectionTitle("Select");
+        BasicSelectView select = new BasicSelectView(this);
+        select.setOptions(Arrays.asList("全部主题", "AI 工具", "Android", "网页小工具"));
+        select.setOnOptionSelectedListener((index, option) ->
+                BasicToast.show(this, "选择：" + option, "info", Toast.LENGTH_SHORT));
+        content.addView(select, withTopMargin(10));
+
+        BasicSelectView disabled = new BasicSelectView(this);
+        disabled.setOptions(Arrays.asList("不可选择", "草稿", "已发布"));
+        disabled.setBasicDisabled(true);
+        content.addView(disabled, withTopMargin(10));
+    }
+
     /** 覆盖 BasicCardView 的默认、subtle、selected 场景。 */
     private void addCardSamples() {
         addSectionTitle("Cards");
@@ -161,6 +196,21 @@ public class MainActivity extends Activity {
         BasicCardView selected = card("Selected card", "选中态会使用品牌色边框，便于选择类场景。");
         selected.setSelectedState(true);
         content.addView(selected, withTopMargin(10));
+    }
+
+    /** 覆盖 Collapse 折叠问答场景。 */
+    private void addCollapseSamples() {
+        addSectionTitle("Collapse");
+        BasicCollapseView first = new BasicCollapseView(this);
+        first.setTitle("为什么坚持 Java + Android View？");
+        first.setMessage("为了兼容老项目、降低接入成本，并且不引入 Compose 迁移成本。");
+        first.setSelectedState(true);
+        content.addView(first, withTopMargin(10));
+
+        BasicCollapseView second = new BasicCollapseView(this);
+        second.setTitle("换肤需要改组件代码吗？");
+        second.setMessage("不需要。稳定维护 color_token.json 和 style_token.json，即可驱动 Android 与 Figma 的一致换肤。");
+        content.addView(second, withTopMargin(10));
     }
 
     /** 覆盖 BasicAlertView 的 info/success/warning/error 场景。 */
@@ -282,6 +332,27 @@ public class MainActivity extends Activity {
         content.addView(loadingDialogButton(), withTopMargin(12));
     }
 
+    /** 覆盖 Table、CodeBlock、Typewriter 数据展示场景。 */
+    private void addDataDisplaySamples() {
+        addSectionTitle("Data Display");
+        BasicTableView table = new BasicTableView(this);
+        List<List<String>> rows = new ArrayList<>();
+        rows.add(Arrays.asList("Switch", "已补齐", "核心"));
+        rows.add(Arrays.asList("Select", "新增", "常用"));
+        rows.add(Arrays.asList("Collapse", "新增", "常用"));
+        table.setData(Arrays.asList("组件", "状态", "优先级"), rows);
+        content.addView(table, withTopMargin(10));
+
+        BasicCodeBlockView code = new BasicCodeBlockView(this);
+        code.setTitle("Java");
+        code.setCode("BasicThemeManager.init(this);\\nBasicButton button = new BasicButton(this);\\nbutton.setVariant(BasicButton.VARIANT_PRIMARY);");
+        content.addView(code, withTopMargin(10));
+
+        BasicTypewriterView typewriter = new BasicTypewriterView(this);
+        typewriter.setBasicText("技趣星球：用技术创造乐趣，把组件、主题和代码生成流程都做成可复用能力。");
+        content.addView(typewriter, withTopMargin(10));
+    }
+
     /** 覆盖 BasicListItemView 的工具入口、选中和禁用场景。 */
     private void addListItemSamples() {
         addSectionTitle("List Items");
@@ -315,6 +386,18 @@ public class MainActivity extends Activity {
         tabs.setOnTabSelectedListener((index, title) ->
                 BasicToast.show(this, "已选择：" + title, "info", Toast.LENGTH_SHORT));
         content.addView(tabs, withTopMargin(10));
+    }
+
+    /** 覆盖 Modal 模态弹窗场景。 */
+    private void addModalSamples() {
+        addSectionTitle("Modal");
+        BasicButton modal = button("Show modal dialog", BasicButton.VARIANT_PRIMARY, false);
+        modal.setOnClickListener(view -> {
+            BasicModalDialog dialog = BasicModalDialog.show(this, "确认同步主题", "将当前 token 应用到 Android View 组件和 Figma 设计稿。");
+            dialog.setOnConfirmClickListener(confirm ->
+                    BasicToast.show(this, "已确认同步", "success", Toast.LENGTH_SHORT));
+        });
+        content.addView(modal, withTopMargin(10));
     }
 
     /** 覆盖 BasicToast 的 info/success/warning/error 场景。 */

@@ -80,7 +80,8 @@
       "default": 2,
       "strong": 2,
       "focus": 2,
-      "loading": 4
+      "loading": 4,
+      "switch": 2.5
     },
     "style": {
       "solid": "solid",
@@ -119,12 +120,14 @@
       "sm": {
         "width": 38,
         "height": 20,
-        "handle": 14
+        "handle": 14,
+        "innerText": 9
       },
       "md": {
         "width": 52,
         "height": 28,
-        "handle": 21
+        "handle": 21,
+        "innerText": 11
       }
     },
     "select": {
@@ -324,6 +327,16 @@
       "hoverLiftY": -1,
       "pressedDropY": 2,
       "modalEnterScaleFrom": 0.94
+    },
+    "switch": {
+      "duration": 180
+    }
+  },
+  "opacity": {
+    "switch": {
+      "enabled": 1,
+      "loading": 0.7,
+      "disabled": 0.5
     }
   },
   "islandStyle": {

@@ -6,7 +6,7 @@
 >
 > 关注 AI技趣星球，一起用技术创造乐趣。
 
-前面几篇，我们已经聊过 [AI 能做什么](../ai-for-ordinary-people/index.md)，也把 [大模型、提示词、Agent 这些名词](../ai-terms-plain-language/index.md) 翻成了人话。
+前面几篇，我们已经聊过 AI 能做什么，也把大模型、提示词、Agent 这些名词翻成了人话。
 
 但很多朋友看到这里，还是会卡在一个问题：
 
