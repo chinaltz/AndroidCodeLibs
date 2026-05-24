@@ -36,7 +36,6 @@ import com.techfun.basiccontrols.widget.BasicBottomTabView;
 import com.techfun.basiccontrols.widget.BasicButton;
 import com.techfun.basiccontrols.widget.BasicCardView;
 import com.techfun.basiccontrols.widget.BasicProgressView;
-import com.techfun.basiccontrols.widget.BasicSwitchView;
 import com.techfun.basiccontrols.widget.BasicTopBarView;
 import com.techfun.basiccontrols.widget.BasicToast;
 import com.techfun.basiccontrols.i18n.BasicI18nManager;
@@ -47,11 +46,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -66,19 +67,18 @@ public class MainActivity extends Activity {
     private static final String KEY_DONE = "done_ids";
     private static final String KEY_LANGUAGE = "language";
     private static final String KEY_THEME = "theme_key";
+    private static final String KEY_LEGACY_NIGHT = "night_theme";
+    private static final String THEME_SKY = "sky";
+    private static final String THEME_NIGHT = "night";
+    private static final String[] THEME_KEYS = {THEME_SKY, THEME_NIGHT};
+    private static final long CHECK_AUTO_ADVANCE_MS = 650L;
     private static final int REQ_RECORD_AUDIO = 2401;
 
     private static final int SKY = Color.rgb(221, 244, 255);
-    private static final int CLOUD = Color.rgb(249, 253, 255);
-    private static final int PAPER = Color.WHITE;
-    private static final int TITLE = Color.rgb(23, 58, 98);
-    private static final int BODY = Color.rgb(54, 93, 130);
-    private static final int MUTED = Color.rgb(111, 141, 166);
     private static final int BLUE = Color.rgb(49, 168, 255);
     private static final int BLUE_DARK = Color.rgb(20, 121, 214);
     private static final int CYAN = Color.rgb(67, 207, 199);
     private static final int SUN = Color.rgb(255, 209, 102);
-    private static final int LINE = Color.rgb(200, 234, 255);
 
     private BasicColors colors;
     private BasicStyle style;
@@ -102,6 +102,11 @@ public class MainActivity extends Activity {
     private int selectedListenAnswer = -1;
     private int selectedWordAnswer = -1;
     private int checkStep = 0;
+    private List<String> listenOptions = new ArrayList<>();
+    private int listenCorrectIndex = -1;
+    private List<String> wordOptions = new ArrayList<>();
+    private int wordCorrectIndex = -1;
+    private Random checkRandom;
     private MediaPlayer activePlayer;
     private MediaPlayer recordingPlayer;
     private MediaRecorder recorder;
@@ -118,11 +123,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences(PREFS, MODE_PRIVATE);
         language = prefs.getString(KEY_LANGUAGE, "zh-CN");
-        themeKey = prefs.getString(KEY_THEME, "sky");
-        BasicThemeManager.init(this);
+        themeKey = readThemeKey();
+        applyThemeBundle();
         BasicI18nManager.init(this, "local.json", language);
-        colors = BasicThemeManager.colors();
-        style = BasicThemeManager.style();
         completed.addAll(prefs.getStringSet(KEY_DONE, new HashSet<>()));
         current = firstUnfinished();
         configureSystemBars();
@@ -132,6 +135,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        mainHandler.removeCallbacks(checkAdvanceRunnable);
         stopRecording(false);
         releaseRecordingPlayer();
         releaseActivePlayer();
@@ -149,7 +153,7 @@ public class MainActivity extends Activity {
     private void configureSystemBars() {
         Window window = getWindow();
         window.setStatusBarColor(pageStart());
-        window.setNavigationBarColor(currentTheme().dark ? currentTheme().pageEnd : colors.backgroundSurfaceRaised);
+        window.setNavigationBarColor(currentTheme().dark ? colors.backgroundPageGradientEnd : colors.backgroundSurfaceRaised);
         if (android.os.Build.VERSION.SDK_INT >= 23) {
             window.getDecorView().setSystemUiVisibility(currentTheme().dark ? 0 : View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
@@ -189,7 +193,7 @@ public class MainActivity extends Activity {
         ));
         topBar = new BasicTopBarView(this);
         topBar.setBarBackgroundColor(pageStart());
-        topBar.setBarTextColor(currentTheme().navText, currentTheme().navBack);
+        topBar.setBarTextColor(colors.textPrimary, colors.textPrimary);
         topBar.setOnBackClickListener(view -> handleBack());
         navFrame.addView(topBar, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -261,20 +265,40 @@ public class MainActivity extends Activity {
     private void resetPage(String title, String subtitle) {
         root.removeAllViews();
         topBar.setTitle(title);
+        topBar.setBarBackgroundColor(pageStart());
+        topBar.setBarTextColor(colors.textPrimary, colors.textPrimary);
+        appBarHost.setBackgroundColor(pageStart());
         homeTopBar.setVisibility(screen == Screen.MAP ? View.VISIBLE : View.GONE);
         topBar.setVisibility(screen == Screen.MAP ? View.GONE : View.VISIBLE);
-        topBar.setBackVisible(screen == Screen.LEARN || screen == Screen.CHECK);
-        bottomTab.setSelectedIndex(screen == Screen.SETTINGS ? 1 : 0);
-        actionHost.setVisibility(screen == Screen.SETTINGS ? View.GONE : View.VISIBLE);
-        if (screen != Screen.MAP && screen != Screen.SETTINGS) {
-            screenTitle = text(title, 22, TITLE, true);
+        topBar.setBackVisible(
+                screen == Screen.LEARN
+                        || screen == Screen.CHECK
+                        || screen == Screen.SETTINGS_THEME
+                        || screen == Screen.SETTINGS_LANGUAGE
+        );
+        boolean showBottomTab = screen == Screen.MAP || screen == Screen.SETTINGS;
+        bottomTab.setVisibility(showBottomTab ? View.VISIBLE : View.GONE);
+        bottomTab.setSelectedIndex(isSettingsFlow(screen) ? 1 : 0);
+        actionHost.setVisibility(
+                screen == Screen.MAP || screen == Screen.LEARN || screen == Screen.CHECK
+                        ? View.VISIBLE
+                        : View.GONE
+        );
+        if (screen != Screen.MAP && !isSettingsFlow(screen)) {
+            screenTitle = text(title, 22, cTitle(), true);
             root.addView(screenTitle, fullWidth());
-            screenSubtitle = text(subtitle, 14, BODY, false);
+            screenSubtitle = text(subtitle, 14, cBody(), false);
             screenSubtitle.setLineSpacing(0, 1.18f);
             if (subtitle != null && subtitle.length() > 0) {
                 root.addView(screenSubtitle, withTopMargin(6));
             }
         }
+    }
+
+    private boolean isSettingsFlow(Screen value) {
+        return value == Screen.SETTINGS
+                || value == Screen.SETTINGS_THEME
+                || value == Screen.SETTINGS_LANGUAGE;
     }
 
     private View createHomeTopBar() {
@@ -292,8 +316,8 @@ public class MainActivity extends Activity {
         LinearLayout titleBox = new LinearLayout(this);
         titleBox.setOrientation(LinearLayout.VERTICAL);
         titleBox.setGravity(Gravity.CENTER_VERTICAL);
-        TextView appName = text(t("app/name"), 20, TITLE, true);
-        TextView slogan = text(t("app/slogan"), 12, MUTED, false);
+        TextView appName = text(t("app/name"), 20, cTitle(), true);
+        TextView slogan = text(t("app/slogan"), 12, cMuted(), false);
         titleBox.addView(appName, fullWidth());
         titleBox.addView(slogan, fullWidth());
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
@@ -308,14 +332,14 @@ public class MainActivity extends Activity {
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
-        progressText = text(tf("page/map/progress", completed.size(), PHONEMES.size()), 15, TITLE, true);
+        progressText = text(tf("page/map/progress", completed.size(), PHONEMES.size()), 15, cTitle(), true);
         row.addView(progressText, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-        row.addView(chipLabel(Math.round(progressRatio() * 100) + "%", SUN, TITLE), wrap());
+        row.addView(chipLabel(Math.round(progressRatio() * 100) + "%", SUN, cTitle()), wrap());
         box.addView(row, fullWidth());
         progressView = new BasicProgressView(this);
         progressView.setProgress(progressRatio());
         box.addView(progressView, withTopMargin(12));
-        TextView hint = text(t("page/map/hint"), 13, MUTED, false);
+        TextView hint = text(t("page/map/hint"), 13, cMuted(), false);
         box.addView(hint, withTopMargin(10));
         card.addView(box, fullWidth());
         root.addView(card, withTopMargin(16));
@@ -341,7 +365,7 @@ public class MainActivity extends Activity {
         LinearLayout head = new LinearLayout(this);
         head.setOrientation(LinearLayout.HORIZONTAL);
         head.setGravity(Gravity.CENTER_VERTICAL);
-        head.addView(text(group.title, 18, TITLE, true), new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        head.addView(text(group.title, 18, cTitle(), true), new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
         head.addView(chipLabel(group.items.size() + " 关", Color.rgb(230, 246, 255), BLUE_DARK), wrap());
         box.addView(head, fullWidth());
 
@@ -357,12 +381,12 @@ public class MainActivity extends Activity {
     }
 
     private TextView phonemeCell(Phoneme phoneme) {
-        TextView cell = text(phoneme.symbol, 17, TITLE, true);
+        TextView cell = text(phoneme.symbol, 17, cTitle(), true);
         cell.setGravity(Gravity.CENTER);
         boolean done = completed.contains(phoneme.id);
         boolean active = phoneme.id.equals(current.id);
-        int fill = done ? Color.rgb(232, 253, 247) : active ? Color.rgb(255, 247, 215) : PAPER;
-        int stroke = done ? CYAN : active ? SUN : LINE;
+        int fill = done ? cDoneFill() : active ? cActiveFill() : cPaper();
+        int stroke = done ? CYAN : active ? SUN : cLine();
         cell.setBackground(rounded(fill, stroke, dp(14), dp(2)));
         cell.setOnClickListener(view -> {
             current = phoneme;
@@ -384,7 +408,7 @@ public class MainActivity extends Activity {
 
         BasicCardView sound = new BasicCardView(this);
         LinearLayout soundBox = vertical();
-        TextView symbol = text(current.symbol, 88, TITLE, true);
+        TextView symbol = text(current.symbol, 88, cTitle(), true);
         symbol.setGravity(Gravity.CENTER);
         symbol.setBackground(gradient(Color.rgb(232, 250, 255), Color.rgb(255, 253, 240), dp(24), 1));
         soundBox.addView(symbol, fixed(ViewGroup.LayoutParams.MATCH_PARENT, dp(160)));
@@ -403,7 +427,7 @@ public class MainActivity extends Activity {
         sound.addView(soundBox, fullWidth());
         root.addView(sound, withTopMargin(16));
 
-        TextView wordsTitle = text(t("page/learn/words_title"), 18, TITLE, true);
+        TextView wordsTitle = text(t("page/learn/words_title"), 18, cTitle(), true);
         root.addView(wordsTitle, withTopMargin(18));
         for (Word word : current.words) {
             root.addView(wordCard(word), withTopMargin(10));
@@ -420,8 +444,8 @@ public class MainActivity extends Activity {
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
         LinearLayout textBox = vertical();
-        textBox.addView(text(word.text, 28, TITLE, true), fullWidth());
-        textBox.addView(text(word.tip, 13, MUTED, false), withTopMargin(4));
+        textBox.addView(text(word.text, 28, cTitle(), true), fullWidth());
+        textBox.addView(text(word.tip, 13, cMuted(), false), withTopMargin(4));
         row.addView(textBox, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
         BasicButton play = new BasicButton(this);
@@ -439,6 +463,7 @@ public class MainActivity extends Activity {
         selectedWordAnswer = -1;
         checkStep = 0;
         hasRecording = false;
+        checkRandom = new Random(current.id.hashCode() ^ (int) System.nanoTime());
         showCheckStep();
     }
 
@@ -446,14 +471,16 @@ public class MainActivity extends Activity {
         screen = Screen.CHECK;
         resetPage(t("page/check/title"), "");
         if (checkStep == 0) {
-            root.addView(questionCard(t("check/q1_label"), t("check/q1_title"), Arrays.asList(
-                    current.symbol,
-                    current.options[0],
-                    current.options[1],
-                    current.options[2]
-            ), 0), withTopMargin(16));
+            prepareListenQuestion();
+            root.addView(questionCard(
+                    t("check/q1_label"),
+                    t("check/q1_title"),
+                    listenOptions,
+                    listenCorrectIndex
+            ), withTopMargin(16));
             primaryAction.setBasicText(t("btn/next"));
         } else if (checkStep == 1) {
+            prepareWordQuestion();
             root.addView(wordQuestionCard(), withTopMargin(16));
             primaryAction.setBasicText(t("btn/next"));
         } else {
@@ -463,11 +490,112 @@ public class MainActivity extends Activity {
         scrollTop();
     }
 
+    /** 听音题：本题音标 + 同组/其他音标干扰项，保证 4 项不重复。 */
+    private void prepareListenQuestion() {
+        listenOptions = buildListenOptions();
+        listenCorrectIndex = listenOptions.indexOf(current.symbol);
+    }
+
+    private List<String> buildListenOptions() {
+        Set<String> seen = new HashSet<>();
+        List<String> options = new ArrayList<>();
+        options.add(current.symbol);
+        seen.add(current.symbol);
+
+        List<Phoneme> sameGroup = new ArrayList<>();
+        List<Phoneme> otherGroup = new ArrayList<>();
+        for (Phoneme candidate : PHONEMES) {
+            if (candidate.id.equals(current.id)) {
+                continue;
+            }
+            if (candidate.groupTitle.equals(current.groupTitle)) {
+                sameGroup.add(candidate);
+            } else {
+                otherGroup.add(candidate);
+            }
+        }
+        Collections.shuffle(sameGroup, checkRandom);
+        Collections.shuffle(otherGroup, checkRandom);
+        appendUniqueSymbols(options, seen, sameGroup);
+        appendUniqueSymbols(options, seen, otherGroup);
+        Collections.shuffle(options, checkRandom);
+        return options;
+    }
+
+    private void appendUniqueSymbols(List<String> options, Set<String> seen, List<Phoneme> pool) {
+        for (Phoneme candidate : pool) {
+            if (options.size() >= 4) {
+                return;
+            }
+            if (seen.add(candidate.symbol)) {
+                options.add(candidate.symbol);
+            }
+        }
+    }
+
+    /** 看词题：1 个正确例词 + 2 个来自其他音标的干扰词，保证不重复且仅一个正确答案。 */
+    private void prepareWordQuestion() {
+        wordOptions = buildWordOptions();
+        String correct = current.words[0].text;
+        wordCorrectIndex = wordOptions.indexOf(correct);
+    }
+
+    private List<String> buildWordOptions() {
+        String correct = current.words[0].text;
+        Set<String> forbidden = new HashSet<>();
+        for (Word word : current.words) {
+            forbidden.add(word.text.toLowerCase(Locale.ROOT));
+        }
+
+        List<String> preferred = new ArrayList<>();
+        List<String> fallback = new ArrayList<>();
+        for (Phoneme other : PHONEMES) {
+            if (other.id.equals(current.id)) {
+                continue;
+            }
+            for (Word word : other.words) {
+                String lower = word.text.toLowerCase(Locale.ROOT);
+                if (forbidden.contains(lower)) {
+                    continue;
+                }
+                if (other.groupTitle.equals(current.groupTitle)) {
+                    preferred.add(word.text);
+                } else {
+                    fallback.add(word.text);
+                }
+            }
+        }
+        Collections.shuffle(fallback, checkRandom);
+        Collections.shuffle(preferred, checkRandom);
+
+        List<String> wrongs = new ArrayList<>();
+        Set<String> picked = new HashSet<>(forbidden);
+        pickUniqueWords(wrongs, picked, fallback, 2);
+        pickUniqueWords(wrongs, picked, preferred, 2);
+
+        List<String> options = new ArrayList<>();
+        options.add(correct);
+        options.addAll(wrongs);
+        Collections.shuffle(options, checkRandom);
+        return options;
+    }
+
+    private void pickUniqueWords(List<String> target, Set<String> picked, List<String> pool, int limit) {
+        for (String word : pool) {
+            if (target.size() >= limit) {
+                return;
+            }
+            if (picked.add(word.toLowerCase(Locale.ROOT))) {
+                target.add(word);
+            }
+        }
+    }
+
     private BasicCardView questionCard(String label, String title, List<String> answers, int correctIndex) {
         BasicCardView card = new BasicCardView(this);
         LinearLayout box = vertical();
         box.addView(text(label, 14, BLUE_DARK, true), fullWidth());
-        box.addView(text(title, 22, TITLE, true), withTopMargin(8));
+        box.addView(text(title, 22, cTitle(), true), withTopMargin(8));
 
         BasicButton listen = new BasicButton(this);
         listen.setVariant(BasicButton.VARIANT_PRIMARY);
@@ -478,13 +606,18 @@ public class MainActivity extends Activity {
         LinearLayout optionsBox = vertical();
         for (int i = 0; i < answers.size(); i++) {
             final int index = i;
-            TextView option = text(answers.get(i), 22, TITLE, true);
+            TextView option = text(answers.get(i), 22, cTitle(), true);
             option.setGravity(Gravity.CENTER);
-            option.setBackground(rounded(PAPER, LINE, dp(16), dp(2)));
+            option.setBackground(rounded(cPaper(), cLine(), dp(16), dp(2)));
             option.setOnClickListener(view -> {
                 selectedListenAnswer = index;
                 updateOptionSelection(optionsBox, index);
-                BasicToast.show(this, index == correctIndex ? t("toast/correct") : t("toast/try_again"), index == correctIndex ? "success" : "warning", Toast.LENGTH_SHORT);
+                if (index == correctIndex) {
+                    BasicToast.show(this, t("toast/correct"), "success", Toast.LENGTH_SHORT);
+                    scheduleCheckAdvance(this::advanceListenQuestion);
+                } else {
+                    BasicToast.show(this, t("toast/try_again"), "warning", Toast.LENGTH_SHORT);
+                }
             });
             optionsBox.addView(option, withTopMargin(10, dp(56)));
         }
@@ -497,23 +630,23 @@ public class MainActivity extends Activity {
         BasicCardView card = new BasicCardView(this);
         LinearLayout box = vertical();
         box.addView(text(t("check/q2_label"), 14, BLUE_DARK, true), fullWidth());
-        box.addView(text(tf("check/q2_title", current.symbol), 22, TITLE, true), withTopMargin(8));
+        box.addView(text(tf("check/q2_title", current.symbol), 22, cTitle(), true), withTopMargin(8));
 
         LinearLayout optionsBox = vertical();
-        List<String> answers = Arrays.asList(
-                current.words[0].text,
-                current.options[3].replace("/", ""),
-                current.words[1].text
-        );
-        for (int i = 0; i < answers.size(); i++) {
+        for (int i = 0; i < wordOptions.size(); i++) {
             final int index = i;
-            TextView option = text(answers.get(i), 22, TITLE, true);
+            TextView option = text(wordOptions.get(i), 22, cTitle(), true);
             option.setGravity(Gravity.CENTER);
-            option.setBackground(rounded(PAPER, LINE, dp(16), dp(2)));
+            option.setBackground(rounded(cPaper(), cLine(), dp(16), dp(2)));
             option.setOnClickListener(view -> {
                 selectedWordAnswer = index;
                 updateOptionSelection(optionsBox, index);
-                BasicToast.show(this, index == 0 || index == 2 ? t("toast/correct") : t("toast/try_again"), index == 0 || index == 2 ? "success" : "warning", Toast.LENGTH_SHORT);
+                if (index == wordCorrectIndex) {
+                    BasicToast.show(this, t("toast/correct"), "success", Toast.LENGTH_SHORT);
+                    scheduleCheckAdvance(this::advanceWordQuestion);
+                } else {
+                    BasicToast.show(this, t("toast/try_again"), "warning", Toast.LENGTH_SHORT);
+                }
             });
             optionsBox.addView(option, withTopMargin(10, dp(56)));
         }
@@ -526,8 +659,8 @@ public class MainActivity extends Activity {
         BasicCardView card = new BasicCardView(this);
         LinearLayout box = vertical();
         box.addView(text(t("check/q3_label"), 14, BLUE_DARK, true), fullWidth());
-        box.addView(text(tf("check/q3_title", current.symbol, current.words[0].text), 22, TITLE, true), withTopMargin(8));
-        box.addView(text(t("check/q3_hint"), 13, MUTED, false), withTopMargin(6));
+        box.addView(text(tf("check/q3_title", current.symbol, current.words[0].text), 22, cTitle(), true), withTopMargin(8));
+        box.addView(text(t("check/q3_hint"), 13, cMuted(), false), withTopMargin(6));
 
         BasicButton record = new BasicButton(this);
         record.setVariant(isRecording ? BasicButton.VARIANT_DANGER : BasicButton.VARIANT_PRIMARY);
@@ -562,8 +695,8 @@ public class MainActivity extends Activity {
         for (int i = 0; i < optionsBox.getChildCount(); i++) {
             View child = optionsBox.getChildAt(i);
             child.setBackground(rounded(
-                    i == selectedIndex ? Color.rgb(232, 253, 247) : PAPER,
-                    i == selectedIndex ? CYAN : LINE,
+                    i == selectedIndex ? cSelectedFill() : cPaper(),
+                    i == selectedIndex ? CYAN : cLine(),
                     dp(16),
                     dp(2)
             ));
@@ -585,14 +718,14 @@ public class MainActivity extends Activity {
             showCheck();
         } else if (screen == Screen.CHECK) {
             if (checkStep == 0) {
-                if (selectedListenAnswer != 0) {
+                if (selectedListenAnswer != listenCorrectIndex) {
                     BasicToast.show(this, t("toast/answer_first"), "warning", Toast.LENGTH_SHORT);
                     return;
                 }
                 checkStep = 1;
                 showCheckStep();
             } else if (checkStep == 1) {
-                if (selectedWordAnswer != 0 && selectedWordAnswer != 2) {
+                if (selectedWordAnswer != wordCorrectIndex) {
                     BasicToast.show(this, t("toast/answer_first"), "warning", Toast.LENGTH_SHORT);
                     return;
                 }
@@ -622,6 +755,10 @@ public class MainActivity extends Activity {
             showMap();
             return true;
         }
+        if (screen == Screen.SETTINGS_THEME || screen == Screen.SETTINGS_LANGUAGE) {
+            showSettings();
+            return true;
+        }
         if (screen == Screen.SETTINGS) {
             showMap();
             return true;
@@ -633,49 +770,232 @@ public class MainActivity extends Activity {
         screen = Screen.SETTINGS;
         stopRecording(false);
         resetPage(t("page/settings/title"), t("page/settings/subtitle"));
+        root.addView(settingsEntryCard(
+                t("page/settings/entry_theme"),
+                themeLabel(),
+                this::showSettingsTheme
+        ), withTopMargin(16));
+        root.addView(settingsEntryCard(
+                t("page/settings/entry_language"),
+                languageLabel(),
+                this::showSettingsLanguage
+        ), withTopMargin(14));
+        scrollTop();
+    }
 
-        BasicCardView themeCard = new BasicCardView(this);
-        LinearLayout themeBox = vertical();
-        themeBox.addView(text(t("page/settings/theme"), 18, TITLE, true), fullWidth());
-        BasicSwitchView themeSwitch = new BasicSwitchView(this);
-        themeSwitch.setBasicText(nightTheme ? t("page/settings/theme_night") : t("page/settings/theme_day"));
-        themeSwitch.setCheckedText("ON");
-        themeSwitch.setUncheckedText("OFF");
-        themeSwitch.setSelectedState(nightTheme);
-        themeSwitch.setOnCheckedChangeListener((view, checked) -> {
-            nightTheme = checked;
-            prefs.edit().putBoolean(KEY_NIGHT, nightTheme).apply();
+    private void showSettingsTheme() {
+        screen = Screen.SETTINGS_THEME;
+        stopRecording(false);
+        resetPage(t("page/settings/theme_page_title"), t("page/settings/theme_page_hint"));
+        BasicCardView card = new BasicCardView(this);
+        LinearLayout box = vertical();
+        for (String key : THEME_KEYS) {
+            box.addView(themeOptionRow(key), withTopMargin(10, dp(52)));
+        }
+        card.addView(box, fullWidth());
+        root.addView(card, withTopMargin(16));
+        scrollTop();
+    }
+
+    private void showSettingsLanguage() {
+        screen = Screen.SETTINGS_LANGUAGE;
+        stopRecording(false);
+        resetPage(t("page/settings/language_page_title"), t("page/settings/language_hint"));
+        BasicCardView card = new BasicCardView(this);
+        LinearLayout box = vertical();
+        for (String code : BasicI18nManager.languages()) {
+            box.addView(languageOptionRow(code), withTopMargin(10, dp(52)));
+        }
+        card.addView(box, fullWidth());
+        root.addView(card, withTopMargin(16));
+        scrollTop();
+    }
+
+    private BasicCardView settingsEntryCard(String title, String value, Runnable onClick) {
+        BasicCardView card = new BasicCardView(this);
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(16), dp(14), dp(16), dp(14));
+        LinearLayout textBox = vertical();
+        textBox.addView(text(title, 18, cTitle(), true), fullWidth());
+        textBox.addView(text(value, 14, cMuted(), false), withTopMargin(4));
+        row.addView(textBox, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        row.addView(text("›", 22, cMuted(), true), wrap());
+        card.addView(row, fullWidth());
+        card.setOnClickListener(view -> onClick.run());
+        return card;
+    }
+
+    private TextView themeOptionRow(String key) {
+        TextView option = text(themeName(key), 17, cTitle(), true);
+        option.setGravity(Gravity.CENTER_VERTICAL);
+        option.setPadding(dp(16), 0, dp(16), 0);
+        option.setBackground(selectableBackground(key.equals(themeKey)));
+        option.setOnClickListener(view -> {
+            if (key.equals(themeKey)) {
+                return;
+            }
+            themeKey = key;
+            prefs.edit().putString(KEY_THEME, themeKey).apply();
             recreateApp();
         });
-        themeBox.addView(themeSwitch, withTopMargin(12));
-        themeCard.addView(themeBox, fullWidth());
-        root.addView(themeCard, withTopMargin(16));
+        return option;
+    }
 
-        BasicCardView languageCard = new BasicCardView(this);
-        LinearLayout languageBox = vertical();
-        languageBox.addView(text(t("page/settings/language"), 18, TITLE, true), fullWidth());
-        languageBox.addView(text(t("page/settings/language_hint"), 13, MUTED, false), withTopMargin(6));
-        for (String code : BasicI18nManager.languages()) {
-            TextView option = text(t("language/" + code), 17, TITLE, true);
-            option.setGravity(Gravity.CENTER_VERTICAL);
-            option.setPadding(dp(16), 0, dp(16), 0);
-            option.setBackground(rounded(
-                    code.equals(language) ? Color.rgb(232, 253, 247) : PAPER,
-                    code.equals(language) ? CYAN : LINE,
-                    dp(16),
-                    dp(2)
-            ));
-            option.setOnClickListener(view -> {
-                language = code;
-                prefs.edit().putString(KEY_LANGUAGE, language).apply();
-                BasicI18nManager.setLanguage(language);
-                recreateApp();
-            });
-            languageBox.addView(option, withTopMargin(10, dp(52)));
+    private TextView languageOptionRow(String code) {
+        TextView option = text(t("language/" + code), 17, cTitle(), true);
+        option.setGravity(Gravity.CENTER_VERTICAL);
+        option.setPadding(dp(16), 0, dp(16), 0);
+        option.setBackground(selectableBackground(code.equals(language)));
+        option.setOnClickListener(view -> {
+            if (code.equals(language)) {
+                return;
+            }
+            language = code;
+            prefs.edit().putString(KEY_LANGUAGE, language).apply();
+            BasicI18nManager.setLanguage(language);
+            recreateApp();
+        });
+        return option;
+    }
+
+    private GradientDrawable selectableBackground(boolean selected) {
+        return rounded(
+                selected ? cSelectedFill() : cPaper(),
+                selected ? CYAN : cLine(),
+                dp(16),
+                dp(2)
+        );
+    }
+
+    private String themeLabel() {
+        return themeName(themeKey);
+    }
+
+    private String themeName(String key) {
+        return THEME_NIGHT.equals(key) ? t("page/settings/theme_night") : t("page/settings/theme_day");
+    }
+
+    private String languageLabel() {
+        return t("language/" + language);
+    }
+
+    private void scheduleCheckAdvance(Runnable action) {
+        mainHandler.removeCallbacks(checkAdvanceRunnable);
+        checkAdvanceRunnable = action;
+        mainHandler.postDelayed(checkAdvanceRunnable, CHECK_AUTO_ADVANCE_MS);
+    }
+
+    private Runnable checkAdvanceRunnable = () -> {};
+
+    private void advanceListenQuestion() {
+        if (screen != Screen.CHECK || checkStep != 0 || selectedListenAnswer != listenCorrectIndex) {
+            return;
         }
-        languageCard.addView(languageBox, fullWidth());
-        root.addView(languageCard, withTopMargin(14));
-        scrollTop();
+        checkStep = 1;
+        selectedWordAnswer = -1;
+        showCheckStep();
+    }
+
+    private void advanceWordQuestion() {
+        if (screen != Screen.CHECK || checkStep != 1) {
+            return;
+        }
+        if (selectedWordAnswer != wordCorrectIndex) {
+            return;
+        }
+        checkStep = 2;
+        showCheckStep();
+    }
+
+    private void applyThemeBundle() {
+        BasicThemeManager.init(this, currentTheme().tokenName);
+        colors = BasicThemeManager.colors();
+        style = BasicThemeManager.style();
+    }
+
+    private String readThemeKey() {
+        if (prefs.contains(KEY_LEGACY_NIGHT) && prefs.getBoolean(KEY_LEGACY_NIGHT, false)) {
+            prefs.edit().remove(KEY_LEGACY_NIGHT).putString(KEY_THEME, THEME_NIGHT).apply();
+            return THEME_NIGHT;
+        }
+        String saved = prefs.getString(KEY_THEME, THEME_SKY);
+        return THEME_NIGHT.equals(saved) ? THEME_NIGHT : THEME_SKY;
+    }
+
+    private AppTheme currentTheme() {
+        return THEME_NIGHT.equals(themeKey) ? AppTheme.NIGHT : AppTheme.SKY;
+    }
+
+    private int cTitle() {
+        return colors.textPrimary;
+    }
+
+    private int cBody() {
+        return colors.textSecondary;
+    }
+
+    private int cMuted() {
+        return colors.textTertiary;
+    }
+
+    private int cPaper() {
+        return colors.backgroundSurfaceRaised;
+    }
+
+    private int cLine() {
+        return colors.borderDefault;
+    }
+
+    private int cSelectedFill() {
+        return currentTheme().dark ? Color.rgb(30, 58, 82) : Color.rgb(232, 253, 247);
+    }
+
+    private int cActiveFill() {
+        return currentTheme().dark ? Color.rgb(58, 48, 28) : Color.rgb(255, 247, 215);
+    }
+
+    private int cDoneFill() {
+        return currentTheme().dark ? Color.rgb(28, 58, 62) : Color.rgb(232, 253, 247);
+    }
+
+    private void restoreScreen() {
+        switch (screen) {
+            case SETTINGS_THEME:
+                showSettingsTheme();
+                break;
+            case SETTINGS_LANGUAGE:
+                showSettingsLanguage();
+                break;
+            case SETTINGS:
+                showSettings();
+                break;
+            case LEARN:
+                showLearn();
+                break;
+            case CHECK:
+                showCheckStep();
+                break;
+            default:
+                showMap();
+                break;
+        }
+    }
+
+    private static final class AppTheme {
+        static final AppTheme SKY = new AppTheme(THEME_SKY, "sky_planet_day", false);
+        static final AppTheme NIGHT = new AppTheme(THEME_NIGHT, "star_planet_night", true);
+
+        final String key;
+        final String tokenName;
+        final boolean dark;
+
+        AppTheme(String key, String tokenName, boolean dark) {
+            this.key = key;
+            this.tokenName = tokenName;
+            this.dark = dark;
+        }
     }
 
     private void toggleRecording() {
@@ -770,13 +1090,11 @@ public class MainActivity extends Activity {
     private void recreateApp() {
         releaseActivePlayer();
         releaseRecordingPlayer();
+        mainHandler.removeCallbacks(checkAdvanceRunnable);
+        applyThemeBundle();
         setContentView(createContent());
-        if (screen == Screen.SETTINGS) {
-            showSettings();
-        } else {
-            showMap();
-        }
         configureSystemBars();
+        restoreScreen();
     }
 
     @Override
@@ -963,11 +1281,11 @@ public class MainActivity extends Activity {
     }
 
     private int pageStart() {
-        return nightTheme ? Color.rgb(233, 228, 255) : colors.backgroundPage;
+        return colors.backgroundPage;
     }
 
     private int pageEnd() {
-        return nightTheme ? Color.rgb(249, 253, 255) : colors.backgroundPageGradientEnd;
+        return colors.backgroundPageGradientEnd;
     }
 
     private void scrollTop() {
@@ -1062,7 +1380,9 @@ public class MainActivity extends Activity {
         MAP,
         LEARN,
         CHECK,
-        SETTINGS
+        SETTINGS,
+        SETTINGS_THEME,
+        SETTINGS_LANGUAGE
     }
 
     private static final class PhonemeGroup {
@@ -1082,16 +1402,14 @@ public class MainActivity extends Activity {
         final String audioPath;
         final String mouthTip;
         final Word[] words;
-        final String[] options;
 
-        Phoneme(String id, String symbol, String groupTitle, String mouthTip, Word[] words, String[] options) {
+        Phoneme(String id, String symbol, String groupTitle, String mouthTip, Word[] words) {
             this.id = id;
             this.symbol = symbol;
             this.groupTitle = groupTitle;
             this.mouthTip = mouthTip;
             this.audioPath = "audio/phonemes/" + id + ".mp3";
             this.words = words;
-            this.options = options;
         }
     }
 
@@ -1116,7 +1434,7 @@ public class MainActivity extends Activity {
     }
 
     private static Phoneme p(String id, String symbol, String group, String tip, Word[] words) {
-        return new Phoneme(id, symbol, group, tip, words, new String[]{"/e/", "/ɑː/", "/ʌ/", "pen"});
+        return new Phoneme(id, symbol, group, tip, words);
     }
 
     private static final List<PhonemeGroup> GROUPS = new ArrayList<>();

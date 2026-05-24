@@ -1,8 +1,9 @@
 {
-  "source": "dev_bundled",
+  "source": "compliant_bundled",
   "mode": "bundled_assets",
   "network": false,
-  "phonemes": "MIT s5s5/phonics isolated IPA + Edge SSML (en-GB) for UK gaps",
-  "words": "edge-tts en-GB-SoniaNeural",
-  "note": "音标为孤立音素，非整词。开发占位。"
+  "phonemes_primary": "MIT s5s5/phonics (https://github.com/s5s5/phonics)",
+  "phonemes_gaps": "Piper en_GB-alan-medium (MIT)",
+  "words": "Piper en_GB-alan-medium (MIT)",
+  "notice": "src/main/assets/audio/THIRD_PARTY_NOTICE.md"
 }

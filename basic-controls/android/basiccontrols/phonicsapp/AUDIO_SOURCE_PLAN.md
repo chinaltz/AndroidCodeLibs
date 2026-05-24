@@ -1,5 +1,22 @@
 # 音标星球音频来源方案
 
+## 一键生成（推荐 · 合规）
+
+```bash
+cd basic-controls/android/basiccontrols/phonicsapp
+./tools/generate_compliant_audio.sh
+```
+
+详细步骤见 **[docs/AUDIO_PRODUCTION.md](docs/AUDIO_PRODUCTION.md)**。
+
+来源：
+
+- 音标：MIT [s5s5/phonics](https://github.com/s5s5/phonics) + Piper 缺口占位
+- 例词：Piper `en_GB-alan-medium`（MIT）
+- **不含** Edge-TTS / 云 API
+
+旧脚本 `generate_bundled_audio.sh` 已转发到合规脚本。
+
 ## 结论
 
 一期要求：

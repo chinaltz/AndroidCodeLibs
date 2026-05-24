@@ -82,7 +82,7 @@ content/posts/[slug]/
 | ⭐⭐⭐⭐ | 需要多个工具配合 + 有踩坑概率 |
 | ⭐⭐⭐⭐⭐ | 需要专业知识，不建议零基础硬刚 |
 
-## Skills 总览（9 个）
+## Skills 总览（10 个）
 
 | Skill | 用途 | 调用方式 |
 |-------|------|----------|
@@ -94,6 +94,7 @@ content/posts/[slug]/
 | `/review-post` | 按5条内容原则全面审查文章 | 手动 / 自动 |
 | `/publish-workflow` | **一键跑通8步发布流水线，输出多平台适配版** | 手动 |
 | `/publish-platforms` | 第一/二梯队平台清单、格式速查、发布顺序 | 手动 / 自动 |
+| `/compliant-app-audio` | **App 合规内置音频**：MIT 音素 + Piper 本地 TTS，侵权评估、Edge-TTS 替换、国内网络超时 | 手动 / 自动 |
 | `/sync-context` | 变更 plan 或 SKILL 后自动双向同步 MD 与 SKILL | 自动 |
 
 ## 文章发布全流程（8 步流水线）
