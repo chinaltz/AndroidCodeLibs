@@ -30,21 +30,15 @@ const componentGroups = [
   {
     name: 'Actions',
     items: [
-      ['BasicButton', 'default / primary / dashed / text / link / danger / ghost'],
-      ['BasicTextLink', 'inline link, pressed state, disabled state'],
-      ['BasicStickyFooter', 'bottom action bar with primary and secondary slots']
+      ['BasicButton', 'default / primary / danger / text / link / disabled / pressed lift'],
+      ['BasicToast', 'custom Android Toast view with semantic variants']
     ]
   },
   {
     name: 'Inputs',
     items: [
-      ['BasicInputView', 'default / focus / warning / error / disabled'],
-      ['BasicSearchInputView', 'search icon, clear action, suggestion-ready'],
-      ['BasicSelectView', 'trigger plus PopupWindow menu'],
-      ['BasicSelectorView', 'segmented option selector'],
-      ['BasicSliderView', 'SeekBar first, custom track later if needed'],
-      ['BasicStepperView', 'minus, value, plus'],
-      ['BasicUploadView', 'drop zone, image picker, file status']
+      ['BasicInputView', 'default / focus / error / disabled'],
+      ['BasicSelectView', 'trigger plus PopupWindow menu / selected option / disabled']
     ]
   },
   {
@@ -52,33 +46,25 @@ const componentGroups = [
     items: [
       ['BasicCheckboxView', 'checked / unchecked / disabled'],
       ['BasicRadioView', 'single selection in form groups'],
-      ['BasicSwitchView', 'on / off / disabled'],
-      ['BasicChipView', 'selectable pill with optional close icon'],
-      ['BasicTagView', 'static status or category label']
+      ['BasicSwitchView', 'default / small / on / off / disabled / loading / inner text'],
+      ['BasicChipView', 'selectable pill with primary / success / warning / danger']
     ]
   },
   {
     name: 'Feedback',
     items: [
       ['BasicAlertView', 'info / success / warning / error'],
-      ['BasicNotificationView', 'title, body, action slot'],
-      ['BasicToast', 'transient bottom message'],
-      ['BasicLoadingView', 'spinner / stripe / inline'],
+      ['BasicLoadingView', 'inline animated stripe loading'],
+      ['BasicPlanetLoadingView', 'Sky Planet canvas animation shared by refresh and dialogs'],
+      ['BasicLoadingDialog', 'semi-transparent blocking loading dialog with planet animation'],
       ['BasicBadgeView', 'count and status badge'],
-      ['BasicRibbonView', 'corner or inline highlight'],
-      ['BasicCoachmarkView', 'overlay tip with arrow'],
-      ['BasicCountdownView', 'timer text and urgency state']
+      ['BasicRefreshLayout', 'pull-to-refresh and load-more container with planet animation']
     ]
   },
   {
     name: 'Navigation',
     items: [
-      ['BasicTabsView', 'pill / underline / scrollable'],
-      ['BasicBreadcrumbsView', 'text-link path chain'],
-      ['BasicPaginationView', 'page number controls'],
-      ['BasicHeaderView', 'top app bar with slots'],
-      ['BasicBottomNavigationView', '3-5 item native bottom nav'],
-      ['BasicDrawerView', 'bottom sheet or side drawer']
+      ['BasicTabsView', 'scrollable pill tabs with selected state']
     ]
   },
   {
@@ -87,35 +73,17 @@ const componentGroups = [
       ['BasicCardView', 'plain / title / interactive / selected'],
       ['BasicModalDialog', 'Dialog or DialogFragment panel'],
       ['BasicCollapseView', 'accordion header and expanded body'],
-      ['BasicDividerView', 'line / dashed / section divider'],
-      ['BasicSectionDividerView', 'end-of-section prompt']
+      ['BasicDividerView', 'line divider / section separator'],
+      ['BasicEmptyView', 'empty state with planet motif and primary action']
     ]
   },
   {
     name: 'Data Display',
     items: [
       ['BasicListItemView', 'leading, title, subtitle, trailing'],
-      ['BasicBulletListView', 'tokenized paragraph list'],
-      ['BasicNumberedListView', 'ordered content list'],
-      ['BasicTableView', 'header, row, selected row, checkbox cell'],
-      ['BasicTreeView', 'expandable hierarchy list'],
-      ['BasicAmountView', 'large value, unit, trend'],
-      ['BasicRatingView', 'star or score display'],
-      ['BasicGraphView', 'chart container, legend, empty state']
-    ]
-  },
-  {
-    name: 'Media / Content',
-    items: [
-      ['BasicBannerView', 'image or color banner with CTA'],
-      ['BasicHeroBannerView', 'immersive top banner'],
-      ['BasicCarouselView', 'ViewPager2 or horizontal RecyclerView'],
-      ['BasicImageView', 'ratio, loading, error, rounded variants'],
-      ['BasicAvatarView', 'image or initials circle'],
-      ['BasicGlyphView', 'icon or illustration holder'],
-      ['BasicMapView', 'map container and location pin slot'],
-      ['BasicVideoView', 'media thumbnail and play state'],
-      ['BasicVoucherView', 'coupon card and selected state']
+      ['BasicTableView', 'header, rows, zebra surfaces, empty state'],
+      ['BasicCodeBlockView', 'title bar and horizontal code scroller'],
+      ['BasicTypewriterView', 'AI-style progressive text reveal']
     ]
   }
 ];
@@ -299,6 +267,8 @@ function tokenPage(root) {
   put(samples, catalogCard('Control Height', 'sm 32 / md 40 / buttonMedium 45 / lg 48'));
   put(samples, catalogCard('Typography', '12sp label / 14sp body / 18sp title / 28sp dialog'));
   put(samples, catalogCard('Component Sizing', 'badge, chip, toast, table, nav, drawer, banner, avatar'));
+  put(samples, catalogCard('Switch Tokens', 'off/on track, handle, spinner, opacity, sm/md inner text'));
+  put(samples, catalogCard('Animation Tokens', 'loading loop, switch motion, planet refresh/dialog motion'));
 }
 
 function catalogPage(root) {
@@ -316,11 +286,11 @@ function previewPage(root) {
   phone.strokeWeight = 4;
   put(phone, text('App Title', 'Basic Controls', 28, C.ink600, 'Bold'));
   put(phone, text('App Subtitle', 'Token driven Android View components', 13, C.ink300, 'Medium'));
-  put(phone, catalogCard('Search Input', 'BasicSearchInputView / clear action', 320, 92), true);
-  put(phone, catalogCard('Alert + Badge', 'BasicAlertView, BasicBadgeView, BasicToast', 320, 120), true);
-  put(phone, catalogCard('Table + List', 'BasicTableView, BasicListItemView, BasicPaginationView', 320, 120), true);
-  put(phone, catalogCard('Banner + Carousel', 'BasicBannerView, BasicCarouselView, BasicImageView', 320, 120), true);
-  put(phone, catalogCard('Sticky Footer', 'Primary action and secondary action slots', 320, 92), true);
+  put(phone, catalogCard('Input + Select', 'BasicInputView, BasicSelectView', 320, 92), true);
+  put(phone, catalogCard('Switch + Selection', 'BasicSwitchView, Checkbox, Radio, Chip', 320, 120), true);
+  put(phone, catalogCard('Refresh + Loading', 'BasicRefreshLayout, PlanetLoadingView, LoadingDialog', 320, 120), true);
+  put(phone, catalogCard('Table + Code', 'BasicTableView, BasicCodeBlockView, Typewriter', 320, 120), true);
+  put(phone, catalogCard('Modal + Collapse', 'BasicModalDialog, BasicCollapseView, BasicDividerView', 320, 92), true);
   put(root, phone);
 }
 
@@ -351,5 +321,5 @@ return {
   mutatedNodeIds,
   filePages: ['00 Tokens', '01 Expanded Components + Android View Mapping', '02 Theme Preview'],
   componentCount: componentGroups.reduce((sum, group) => sum + group.items.length, 0),
-  message: 'Created expanded Basic Controls Sky Planet catalogue for Java + classic Android View.'
+  message: 'Synced current implemented Basic Controls component catalogue for Java + classic Android View.'
 };

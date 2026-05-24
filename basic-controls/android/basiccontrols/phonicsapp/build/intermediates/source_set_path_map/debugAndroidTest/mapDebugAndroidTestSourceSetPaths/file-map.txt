@@ -1,0 +1,4 @@
+com.techfun.phonicsapp.test.phonicsapp-androidTest-0 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/build/generated/res/resValues/androidTest/debug
+com.techfun.phonicsapp.test.phonicsapp-mergeDebugAndroidTestResources-1 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.techfun.phonicsapp.test.phonicsapp-mergeDebugAndroidTestResources-2 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.techfun.phonicsapp.test.phonicsapp-debugAndroidTest-3 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/build/intermediates/merged_res/debugAndroidTest/mergeDebugAndroidTestResources

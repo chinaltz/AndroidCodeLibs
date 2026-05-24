@@ -30,6 +30,17 @@ The output intentionally uses 3 pages because Figma Starter files are limited to
 
 ## Latest Sync Attempt
 
+- Date: 2026-05-23
+- Target file: `jwhypmSy7xew6p6sQkC2MH`
+- Script: `design/figma/scripts/create_basic_controls_figma_expanded.js`
+- Scope: updated to match current implemented Android View components, including Select, Collapse, Divider, Modal, Table, CodeBlock, Typewriter, RefreshLayout, LoadingDialog, and PlanetLoadingView.
+- Local validation: JavaScript syntax check passed when wrapped in the `use_figma` async execution shape.
+- Result: blocked before upload by Figma MCP Starter plan tool-call limit.
+- Error summary: `You've reached the Figma MCP tool call limit on the Starter plan.`
+- Follow-up: retry the same script after the MCP quota resets or after upgrading the Figma MCP plan.
+
+## Previous Sync Attempt
+
 - Target file: `jwhypmSy7xew6p6sQkC2MH`
 - Script: `design/figma/scripts/create_basic_controls_figma_expanded.js`
 - Result: blocked before upload by Figma MCP Starter plan tool-call limit.

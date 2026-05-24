@@ -1,0 +1,11 @@
+com.techfun.phonicsapp:styleable/BasicView = 0x7f040000
+com.techfun.phonicsapp:string/basic_controls_library_name = 0x7f020001
+com.techfun.phonicsapp:attr/basicVariant = 0x7f010006
+com.techfun.phonicsapp:attr/basicTitle = 0x7f010005
+com.techfun.phonicsapp:string/app_name = 0x7f020000
+com.techfun.phonicsapp:attr/basicTextKey = 0x7f010004
+com.techfun.phonicsapp:attr/basicText = 0x7f010003
+com.techfun.phonicsapp:style/AppTheme = 0x7f030000
+com.techfun.phonicsapp:attr/basicSelected = 0x7f010002
+com.techfun.phonicsapp:attr/basicMessage = 0x7f010001
+com.techfun.phonicsapp:attr/basicDisabled = 0x7f010000

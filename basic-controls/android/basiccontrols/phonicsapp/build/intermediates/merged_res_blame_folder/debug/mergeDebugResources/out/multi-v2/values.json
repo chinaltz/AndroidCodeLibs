@@ -1,0 +1,119 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.techfun.phonicsapp-mergeDebugResources-3:/values/values.xml",
+            "map": [
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "-1",
+                        "startColumns": "-1",
+                        "startOffsets": "-1"
+                    },
+                    "to": {
+                        "startLines": "4",
+                        "startColumns": "4",
+                        "startOffsets": "168",
+                        "endLines": "9",
+                        "endColumns": "12",
+                        "endOffsets": "497"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/packaged_res/debug/packageDebugResources/values/values.xml",
+                    "from": {
+                        "startLines": "-1,3",
+                        "startColumns": "-1,4",
+                        "startOffsets": "-1,126",
+                        "endLines": "-1,18",
+                        "endColumns": "-1,24",
+                        "endOffsets": "-1,613"
+                    },
+                    "to": {
+                        "startLines": "3,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "97,502",
+                        "endLines": "3,25",
+                        "endColumns": "70,24",
+                        "endOffsets": "163,989"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "-1",
+                        "startColumns": "-1",
+                        "startOffsets": "-1"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "41",
+                        "endOffsets": "92"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "/Volumes/outmount/.gradle/daemon/9.0-milestone-1/com.techfun.phonicsapp-mergeDebugResources-3:/values/values.xml",
+            "map": [
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/res/values/styles.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "345"
+                    },
+                    "to": {
+                        "startLines": "4",
+                        "startColumns": "4",
+                        "startOffsets": "168",
+                        "endLines": "9",
+                        "endColumns": "12",
+                        "endOffsets": "497"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/packaged_res/debug/packageDebugResources/values/values.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,126",
+                        "endLines": "2,16",
+                        "endColumns": "70,24",
+                        "endOffsets": "121,552"
+                    },
+                    "to": {
+                        "startLines": "3,10",
+                        "startColumns": "4,4",
+                        "startOffsets": "97,502",
+                        "endLines": "3,23",
+                        "endColumns": "70,24",
+                        "endOffsets": "163,928"
+                    }
+                },
+                {
+                    "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/res/values/strings.xml",
+                    "from": {
+                        "startLines": "1",
+                        "startColumns": "4",
+                        "startOffsets": "16",
+                        "endColumns": "41",
+                        "endOffsets": "53"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "41",
+                        "endOffsets": "92"
+                    }
+                }
+            ]
+        }
+    ]
+}

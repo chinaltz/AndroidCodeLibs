@@ -4,7 +4,8 @@ attr? basicDisabled
 attr? basicMessage
 attr? basicSelected
 attr? basicText
+attr? basicTextKey
 attr? basicTitle
 attr? basicVariant
 string basic_controls_library_name
-styleable BasicView basicVariant basicText basicTitle basicMessage basicSelected basicDisabled
+styleable BasicView basicVariant basicText basicTextKey basicTitle basicMessage basicSelected basicDisabled

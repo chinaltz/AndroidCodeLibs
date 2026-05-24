@@ -1,0 +1,12 @@
+com.techfun.phonicsapp
+attr basicDisabled
+attr basicMessage
+attr basicSelected
+attr basicText
+attr basicTextKey
+attr basicTitle
+attr basicVariant
+string app_name
+string basic_controls_library_name
+style AppTheme
+styleable BasicView basicDisabled basicMessage basicSelected basicText basicTextKey basicTitle basicVariant

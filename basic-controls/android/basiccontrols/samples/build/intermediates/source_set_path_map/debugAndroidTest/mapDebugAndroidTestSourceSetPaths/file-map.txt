@@ -1,0 +1,4 @@
+com.techfun.basiccontrols.samples.test.samples-androidTest-0 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/generated/res/resValues/androidTest/debug
+com.techfun.basiccontrols.samples.test.samples-mergeDebugAndroidTestResources-1 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
+com.techfun.basiccontrols.samples.test.samples-mergeDebugAndroidTestResources-2 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
+com.techfun.basiccontrols.samples.test.samples-debugAndroidTest-3 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/merged_res/debugAndroidTest/mergeDebugAndroidTestResources

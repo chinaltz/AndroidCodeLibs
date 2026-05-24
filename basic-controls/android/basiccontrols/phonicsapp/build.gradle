@@ -1,0 +1,25 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "com.techfun.phonicsapp"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.techfun.phonicsapp"
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName "0.1.0"
+    }
+
+    // MediaPlayer.openFd 要求 assets 内 mp3 不压缩
+    androidResources {
+        noCompress "mp3"
+    }
+}
+
+dependencies {
+    implementation project(":basiccontrols")
+}

@@ -1,0 +1,45 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.techfun.phonicsapp"
+4    android:versionCode="1"
+5    android:versionName="0.1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="23"
+9        android:targetSdkVersion="35" />
+10
+11    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+11-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:2:5-71
+11-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:2:22-68
+12
+13    <application
+13-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:4:5-16:19
+14        android:allowBackup="false"
+14-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:5:9-36
+15        android:debuggable="true"
+16        android:extractNativeLibs="false"
+17        android:label="@string/app_name"
+17-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:6:9-41
+18        android:testOnly="true"
+19        android:theme="@style/AppTheme" >
+19-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:7:9-40
+20        <activity
+20-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:8:9-15:20
+21            android:name="com.techfun.phonicsapp.MainActivity"
+21-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:9:13-41
+22            android:exported="true" >
+22-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:10:13-36
+23            <intent-filter>
+23-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:11:13-14:29
+24                <action android:name="android.intent.action.MAIN" />
+24-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:12:17-69
+24-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:12:25-66
+25
+26                <category android:name="android.intent.category.LAUNCHER" />
+26-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:13:17-77
+26-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/phonicsapp/src/main/AndroidManifest.xml:13:27-74
+27            </intent-filter>
+28        </activity>
+29    </application>
+30
+31</manifest>

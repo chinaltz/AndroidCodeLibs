@@ -1,0 +1,8 @@
+{
+  "source": "dev_bundled",
+  "mode": "bundled_assets",
+  "network": false,
+  "phonemes": "MIT s5s5/phonics isolated IPA + Edge SSML (en-GB) for UK gaps",
+  "words": "edge-tts en-GB-SoniaNeural",
+  "note": "音标为孤立音素，非整词。开发占位。"
+}

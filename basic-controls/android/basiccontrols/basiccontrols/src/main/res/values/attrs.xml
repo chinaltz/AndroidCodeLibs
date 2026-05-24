@@ -8,6 +8,8 @@
         <attr name="basicVariant" format="string" />
         <!-- 组件主文案，例如 Button 文案、Badge 文案、Tab 文案。 -->
         <attr name="basicText" format="string" />
+        <!-- 组件主文案的国际化 key。由 BasicI18nManager 从 assets JSON 中解析。 -->
+        <attr name="basicTextKey" format="string" />
         <!-- 组件标题，例如 Alert 标题。 -->
         <attr name="basicTitle" format="string" />
         <!-- 组件正文消息，例如 Alert 说明。 -->

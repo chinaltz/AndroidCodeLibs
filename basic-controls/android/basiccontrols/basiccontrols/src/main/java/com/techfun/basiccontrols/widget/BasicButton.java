@@ -57,6 +57,37 @@ public class BasicButton extends FrameLayout {
         readAttrs(attrs);
         refreshTheme();
         setClickable(true);
+        setFocusable(true);
+        setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+        disableChildTouch(labelView);
+        disableChildTouch(shadowLayer);
+    }
+
+    @Override
+    public void setOnClickListener(OnClickListener listener) {
+        super.setOnClickListener(listener);
+        disableChildTouch(labelView);
+    }
+
+  /**
+   * 子 View 若变成 clickable，会抢走触摸，导致没有按压动画、点击无效。
+   * 所有触摸统一由 BasicButton 自己处理。
+   */
+    private static void disableChildTouch(View child) {
+        child.setClickable(false);
+        child.setLongClickable(false);
+        child.setFocusable(false);
+        child.setFocusableInTouchMode(false);
+        child.setOnClickListener(null);
+        child.setOnTouchListener(null);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+        if (isEnabled() && isClickable()) {
+            return true;
+        }
+        return super.onInterceptTouchEvent(event);
     }
 
     /** 设置按钮变体，例如 primary/default/danger/text/link。 */
@@ -133,19 +164,25 @@ public class BasicButton extends FrameLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        boolean handled = super.onTouchEvent(event);
-        if (!isEnabled()) {
-            return handled;
+        if (!isEnabled() || !isClickable()) {
+            return super.onTouchEvent(event);
         }
         BasicStyle style = BasicThemeManager.style();
-        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-            // 按下时内容层向下移动，模拟“按钮被压下去”的岛屿风格反馈。
+        int action = event.getActionMasked();
+        if (action == MotionEvent.ACTION_DOWN) {
             labelView.setTranslationY(style.pressedDropY);
-        } else if (event.getActionMasked() == MotionEvent.ACTION_UP
-                || event.getActionMasked() == MotionEvent.ACTION_CANCEL) {
-            labelView.setTranslationY(0f);
+            return true;
         }
-        return handled;
+        if (action == MotionEvent.ACTION_UP) {
+            labelView.setTranslationY(0f);
+            performClick();
+            return true;
+        }
+        if (action == MotionEvent.ACTION_CANCEL) {
+            labelView.setTranslationY(0f);
+            return true;
+        }
+        return true;
     }
 
     @Override

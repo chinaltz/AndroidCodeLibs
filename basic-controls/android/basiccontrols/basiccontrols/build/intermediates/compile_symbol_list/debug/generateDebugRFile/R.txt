@@ -2,13 +2,15 @@ int attr basicDisabled 0x0
 int attr basicMessage 0x0
 int attr basicSelected 0x0
 int attr basicText 0x0
+int attr basicTextKey 0x0
 int attr basicTitle 0x0
 int attr basicVariant 0x0
 int string basic_controls_library_name 0x0
-int[] styleable BasicView { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+int[] styleable BasicView { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
 int styleable BasicView_basicDisabled 0
 int styleable BasicView_basicMessage 1
 int styleable BasicView_basicSelected 2
 int styleable BasicView_basicText 3
-int styleable BasicView_basicTitle 4
-int styleable BasicView_basicVariant 5
+int styleable BasicView_basicTextKey 4
+int styleable BasicView_basicTitle 5
+int styleable BasicView_basicVariant 6

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TechFun Planet Basic Controls Penpot Preview</title>
+  <style>
+    :root {
+      --page: #DDF4FF;
+      --page-end: #F9FDFF;
+      --surface: #FEFFFF;
+      --surface-raised: #FFFFFF;
+      --brand: #31A8FF;
+      --brand-hover: #8BD5FF;
+      --brand-subtle: #E5F6FF;
+      --text: #173A62;
+      --text-secondary: #365D82;
+      --border: #C8EAFF;
+      --success: #43CFC7;
+      --warning: #FFD166;
+      --danger: #FF6B7A;
+      --radius-card: 28px;
+      --radius-control: 22px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: sans-serif, system-ui, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--page), var(--page-end));
+    }
+    main {
+      width: min(1180px, calc(100vw - 48px));
+      margin: 0 auto;
+      padding: 40px 0 64px;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+    .panel, .component-card {
+      background: var(--surface-raised);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-card);
+      box-shadow: 0 12px 0 rgba(200, 234, 255, .75);
+    }
+    .panel { padding: 28px; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+    p { margin: 0; color: var(--text-secondary); line-height: 1.7; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+    .button {
+      min-height: 45px;
+      padding: 0 20px;
+      border-radius: var(--radius-control);
+      border: 2px solid var(--brand);
+      display: inline-flex;
+      align-items: center;
+      font-weight: 700;
+    }
+    .button.primary { color: white; background: var(--brand); }
+    .button.default { color: var(--text); background: white; }
+    .button.danger { color: white; border-color: var(--danger); background: var(--danger); }
+    .control-row { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 18px; align-items: center; }
+    .input {
+      min-width: 230px;
+      height: 48px;
+      padding: 0 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-control);
+      background: white;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+    }
+    .switch {
+      width: 52px;
+      height: 28px;
+      border-radius: 999px;
+      border: 2.5px solid var(--brand);
+      background: var(--brand-hover);
+      position: relative;
+    }
+    .switch::after {
+      content: "";
+      width: 21px;
+      height: 21px;
+      border-radius: 999px;
+      background: white;
+      border: 2px solid var(--brand);
+      position: absolute;
+      top: 1px;
+      right: 2px;
+    }
+    .badge {
+      height: 20px;
+      min-width: 20px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: var(--success);
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .component-card {
+      min-height: 132px;
+      padding: 18px;
+      box-shadow: 0 8px 0 rgba(200, 234, 255, .55);
+    }
+    .component-title { font-size: 16px; font-weight: 800; }
+    .component-meta { margin-top: 6px; color: var(--brand); font-size: 12px; font-weight: 700; }
+    .component-state { margin-top: 14px; color: var(--text-secondary); font-size: 12px; line-height: 1.5; }
+    .loader {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 8px solid var(--brand-subtle);
+      border-top-color: var(--brand);
+      border-right-color: var(--success);
+      animation: spin 1s linear infinite;
+      margin: 20px auto 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 760px) {
+      main { width: min(100vw - 28px, 420px); padding-top: 24px; }
+      .hero { grid-template-columns: 1fr; }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="panel">
+        <h1>TechFun Planet Basic Controls</h1>
+        <p>Penpot preview generated from the same two JSON token files used by the Android Java View library.</p>
+        <div class="actions">
+          <div class="button primary">Primary</div>
+          <div class="button default">Default</div>
+          <div class="button danger">Danger</div>
+        </div>
+        <div class="control-row">
+          <div class="input">Sky planet input</div>
+          <div class="switch"></div>
+          <div class="badge">NEW</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h1>Loading</h1>
+        <p>Refresh, load-more and modal loading states share motion and color tokens.</p>
+        <div class="loader"></div>
+      </div>
+    </section>
+    <section class="preview-grid">
+      
+    <section class="component-card">
+      <div class="component-title">Button</div>
+      <div class="component-meta">BasicButton</div>
+      <div class="component-state">primary/default/danger/text/link/disabled/pressed</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Input</div>
+      <div class="component-meta">BasicInputView</div>
+      <div class="component-state">focus/error/disabled</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Switch</div>
+      <div class="component-meta">BasicSwitchView</div>
+      <div class="component-state">small/default, checked/loading/disabled</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Checkbox</div>
+      <div class="component-meta">BasicCheckboxView</div>
+      <div class="component-state">checked/unchecked/disabled</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Radio</div>
+      <div class="component-meta">BasicRadioView</div>
+      <div class="component-state">checked/unchecked/disabled</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Select</div>
+      <div class="component-meta">BasicSelectView</div>
+      <div class="component-state">trigger/menu/selected option</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Tabs</div>
+      <div class="component-meta">BasicTabsView</div>
+      <div class="component-state">selected/default</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Card</div>
+      <div class="component-meta">BasicCardView</div>
+      <div class="component-state">cloud surface / organic radius</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Alert</div>
+      <div class="component-meta">BasicAlertView</div>
+      <div class="component-state">info/success/warning/error</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Badge</div>
+      <div class="component-meta">BasicBadgeView</div>
+      <div class="component-state">status/count</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Chip</div>
+      <div class="component-meta">BasicChipView</div>
+      <div class="component-state">selected/removable</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">List Item</div>
+      <div class="component-meta">BasicListItemView</div>
+      <div class="component-state">title/subtitle/action</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Progress</div>
+      <div class="component-meta">BasicProgressView</div>
+      <div class="component-state">linear status progress</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Loading</div>
+      <div class="component-meta">BasicLoadingView</div>
+      <div class="component-state">inline loading</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Planet Loading</div>
+      <div class="component-meta">BasicPlanetLoadingView</div>
+      <div class="component-state">sky planet animated loader</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Loading Dialog</div>
+      <div class="component-meta">BasicLoadingDialog</div>
+      <div class="component-state">translucent modal loading</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Refresh Layout</div>
+      <div class="component-meta">BasicRefreshLayout</div>
+      <div class="component-state">pull refresh / load more</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Toast</div>
+      <div class="component-meta">BasicToast</div>
+      <div class="component-state">custom transient message</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Empty</div>
+      <div class="component-meta">BasicEmptyView</div>
+      <div class="component-state">empty state</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Divider</div>
+      <div class="component-meta">BasicDividerView</div>
+      <div class="component-state">solid/dashed section divider</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Collapse</div>
+      <div class="component-meta">BasicCollapseView</div>
+      <div class="component-state">expanded/collapsed</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Modal</div>
+      <div class="component-meta">BasicModalDialog</div>
+      <div class="component-state">dialog header/body/actions</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Table</div>
+      <div class="component-meta">BasicTableView</div>
+      <div class="component-state">header/rows/cells</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Code Block</div>
+      <div class="component-meta">BasicCodeBlockView</div>
+      <div class="component-state">mono surface</div>
+    </section>
+    <section class="component-card">
+      <div class="component-title">Typewriter</div>
+      <div class="component-meta">BasicTypewriterView</div>
+      <div class="component-state">text animation</div>
+    </section>
+    </section>
+  </main>
+</body>
+</html>
