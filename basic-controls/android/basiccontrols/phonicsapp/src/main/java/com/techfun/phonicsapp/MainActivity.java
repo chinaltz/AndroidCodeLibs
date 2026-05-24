@@ -774,12 +774,12 @@ public class MainActivity extends Activity {
                 t("page/settings/entry_theme"),
                 themeLabel(),
                 this::showSettingsTheme
-        ), withTopMargin(16));
+        ), withTopMargin(12));
         root.addView(settingsEntryCard(
                 t("page/settings/entry_language"),
                 languageLabel(),
                 this::showSettingsLanguage
-        ), withTopMargin(14));
+        ), withTopMargin(10));
         scrollTop();
     }
 
@@ -790,10 +790,10 @@ public class MainActivity extends Activity {
         BasicCardView card = new BasicCardView(this);
         LinearLayout box = vertical();
         for (String key : THEME_KEYS) {
-            box.addView(themeOptionRow(key), withTopMargin(10, dp(52)));
+            box.addView(themeOptionRow(key), withTopMargin(8));
         }
         card.addView(box, fullWidth());
-        root.addView(card, withTopMargin(16));
+        root.addView(card, withTopMargin(12));
         scrollTop();
     }
 
@@ -804,10 +804,10 @@ public class MainActivity extends Activity {
         BasicCardView card = new BasicCardView(this);
         LinearLayout box = vertical();
         for (String code : BasicI18nManager.languages()) {
-            box.addView(languageOptionRow(code), withTopMargin(10, dp(52)));
+            box.addView(languageOptionRow(code), withTopMargin(8));
         }
         card.addView(box, fullWidth());
-        root.addView(card, withTopMargin(16));
+        root.addView(card, withTopMargin(12));
         scrollTop();
     }
 
@@ -816,23 +816,22 @@ public class MainActivity extends Activity {
         LinearLayout row = new LinearLayout(this);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
-        row.setPadding(dp(16), dp(14), dp(16), dp(14));
+        row.setPadding(dp(14), dp(10), dp(14), dp(10));
+        row.setMinimumHeight(dp(52));
         LinearLayout textBox = vertical();
-        textBox.addView(text(title, 18, cTitle(), true), fullWidth());
-        textBox.addView(text(value, 14, cMuted(), false), withTopMargin(4));
+        textBox.addView(text(title, 16, cTitle(), true), fullWidth());
+        textBox.addView(text(value, 13, cMuted(), false), withTopMargin(2));
         row.addView(textBox, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-        row.addView(text("›", 22, cMuted(), true), wrap());
+        TextView chevron = text("›", 18, cMuted(), true);
+        chevron.setIncludeFontPadding(false);
+        row.addView(chevron, wrap());
         card.addView(row, fullWidth());
         card.setOnClickListener(view -> onClick.run());
         return card;
     }
 
     private TextView themeOptionRow(String key) {
-        TextView option = text(themeName(key), 17, cTitle(), true);
-        option.setGravity(Gravity.CENTER_VERTICAL);
-        option.setPadding(dp(16), 0, dp(16), 0);
-        option.setBackground(selectableBackground(key.equals(themeKey)));
-        option.setOnClickListener(view -> {
+        return settingsOptionRow(themeName(key), key.equals(themeKey), () -> {
             if (key.equals(themeKey)) {
                 return;
             }
@@ -840,15 +839,10 @@ public class MainActivity extends Activity {
             prefs.edit().putString(KEY_THEME, themeKey).apply();
             recreateApp();
         });
-        return option;
     }
 
     private TextView languageOptionRow(String code) {
-        TextView option = text(t("language/" + code), 17, cTitle(), true);
-        option.setGravity(Gravity.CENTER_VERTICAL);
-        option.setPadding(dp(16), 0, dp(16), 0);
-        option.setBackground(selectableBackground(code.equals(language)));
-        option.setOnClickListener(view -> {
+        return settingsOptionRow(t("language/" + code), code.equals(language), () -> {
             if (code.equals(language)) {
                 return;
             }
@@ -857,6 +851,16 @@ public class MainActivity extends Activity {
             BasicI18nManager.setLanguage(language);
             recreateApp();
         });
+    }
+
+    private TextView settingsOptionRow(String label, boolean selected, Runnable onClick) {
+        TextView option = text(label, 16, cTitle(), true);
+        option.setGravity(Gravity.CENTER_VERTICAL);
+        option.setIncludeFontPadding(false);
+        option.setPadding(dp(14), dp(10), dp(14), dp(10));
+        option.setMinHeight(dp(44));
+        option.setBackground(selectableBackground(selected));
+        option.setOnClickListener(view -> onClick.run());
         return option;
     }
 
@@ -864,7 +868,7 @@ public class MainActivity extends Activity {
         return rounded(
                 selected ? cSelectedFill() : cPaper(),
                 selected ? CYAN : cLine(),
-                dp(16),
+                dp(14),
                 dp(2)
         );
     }
