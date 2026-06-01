@@ -5,6 +5,8 @@
         
         <attr format="string" name="basicText"/>
         
+        <attr format="string" name="basicTextKey"/>
+        
         <attr format="string" name="basicTitle"/>
         
         <attr format="string" name="basicMessage"/>
@@ -22,6 +24,8 @@
         <attr format="string" name="basicVariant"/>
         
         <attr format="string" name="basicText"/>
+        
+        <attr format="string" name="basicTextKey"/>
         
         <attr format="string" name="basicTitle"/>
         

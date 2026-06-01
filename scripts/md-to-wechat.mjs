@@ -246,6 +246,15 @@ function markdownToHtml(md) {
       continue;
     }
 
+    const h4 = line.match(/^####\s+(.+)$/);
+    if (h4) {
+      html.push(
+        `<h4 style="font-size:16px;font-weight:900;margin:20px 0 8px;color:${THEME.starBlueDark};line-height:1.45;">${inlineFormat(h4[1])}</h4>\n`
+      );
+      i++;
+      continue;
+    }
+
     const h3 = line.match(/^###\s+(.+)$/);
     if (h3) {
       html.push(
@@ -334,6 +343,13 @@ function markdownToHtml(md) {
       html.push(renderCode(para.join('\n'), 'ascii-box'));
       continue;
     }
+    if (para.length === 0) {
+      html.push(
+        `<p style="margin:12px 0;line-height:1.9;color:${THEME.inkSoft};">${inlineFormat(line)}</p>\n`
+      );
+      i++;
+      continue;
+    }
     html.push(
       `<p style="margin:12px 0;line-height:1.9;color:${THEME.inkSoft};">${inlineFormat(para.join(' '))}</p>\n`
     );
@@ -417,7 +433,7 @@ const HTML_SHELL = (title, body, generatedAt) => `<!DOCTYPE html>
 <div class="toolbar">
   <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
   <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
-  <span class="hint">复制后 → 公众号后台正文区粘贴。图片需在公众号里重新上传。</span>
+  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
 </div>
 <div id="article">
 ${body}
@@ -432,12 +448,73 @@ function selectArticle() {
   sel.removeAllRanges();
   sel.addRange(range);
 }
+
+function buildClipboardPayload() {
+  const el = document.getElementById('article');
+  const clone = el.cloneNode(true);
+
+  clone.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    try {
+      a.href = new URL(href, window.location.href).href;
+    } catch (_) {
+      a.setAttribute('href', href);
+    }
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  clone.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    try {
+      img.src = new URL(src, window.location.href).href;
+    } catch (_) {
+      img.setAttribute('src', src);
+    }
+  });
+
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+  const text = Array.from(clone.childNodes)
+    .map((node) => node.innerText || node.textContent || '')
+    .join('\\n')
+    .replace(/\\n{3,}/g, '\\n\\n');
+
+  const links = Array.from(clone.querySelectorAll('a[href]'))
+    .map((a) => {
+      const label = (a.innerText || a.textContent || '').trim();
+      const href = a.getAttribute('href');
+      return label && href ? label + '：' + href : href;
+    })
+    .filter(Boolean)
+    .join('\\n');
+  const textWithLinks = links ? text + '\\n\\n参考链接：\\n' + links : text;
+
+  return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+  const holder = document.createElement('div');
+  holder.setAttribute('contenteditable', 'true');
+  holder.style.position = 'fixed';
+  holder.style.left = '-99999px';
+  holder.style.top = '0';
+  holder.innerHTML = html;
+  document.body.appendChild(holder);
+
+  const range = document.createRange();
+  range.selectNodeContents(holder);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  const ok = document.execCommand('copy');
+  sel.removeAllRanges();
+  document.body.removeChild(holder);
+  return ok;
+}
+
 async function copyArticle() {
-  selectArticle();
   try {
-    const el = document.getElementById('article');
-    const html = el.innerHTML;
-    const text = el.innerText;
+    const { html, text } = buildClipboardPayload();
     if (navigator.clipboard && window.ClipboardItem) {
       await navigator.clipboard.write([
         new ClipboardItem({
@@ -446,13 +523,14 @@ async function copyArticle() {
         })
       ]);
     } else {
-      document.execCommand('copy');
+      copyViaSelection(html);
     }
-    alert('✅ 已复制！请到微信公众号后台 → 正文编辑区 → Cmd+V 粘贴');
+    alert('✅ 已复制富文本！请到微信公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
   } catch (e) {
     try {
-      document.execCommand('copy');
-      alert('✅ 已复制（兼容模式）！请到公众号后台粘贴');
+      const { html } = buildClipboardPayload();
+      copyViaSelection(html);
+      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
     } catch (e2) {
       alert('复制失败：请点「选中正文」后手动 Cmd+C');
     }

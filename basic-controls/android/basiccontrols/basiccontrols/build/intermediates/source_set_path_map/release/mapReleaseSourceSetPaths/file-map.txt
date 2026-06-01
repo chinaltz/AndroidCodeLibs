@@ -1,7 +1,7 @@
-com.techfun.basiccontrols-pngs-0 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/generated/res/pngs/release
-com.techfun.basiccontrols-resValues-1 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/generated/res/resValues/release
-com.techfun.basiccontrols-mergeReleaseResources-2 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
-com.techfun.basiccontrols-mergeReleaseResources-3 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
-com.techfun.basiccontrols-release-4 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/merged_res/release/mergeReleaseResources
-com.techfun.basiccontrols-main-5 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/main/res
-com.techfun.basiccontrols-release-6 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/release/res
+com.techskillplanet.basiccontrols-pngs-0 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/generated/res/pngs/release
+com.techskillplanet.basiccontrols-resValues-1 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/generated/res/resValues/release
+com.techskillplanet.basiccontrols-mergeReleaseResources-2 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.techskillplanet.basiccontrols-mergeReleaseResources-3 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.techskillplanet.basiccontrols-release-4 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/merged_res/release/mergeReleaseResources
+com.techskillplanet.basiccontrols-main-5 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/main/res
+com.techskillplanet.basiccontrols-release-6 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/src/release/res

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "过关检查",
+  "disableScroll": true,
+  "usingComponents": {
+    "custom-wrapper": "../../custom-wrapper",
+    "comp": "../../comp"
+  }
+}
+

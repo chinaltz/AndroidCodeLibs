@@ -28,7 +28,7 @@ INJECTED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basi
 		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:4:9-36
 	android:theme
 		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:8:9-58
-activity#com.techfun.basiccontrols.samples.MainActivity
+activity#com.techskillplanet.basiccontrols.samples.MainActivity
 ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:9:9-17:20
 	android:exported
 		ADDED from /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:11:13-36

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.techfun.basiccontrols.samples-mergeDebugResources-3:/values/values.xml",
+            "outputFile": "com.techskillplanet.basiccontrols.samples-mergeDebugResources-3:/values/values.xml",
             "map": [
                 {
                     "source": "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/packaged_res/debug/packageDebugResources/values/values.xml",
@@ -9,17 +9,17 @@
                         "startLines": "2,3",
                         "startColumns": "4,4",
                         "startOffsets": "55,126",
-                        "endLines": "2,16",
+                        "endLines": "2,18",
                         "endColumns": "70,24",
-                        "endOffsets": "121,552"
+                        "endOffsets": "121,613"
                     },
                     "to": {
                         "startLines": "3,10",
                         "startColumns": "4,4",
                         "startOffsets": "115,538",
-                        "endLines": "3,23",
+                        "endLines": "3,25",
                         "endColumns": "70,24",
-                        "endOffsets": "181,964"
+                        "endOffsets": "181,1025"
                     }
                 },
                 {

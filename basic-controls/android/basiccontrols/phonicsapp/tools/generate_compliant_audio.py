@@ -5,7 +5,7 @@
 来源：
   1. 音标（优先）：MIT s5s5/phonics 孤立音素 MP3
   2. 音标（缺口 /ts/ /dz/）：MIT 音素拼接
-  3. 音标（MIT 无文件）：Piper 本地 TTS（MIT voice，短提示音占位）
+  3. 音标（MIT 无文件）：Piper 本地 TTS（MIT voice，直接输入 IPA 音素）
   4. 例词：Piper 本地 TTS（MIT voice）
 
 依赖：
@@ -75,28 +75,32 @@ PHONEME_MIT: dict[str, str] = {
     "m": "m.mp3",
     "n": "n.mp3",
     "ng": "ŋ.mp3",
-    "l": "ɫ.mp3",
     "j": "j.mp3",
     "w": "w.mp3",
     "tr": "tɹ.mp3",
     "dr": "dɹ.mp3",
 }
 
-PHONEME_CONCAT: dict[str, list[str]] = {
-    "ts": ["t.mp3", "s.mp3"],
-    "dz": ["d.mp3", "z.mp3"],
+PHONEME_CONCAT: dict[str, list[str]] = {}
+
+PHONEME_TRIM: dict[str, tuple[str, float, float]] = {
+    # s5s5/phonics has no isolated /ʒ/, but the initial segment of /ʒən/ is
+    # cleaner than short synthetic /ʒ/ for classroom listening.
+    "zh": ("ʒən.mp3", 0.0, 0.32),
 }
 
-# MIT 无独立文件时，Piper 读短提示（开发占位；正式版建议自录）
-PHONEME_PIPER_TEXT: dict[str, str] = {
-    "v_short": "uh",
-    "o_short": "o",
-    "er_long": "er",
-    "ou": "oh",
-    "ia": "ear",
-    "ea": "air",
-    "ua": "sure",
-    "zh": "zh",
+# MIT 无独立文件时，Piper 使用 [[IPA]] 直接合成目标音素，避免读成英文单词或字母。
+PHONEME_PIPER_IPA: dict[str, str] = {
+    "v_short": "ʌ",
+    "o_short": "ɒ",
+    "er_long": "ɜː",
+    "ou": "əʊ",
+    "ia": "ɪə",
+    "ea": "eə",
+    "ua": "ʊə",
+    "l": "lː",
+    "ts": "ts",
+    "dz": "dz",
 }
 
 
@@ -246,6 +250,32 @@ def concat_mit(files: list[str], dest_mp3: Path) -> None:
     list_file.unlink(missing_ok=True)
 
 
+def trim_mit(filename: str, start: float, duration: float, dest_mp3: Path) -> None:
+    src = download_mit(filename)
+    subprocess.run(
+        [
+            "ffmpeg",
+            "-y",
+            "-loglevel",
+            "error",
+            "-ss",
+            str(start),
+            "-t",
+            str(duration),
+            "-i",
+            str(src),
+            "-af",
+            "afade=t=out:st=0.28:d=0.04",
+            "-codec:a",
+            "libmp3lame",
+            "-qscale:a",
+            "4",
+            str(dest_mp3),
+        ],
+        check=True,
+    )
+
+
 def build_phoneme(pid: str, dest: Path, model: Path, config: Path) -> str:
     if pid in PHONEME_MIT:
         src = download_mit(PHONEME_MIT[pid])
@@ -254,9 +284,13 @@ def build_phoneme(pid: str, dest: Path, model: Path, config: Path) -> str:
     if pid in PHONEME_CONCAT:
         concat_mit(PHONEME_CONCAT[pid], dest)
         return f"MIT concat {'+'.join(PHONEME_CONCAT[pid])}"
-    text = PHONEME_PIPER_TEXT[pid]
-    piper_synth(text, dest, model, config)
-    return f"Piper MIT voice '{text}'"
+    if pid in PHONEME_TRIM:
+        filename, start, duration = PHONEME_TRIM[pid]
+        trim_mit(filename, start, duration, dest)
+        return f"MIT trim {filename} {start:.2f}-{start + duration:.2f}s"
+    ipa = PHONEME_PIPER_IPA[pid]
+    piper_synth(f"[[{ipa}]]", dest, model, config)
+    return f"Piper MIT voice IPA [[{ipa}]]"
 
 
 def write_notice() -> None:
@@ -267,8 +301,9 @@ def write_notice() -> None:
 
 - 主要来源：[s5s5/phonics](https://github.com/s5s5/phonics) `public/sound/*.mp3`
 - 许可证：**MIT License**（Copyright (c) 2022 Xiaochao Liu）
-- `/ts/`、`/dz/`：由上述 MIT 音素 MP3 拼接
-- 少量英式缺口音标（如 `/ʌ/` `/ɒ/` `/ɜː/` 等）：**Piper** 本地合成占位，voice 见下
+- `/ts/`、`/dz/`、`/l/`：**Piper** 本地使用 `[[IPA]]` 音素输入合成，避免孤立音素拼接过慢或暗 L 错配
+- `/ʒ/`：由上述 MIT `/ʒən/` 起始音段裁剪
+- 少量 MIT 缺口音标（如 `/ʌ/` `/ɒ/` `/ɜː/` 等）：**Piper** 本地使用 `[[IPA]]` 音素输入合成，voice 见下
 
 ## 例词（words/）
 

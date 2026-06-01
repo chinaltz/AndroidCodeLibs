@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "skills": {
+    "humanizer": {
+      "name": "Humanizer",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=humanizer",
+      "source": "community",
+      "version": "1.0.0",
+      "installedAt": "2026-05-27T14:08:20Z"
+    },
+    "technical-blog-writing": {
+      "name": "Technical Blog Writing",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=technical-blog-writing",
+      "source": "community",
+      "version": "0.1.5",
+      "installedAt": "2026-05-27T14:09:36Z"
+    },
+    "technical-writing": {
+      "name": "technical writing",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=technical-writing",
+      "source": "community",
+      "version": "1.0.0",
+      "installedAt": "2026-05-27T14:09:50Z"
+    },
+    "blog-writing": {
+      "name": "Blog Writing",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=blog-writing",
+      "source": "community",
+      "version": "2.3.0",
+      "installedAt": "2026-05-27T14:10:02Z"
+    },
+    "content-engine-tk": {
+      "name": "Content Engine Tk",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=content-engine-tk",
+      "source": "community",
+      "version": "1.0.0",
+      "installedAt": "2026-05-27T14:10:15Z"
+    },
+    "emergence-blog-writing": {
+      "name": "Emergence Blog Writing",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=emergence-blog-writing",
+      "source": "community",
+      "version": "1.0.0",
+      "installedAt": "2026-05-27T14:10:27Z"
+    },
+    "image-prompt": {
+      "name": "Image Prompt",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=image-prompt",
+      "source": "community",
+      "version": "2.1.0",
+      "installedAt": "2026-05-27T14:19:11Z"
+    },
+    "image-studio": {
+      "name": "Image Studio — AI Image Prompt System",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=image-studio",
+      "source": "community",
+      "version": "1.0.0",
+      "installedAt": "2026-05-27T14:19:23Z"
+    },
+    "blog-image-embedder": {
+      "name": "blog-image-embedder",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=blog-image-embedder",
+      "source": "community",
+      "version": "1.0.4",
+      "installedAt": "2026-05-27T14:19:36Z"
+    },
+    "midjourney-prompt-architect": {
+      "name": "Midjourney Prompt Architect",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=midjourney-prompt-architect",
+      "source": "community",
+      "version": "1.0.0",
+      "installedAt": "2026-05-27T14:19:52Z"
+    },
+    "content-brainstorm": {
+      "name": "Content Brainstorm 自媒体选题策划",
+      "zip_url": "https://api.skillhub.cn/api/v1/download?slug=content-brainstorm",
+      "source": "community",
+      "version": "1.0.0",
+      "installedAt": "2026-05-27T14:20:03Z"
+    }
+  }
+}

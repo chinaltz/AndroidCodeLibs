@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace "com.techfun.basiccontrols.samples"
+    namespace "com.techskillplanet.basiccontrols.samples"
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.techfun.basiccontrols.samples"
+        applicationId "com.techskillplanet.basiccontrols.samples"
         minSdk 23
         targetSdk 35
         versionCode 1

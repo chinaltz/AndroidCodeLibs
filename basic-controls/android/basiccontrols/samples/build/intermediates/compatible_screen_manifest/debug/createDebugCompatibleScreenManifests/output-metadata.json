@@ -4,7 +4,7 @@
     "type": "COMPATIBLE_SCREEN_MANIFEST",
     "kind": "Directory"
   },
-  "applicationId": "com.techfun.basiccontrols.samples",
+  "applicationId": "com.techskillplanet.basiccontrols.samples",
   "variantName": "debug",
   "elements": []
 }

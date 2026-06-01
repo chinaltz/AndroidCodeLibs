@@ -4,7 +4,7 @@
     "type": "AAPT_FRIENDLY_MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.techfun.basiccontrols",
+  "applicationId": "com.techskillplanet.basiccontrols",
   "variantName": "debug",
   "elements": [
     {

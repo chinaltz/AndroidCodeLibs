@@ -1,4 +1,4 @@
-com.techfun.basiccontrols
+com.techskillplanet.basiccontrols
 attr basicDisabled
 attr basicMessage
 attr basicSelected

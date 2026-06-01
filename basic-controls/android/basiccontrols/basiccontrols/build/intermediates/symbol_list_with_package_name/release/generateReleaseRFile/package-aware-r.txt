@@ -1,9 +1,10 @@
-com.techfun.basiccontrols
+com.techskillplanet.basiccontrols
 attr basicDisabled
 attr basicMessage
 attr basicSelected
 attr basicText
+attr basicTextKey
 attr basicTitle
 attr basicVariant
 string basic_controls_library_name
-styleable BasicView basicDisabled basicMessage basicSelected basicText basicTitle basicVariant
+styleable BasicView basicDisabled basicMessage basicSelected basicText basicTextKey basicTitle basicVariant

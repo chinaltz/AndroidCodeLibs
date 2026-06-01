@@ -23,7 +23,13 @@
       "Bash(pip3 install:*)",
       "Read(//System/Library/Fonts/**)",
       "Bash(ffprobe:*)",
-      "Bash(npm run convert:*)"
+      "Bash(npm run convert:*)",
+      "Bash(node -e \"try{require(''sharp'');console.log(''sharp ok'')}catch(e){console.log(''no sharp'')}\")",
+      "Bash(npm install sharp)",
+      "Bash(node:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:deepwiki.com)",
+      "WebFetch(domain:hellogithub.com)"
     ],
     "deny": [],
     "ask": []

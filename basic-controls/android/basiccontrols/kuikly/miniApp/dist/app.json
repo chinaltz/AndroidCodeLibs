@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/PhonicsMap/index",
+    "pages/PhonicsLearn/index",
+    "pages/PhonicsCheck/index"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundTextStyle": "light",
+    "backgroundColor": "#E8F8FF",
+    "navigationBarBackgroundColor": "#E8F8FF",
+    "navigationBarTitleText": "音标星球",
+    "navigationBarTextStyle": "black",
+    "enablePullDownRefresh": false
+  }
+}
+

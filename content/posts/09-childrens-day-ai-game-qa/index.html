@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6.1 儿童节，带孩子用 AI 问答做一个小游戏</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">6.1 儿童节，带孩子用 AI 问答做一个小游戏</h1>
+<p style="margin:18px 0;"><img src="images/header.png" alt="头图：6.1 儿童节亲子 AI 游戏创作" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">亲子 AI 实操 · 从孩子的想法到小游戏方案</p><p style="margin:4px 0;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，一起用技术创造乐趣。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">6.1 儿童节快到了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多家长会想着给孩子买个礼物，带孩子出去玩一趟，或者安排一顿好吃的。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些当然都很好。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但今年你也可以试试另一件事：带孩子一起，用 AI 做一个只属于他的小游戏。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你也想照着试，难度大概是 ⭐⭐⭐。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">需要一个 AI 聊天工具，加一个能写代码的 AI 工具。第一次可能会折腾一点，但整个过程很适合亲子一起玩。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>我一开始也差点从工具下手</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人一听“做游戏”，脑子里马上出现一堆词：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">代码、引擎、素材、动画、上线、微信小游戏。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">然后就开始头大。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">其实带孩子做第一个小游戏，不应该先从工具开始。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它更像搭积木。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你得先问孩子：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“你想搭城堡，还是小动物的家？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而不是一上来就问：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“我们用哪种高级积木拼接结构？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子真正感兴趣的，往往不是技术。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">是主角是谁、去哪里冒险、要救谁、会不会赢、好不好玩。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这次我做下来，最有用的不是先打开开发工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是先把孩子脑子里的画面问出来。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第一步：先让孩子做选择，而不是让孩子“想一个游戏”</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你直接问孩子：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“你想做什么游戏？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多孩子会愣住。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为这个问题太大了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更好的方式是给选项。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">就像点餐一样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不问：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“你今天想吃什么宇宙级美食？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你会问：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“面条、米饭、披萨，你想吃哪个？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">做游戏也一样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我当时先让 AI 帮我准备了一组选择题：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想在 6.1 儿童节带孩子一起做一个微信小游戏。
+
+请你不要直接给方案，先帮我设计 7 个适合问孩子的问题。
+
+要求：
+- 每个问题都给 4 到 6 个选项
+- 选项要适合 5 到 10 岁孩子理解
+- 问题要覆盖游戏类型、主题、主角、每局时长、游戏目标、难度、是否需要排行榜
+- 语气像家长在跟孩子聊天</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子选起来很快。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最后整理出来大概是这样：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">问题</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">孩子的选择</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">想玩哪种游戏</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">养成/照顾小动物</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">主题想选什么</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">糖果王国</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">主角是谁</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">小动物</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每局玩多久</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">1 分钟</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">游戏目标是什么</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">救朋友</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">难度怎么样</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">很简单</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">要不要排行榜、广告、分享</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">都不要，简单玩就好</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子当然不会说“我要一个完整游戏设计文档”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但这些答案已经足够做出一个方向：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">糖果王国里，小动物用 1 分钟救朋友。游戏要简单，不要排行榜，不要广告。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比起一句“做个儿童节游戏”，这已经清楚很多。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第二步：让 AI 把孩子的话翻译成游戏方案</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子的表达通常很可爱，但不会很完整。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如他说：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“我要小动物救朋友。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里面还有很多空白：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">怎么救？</li>
+<li style="margin:4px 0;">救谁？</li>
+<li style="margin:4px 0;">成功怎么算？</li>
+<li style="margin:4px 0;">失败会怎样？</li>
+<li style="margin:4px 0;">每一局玩什么？</li>
+<li style="margin:4px 0;">回到首页能干什么？</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些问题，我没有自己硬想。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我把孩子的选择丢给 AI，让它先整理成方案：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">下面是孩子选择出来的游戏方向：
+
+1. 游戏类型：养成/照顾小动物
+2. 主题：糖果王国
+3. 主角：小动物
+4. 单局时长：1 分钟
+5. 游戏目标：救朋友
+6. 难度：很简单
+7. 不要排行榜、广告、分享
+
+请帮我整理成一份儿童节微信小游戏方案。
+
+要求：
+- 面向 5 到 10 岁孩子
+- 玩法要简单，但不能无聊
+- 包含首页、游戏页、结算页
+- 写清楚每一页有什么
+- 写清楚玩家怎么赢
+- 风格要 Q 萌、轻松、有趣</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">整理完之后，方向就变成了：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">首页：糖果宠物小屋</li>
+<li style="margin:4px 0;">领养：小兔、小猫、小机器人</li>
+<li style="margin:4px 0;">照顾：喂糖、陪玩、休息</li>
+<li style="margin:4px 0;">闯关：把同色糖果拖给同色泡泡</li>
+<li style="margin:4px 0;">目标：救出泡泡里的小动物朋友</li>
+<li style="margin:4px 0;">奖励：获得糖果粮、玩具券、云朵枕</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">回头看，这有点像把孩子的“梦话”整理成菜单。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子只负责说想法。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">大人负责判断能不能做。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 负责把它写成一份能继续往下走的方案。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第三步：先做“能玩的一小块”，不要贪大</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">家长很容易犯一个错：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">刚开始想做一个小游戏，聊着聊着就变成：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“要不要加宠物成长？”</p><p style="margin:4px 0;">“要不要加 20 个关卡？”</p><p style="margin:4px 0;">“要不要加商店？”</p><p style="margin:4px 0;">“要不要加语音？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最后孩子都困了，游戏还没开始。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一版只做一小块就够。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">先选一个宠物。</li>
+<li style="margin:6px 0;padding-left:2px;">进入糖果王国。</li>
+<li style="margin:6px 0;padding-left:2px;">拖动糖果去救一个朋友。</li>
+<li style="margin:6px 0;padding-left:2px;">成功后回到小屋。</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">只要孩子能看到：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“这是我选的小动物。”</p><p style="margin:4px 0;">“它真的动起来了。”</p><p style="margin:4px 0;">“我救出了朋友。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这件事就已经很有成就感。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我继续让 AI 把范围压小：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请把上面的游戏方案缩小成第一个可玩的版本。
+
+要求：
+- 只做 1 个完整关卡
+- 只保留 3 个宠物选择
+- 只保留 3 种照顾资源
+- 不做登录、排行榜、广告、分享
+- 用微信小游戏原生 Canvas 2D 实现
+- 给我一份文件清单和开发顺序</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里我踩到一个小点：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">要不断提醒 AI：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“先做能玩的第一版。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不然它很容易一上来就给你一堆宏大的系统。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子不会因为你写了 30 页架构设计而开心。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子会因为屏幕上的小兔被自己救出来而开心。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第四步：让孩子继续当“小评委”，问题一下就暴露了</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一版做出来后，千万别急着说：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“完成了。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把手机或电脑拿给孩子看，让他当评委。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">问三个问题就够：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">你觉得哪里好玩？</li>
+<li style="margin:6px 0;padding-left:2px;">你觉得哪里不好看？</li>
+<li style="margin:6px 0;padding-left:2px;">你还想加什么？</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这三个问题，比很多专业评审都管用。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如这次小游戏做出来后，最初版本只是“点糖果救泡泡”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我拿给孩子看，很快就发现问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一个问题不是代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">是画面。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">说是小猫，但孩子根本看不出动物特征。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它更像一个临时画出来的小符号。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">小动物、图标、按钮都太潦草了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这时候我才意识到，可能是我一开始给 AI 的上下文有问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我一直强调：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“这是带孩子一起玩的亲子项目。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 很可能把它理解成：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“随便做个亲子小实验，能看就行。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">结果第一版就很像草稿，而不是一个认真小游戏的视觉效果。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">老版本大概长这样：</p>
+<p style="margin:18px 0;"><img src="images/first-result.jpg" alt="初版结算页：整体能跑，但素材和界面还很草稿" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:18px 0;"><img src="images/first-home.jpg" alt="初版宠物小屋：玩法有了，但角色和图标不够精致" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">除了画面，玩法也很快暴露问题：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">没有什么养成感。</p><p style="margin:4px 0;">不像在照顾小动物。</p><p style="margin:4px 0;">游戏太简单，没什么可玩性。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">于是方案继续改：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">打开游戏先领养宠物。</li>
+<li style="margin:4px 0;">宠物有饱饱、开心、体力。</li>
+<li style="margin:4px 0;">照顾宠物需要消耗资源。</li>
+<li style="margin:4px 0;">资源来自每天补给和闯关奖励。</li>
+<li style="margin:4px 0;">关卡从点击变成拖拽匹配。</li>
+<li style="margin:4px 0;">错了会扣时间，增加一点点挑战。</li>
+<li style="margin:4px 0;">图片资源也重新生成，明确要求商用品质、统一风格、不要 demo 感。</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一轮之后，我对“带孩子一起做”这件事的感觉变了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不是大人做好一个东西丢给孩子玩。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是孩子真的能参与判断。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">他的反馈，会改变下一版长什么样。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第五步：改方案时，也要把素材标准一起改</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这次最重要的经验是：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">改玩法的时候，别只改代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">素材标准也要一起改。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为“可爱”这个词太宽了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你说可爱，AI 可能给你一张儿童涂鸦。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你说 Q 萌，AI 可能给你一个临时贴纸。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但如果你想让它像一个认真小游戏，就要把标准说清楚。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">后来我把素材要求改成了：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请为儿童向微信小游戏生成一套可商用质感的 Q 萌糖果玩具风视觉资产。
+
+要求：
+- 商用品质，不要 demo 感，不要线稿占位图
+- 统一风格，适合 5 到 10 岁孩子
+- 软糖、玩具、棉花糖质感
+- 角色要有圆润轮廓、明亮眼神、柔和高光
+- 图标要像真实游戏 UI 资产，而不是简单符号
+- 每个素材都要透明背景，方便直接放进游戏
+- 包含宠物、低状态宠物、救援朋友、泡泡状态、糖果、资源图标、HUD 图标</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我后来反复加的关键词是：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">商用品质、统一风格、不要 demo 感、真实游戏 UI 资产、透明背景。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">加上这些要求后，素材效果才明显变好。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">新的资源图是这样：</p>
+<p style="margin:18px 0;"><img src="images/refined-assets.png" alt="优化后的素材总览：角色、图标、糖果和朋友统一成 Q 萌糖果玩具风" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">再把这些资源接进游戏里，最终版就比老版本完整很多：</p>
+<p style="margin:18px 0;"><img src="images/game-demo.gif" alt="最终版试玩动图：从关卡大厅进入糖果王国，拖动糖果救朋友" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它当然还谈不上完整。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但孩子能看见自己的想法，真的在屏幕里跑起来了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">下次我再写素材提示词，不会只写“可爱”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我会把这些话一起写进去：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">是儿童绘本可爱，还是手游图标可爱。</li>
+<li style="margin:4px 0;">是草稿验证，还是准备发布。</li>
+<li style="margin:4px 0;">是随便画一个，还是要统一成一套素材。</li>
+<li style="margin:4px 0;">是白底展示，还是透明背景直接进游戏。</li></ul>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>这次给我的意外收获</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">做完这个小游戏，我反而觉得它最像一次小型练习。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不是练怎么写一个多厉害的游戏。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是练怎么把一个模糊想法往前推：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">先问清楚。</li>
+<li style="margin:4px 0;">再整理成方案。</li>
+<li style="margin:4px 0;">做一个很小的版本。</li>
+<li style="margin:4px 0;">拿到反馈。</li>
+<li style="margin:4px 0;">再改下一版。</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">后来我发现，这不只是在做游戏时有用。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写文章、做活动、准备课程、整理旅行计划，也能用。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我现在越来越觉得，AI 最实用的地方不是“替我一口气做完”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是把一件原本不知道怎么开始的事，拆成几个可以继续往下走的小步骤。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你也想试试，可以今晚拿 20 分钟做个小实验。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">打开 AI，把下面这段话发给它：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想带孩子一起为 6.1 儿童节创作一个小游戏。
+
+请你像亲子活动主持人一样，先问我 7 个选择题。
+每题都要适合孩子回答。
+问题要覆盖：游戏类型、主题、主角、单局时长、游戏目标、难度、要不要排行榜或分享。
+
+等我回答后，再帮我整理成一个简单、可爱的小游戏方案。
+如果需要生成素材，请提醒我加入：商用品质、统一风格、不要 demo 感、透明背景。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我这次最大的感受是，做游戏的第一步真的不是写代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">是坐下来，认真听孩子说：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“我想让小动物去糖果王国救朋友。”</p></blockquote>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/5/31 19:02:41</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function buildClipboardPayload() {
+  const el = document.getElementById('article');
+  const clone = el.cloneNode(true);
+
+  clone.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    try {
+      a.href = new URL(href, window.location.href).href;
+    } catch (_) {
+      a.setAttribute('href', href);
+    }
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  clone.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    try {
+      img.src = new URL(src, window.location.href).href;
+    } catch (_) {
+      img.setAttribute('src', src);
+    }
+  });
+
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+  const text = Array.from(clone.childNodes)
+    .map((node) => node.innerText || node.textContent || '')
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n');
+
+  const links = Array.from(clone.querySelectorAll('a[href]'))
+    .map((a) => {
+      const label = (a.innerText || a.textContent || '').trim();
+      const href = a.getAttribute('href');
+      return label && href ? label + '：' + href : href;
+    })
+    .filter(Boolean)
+    .join('\n');
+  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+
+  return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+  const holder = document.createElement('div');
+  holder.setAttribute('contenteditable', 'true');
+  holder.style.position = 'fixed';
+  holder.style.left = '-99999px';
+  holder.style.top = '0';
+  holder.innerHTML = html;
+  document.body.appendChild(holder);
+
+  const range = document.createRange();
+  range.selectNodeContents(holder);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  const ok = document.execCommand('copy');
+  sel.removeAllRanges();
+  document.body.removeChild(holder);
+  return ok;
+}
+
+async function copyArticle() {
+  try {
+    const { html, text } = buildClipboardPayload();
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      copyViaSelection(html);
+    }
+    alert('✅ 已复制富文本！请到微信公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+  } catch (e) {
+    try {
+      const { html } = buildClipboardPayload();
+      copyViaSelection(html);
+      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill 是什么？先去 SkillHub 逛一圈就懂了</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">复制后 → 公众号后台正文区粘贴。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">Skill 是什么？先去 SkillHub 逛一圈就懂了</h1>
+<p style="margin:18px 0;"><img src="images/header.png" alt="头图：Skill 是给 AI 的办事说明书" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">AI 工具扫盲 · 先懂 Skill，再顺手带一点 MCP</p><p style="margin:4px 0;">关注 AI技趣星球，一起用技术创造乐趣。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最近你可能会在 AI 工具里看到一个新词：Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">有人说 Claude 有 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">有人说 Codex 也能用 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">还有人把 Skill、MCP、Agent、插件、工作流全都混在一起讲。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">听起来很高级，但普通人很容易被绕晕。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一句话结论：Skill 可以先理解成「给 AI 的办事说明书」。它告诉 AI 遇到某类任务时，该按什么步骤做、用什么工具、注意哪些坑。你想快速感受它，不用先写代码，可以先去腾讯云的 SkillHub 逛一圈。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">SkillHub 地址：<a href="https://skillhub.cloud.tencent.com/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">https://skillhub.cloud.tencent.com/</a></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">上手难度：⭐⭐   看懂不难。先逛现成 Skill，看到自己需要的再研究怎么写。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先说人话：Skill 就像给新员工的一张 SOP</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把 AI 想成一个很聪明的新同事。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它会写字，会查资料，会总结，也能帮你改代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但它有一个问题：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">每次接新任务，都要重新听你讲规则。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如你要它帮你写公众号文章，你可能每次都要说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请用口语化风格。
+不要写得太像论文。
+每段短一点。
+先给生活例子。
+最后给可操作步骤。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">说一次还行。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">每次都说，就很烦。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 的作用，就是把这些规则提前写好。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">下次你说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">用我的博客风格，写一篇 Skill 科普文。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 看到 Skill 后，就知道：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">这类文章要写给普通人
+  → 先讲生活比喻
+  → 再解释术语
+  → 给步骤和提示词
+  → 最后引导下一步行动</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以 Skill 不是魔法。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它更像一张 SOP。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">也就是工作说明书。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你把做事方法写清楚，AI 就少走弯路。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Skill 是怎么发展起来的？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 不是突然冒出来的。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它其实是 AI 工具一路变强之后，自然长出来的东西。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">可以按这条线理解：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">提示词
+  → 长提示词模板
+  → 项目说明文件
+  → 可复用 Skill
+  → Skill 社区和市场</code></pre>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第一阶段：大家先学会写提示词</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最早大家用 AI，主要靠一句一句问。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我写一篇公众号文章。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">后来大家发现，问得越清楚，结果越好。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">于是提示词开始变长：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">你是一个公众号写手。
+请用口语化风格。
+目标读者是普通人。
+每段不要太长。
+结尾给一个行动建议。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这时候还没有 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但 Skill 的影子已经出现了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为大家已经在做一件事：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">把经验写成规则，让 AI 按规则输出。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第二阶段：长提示词变成固定模板</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">再往后，很多人开始保存自己的提示词模板。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写周报有一套。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写短视频脚本有一套。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写小红书标题有一套。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">做代码审查也有一套。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">问题是，模板越多越乱。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你要复制、粘贴、改变量。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">有时候还会忘记某个关键要求。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这时候大家需要的不只是“一个提示词”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是“一个可以反复调用的能力包”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 就是在这个需求上出现的。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第三阶段：AI 编程工具开始需要项目规矩</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">等 AI 开始帮人写代码，问题又变复杂了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它不只要回答一句话。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它还要看项目文件、改代码、跑命令、查报错。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这时候光靠聊天已经不够。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你需要提前告诉 AI：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">这个项目的目录结构是什么
+代码风格是什么
+哪些文件不能乱动
+改完后要跑哪些检查
+遇到错误先看哪些文档</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以 AGENTS.md、CLAUDE.md、项目规则文件开始流行。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它们解决的是：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">让 AI 先了解这个项目的“公司制度”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 再进一步。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它解决的是：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">遇到某一类任务时，AI 应该按哪套“办事流程”做。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第四阶段：Claude、Codex 这类工具把 Skill 做成正式能力</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">到了 2025 年左右，Skill 开始从“大家自己写提示词模板”，变成 AI 工具里的正式能力。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Claude Code 开始提供 Skills。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它的思路是：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">把某一类任务的说明、脚本、参考资料放在一个文件夹里。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 需要时再加载。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这样既不用每次把所有规则塞进对话里，也能让复杂任务更稳定。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">OpenAI 的 Codex App 也开始支持 Skills、插件和项目规则这一套组合。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把它理解成：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 不再只是一个聊天窗口。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它开始像一个能长期工作的助手。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">要长期工作，就需要记住流程、工具和规矩。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 正好负责这部分。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第五阶段：SkillHub 让普通人也能先逛起来</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">再往后，就出现了 SkillHub 这类网站。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">腾讯云 SkillHub 的价值，不只是给技术人看。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它更像一个 Skill 展示区。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">普通人可以先不用学怎么写。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先看别人已经做了哪些 Skill：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">写作
+办公
+学习
+编程
+运营
+资料整理</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一步很重要。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为一个东西只有被普通人看见、收藏、复用，才会从“技术功能”变成“日常工具”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以 Skill 的发展，可以用一句话概括：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">从“我临时告诉 AI 怎么做”，发展到“我把做事经验沉淀成一个可复用能力”。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先分享一个 Skill 网站：腾讯云 SkillHub</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你以前没见过 Skill，不建议一上来就看技术文档。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先看现成案例更直观。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">腾讯云有一个 SkillHub：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><a href="https://skillhub.cloud.tencent.com/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">https://skillhub.cloud.tencent.com/</a></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它可以理解成一个 Skill 展示和分享社区。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不用先关心底层怎么写。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先看别人已经做了什么。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如你可以重点看这几类：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">类型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你可以怎么理解</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合谁</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">写作类 Skill</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">固定文章风格、标题套路、改稿流程</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">做公众号、小红书、知乎的人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">办公类 Skill</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">整理会议纪要、写周报、做报告</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">职场人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">学习类 Skill</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">讲概念、出练习、做复习计划</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">学生、老师、家长</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">编程类 Skill</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">固定代码规范、项目步骤、排查错误</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">想用 AI 写代码的人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">运营类 Skill</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">生成活动方案、用户反馈总结</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">个体经营者、运营人员</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里最重要的不是“收藏多少个 Skill”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是训练一个感觉：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">原来 AI 不是只能临时聊天，还可以按一套固定方法做事。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你在 SkillHub 里看到一个 Skill，可以先问自己 3 个问题：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">它解决什么固定任务？
+它规定了哪些步骤？
+我有没有类似的重复工作？</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果有，那你就找到 Skill 的真正价值了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它不是给技术人炫技用的。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它是把一件事的经验，变成可以复用的说明书。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>我试着装了几个写作类 Skill，发现它们很像“老师傅经验包”</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">为了更具体一点，我实际用 SkillHub CLI 装了几个偏写作的 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">Skill</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">主要用途</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">对科技博客有什么启发</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">humanizer</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">去掉 AI 写作味，让文章更像人写的</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">少用空泛大词，多写具体感受和判断</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">technical-blog-writing</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">写技术博客、教程、开发者文章</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">先展示结果，再讲步骤，每段代码都要能跑</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">technical-writing</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">写 README、API 文档、架构说明</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">先分清文章类型：教程、指南、参考、解释</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">blog-writing</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">写 SEO 博客和长文</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">开头要直接回答问题，结构要方便搜索和引用</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">content-engine-tk</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">把一篇内容拆成多平台素材</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">一篇文章可以继续拆成短视频、图文卡片、朋友圈文案</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">emergence-blog-writing</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">写适合知乎、Medium、LinkedIn 的观点文章</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">不能只是总结，要给读者一个新的看法</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">content-brainstorm</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">做选题、标题、角度和关键词规划</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">标题不是最后随便起，而是一开始就决定文章切口</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">image-prompt</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">把模糊配图想法变成可用绘图提示词</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">配图要写清主体、风格、光线、构图和负面词</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">image-studio</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">生成博客头图、社媒图、广告图等视觉提示词</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">不同平台要不同尺寸，博客头图常用 1200×628</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">blog-image-embedder</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">给中文博客生成头图和分段配图提示词</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">一篇文章不是只配一张图，每个重点段落都能有视觉锚点</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">midjourney-prompt-architect</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">生成 Midjourney 风格的高质量提示词</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">好图不是“画得好看”，而是主题、场景、光线、构图都明确</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这几个 Skill 看下来，我最大的感觉是：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">好的 Skill 不只是写“你要认真写文章”，而是把“怎么才算认真”拆成检查清单。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如科技博客不能只说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请写得专业一点。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更好的 Skill 会告诉 AI：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">先说明这篇文章适合谁。
+开头 100 字内回答核心问题。
+如果是教程，先展示最终效果。
+每个步骤都要能跟着做。
+涉及代码时，代码块要能运行。
+涉及判断时，要说明边界和不适用场景。
+结尾给下一步行动。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就很有价值。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为它把“写得好”变成了“可以检查的步骤”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">对我们这种面向普通人的科技博客，也可以借一点思路：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">先给生活场景
+再给一句话结论
+再解释概念
+再给可操作步骤
+最后提醒边界和风险</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你会发现，这其实也是一个 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">只是它不一定叫 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">以前它可能叫写作模板。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">现在它可以变成 AI 能直接读取和执行的工作说明书。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">标题类 Skill 给我的启发也很直接：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">标题不是文章写完后随手补一句。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它至少要回答 3 个问题：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">这篇写给谁？
+读者为什么现在要点开？
+点开后能拿走什么具体东西？</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如这篇文章，如果只叫：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">Skill 介绍</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">就很平。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">改成：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">Skill 是什么？先去 SkillHub 逛一圈就懂了</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">读者会更清楚：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这不是论文解释。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它会带你看一个真实网站。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">看完能有直观感觉。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">配图类 Skill 的启发也类似。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人让 AI 画图时，只会说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">给我画一张 AI Skill 的配图。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这太模糊。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更好的配图 Skill 会逼你补全这些信息：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">主体：一个普通人把说明书交给 AI 助手
+场景：干净的桌面，旁边有电脑和笔记本
+风格：扁平插画，科技博客头图
+构图：横向 16:9，左侧人物，右侧留标题空间
+颜色：蓝色、白色、少量黄色点缀
+限制：不要出现乱码文字，不要水印，不要复杂背景</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你会发现，Skill 的价值不是替你“灵感爆发”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它是把容易漏掉的关键项，一项项提醒你补全。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>还可以看看哪些 Skill 相关网站？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">SkillHub 适合先逛。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你想继续了解 Skill 的写法和生态，可以再看这些：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">网站</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合看什么</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合谁</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><a href="https://skillhub.cloud.tencent.com/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">腾讯云 SkillHub</a></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">看现成 Skill、找灵感、理解 Skill 能解决什么问题</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">第一次接触 Skill 的普通人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><a href="https://agentskills.io/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Agent Skills</a></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Skill 的基本概念、目录结构、示例写法</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">想进一步了解标准写法的人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><a href="https://docs.claude.com/en/docs/claude-code/skills" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Claude Skills 文档</a></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Claude Code 里怎么创建和使用 Skill</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">已经在用 Claude Code 的人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><a href="https://openai.com/index/introducing-the-codex-app/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">OpenAI Codex App 介绍</a></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Codex 里 Skill、插件和工作流怎么配合</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">想用 Codex 做项目的人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><a href="https://agents.md/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">AGENTS.md</a></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">怎么给 AI 编程助手写项目说明</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">想让 AI 更懂自己项目的人</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不用一次全看。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">普通人建议按这个顺序来：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">先看 SkillHub
+  → 再看 Agent Skills
+  → 如果你已经用 Claude Code 或 Codex，再看对应文档</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这样不容易被术语吓住。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先看“别人用 Skill 干了什么”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">再看“Skill 到底怎么写”。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Skill 能做什么？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 最核心的作用，是让 AI 在某类任务上「更像熟手」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它不是让 AI 突然变聪明。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是让 AI 少问废话，少乱发挥，少踩重复的坑。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>1. 固定你的写作风格</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如我们做「技趣星球」这个博客，就可以写一个文章 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">里面规定：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">目标读者：普通人，不是专业程序员
+语气：像朋友聊天
+结构：先生活场景，再一句话结论，再步骤
+限制：不要堆术语，不要制造焦虑
+输出：给可复制的提示词</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这样每次写文章，AI 不用从零理解你的风格。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以直接说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请按技趣星球风格，
+写一篇给普通人看的 AI 工具扫盲文。
+主题是：Skill 是什么。
+要求结尾给一个可以立刻照做的小练习。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就是 Skill 的第一种用法：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">把你脑子里的写作习惯，变成 AI 能读懂的规则。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>2. 固定一套做事流程</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">有些任务不是一句话能完成的。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如发布一篇文章，可能要做这些事：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">选题
+  → 写初稿
+  → 润色
+  → 起标题
+  → 做配图方案
+  → 审查
+  → 导出 HTML 和 Word</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果每次都手动提醒 AI，很容易漏步骤。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 可以把流程写下来。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你只要说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">按发布流程处理这篇文章。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 就知道先后顺序。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这类 Skill 特别适合重复工作。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如写周报、整理会议纪要、生成短视频脚本、制作发布清单。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>3. 告诉 AI 项目的规矩</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你让 AI 改代码，最怕它不懂项目规矩。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">这个项目不能随便改目录结构。
+新增文章要放在 content/posts 下面。
+图片路径必须写 ./images/xxx.png。
+改 plan 目录后要同步上下文。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些规矩如果只靠聊天告诉 AI，很容易忘。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写进 Skill 或项目说明后，AI 每次做相关任务都会先看规则。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这对长期项目很有用。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不是每次都重新培训 AI。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你是在给它一本项目手册。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>4. 帮 AI 学会调用工具</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">有些 Skill 不只是写文字规则。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它还会告诉 AI：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">遇到某类任务，应该用哪个脚本、哪个命令、哪个工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">生成 Word 文档时，先运行导出脚本。
+生成图片前，先检查图片目录。
+改完前端页面后，要打开浏览器看一眼。
+处理表格时，优先用表格工具，不要手算。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就不只是「写作风格」了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它开始像一个小型工作流。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 按说明一步步做，结果会稳定很多。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>5. 把你的经验沉淀下来</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 最值得做的地方，是它能保存经验。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如你发现：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">某个平台标题不能太长。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">某个导出命令容易漏图片。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">某类文章必须先讲例子，不然读者看不进去。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些经验如果只放在脑子里，下一次还要重新讲。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写进 Skill 后，它就变成可复用资产。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这也是 Skill 和普通提示词最大的区别。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">普通提示词像一次性便签。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 像一本可以反复翻的工作手册。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Skill 和提示词有什么区别？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人会问：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">那我直接写一个长提示词不就行了吗？</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">可以。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但长提示词适合临时任务。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 适合长期重复任务。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">可以这样理解：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">类型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">像什么</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合场景</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">提示词</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">临时交代一句话</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">偶尔问一次、临时生成内容</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Skill</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">固定工作手册</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">经常重复、规则很多、容易漏步骤</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">项目说明</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">公司制度和项目规矩</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">让 AI 理解一个长期项目</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你只是让 AI 帮你写一段朋友圈文案，提示词就够了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你每周都要写同一种风格的文章，就适合做 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你让 AI 长期参与一个项目，就需要项目说明加 Skill。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>普通人现在要不要学 Skill？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你只是偶尔用 AI 聊天，不用急。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先学会写清楚提示词就够了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但如果你已经开始让 AI 帮你做固定工作，Skill 很值得学。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如你有这些需求：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">每周写一篇公众号
+每天整理客户反馈
+经常让 AI 改同一个项目
+反复生成同一种格式的报告
+每次发布内容都有固定步骤</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">那 Skill 就能帮你省很多重复沟通。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以从一个最小 Skill 开始。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不用写得很复杂。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先写三件事就够：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">这个 Skill 什么时候用
+做事步骤是什么
+有哪些不能犯的错</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">当我说“写技趣星球文章”时，使用这个 Skill。
+
+步骤：
+1. 先用生活场景开头
+2. 给一句话结论
+3. 用表格解释概念
+4. 至少给 2 个可复制提示词
+5. 结尾给下一步行动
+
+注意：
+- 不要写成论文
+- 不要堆专业词
+- 不要制造焦虑</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这已经是一个有用的 Skill 雏形。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 3 件事：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">Skill 是给 AI 的办事说明书，让它按你的方法做事</li>
+<li style="margin:4px 0;">SkillHub 适合先逛现成案例，别一开始就啃技术文档</li>
+<li style="margin:4px 0;">Skill 适合固定风格、固定流程、固定项目规矩</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你今天可以立刻做一个小练习：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先打开腾讯云 SkillHub：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><a href="https://skillhub.cloud.tencent.com/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">https://skillhub.cloud.tencent.com/</a></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">找 3 个你看得懂、用得上的 Skill。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">然后打开你常用的 AI 工具，复制下面这段，让它帮你设计一个自己的 Skill。</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想为自己设计一个 AI Skill。
+
+我的固定任务是：
+[写下你经常重复做的一件事，比如写周报、整理会议纪要、写公众号文章]
+
+请帮我整理成一个 Skill 说明，包括：
+1. 什么时候使用这个 Skill
+2. 具体做事步骤
+3. 输出格式
+4. 需要避免的错误
+5. 给我一个可以直接保存成 Markdown 的版本
+
+要求：
+用普通人能看懂的话写，不要写得像技术文档。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最后顺手带一句 MCP。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 和 MCP 有关系，但不是同一个东西。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Skill 像「办事说明书」，告诉 AI 该怎么做。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">MCP 像「工具插座」，让 AI 能接上外部工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这篇先把 Skill 搞懂就够了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">下一篇我们再单独讲 MCP。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">到时候你会更容易理解：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">为什么现在很多 AI 工具都在接 MCP？</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">为什么它不像普通插件那么简单？</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">以及普通人到底要不要折腾它。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">阅读更多：下一篇计划聊「MCP 是什么？为什么 AI 工具都在接它？」</em>   <em style="font-style:italic;color:#7895AE;">有问题？评论区告诉我。</em></p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/5/27 22:28:14</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+async function copyArticle() {
+  selectArticle();
+  try {
+    const el = document.getElementById('article');
+    const html = el.innerHTML;
+    const text = el.innerText;
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      document.execCommand('copy');
+    }
+    alert('✅ 已复制！请到微信公众号后台 → 正文编辑区 → Cmd+V 粘贴');
+  } catch (e) {
+    try {
+      document.execCommand('copy');
+      alert('✅ 已复制（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

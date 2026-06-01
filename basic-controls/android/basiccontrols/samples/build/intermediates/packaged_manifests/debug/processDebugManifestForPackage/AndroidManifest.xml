@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.techfun.basiccontrols.samples"
+    package="com.techskillplanet.basiccontrols.samples"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicControlsSamples" >
         <activity
-            android:name="com.techfun.basiccontrols.samples.MainActivity"
+            android:name="com.techskillplanet.basiccontrols.samples.MainActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

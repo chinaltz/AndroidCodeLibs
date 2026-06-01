@@ -8,10 +8,19 @@ It keeps the same goal: a token-driven Android component system that can also be
 
 - `design/tokens/color_token.json`: color primitives and semantic colors.
 - `design/tokens/style_token.json`: radius, size, spacing, typography, shadow, and motion tokens.
+- `PACKAGING.md`: library/sample boundaries and publish verification commands for every platform.
+- `PLATFORM_STRUCTURE.md`: cross-platform source layout rules: one component per file, one page per file, clear routing.
+- `PLATFORM_AUDIT.md`: current pass/fail status for every platform against the structure rules.
+- `tools/check_platform_structure.cjs`: automated structure check for every platform.
 - `design/figma/sky_planet_design_spec.md`: Figma design structure and component guidance.
 - `design/figma/FIGMA_GENERATION.md`: how to generate the Figma canvas.
 - `design/figma/scripts/create_basic_controls_figma.js`: Figma script for token boards, components, and a mobile preview.
 - `android/view/token_mapping.md`: Java + Android View token mapping draft.
+- `web/react`: React Web component package and sample.
+- `web/vue`: Vue 3 Web component package and sample.
+- `react-native`: React Native npm package plus runnable Expo sample app.
+- `flutter/basic_controls`: Flutter package with local example app.
+- `ios/BasicControls`: Swift Package with sample target.
 - `migration/BASEWIDGET_SOURCE.md`: source migration note.
 
 ## Component Scope

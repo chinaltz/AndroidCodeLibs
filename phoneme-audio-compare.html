@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>48 音标音频对照试听</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --text: #172033;
+      --muted: #667085;
+      --border: #d8dde8;
+      --accent: #1d6fd8;
+      --accent-soft: #e8f1ff;
+      --warn: #8a5a00;
+      --warn-bg: #fff6d8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(246, 247, 249, 0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(10px);
+    }
+
+    .wrap {
+      width: min(1280px, calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .top {
+      padding: 20px 0 16px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--panel);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto auto auto;
+      gap: 10px;
+      padding: 0 0 16px;
+      align-items: center;
+    }
+
+    input, select, button {
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--text);
+      font: inherit;
+    }
+
+    input, select {
+      padding: 0 12px;
+    }
+
+    button {
+      padding: 0 14px;
+      cursor: pointer;
+      font-weight: 650;
+    }
+
+    button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: white;
+    }
+
+    main {
+      padding: 18px 0 40px;
+    }
+
+    .note {
+      margin: 0 0 16px;
+      padding: 12px 14px;
+      border: 1px solid #f1d98d;
+      border-radius: 8px;
+      background: var(--warn-bg);
+      color: var(--warn);
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      position: sticky;
+      top: 126px;
+      z-index: 2;
+      background: #eef2f7;
+      color: #344054;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tr.hidden {
+      display: none;
+    }
+
+    .index {
+      width: 48px;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .symbol {
+      font-size: 28px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .group {
+      display: inline-flex;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #174a91;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .id {
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+
+    .audio-cell {
+      min-width: 310px;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 360px;
+      display: block;
+      margin-top: 8px;
+    }
+
+    .path {
+      max-width: 360px;
+      margin-top: 7px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .row-actions button {
+      height: 34px;
+      padding: 0 10px;
+      font-size: 13px;
+    }
+
+    .words {
+      min-width: 160px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .source-name {
+      font-weight: 750;
+    }
+
+    .empty {
+      display: none;
+      margin-top: 16px;
+      padding: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      background: var(--panel);
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      th {
+        top: 174px;
+      }
+
+      table, thead, tbody, tr, th, td {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        border-bottom: 1px solid var(--border);
+      }
+
+      td {
+        border-bottom: 0;
+        padding: 10px 12px;
+      }
+
+      td::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 4px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .audio-cell, .words {
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <h1>48 音标音频对照试听</h1>
+      <div class="meta">
+        <span class="pill">小程序主体：basic-controls/android/basiccontrols/miniprogram</span>
+        <span class="pill">当前项目音频：miniprogram/assets/audio/phonemes</span>
+        <span class="pill">对照音频：/Users/litingzhe/Downloads/ybmp3</span>
+      </div>
+    </div>
+    <div class="wrap toolbar">
+      <input id="search" type="search" placeholder="搜索音标、id、文件名、例词">
+      <select id="group">
+        <option value="">全部分组</option>
+      </select>
+      <button type="button" id="playProject" class="primary">播放当前项目</button>
+      <button type="button" id="playYb">播放 ybmp3</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="note">
+      每行左侧是当前小程序/项目正在使用的音频，右侧是 ybmp3 文件夹里的同一音标音频。点击播放器或行内按钮逐个听；顶部两个按钮会播放当前可见列表里第一行的对应音频。
+      其中 /ʊə/ 在 ybmp3 的 Word 对应表里写成 “əə=uer”，这里按当前项目的 /ʊə/ 对到 uer.mp3。
+    </p>
+    <table aria-label="48 音标音频对照表">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>音标</th>
+          <th>当前项目</th>
+          <th>ybmp3 对照</th>
+          <th>例词</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div id="empty" class="empty">没有匹配的音标</div>
+  </main>
+
+  <script>
+    const projectRoot = "/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/miniprogram/assets/audio/phonemes";
+    const ybRoot = "/Users/litingzhe/Downloads/ybmp3";
+
+    const phonemes = [
+      { id: "i_short", symbol: "/ɪ/", group: "短元音", yb: "i-sound.mp3", words: ["sit", "pig", "fish"] },
+      { id: "e", symbol: "/e/", group: "短元音", yb: "e-sound.mp3", words: ["pen", "red", "bed"] },
+      { id: "ae", symbol: "/æ/", group: "短元音", yb: "an-sound.mp3", words: ["cat", "bag", "apple"] },
+      { id: "v_short", symbol: "/ʌ/", group: "短元音", yb: "^-sound.mp3", words: ["cup", "sun", "bus"] },
+      { id: "o_short", symbol: "/ɒ/", group: "短元音", yb: "o-sound.mp3", words: ["dog", "box", "hot"] },
+      { id: "u_short", symbol: "/ʊ/", group: "短元音", yb: "u-sound.mp3", words: ["book", "good", "look"] },
+      { id: "schwa", symbol: "/ə/", group: "短元音", yb: "e^-sound.mp3", words: ["about", "teacher", "sofa"] },
+      { id: "i_long", symbol: "/iː/", group: "长元音", yb: "i-sound2.mp3", words: ["see", "tree", "green"] },
+      { id: "a_long", symbol: "/ɑː/", group: "长元音", yb: "a-sound2.mp3", words: ["car", "star", "park"] },
+      { id: "o_long", symbol: "/ɔː/", group: "长元音", yb: "o-sound2.mp3", words: ["ball", "door", "four"] },
+      { id: "u_long", symbol: "/uː/", group: "长元音", yb: "u-sound2.mp3", words: ["blue", "food", "moon"] },
+      { id: "er_long", symbol: "/ɜː/", group: "长元音", yb: "er-sound.mp3", words: ["bird", "girl", "nurse"] },
+      { id: "ei", symbol: "/eɪ/", group: "双元音", yb: "ei.mp3", words: ["cake", "name", "rain"] },
+      { id: "ai", symbol: "/aɪ/", group: "双元音", yb: "ai.mp3", words: ["bike", "time", "kite"] },
+      { id: "oi", symbol: "/ɔɪ/", group: "双元音", yb: "oi.mp3", words: ["boy", "toy", "coin"] },
+      { id: "ou", symbol: "/əʊ/", group: "双元音", yb: "eu.mp3", words: ["go", "home", "nose"] },
+      { id: "au", symbol: "/aʊ/", group: "双元音", yb: "ao.mp3", words: ["cow", "house", "mouth"] },
+      { id: "ia", symbol: "/ɪə/", group: "双元音", yb: "ir.mp3", words: ["ear", "near", "dear"] },
+      { id: "ea", symbol: "/eə/", group: "双元音", yb: "er.mp3", words: ["air", "chair", "bear"] },
+      { id: "ua", symbol: "/ʊə/", group: "双元音", yb: "uer.mp3", words: ["tour", "poor", "sure"] },
+      { id: "p", symbol: "/p/", group: "清辅音", yb: "p.mp3", words: ["pen", "pig", "map"] },
+      { id: "t", symbol: "/t/", group: "清辅音", yb: "t.mp3", words: ["top", "tea", "cat"] },
+      { id: "k", symbol: "/k/", group: "清辅音", yb: "k.mp3", words: ["key", "kite", "book"] },
+      { id: "f", symbol: "/f/", group: "清辅音", yb: "f.mp3", words: ["fish", "face", "leaf"] },
+      { id: "th_clear", symbol: "/θ/", group: "清辅音", yb: "si.mp3", words: ["three", "think", "mouth"] },
+      { id: "s", symbol: "/s/", group: "清辅音", yb: "s.mp3", words: ["sun", "sit", "bus"] },
+      { id: "sh", symbol: "/ʃ/", group: "清辅音", yb: "ss.mp3", words: ["ship", "she", "fish"] },
+      { id: "tsh", symbol: "/tʃ/", group: "清辅音", yb: "tss.mp3", words: ["chair", "chicken", "watch"] },
+      { id: "h", symbol: "/h/", group: "清辅音", yb: "h.mp3", words: ["hat", "home", "hello"] },
+      { id: "b", symbol: "/b/", group: "浊辅音", yb: "b.mp3", words: ["bag", "boy", "cab"] },
+      { id: "d", symbol: "/d/", group: "浊辅音", yb: "d.mp3", words: ["dog", "desk", "red"] },
+      { id: "g", symbol: "/g/", group: "浊辅音", yb: "g.mp3", words: ["girl", "go", "bag"] },
+      { id: "v", symbol: "/v/", group: "浊辅音", yb: "v.mp3", words: ["van", "very", "five"] },
+      { id: "th_voice", symbol: "/ð/", group: "浊辅音", yb: "qq.mp3", words: ["this", "that", "mother"] },
+      { id: "z", symbol: "/z/", group: "浊辅音", yb: "z.mp3", words: ["zoo", "zero", "nose"] },
+      { id: "zh", symbol: "/ʒ/", group: "浊辅音", yb: "n3.mp3", words: ["measure", "vision", "usual"] },
+      { id: "dzh", symbol: "/dʒ/", group: "浊辅音", yb: "d3.mp3", words: ["jam", "job", "orange"] },
+      { id: "r", symbol: "/r/", group: "浊辅音", yb: "r.mp3", words: ["red", "rain", "rabbit"] },
+      { id: "m", symbol: "/m/", group: "其他辅音", yb: "m.mp3", words: ["map", "milk", "home"] },
+      { id: "n", symbol: "/n/", group: "其他辅音", yb: "n.mp3", words: ["name", "nine", "sun"] },
+      { id: "ng", symbol: "/ŋ/", group: "其他辅音", yb: "ng.mp3", words: ["sing", "king", "long"] },
+      { id: "l", symbol: "/l/", group: "其他辅音", yb: "l.mp3", words: ["leg", "like", "ball"] },
+      { id: "j", symbol: "/j/", group: "其他辅音", yb: "j.mp3", words: ["yes", "yellow", "you"] },
+      { id: "w", symbol: "/w/", group: "其他辅音", yb: "w.mp3", words: ["we", "water", "window"] },
+      { id: "tr", symbol: "/tr/", group: "其他辅音", yb: "tr.mp3", words: ["tree", "train", "try"] },
+      { id: "dr", symbol: "/dr/", group: "其他辅音", yb: "dr.mp3", words: ["dream", "drive", "dress"] },
+      { id: "ts", symbol: "/ts/", group: "其他辅音", yb: "ts.mp3", words: ["cats", "hats", "boats"] },
+      { id: "dz", symbol: "/dz/", group: "其他辅音", yb: "dz.mp3", words: ["beds", "birds", "cards"] }
+    ];
+
+    const rowsEl = document.getElementById("rows");
+    const emptyEl = document.getElementById("empty");
+    const searchEl = document.getElementById("search");
+    const groupEl = document.getElementById("group");
+    let activeAudio = null;
+
+    function fileUrl(path) {
+      return "file://" + path.split("/").map((part) => encodeURIComponent(part)).join("/");
+    }
+
+    function stopActive() {
+      if (activeAudio) {
+        activeAudio.pause();
+        activeAudio.currentTime = 0;
+      }
+    }
+
+    function playSrc(src) {
+      stopActive();
+      const audio = new Audio(src);
+      activeAudio = audio;
+      audio.play().catch((error) => {
+        alert("播放失败：" + error.message);
+      });
+    }
+
+    function projectPath(row) {
+      return `${projectRoot}/${row.id}.mp3`;
+    }
+
+    function ybPath(row) {
+      return `${ybRoot}/${row.yb}`;
+    }
+
+    function renderGroups() {
+      [...new Set(phonemes.map((row) => row.group))].forEach((group) => {
+        const option = document.createElement("option");
+        option.value = group;
+        option.textContent = group;
+        groupEl.appendChild(option);
+      });
+    }
+
+    function renderRows() {
+      rowsEl.innerHTML = phonemes.map((row, index) => {
+        const project = projectPath(row);
+        const yb = ybPath(row);
+        const searchable = [
+          row.id,
+          row.symbol,
+          row.group,
+          row.yb,
+          row.words.join(" ")
+        ].join(" ").toLowerCase();
+
+        return `
+          <tr data-group="${row.group}" data-search="${searchable}">
+            <td class="index" data-label="#">${index + 1}</td>
+            <td data-label="音标">
+              <div class="symbol">${row.symbol}</div>
+              <div class="group">${row.group}</div>
+            </td>
+            <td class="audio-cell" data-label="当前项目">
+              <div class="source-name">当前项目</div>
+              <div class="id">${row.id}.mp3</div>
+              <audio controls preload="metadata" src="${fileUrl(project)}"></audio>
+              <div class="row-actions">
+                <button type="button" data-src="${fileUrl(project)}">播放当前项目</button>
+              </div>
+              <div class="path">${project}</div>
+            </td>
+            <td class="audio-cell" data-label="ybmp3 对照">
+              <div class="source-name">ybmp3</div>
+              <div class="id">${row.yb}</div>
+              <audio controls preload="metadata" src="${fileUrl(yb)}"></audio>
+              <div class="row-actions">
+                <button type="button" data-src="${fileUrl(yb)}">播放 ybmp3</button>
+              </div>
+              <div class="path">${yb}</div>
+            </td>
+            <td class="words" data-label="例词">${row.words.join(", ")}</td>
+          </tr>
+        `;
+      }).join("");
+
+      rowsEl.querySelectorAll("button[data-src]").forEach((button) => {
+        button.addEventListener("click", () => playSrc(button.dataset.src));
+      });
+    }
+
+    function applyFilter() {
+      const keyword = searchEl.value.trim().toLowerCase();
+      const group = groupEl.value;
+      let visible = 0;
+      rowsEl.querySelectorAll("tr").forEach((tr) => {
+        const matched = (!group || tr.dataset.group === group) && (!keyword || tr.dataset.search.includes(keyword));
+        tr.classList.toggle("hidden", !matched);
+        if (matched) visible += 1;
+      });
+      emptyEl.style.display = visible ? "none" : "block";
+    }
+
+    function firstVisibleRow() {
+      return phonemes.find((row) => {
+        const tr = rowsEl.querySelector(`tr[data-search*="${row.id.toLowerCase()}"]`);
+        return tr && !tr.classList.contains("hidden");
+      });
+    }
+
+    document.getElementById("playProject").addEventListener("click", () => {
+      const row = firstVisibleRow();
+      if (row) playSrc(fileUrl(projectPath(row)));
+    });
+
+    document.getElementById("playYb").addEventListener("click", () => {
+      const row = firstVisibleRow();
+      if (row) playSrc(fileUrl(ybPath(row)));
+    });
+
+    searchEl.addEventListener("input", applyFilter);
+    groupEl.addEventListener("change", applyFilter);
+
+    renderGroups();
+    renderRows();
+  </script>
+</body>
+</html>

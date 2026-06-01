@@ -2,10 +2,9 @@
 
 ## 音标（phonemes/）
 
-- 主要来源：[s5s5/phonics](https://github.com/s5s5/phonics) `public/sound/*.mp3`
-- 许可证：**MIT License**（Copyright (c) 2022 Xiaochao Liu）
-- `/ts/`、`/dz/`：由上述 MIT 音素 MP3 拼接
-- 少量英式缺口音标（如 `/ʌ/` `/ɒ/` `/ɜː/` 等）：**Piper** 本地合成占位，voice 见下
+- 当前 48 个音标 MP3 已全部替换为用户提供的 `/Users/litingzhe/Downloads/ybmp3` 音频。
+- 映射来源：`/Users/litingzhe/Downloads/ybmp3/对应文件.doc`。
+- 状态：需项目侧确认并留存可内置分发授权或来源说明；这些音标文件当前不再按 MIT/Piper 来源声明。
 
 ## 例词（words/）
 
@@ -18,6 +17,12 @@
 - Microsoft Edge-TTS / Azure 神经语音再分发
 - macOS 系统 `say` 语音再分发
 - 词典 / 网课 / App 解包音频
+
+## 手动替换项
+
+- 全部 48 个音标：用户提供 `ybmp3` 目录，按 `对应文件.doc` 和项目 48 音标 id 映射覆盖。
+- 已覆盖目录：Android `phonicsapp`、原生微信小程序、Kuikly shared、Kuikly miniApp dist、`audio-kokoro`。
+- 状态：需项目侧确认并留存可内置分发授权。
 
 ## 生成命令
 

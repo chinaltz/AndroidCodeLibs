@@ -1,0 +1,31 @@
+{
+  "miniprogramRoot": "",
+  "projectname": "phonics-planet-kuikly",
+  "description": "音标星球 Kuikly 小程序宿主",
+  "appid": "wx13ea27fa3e736c61",
+  "compileType": "miniprogram",
+  "libVersion": "3.8.12",
+  "setting": {
+    "urlCheck": false,
+    "es6": false,
+    "enhance": false,
+    "compileHotReLoad": false,
+    "postcss": false,
+    "minified": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
+}
+

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "音标星球",
+  "disableScroll": true,
+  "usingComponents": {
+    "custom-wrapper": "../../custom-wrapper",
+    "comp": "../../comp"
+  }
+}
+

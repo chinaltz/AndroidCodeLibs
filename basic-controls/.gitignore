@@ -1,0 +1,20 @@
+# Build outputs
+**/build/
+**/.gradle/
+**/.dart_tool/
+**/.build/
+**/DerivedData/
+**/node_modules/
+
+# Local IDE and machine config
+**/.idea/
+**/*.iml
+**/local.properties
+**/project.private.config.json
+
+# Generated packages
+*.tgz
+*.aar
+
+# OS files
+.DS_Store

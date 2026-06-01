@@ -1,8 +1,8 @@
-com.techfun.basiccontrols.samples-debug-0 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/packaged_res/debug/packageDebugResources
-com.techfun.basiccontrols.samples-pngs-1 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/generated/res/pngs/debug
-com.techfun.basiccontrols.samples-resValues-2 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/generated/res/resValues/debug
-com.techfun.basiccontrols.samples-packageDebugResources-3 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/incremental/debug/packageDebugResources/merged.dir
-com.techfun.basiccontrols.samples-packageDebugResources-4 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
-com.techfun.basiccontrols.samples-debug-5 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/merged_res/debug/mergeDebugResources
-com.techfun.basiccontrols.samples-debug-6 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/debug/res
-com.techfun.basiccontrols.samples-main-7 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/res
+com.techskillplanet.basiccontrols.samples-debug-0 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/basiccontrols/build/intermediates/packaged_res/debug/packageDebugResources
+com.techskillplanet.basiccontrols.samples-pngs-1 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/generated/res/pngs/debug
+com.techskillplanet.basiccontrols.samples-resValues-2 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/generated/res/resValues/debug
+com.techskillplanet.basiccontrols.samples-packageDebugResources-3 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.techskillplanet.basiccontrols.samples-packageDebugResources-4 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.techskillplanet.basiccontrols.samples-debug-5 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/build/intermediates/merged_res/debug/mergeDebugResources
+com.techskillplanet.basiccontrols.samples-debug-6 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/debug/res
+com.techskillplanet.basiccontrols.samples-main-7 /Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/res

@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace "com.techfun.phonicsapp"
+    namespace "com.techskillplanet.phonicsapp"
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.techfun.phonicsapp"
+        applicationId "com.techskillplanet.phonicsapp"
         minSdk 23
         targetSdk 35
         versionCode 1

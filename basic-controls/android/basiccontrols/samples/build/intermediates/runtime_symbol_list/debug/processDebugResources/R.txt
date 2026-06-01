@@ -2,15 +2,17 @@ int attr basicDisabled 0x7f010000
 int attr basicMessage 0x7f010001
 int attr basicSelected 0x7f010002
 int attr basicText 0x7f010003
-int attr basicTitle 0x7f010004
-int attr basicVariant 0x7f010005
+int attr basicTextKey 0x7f010004
+int attr basicTitle 0x7f010005
+int attr basicVariant 0x7f010006
 int string app_name 0x7f020000
 int string basic_controls_library_name 0x7f020001
 int style Theme_BasicControlsSamples 0x7f030000
-int[] styleable BasicView { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005 }
+int[] styleable BasicView { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006 }
 int styleable BasicView_basicDisabled 0
 int styleable BasicView_basicMessage 1
 int styleable BasicView_basicSelected 2
 int styleable BasicView_basicText 3
-int styleable BasicView_basicTitle 4
-int styleable BasicView_basicVariant 5
+int styleable BasicView_basicTextKey 4
+int styleable BasicView_basicTitle 5
+int styleable BasicView_basicVariant 6

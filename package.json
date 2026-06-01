@@ -15,5 +15,8 @@
     "publish:wechat": "npm run build:html",
     "publish:wechat:all": "npm run build:html:all",
     "build:video": "python3 scripts/gen-video.py"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
   }
 }

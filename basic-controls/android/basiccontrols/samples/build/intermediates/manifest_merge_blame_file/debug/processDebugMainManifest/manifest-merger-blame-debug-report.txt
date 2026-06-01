@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.techfun.basiccontrols.samples"
+3    package="com.techskillplanet.basiccontrols.samples"
 4    android:versionCode="1"
 5    android:versionName="1.0" >
 6
@@ -24,7 +24,7 @@
 18-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:8:9-58
 19        <activity
 19-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:9:9-17:20
-20            android:name="com.techfun.basiccontrols.samples.MainActivity"
+20            android:name="com.techskillplanet.basiccontrols.samples.MainActivity"
 20-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:10:13-41
 21            android:exported="true" >
 21-->/Volumes/outmount/code/AndroidCodeLibs/basic-controls/android/basiccontrols/samples/src/main/AndroidManifest.xml:11:13-36

@@ -4,8 +4,9 @@
 
 - 主要来源：[s5s5/phonics](https://github.com/s5s5/phonics) `public/sound/*.mp3`
 - 许可证：**MIT License**（Copyright (c) 2022 Xiaochao Liu）
-- `/ts/`、`/dz/`：由上述 MIT 音素 MP3 拼接
-- 少量英式缺口音标（如 `/ʌ/` `/ɒ/` `/ɜː/` 等）：**Piper** 本地合成占位，voice 见下
+- `/ts/`、`/dz/`、`/l/`：**Piper** 本地使用 `[[IPA]]` 音素输入合成，避免孤立音素拼接过慢或暗 L 错配
+- `/ʒ/`：由上述 MIT `/ʒən/` 起始音段裁剪
+- 少量 MIT 缺口音标（如 `/ʌ/` `/ɒ/` `/ɜː/` 等）：**Piper** 本地使用 `[[IPA]]` 音素输入合成，voice 见下
 
 ## 例词（words/）
 

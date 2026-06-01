@@ -242,7 +242,7 @@ def markdown_to_docx(md_text, post_dir):
     style.element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
 
     # 修改标题样式字体
-    for level in range(1, 4):
+    for level in range(1, 5):
         heading_style = doc.styles[f'Heading {level}']
         heading_style.font.name = FONT_BODY
         heading_style.element.rPr.rFonts.set(qn('w:eastAsia'), '微软雅黑')
@@ -324,6 +324,12 @@ def markdown_to_docx(md_text, post_dir):
             continue
 
         # 标题
+        m = re.match(r'^####\s+(.+)$', line)
+        if m:
+            p = doc.add_heading(m.group(1), level=4)
+            i += 1
+            continue
+
         m = re.match(r'^###\s+(.+)$', line)
         if m:
             p = doc.add_heading(m.group(1), level=3)
@@ -398,6 +404,9 @@ def markdown_to_docx(md_text, post_dir):
                     run.font.color.rgb = RGBColor(0x3C, 0x3C, 0x3C)
             else:
                 add_body_paragraph(doc, text)
+        else:
+            add_body_paragraph(doc, line)
+            i += 1
 
     return doc
 

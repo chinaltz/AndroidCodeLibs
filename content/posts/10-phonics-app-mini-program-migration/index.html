@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我给孩子做了一个音标学习 App，最后为什么又迁到微信小程序？</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">我给孩子做了一个音标学习 App，最后为什么又迁到微信小程序？</h1>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">亲子教育工具复盘 · 从 Android 到微信小程序</p><p style="margin:4px 0;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，一起用技术创造乐趣。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">前段时间，我想给孩子做一个英语音标学习工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">想法很简单：48 个音标，一个一个学。每个音标能听标准读音，看口型提示，再做几道小检查。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一版我先做了 Android。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">做出来以后，问题也来了：孩子平时更多拿 iPad 学习，Android 手机不是主要设备。工具做出来了，但真正使用的人用不上。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这篇文章想复盘这件事：一个看起来只是“换个平台”的小决定，背后其实是一次完整的产品调整。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐⭐</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">需要一点产品思路，也需要能让 AI 帮你写代码、改代码、查问题。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先做 Android：因为它最容易让我把想法跑起来</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一开始选 Android，不是因为它一定最适合孩子。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是因为我手边更容易验证。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我可以快速做出这些东西：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">48 个音标学习地图</li>
+<li style="margin:4px 0;">单个音标详情页</li>
+<li style="margin:4px 0;">内置音频播放</li>
+<li style="margin:4px 0;">例词练习</li>
+<li style="margin:4px 0;">过关检查</li>
+<li style="margin:4px 0;">主题切换和语言切换</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一步像先搭一个样板间。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">房子不一定最终建在这里，但你得先知道客厅多大、门往哪开、孩子坐下来能不能用。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Android 版本帮我确认了几件事：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">音标学习不能只做列表，孩子会觉得枯燥。</li>
+<li style="margin:6px 0;padding-left:2px;">播放按钮必须非常明显，文案不能啰嗦。</li>
+<li style="margin:6px 0;padding-left:2px;">检查题不能一口气堆出来，最好一道一道来。</li>
+<li style="margin:6px 0;padding-left:2px;">跟读题最好能录音，让孩子听自己的声音。</li>
+<li style="margin:6px 0;padding-left:2px;">音频必须内置，不能依赖网络。</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些不是坐在电脑前想出来的。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">是做出来、跑起来、看着界面一点点改出来的。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">当时我给 AI 的需求，大概是这样：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我要做一个给中国小学生用的英语音标学习 App。
+
+第一期先简化，只做 48 个音标学习和过关检查。
+要求：
+- 移动端优先
+- 纯单机，不依赖网络
+- 音频内置，免费且不能侵权
+- 界面要适合小学生，风格轻松
+- 学习页要能播放音标和例词
+- 检查页要一题一题来
+
+请先帮我拆产品功能，再给出第一版技术方案。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这个提示词的重点不是“帮我写代码”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是先让 AI 帮我把产品边界收住。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为第一期最怕的不是做不出来。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">是想做太多，最后哪里都没做好。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>真正的问题：孩子用 iPad，Android 做得再好也不顺手</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Android 版本能跑以后，我遇到一个很现实的问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子学习时更多用 iPad。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你让孩子为了一个音标 App，专门换到 Android 手机上学，这件事本身就不顺。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">家长做工具，很容易犯一个错：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我们站在“开发方便”的角度做决定。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但孩子只会站在“我现在拿着什么设备”的角度使用。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就像你给孩子买了一支很好写的笔，但孩子每天带去学校的是另一个笔袋。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">笔再好，也用不上。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以我开始重新想平台。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">要不要做 iOS？</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">当然可以。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但如果只是为了让孩子先用起来，小程序更合适：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">方案</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">好处</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">麻烦</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">iOS App</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">体验完整</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">开发、签名、安装、审核都更重</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">微信小程序</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">iPad 和手机都容易打开</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">有包体、组件和录音权限限制</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">H5 网页</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">打开方便</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">离线音频和录音体验要额外处理</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最后我选了微信小程序。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不是因为它最强。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是因为它最容易让孩子在 iPad 上开始用。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>迁到小程序：不是复制代码，而是重做使用路径</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人会以为迁移就是：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“把 Android 页面照搬到小程序。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">实际做下来不是这样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">小程序有自己的规则。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如顶部导航、底部 Tab、滚动区域、录音权限、音频播放、包体大小，都和 Android 不一样。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我迁移时重点处理了几类问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一类是布局。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">首页滚动区域必须在导航栏下面、底部 Tab 上面。二级页面不能再显示底部 Tab。顶部导航不能顶到状态栏里。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这些看起来是小问题，但孩子用的时候非常明显。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">按钮被挡住、页面显示不全、返回打开多次，都会让学习中断。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第二类是音频。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">音标学习最核心的就是听。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以音频不能有侥幸心理。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我要求它必须内置、免费、不能侵权。后来音频文件已经准备好，又继续校对读音，把不准的音重新检查。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第三类是录音。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">过关检查里，第三关如果只是点选，就不太像“学发音”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更合理的是：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">先播放正确读音。</li>
+<li style="margin:6px 0;padding-left:2px;">孩子开始录音。</li>
+<li style="margin:6px 0;padding-left:2px;">播放自己的读音。</li>
+<li style="margin:6px 0;padding-left:2px;">再和正确读音对比。</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">小程序里录音会遇到权限和真机调试问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一步必须真机测。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">开发工具里看起来正常，不代表 iPad 上一定正常。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我后面经常这样让 AI 帮我查问题：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">现在微信小程序真机调试提示录音失败。
+
+请按下面顺序排查：
+1. app.json 是否声明了录音权限说明
+2. 是否正确调用 wx.getRecorderManager()
+3. start / stop / error 回调是否完整
+4. 真机授权被拒绝时如何提示用户
+5. 如何保存临时录音并回放
+
+请不要先重写整页，只定位可能原因，并给出最小修改方案。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这个提示词很有用。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为它限制了 AI 不要“一上来重构”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先定位，再最小修改。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>输入输出调优：AI 不是一次说完就能做好</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这次做下来，我最深的感受是：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">用 AI 做产品，不是把一句需求丢进去，然后等它变成 App。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">更像你在带一个新同事。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你要不断补充背景、指出问题、缩小范围、确认标准。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如最开始我说“做音标学习软件”，这个输入太大。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 很容易给你规划一堆功能：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">学习地图</li>
+<li style="margin:4px 0;">闯关系统</li>
+<li style="margin:4px 0;">成就系统</li>
+<li style="margin:4px 0;">排行榜</li>
+<li style="margin:4px 0;">AI 纠音</li>
+<li style="margin:4px 0;">家长报告</li>
+<li style="margin:4px 0;">多端同步</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">听起来很完整，但第一期根本做不完。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">后来我把输入改成：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">第一期做得太多了，需要简化。
+
+只保留：
+1. 48 个音标学习
+2. 过关检查
+
+暂时不要账号、排行榜、云同步、复杂成就。
+优先移动端，先保证孩子能顺利学完一个音标。
+
+请重新输出：
+- 第一版产品范围
+- 页面结构
+- 每个页面最少需要哪些功能
+- 哪些功能明确不做</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">输出马上就清楚很多。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">后面每次界面出问题，我也尽量给 AI 更具体的反馈。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要只说：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“页面不好看。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">要说：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“首页滚动区域应该从顶部导航栏下面开始，到底部按钮上面结束。导航栏固定，不跟随滚动。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要只说：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“播放有问题。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">要说：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“音频文件已经内置，但点击播放没有声音。请检查文件路径、MediaPlayer 或 InnerAudioContext 初始化、播放回调和错误日志。”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 的输出质量，很大程度取决于你的输入有没有把场景说清楚。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这不是写提示词炫技。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这是做产品时最基本的沟通。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>这次迁移给我的几个提醒</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一，先做能跑的小版本，比一开始追求完美重要。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Android 版本虽然不是最终最适合孩子的平台，但它帮我验证了产品方向。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第二，真实使用设备比开发习惯更重要。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子用 iPad，就要优先考虑 iPad 能不能顺手打开。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第三，教育类工具要少一点“功能感”，多一点“学习顺畅”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">按钮、音频、录音、下一题，这些基础体验，比复杂系统更重要。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第四，AI 很适合帮你快速迁移和排查，但你要负责判断。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它能给方案、改代码、跑检查。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但“孩子到底怎么用”，还是你自己最清楚。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>后面我想把它从“音标星球”做成“学习星球”</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">做到这里，我反而不太想把它只停留在“音标学习工具”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">音标只是一个切入口。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子真正需要的，不只是多背几个音标，而是形成一个更稳定的学习节奏。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以后面我更想把“音标星球”慢慢改成“学习星球”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它不一定一开始就很复杂。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但方向会更像一个陪孩子长期学习的小系统：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">多孩子管理</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   家里如果不止一个孩子，学习进度、错题、奖励都要分开记录。不能所有数据混在一起。</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">拼音过关</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   英语音标之外，也可以加拼音练习。比如声母、韵母、整体认读音节，一关一关过。</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">电子宠物</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   学习本身有时候很枯燥。可以设计一个小宠物，孩子完成学习后，宠物会成长、换装、获得食物。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   但它不能喧宾夺主。宠物是奖励，不是让孩子沉迷点点点。</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">生字和错字积累</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   孩子写错的字，可以收集起来。系统自动生成拼音，再变成默写练习。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   这样错字不是改完就丢，而是会回到后面的练习里。</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">英语拼读练习</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   音标学完以后，要继续走到自然拼读和单词拼读。比如看到 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">cat</code>，能把声音拼出来，而不是只背单词。</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">作息时间记录</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   学习工具不能只盯着“学了多少”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   如果孩子睡太晚，或者一天学习强度太高，也应该提醒。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   对孩子来说，长期稳定比短时间猛学更重要。</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">错题原因和频次记录</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   错题不能只记“错了”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   还要记为什么错：看错题、听错音、不会拼、粗心、没理解。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   同一个问题出现多次，就说明要换一种方式练。</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">积分卡系统</strong></li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   积分不只是简单加分。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   我希望家长可以自己设计加分、减分项：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   - 准时睡觉，加分    - 主动完成学习，加分    - 拖延太久，扣分    - 一周坚持，获得小奖励    - 一学期达成长期目标，获得大一点的奖励</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   这件事的重点不是“奖励孩子玩具”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">   而是让孩子慢慢理解：目标可以拆小，努力可以积累，长期坚持会有结果。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这条路线不会一次做完。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我更愿意一版只解决一个小问题。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先让孩子愿意打开，再让孩子愿意坚持，最后才谈更完整的学习系统。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 3 件事：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">先做 Android，是为了快速把想法跑起来。</li>
+<li style="margin:4px 0;">迁到小程序，是因为孩子真实使用 iPad，更容易打开。</li>
+<li style="margin:4px 0;">后面会从“音标星球”扩展到“学习星球”，但每一步都要从孩子真实使用出发。</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你也想给孩子做一个学习小工具，可以先别急着选平台。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先问自己一个更朴素的问题：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">孩子会在什么设备上、什么时间、用几分钟完成一次学习？</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">然后把这个答案交给 AI，让它帮你缩小第一版范围：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想给孩子做一个学习小工具。
+
+孩子的使用场景是：
+- 设备：
+- 每次使用时长：
+- 学习内容：
+- 家长能不能陪同：
+- 是否需要离线：
+
+请帮我设计第一个可完成的小版本。
+要求：
+- 只保留最核心功能
+- 不要账号、排行榜、复杂成长系统
+- 输出页面结构、核心流程、最小技术方案
+- 列出第一版明确不做的功能</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先把一小步跑通。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子真的愿意用，再谈下一版。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">有问题？评论区告诉我。</em></p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/1 19:44:35</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function buildClipboardPayload() {
+  const el = document.getElementById('article');
+  const clone = el.cloneNode(true);
+
+  clone.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    try {
+      a.href = new URL(href, window.location.href).href;
+    } catch (_) {
+      a.setAttribute('href', href);
+    }
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  clone.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    try {
+      img.src = new URL(src, window.location.href).href;
+    } catch (_) {
+      img.setAttribute('src', src);
+    }
+  });
+
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+  const text = Array.from(clone.childNodes)
+    .map((node) => node.innerText || node.textContent || '')
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n');
+
+  const links = Array.from(clone.querySelectorAll('a[href]'))
+    .map((a) => {
+      const label = (a.innerText || a.textContent || '').trim();
+      const href = a.getAttribute('href');
+      return label && href ? label + '：' + href : href;
+    })
+    .filter(Boolean)
+    .join('\n');
+  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+
+  return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+  const holder = document.createElement('div');
+  holder.setAttribute('contenteditable', 'true');
+  holder.style.position = 'fixed';
+  holder.style.left = '-99999px';
+  holder.style.top = '0';
+  holder.innerHTML = html;
+  document.body.appendChild(holder);
+
+  const range = document.createRange();
+  range.selectNodeContents(holder);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  const ok = document.execCommand('copy');
+  sel.removeAllRanges();
+  document.body.removeChild(holder);
+  return ok;
+}
+
+async function copyArticle() {
+  try {
+    const { html, text } = buildClipboardPayload();
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      copyViaSelection(html);
+    }
+    alert('✅ 已复制富文本！请到微信公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+  } catch (e) {
+    try {
+      const { html } = buildClipboardPayload();
+      copyViaSelection(html);
+      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

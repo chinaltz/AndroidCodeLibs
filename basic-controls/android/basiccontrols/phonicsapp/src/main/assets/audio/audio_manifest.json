@@ -1,9 +1,9 @@
 {
-  "source": "compliant_bundled",
+  "source": "user_provided_ybmp3",
   "mode": "bundled_assets",
   "network": false,
-  "phonemes_primary": "MIT s5s5/phonics (https://github.com/s5s5/phonics)",
-  "phonemes_gaps": "Piper en_GB-alan-medium (MIT)",
+  "phonemes_primary": "User-provided /Users/litingzhe/Downloads/ybmp3 mapped by 对应文件.doc",
+  "phonemes_gaps": "None in current bundle; all 48 phoneme MP3 files replaced from ybmp3. Authorization/license record must be retained separately before public distribution.",
   "words": "Piper en_GB-alan-medium (MIT)",
   "notice": "src/main/assets/audio/THIRD_PARTY_NOTICE.md"
 }
