@@ -1,0 +1,24 @@
+{
+  "name": "@techskillplanet/basic-controls-react-native",
+  "version": "0.1.0",
+  "description": "TechSkillPlanet themed React Native basic controls library.",
+  "main": "base-widgets/src/starPlanet/index.js",
+  "files": [
+    "base-widgets/src/starPlanet/index.js",
+    "base-widgets/src/starPlanet/theme.js",
+    "base-widgets/src/starPlanet/components",
+    "base-widgets/src/starPlanet/utils",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.72"
+  },
+  "scripts": {
+    "pack:dry": "npm pack --dry-run"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT"
+}

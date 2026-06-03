@@ -1,0 +1,1512 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>音标星球二期 · 手机小程序原型</title>
+  <style>
+    :root {
+      --page-start: #ddf4ff;
+      --page-end: #f6fbf8;
+      --surface: #ffffff;
+      --surface-soft: #f7fcfa;
+      --ink: #17313b;
+      --muted: #6b7f87;
+      --line: #d6e7e1;
+      --brand: #20b486;
+      --brand-dark: #078463;
+      --blue: #3178f6;
+      --blue-soft: #e6f0ff;
+      --orange: #ff9f2f;
+      --orange-soft: #fff0dc;
+      --red: #e95757;
+      --red-soft: #ffe7e7;
+      --purple: #7b61ff;
+      --purple-soft: #eeeaff;
+      --shadow: 0 10px 24px rgba(23, 49, 59, 0.10);
+      font-family: -apple-system, BlinkMacSystemFont, "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: #e7f1f5;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px 10px;
+      background: linear-gradient(135deg, rgba(49, 120, 246, 0.10), rgba(32, 180, 134, 0.10)), #e7f1f5;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .phone {
+      width: min(390px, 100vw);
+      height: min(844px, calc(100vh - 20px));
+      min-height: 720px;
+      border: 10px solid #10242c;
+      border-radius: 34px;
+      overflow: hidden;
+      background: linear-gradient(180deg, var(--page-start), var(--page-end));
+      box-shadow: 0 24px 70px rgba(16, 36, 44, 0.24);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .status {
+      height: 32px;
+      padding: 8px 18px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      flex: 0 0 auto;
+    }
+
+    .capsule {
+      width: 74px;
+      height: 24px;
+      border: 1px solid rgba(23, 49, 59, 0.18);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+
+    .topbar {
+      min-height: 62px;
+      padding: 8px 16px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 0 auto;
+    }
+
+    .back {
+      width: 36px;
+      height: 36px;
+      border: 0;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--ink);
+      font-size: 24px;
+      display: none;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .back.show {
+      display: grid;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--brand), var(--blue));
+      color: #fff;
+      font-size: 21px;
+      font-weight: 900;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      flex: 0 0 auto;
+    }
+
+    .title {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .title p {
+      margin: 3px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .content {
+      flex: 1;
+      overflow: hidden;
+      min-height: 0;
+      position: relative;
+    }
+
+    .screen {
+      height: 100%;
+      overflow-y: auto;
+      padding: 10px 14px 86px;
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .screen.onboarding {
+      padding-bottom: 160px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(214, 231, 225, 0.96);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .card.flat {
+      box-shadow: none;
+    }
+
+    .head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 21px;
+      line-height: 1.28;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 4px;
+    }
+
+    .chip {
+      min-height: 26px;
+      padding: 0 9px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-dark);
+      background: #ddf7ef;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .chip.warn {
+      color: #8f5300;
+      background: var(--orange-soft);
+    }
+
+    .chip.danger {
+      color: #9a2f2f;
+      background: var(--red-soft);
+    }
+
+    .chip.blue {
+      color: #1d55ae;
+      background: var(--blue-soft);
+    }
+
+    .hero-copy {
+      padding: 8px 2px 4px;
+    }
+
+    .hero-copy h2 {
+      font-size: 26px;
+    }
+
+    .logo-picker {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .kid-logo {
+      min-height: 210px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .kid-logo.selected {
+      border-color: var(--brand);
+      background: #effaf6;
+    }
+
+    .kid-face {
+      width: 112px;
+      height: 112px;
+      border-radius: 36px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 58px;
+      font-weight: 900;
+      box-shadow: 0 12px 24px rgba(23, 49, 59, 0.14);
+    }
+
+    .boy .kid-face {
+      background: linear-gradient(135deg, #31a8ff, #20b486);
+    }
+
+    .girl .kid-face {
+      background: linear-gradient(135deg, #ff86a8, #ff9f2f);
+    }
+
+    .save-panel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: 146px;
+      padding: 14px 14px calc(16px + env(safe-area-inset-bottom));
+      background: rgba(255, 255, 255, 0.96);
+      border-top: 1px solid var(--line);
+      box-shadow: 0 -12px 28px rgba(23, 49, 59, 0.12);
+      transform: translateY(100%);
+      transition: transform 180ms ease;
+      z-index: 3;
+    }
+
+    .save-panel.show {
+      transform: translateY(0);
+    }
+
+    .form {
+      display: grid;
+      gap: 10px;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 12px;
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .btn {
+      border: 0;
+      min-height: 40px;
+      border-radius: 8px;
+      padding: 0 13px;
+      background: var(--brand-dark);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 8px 16px rgba(7, 132, 99, 0.18);
+    }
+
+    .btn.secondary {
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+
+    .btn.warn {
+      color: var(--ink);
+      background: var(--orange-soft);
+      border: 1px solid #ffd7a5;
+      box-shadow: none;
+    }
+
+    .btn.danger {
+      background: var(--red);
+      box-shadow: 0 8px 16px rgba(233, 87, 87, 0.16);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .home-child {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 2px 12px;
+    }
+
+    .child-name {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--blue), var(--brand));
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.86);
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-size: 20px;
+      font-weight: 900;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .module-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .module-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .module-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      background: var(--blue);
+    }
+
+    .module-card:nth-child(2) .module-icon {
+      background: var(--red);
+    }
+
+    .module-card:nth-child(3) .module-icon {
+      background: var(--orange);
+    }
+
+    .module-card:nth-child(4) .module-icon {
+      background: var(--purple);
+    }
+
+    .module-card:nth-child(5) .module-icon {
+      background: var(--brand);
+    }
+
+    .arrow {
+      color: var(--muted);
+      font-size: 22px;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 13px 12px;
+      margin-top: 10px;
+    }
+
+    .settings-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--blue);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .settings-row:nth-child(2) .settings-mark {
+      background: var(--purple);
+    }
+
+    .settings-row:nth-child(3) .settings-mark {
+      background: var(--orange);
+    }
+
+    .settings-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .metric {
+      min-height: 82px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-soft);
+      padding: 10px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 22px;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      display: block;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 99px;
+      overflow: hidden;
+      background: #e8f1ee;
+      margin-top: 8px;
+    }
+
+    .progress i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--brand), var(--blue));
+    }
+
+    .phoneme-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .phoneme-cell {
+      height: 58px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      background: #fff;
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .phoneme-cell.done {
+      border-color: var(--brand);
+      background: #ddf7ef;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface-soft);
+      padding: 10px;
+      margin-top: 8px;
+    }
+
+    .row-main {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .hanzi {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      border: 1px solid #cde7df;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+    }
+
+    .filter {
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 0 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .filter.active {
+      color: var(--brand-dark);
+      background: #ddf7ef;
+      border-color: var(--brand);
+    }
+
+    .review-rule {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .rule {
+      min-height: 70px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 9px;
+    }
+
+    .rule strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .rule span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
+    .chart {
+      display: grid;
+      gap: 10px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 42px minmax(0, 1fr) 34px;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .bar {
+      height: 14px;
+      border-radius: 99px;
+      background: #e8f1ee;
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--red), var(--orange));
+    }
+
+    .line-chart {
+      height: 132px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(180deg, transparent 24%, rgba(214, 231, 225, 0.9) 25%, transparent 26%),
+        linear-gradient(180deg, transparent 49%, rgba(214, 231, 225, 0.9) 50%, transparent 51%),
+        linear-gradient(180deg, transparent 74%, rgba(214, 231, 225, 0.9) 75%, transparent 76%),
+        #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .line-chart svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .worksheet-options {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+    }
+
+    .paper-wrap {
+      padding: 10px 0 2px;
+      display: grid;
+      place-items: center;
+    }
+
+    .paper {
+      width: 248px;
+      aspect-ratio: 210 / 297;
+      background: #fff;
+      border: 1px solid #d6d6d6;
+      box-shadow: 0 12px 28px rgba(23, 49, 59, 0.16);
+      padding: 16px 14px;
+      color: #1f2e34;
+    }
+
+    .paper h3 {
+      text-align: center;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .paper-meta {
+      display: flex;
+      justify-content: space-between;
+      color: #66777e;
+      border-bottom: 1px solid #dde5e2;
+      padding-bottom: 5px;
+      margin-bottom: 7px;
+      font-size: 7px;
+    }
+
+    .paper-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px;
+    }
+
+    .paper-cell {
+      min-height: 34px;
+      border: 1px solid #d6e0dc;
+      padding: 4px;
+    }
+
+    .pin {
+      color: #6f8087;
+      font-size: 7px;
+      height: 9px;
+    }
+
+    .paper-line {
+      height: 15px;
+      border-bottom: 1px solid #8fa19b;
+      margin-top: 3px;
+    }
+
+    .bottom-tabs {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 72px;
+      padding: 7px 34px 10px;
+      border-top: 1px solid rgba(214, 231, 225, 0.96);
+      background: rgba(255, 255, 255, 0.94);
+      display: none;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      z-index: 2;
+    }
+
+    .bottom-tabs.show {
+      display: grid;
+    }
+
+    .tab {
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      gap: 2px;
+      cursor: pointer;
+      min-width: 0;
+    }
+
+    .tab b {
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .tab span {
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .tab.active {
+      color: var(--brand-dark);
+      background: #ddf7ef;
+    }
+
+    @media (max-height: 760px) {
+      .phone {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 430px) {
+      body {
+        padding: 0;
+        display: block;
+        background: linear-gradient(180deg, var(--page-start), var(--page-end));
+      }
+
+      .phone {
+        width: 100vw;
+        height: 100vh;
+        min-height: 100vh;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone" aria-label="音标星球二期手机小程序原型">
+    <div class="status">
+      <span>9:41</span>
+      <div class="capsule"><span class="dot"></span><span class="dot"></span></div>
+    </div>
+
+    <header class="topbar">
+      <button class="back" id="backBtn" aria-label="返回">‹</button>
+      <div class="logo">音</div>
+      <div class="title">
+        <h1 id="pageTitle">添加孩子</h1>
+        <p id="pageSubtitle">清空数据后重新开始</p>
+      </div>
+    </header>
+
+    <div class="content">
+      <section id="onboarding" class="screen onboarding active" data-title="添加孩子" data-subtitle="清空数据后重新开始" data-root="true" data-no-tabs="true">
+        <div class="hero-copy">
+          <h2>先选择孩子头像</h2>
+          <p class="muted">第一次打开默认没有孩子。选择一个萌 Q 头像后，在底部输入昵称并保存。</p>
+        </div>
+
+        <div class="logo-picker">
+          <button class="kid-logo boy" data-avatar="boy">
+            <span class="kid-face">♂</span>
+            <h3>男孩</h3>
+            <p class="muted">蓝绿星球头像</p>
+          </button>
+          <button class="kid-logo girl" data-avatar="girl">
+            <span class="kid-face">♀</span>
+            <h3>女孩</h3>
+            <p class="muted">橙粉星球头像</p>
+          </button>
+        </div>
+
+        <div class="card flat" style="margin-top: 14px;">
+          <span class="chip warn">隐私边界</span>
+          <p class="muted">昵称只保存在这台设备里。小程序没有账号、没有网络服务，也不会上传任何孩子信息。</p>
+        </div>
+      </section>
+
+      <section id="home" class="screen" data-title="学习星球" data-subtitle="小宝 · 本地学习数据" data-root="true">
+        <div class="home-child">
+          <div class="avatar">宝</div>
+          <div class="child-name">
+            <div>
+              <h2>小宝</h2>
+              <p class="muted">当前孩子 · 2 个本地档案</p>
+            </div>
+            <button class="icon-btn" data-go="children" aria-label="孩子管理">＋</button>
+            <button class="icon-btn" data-go="children" aria-label="切换孩子">⇄</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>今天建议先听写 5 个字</h2>
+              <p class="muted">根据错误时间、错误次数和复习间隔自动排序。</p>
+            </div>
+            <span class="chip warn">提醒</span>
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <strong>18/48</strong>
+              <span>音标进度</span>
+              <div class="progress"><i style="width: 38%"></i></div>
+            </div>
+            <div class="metric">
+              <strong>16</strong>
+              <span>错字待练</span>
+              <div class="progress"><i style="width: 72%"></i></div>
+            </div>
+            <div class="metric">
+              <strong>5</strong>
+              <span>今天听写</span>
+              <div class="progress"><i style="width: 46%"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h3>星球入口</h3>
+              <p class="muted">首页只放一级星球，具体能力进入对应星球首页。</p>
+            </div>
+          </div>
+          <div class="module-list">
+            <button class="module-card" data-go="phonics">
+              <span class="module-icon">音</span>
+              <span>
+                <h3>音标星球</h3>
+                <p class="muted">V1 功能：48 音标地图、学习、过关检查</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="module-card" data-go="wordPlanet">
+              <span class="module-icon">词</span>
+              <span>
+                <h3>字词星球</h3>
+                <p class="muted">错字管理、听写提醒、统计、默写纸</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="module-card" data-coming="拼音星球">
+              <span class="module-icon">拼</span>
+              <span>
+                <h3>拼音星球</h3>
+                <p class="muted">拼音认读、声母韵母、拼读练习</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="module-card" data-coming="积分星球">
+              <span class="module-icon">积</span>
+              <span>
+                <h3>积分星球</h3>
+                <p class="muted">学习积分、连续打卡、奖励兑换</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="module-card" data-coming="宠物星球">
+              <span class="module-icon">宠</span>
+              <span>
+                <h3>宠物星球</h3>
+                <p class="muted">学习养成、小宠物成长、装扮收集</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="phonics" class="screen" data-title="音标学习" data-subtitle="融合 V1：地图、学习、过关">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>48 音标学习地图</h2>
+              <p class="muted">保留 V1 核心闭环：选音标 → 学发音 → 做 3 题检查。</p>
+            </div>
+            <span class="chip blue">18/48</span>
+          </div>
+          <div class="phoneme-grid">
+            <div class="phoneme-cell done">/iː/</div>
+            <div class="phoneme-cell done">/ɪ/</div>
+            <div class="phoneme-cell done">/e/</div>
+            <div class="phoneme-cell">/æ/</div>
+            <div class="phoneme-cell done">/ɑː/</div>
+            <div class="phoneme-cell">/ɒ/</div>
+            <div class="phoneme-cell">/ɔː/</div>
+            <div class="phoneme-cell">/ʊ/</div>
+            <div class="phoneme-cell">/uː/</div>
+            <div class="phoneme-cell">/ʌ/</div>
+            <div class="phoneme-cell">/ɜː/</div>
+            <div class="phoneme-cell">/ə/</div>
+          </div>
+          <div class="actions">
+            <button class="btn">继续学习 /æ/</button>
+            <button class="btn secondary">做过关检查</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div class="module-icon">播</div>
+            <div class="row-main">
+              <h3>单音标学习页</h3>
+              <p class="muted">标准音、口型提示、3 个例词。</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="module-icon" style="background: var(--brand);">测</div>
+            <div class="row-main">
+              <h3>3 题过关检查</h3>
+              <p class="muted">听音辨认、看词选音标、跟读自评。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="wordPlanet" class="screen" data-title="字词星球" data-subtitle="错字、听写、统计和默写纸">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>今天要处理 5 个字</h2>
+              <p class="muted">生字和错字合并为字词项，用错误次数和复习时间决定优先级。</p>
+            </div>
+            <span class="chip warn">字词</span>
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <strong>16</strong>
+              <span>待复习</span>
+              <div class="progress"><i style="width: 72%"></i></div>
+            </div>
+            <div class="metric">
+              <strong>5</strong>
+              <span>今日听写</span>
+              <div class="progress"><i style="width: 46%"></i></div>
+            </div>
+            <div class="metric">
+              <strong>4</strong>
+              <span>最高错次</span>
+              <div class="progress"><i style="width: 64%"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="module-list">
+            <button class="module-card" data-go="mistakes">
+              <span class="module-icon">错</span>
+              <span>
+                <h3>字词管理</h3>
+                <p class="muted">新增、编辑、删除、又错一次、标记掌握</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="module-card" data-go="review">
+              <span class="module-icon">听</span>
+              <span>
+                <h3>听写提醒</h3>
+                <p class="muted">按错误时间和错误频率推荐要练的字</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="module-card" data-go="stats">
+              <span class="module-icon">图</span>
+              <span>
+                <h3>字词统计</h3>
+                <p class="muted">排行、趋势、掌握情况</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+            <button class="module-card" data-go="worksheet">
+              <span class="module-icon">纸</span>
+              <span>
+                <h3>A4 默写纸</h3>
+                <p class="muted">按拼音生成图片、Word、PDF</p>
+              </span>
+              <span class="arrow">›</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="children" class="screen" data-title="孩子管理" data-subtitle="添加、切换、编辑本地孩子">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>孩子管理</h2>
+              <p class="muted">左上角加号进入这里。多个孩子时首页显示切换按钮。</p>
+            </div>
+            <button class="btn" data-go="onboarding">添加</button>
+          </div>
+          <div class="row">
+            <div class="avatar">宝</div>
+            <div class="row-main">
+              <h3>小宝</h3>
+              <p class="muted">当前孩子 · 音标 18/48 · 错字 16</p>
+            </div>
+            <span class="chip">当前</span>
+          </div>
+          <div class="row">
+            <div class="avatar" style="background: linear-gradient(135deg, #ff86a8, #ff9f2f);">姐</div>
+            <div class="row-main">
+              <h3>姐姐</h3>
+              <p class="muted">音标 31/48 · 错字 6</p>
+            </div>
+            <button class="btn secondary">切换</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="form">
+            <label>编辑昵称
+              <input value="小宝" maxlength="12">
+            </label>
+            <label>头像
+              <select>
+                <option>男孩蓝绿头像</option>
+                <option>女孩橙粉头像</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="btn">保存修改</button>
+            <button class="btn danger">清空当前孩子数据</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="mistakes" class="screen" data-title="错字管理" data-subtitle="生字和错字合并为一个概念">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>新增/编辑错字</h2>
+              <p class="muted">先记录所有要练的字。写错后增加错误次数。</p>
+            </div>
+            <span class="chip danger">CRUD</span>
+          </div>
+          <div class="form">
+            <label>字或词语
+              <input value="慢">
+            </label>
+            <label>拼音
+              <input value="man">
+            </label>
+            <label>来源
+              <input value="语文听写">
+            </label>
+          </div>
+          <div class="actions">
+            <button class="btn">保存</button>
+            <button class="btn warn">记为又错一次</button>
+            <button class="btn secondary">删除</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="filters">
+            <button class="filter active">待复习</button>
+            <button class="filter">高频错字</button>
+            <button class="filter">已掌握</button>
+            <button class="filter">本周新增</button>
+          </div>
+          <div class="row">
+            <div class="hanzi">慢</div>
+            <div class="row-main">
+              <h3>man · 错 4 次</h3>
+              <p class="muted">今天错过 · 明天还要听写</p>
+            </div>
+            <button class="btn warn" data-count>又错</button>
+          </div>
+          <div class="row">
+            <div class="hanzi">候</div>
+            <div class="row-main">
+              <h3>hou · 错 2 次</h3>
+              <p class="muted">3 天未练 · 今天提醒</p>
+            </div>
+            <button class="btn secondary">编辑</button>
+          </div>
+          <div class="row">
+            <div class="hanzi">游</div>
+            <div class="row-main">
+              <h3>you · 错 1 次</h3>
+              <p class="muted">5 天未练 · 需要复习</p>
+            </div>
+            <button class="btn secondary">掌握</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="review" class="screen" data-title="听写提醒" data-subtitle="按科学复习节奏推荐">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>今天建议听写</h2>
+              <p class="muted">综合错误时间、错误频率、最近练习时间排序。</p>
+            </div>
+            <span class="chip warn">5 个</span>
+          </div>
+          <div class="review-rule">
+            <div class="rule">
+              <strong>1 天</strong>
+              <span>高频错字再次提醒</span>
+            </div>
+            <div class="rule">
+              <strong>3 天</strong>
+              <span>普通错字复习</span>
+            </div>
+            <div class="rule">
+              <strong>7 天</strong>
+              <span>巩固已掌握字</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn">开始听写</button>
+            <button class="btn secondary" data-go="worksheet">生成纸张</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row">
+            <div class="hanzi">慢</div>
+            <div class="row-main">
+              <h3>优先级 98</h3>
+              <p class="muted">错 4 次 · 最近今天错 · 重点复习</p>
+            </div>
+            <span class="chip danger">高</span>
+          </div>
+          <div class="row">
+            <div class="hanzi">候</div>
+            <div class="row-main">
+              <h3>优先级 74</h3>
+              <p class="muted">错 2 次 · 3 天未练</p>
+            </div>
+            <span class="chip warn">中</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="stats" class="screen" data-title="错字统计" data-subtitle="看趋势，不只看列表">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>本周错字趋势</h2>
+              <p class="muted">帮助家长判断是否需要降低听写量。</p>
+            </div>
+            <span class="chip blue">图表</span>
+          </div>
+          <div class="line-chart" aria-label="错字趋势折线图">
+            <svg viewBox="0 0 320 132" role="img">
+              <polyline points="14,88 62,70 110,94 158,52 206,64 254,36 306,44" fill="none" stroke="#e95757" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              <polyline points="14,104 62,96 110,86 158,82 206,68 254,58 306,48" fill="none" stroke="#20b486" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+            </svg>
+          </div>
+          <p class="muted">红线：新增错误次数；绿线：复习完成数量。</p>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h3>错字排行</h3>
+              <p class="muted">按错误频率排序。</p>
+            </div>
+          </div>
+          <div class="chart">
+            <div class="bar-row"><span>慢</span><div class="bar"><i style="width: 96%"></i></div><strong>4</strong></div>
+            <div class="bar-row"><span>候</span><div class="bar"><i style="width: 68%"></i></div><strong>2</strong></div>
+            <div class="bar-row"><span>游</span><div class="bar"><i style="width: 42%"></i></div><strong>1</strong></div>
+            <div class="bar-row"><span>晴</span><div class="bar"><i style="width: 28%"></i></div><strong>1</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="worksheet" class="screen" data-title="A4 默写纸" data-subtitle="拼音生成可保存纸张">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>生成默写纸</h2>
+              <p class="muted">手机预览按 A4 比例缩放，打印时留边距。</p>
+            </div>
+            <span class="chip">A4</span>
+          </div>
+          <div class="worksheet-options">
+            <label>范围
+              <select>
+                <option>高频错字</option>
+                <option>全部错字</option>
+                <option>本周听写</option>
+              </select>
+            </label>
+            <label>数量
+              <select>
+                <option>16 个</option>
+                <option>12 个</option>
+                <option>20 个</option>
+                <option>24 个</option>
+              </select>
+            </label>
+            <label>拼音
+              <select>
+                <option>显示拼音</option>
+                <option>不显示拼音</option>
+              </select>
+            </label>
+            <label>格式
+              <select>
+                <option>图片</option>
+                <option>Word</option>
+                <option>PDF</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="btn">保存图片</button>
+            <button class="btn secondary">Word</button>
+            <button class="btn secondary">PDF</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="paper-wrap">
+            <div class="paper" aria-label="A4 默写纸预览">
+              <h3>小宝 · 本周默写练习</h3>
+              <div class="paper-meta">
+                <span>2026-06-03</span>
+                <span>高频错字</span>
+              </div>
+              <div class="paper-grid">
+                <div class="paper-cell"><div class="pin">man</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">hou</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">you</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">qing</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">xiang</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">ran</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">xue</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">dao</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">kan</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">zhao</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">shi</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">jie</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">yuan</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">xin</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">li</div><div class="paper-line"></div></div>
+                <div class="paper-cell"><div class="pin">ming</div><div class="paper-line"></div></div>
+              </div>
+            </div>
+          </div>
+          <p class="muted">图片优先满足保存和打印；Word/PDF 作为导出格式入口。</p>
+        </div>
+      </section>
+
+      <section id="settings" class="screen" data-title="设置" data-subtitle="主题、语言和本地数据" data-root="true">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>设置</h2>
+              <p class="muted">保持和 V1 小程序设置页一致，孩子管理不放在这里。</p>
+            </div>
+          </div>
+          <button class="settings-row">
+            <span class="settings-mark">色</span>
+            <span class="settings-main">
+              <h3>主题</h3>
+              <p class="muted">天空白天</p>
+            </span>
+            <span class="arrow">›</span>
+          </button>
+          <button class="settings-row">
+            <span class="settings-mark">文</span>
+            <span class="settings-main">
+              <h3>语言</h3>
+              <p class="muted">简体中文</p>
+            </span>
+            <span class="arrow">›</span>
+          </button>
+          <button class="settings-row" data-go="onboarding">
+            <span class="settings-mark">清</span>
+            <span class="settings-main">
+              <h3>清空数据，重新开始</h3>
+              <p class="muted">回到首次添加孩子流程</p>
+            </span>
+            <span class="arrow">›</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div class="save-panel" id="savePanel">
+      <label>孩子昵称
+        <input id="childNameInput" value="" placeholder="例如：小宝、姐姐" maxlength="12">
+      </label>
+      <div class="actions">
+        <button class="btn" id="saveChildBtn">保存并进入首页</button>
+        <button class="btn secondary" id="resetBtn">重新选择</button>
+      </div>
+    </div>
+
+    <nav class="bottom-tabs" id="bottomTabs" aria-label="小程序底部导航">
+      <button class="tab active" data-go="home"><b>⌂</b><span>首页</span></button>
+      <button class="tab" data-go="settings"><b>⚙</b><span>设置</span></button>
+    </nav>
+  </main>
+
+  <script>
+    const pageTitle = document.querySelector('#pageTitle');
+    const pageSubtitle = document.querySelector('#pageSubtitle');
+    const screens = Array.from(document.querySelectorAll('.screen'));
+    const goButtons = Array.from(document.querySelectorAll('[data-go]'));
+    const comingButtons = Array.from(document.querySelectorAll('[data-coming]'));
+    const bottomTabs = document.querySelector('#bottomTabs');
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    const backBtn = document.querySelector('#backBtn');
+    const savePanel = document.querySelector('#savePanel');
+    const childNameInput = document.querySelector('#childNameInput');
+    const kidLogos = Array.from(document.querySelectorAll('.kid-logo'));
+    const saveChildBtn = document.querySelector('#saveChildBtn');
+    const resetBtn = document.querySelector('#resetBtn');
+    const historyStack = [];
+    let selectedAvatar = '';
+    let hasChild = false;
+
+    function activeScreen() {
+      return screens.find((screen) => screen.classList.contains('active'));
+    }
+
+    function showScreen(id, options = {}) {
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      const current = activeScreen();
+      if (current && current.id !== id && !options.replace) {
+        historyStack.push(current.id);
+      }
+
+      screens.forEach((screen) => {
+        screen.classList.toggle('active', screen === target);
+        if (screen === target) screen.scrollTop = 0;
+      });
+
+      pageTitle.textContent = target.dataset.title || '学习星球';
+      pageSubtitle.textContent = target.dataset.subtitle || '本地学习数据';
+
+      const isTabPage = target.id === 'home' || target.id === 'settings';
+      const noTabs = target.dataset.noTabs === 'true' || !hasChild || !isTabPage;
+      bottomTabs.classList.toggle('show', !noTabs);
+      backBtn.classList.toggle('show', hasChild && target.dataset.root !== 'true');
+
+      tabs.forEach((tab) => {
+        tab.classList.toggle('active', tab.dataset.go === target.id);
+      });
+    }
+
+    goButtons.forEach((button) => {
+      button.addEventListener('click', () => showScreen(button.dataset.go));
+    });
+
+    comingButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        alert(`${button.dataset.coming} Coming soon`);
+      });
+    });
+
+    kidLogos.forEach((logo) => {
+      logo.addEventListener('click', () => {
+        selectedAvatar = logo.dataset.avatar;
+        kidLogos.forEach((item) => item.classList.toggle('selected', item === logo));
+        savePanel.classList.add('show');
+        childNameInput.value = selectedAvatar === 'girl' ? '姐姐' : '小宝';
+        childNameInput.focus();
+      });
+    });
+
+    saveChildBtn.addEventListener('click', () => {
+      if (!selectedAvatar) return;
+      hasChild = true;
+      savePanel.classList.remove('show');
+      historyStack.length = 0;
+      showScreen('home', { replace: true });
+    });
+
+    resetBtn.addEventListener('click', () => {
+      selectedAvatar = '';
+      kidLogos.forEach((item) => item.classList.remove('selected'));
+      savePanel.classList.remove('show');
+      childNameInput.value = '';
+    });
+
+    backBtn.addEventListener('click', () => {
+      const prev = historyStack.pop() || 'home';
+      showScreen(prev, { replace: true });
+    });
+
+    const countButton = document.querySelector('[data-count]');
+    if (countButton) {
+      countButton.addEventListener('click', () => {
+        countButton.textContent = '已 +1';
+        window.setTimeout(() => {
+          countButton.textContent = '又错';
+        }, 900);
+      });
+    }
+  </script>
+</body>
+</html>

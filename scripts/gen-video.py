@@ -241,7 +241,7 @@ def make_script_markdown(post_dir: Path, scenes: list[Scene]) -> str:
 ```text
 {read_first_bold_summary(post_dir)}
 
-关注微信公众号「AI技趣星球」，继续看普通人也能照做的 AI 实操教程。
+关注公众号「AI技趣星球」，继续看普通人也能照做的 AI 实操教程。
 
 #AI #人工智能 #普通人学AI #AI工具 #科技干货
 ```
@@ -311,7 +311,7 @@ def create_card(scene: Scene, title: str, index: int, total: int) -> Image.Image
 
     draw.rounded_rectangle([86, H - 340, W - 86, H - 190], radius=30, fill=PANEL)
     draw_center(draw, "普通人也能照做的 AI 实操教程", H - 296, get_font(36), WHITE, 820)
-    draw_center(draw, "关注微信公众号 AI技趣星球", H - 244, get_font(30), MUTED, 820)
+    draw_center(draw, "关注公众号 AI技趣星球", H - 244, get_font(30), MUTED, 820)
     return img
 
 

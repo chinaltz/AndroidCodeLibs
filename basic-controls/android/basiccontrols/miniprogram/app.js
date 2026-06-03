@@ -1,5 +1,6 @@
 const { getTheme } = require('./basic-controls/theme/theme');
 const i18n = require('./basic-controls/i18n/i18n');
+const audio = require('./utils/audio');
 const storage = require('./utils/storage');
 
 App({
@@ -18,6 +19,7 @@ App({
     this.globalData.language = language;
     this.globalData.completed = storage.getCompleted();
     this.applyTheme(themeKey);
+    audio.configureOutput();
   },
 
   applyTheme(themeKey) {

@@ -525,7 +525,7 @@ async function copyArticle() {
     } else {
       copyViaSelection(html);
     }
-    alert('✅ 已复制富文本！请到微信公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+    alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
   } catch (e) {
     try {
       const { html } = buildClipboardPayload();

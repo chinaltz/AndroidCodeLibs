@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "bc-card": "/basic-controls/components/bc-card/bc-card",
+    "bc-button": "/basic-controls/components/bc-button/bc-button",
+    "bc-alert": "/basic-controls/components/bc-alert/bc-alert",
+    "bc-top-bar": "/basic-controls/components/bc-top-bar/bc-top-bar"
+  }
+}

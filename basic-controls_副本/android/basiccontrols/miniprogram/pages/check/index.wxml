@@ -1,0 +1,55 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="{{pageTitle}}" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <bc-card theme="{{theme}}" wx:if="{{step === 0}}">
+      <view class="q-label" style="color: {{theme.brandDark}};">{{q1Label}}</view>
+      <view class="q-title">{{q1Title}}</view>
+      <view class="mt-sm">
+        <bc-button text="{{playText}}" variant="primary" theme="{{theme}}" bind:tap="onPlaySymbol" />
+      </view>
+      <block wx:for="{{listenOptions}}" wx:key="*this">
+        <view
+          class="option-row"
+          style="background: {{selectedListen === index ? theme.selectedFill : theme.surfaceRaised}}; border-color: {{selectedListen === index ? theme.success : theme.borderDefault}};"
+          data-index="{{index}}"
+          bindtap="onListenPick"
+        >{{item}}</view>
+      </block>
+    </bc-card>
+
+    <bc-card theme="{{theme}}" wx:if="{{step === 1}}">
+      <view class="q-label" style="color: {{theme.brandDark}};">{{q2Label}}</view>
+      <view class="q-title">{{q2Title}}</view>
+      <block wx:for="{{wordOptions}}" wx:key="*this">
+        <view
+          class="option-row"
+          style="background: {{selectedWord === index ? theme.selectedFill : theme.surfaceRaised}}; border-color: {{selectedWord === index ? theme.success : theme.borderDefault}};"
+          data-index="{{index}}"
+          bindtap="onWordPick"
+        >{{item}}</view>
+      </block>
+    </bc-card>
+
+    <bc-card theme="{{theme}}" wx:if="{{step === 2}}">
+      <view class="q-label" style="color: {{theme.brandDark}};">{{q3Label}}</view>
+      <view class="q-title">{{q3Title}}</view>
+      <view class="mt-sm" style="font-size:26rpx;color:{{theme.textTertiary}};">{{q3Hint}}</view>
+      <view class="mt-sm">
+        <bc-button text="{{recordText}}" variant="{{isRecording ? 'danger' : 'primary'}}" theme="{{theme}}" bind:tap="onToggleRecord" />
+      </view>
+      <view class="check-audio-actions">
+        <view class="check-audio-action">
+          <bc-button text="{{playMineText}}" variant="default" theme="{{theme}}" bind:tap="onPlayMine" />
+        </view>
+        <view class="check-audio-action">
+          <bc-button text="{{playCorrectText}}" variant="default" theme="{{theme}}" bind:tap="onPlaySymbol" />
+        </view>
+      </view>
+    </bc-card>
+  </scroll-view>
+
+  <view class="page-action">
+    <bc-button text="{{actionText}}" variant="primary" theme="{{theme}}" bind:tap="onPrimary" />
+  </view>
+</view>

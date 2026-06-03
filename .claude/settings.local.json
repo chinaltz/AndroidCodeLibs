@@ -29,7 +29,11 @@
       "Bash(node:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:deepwiki.com)",
-      "WebFetch(domain:hellogithub.com)"
+      "WebFetch(domain:hellogithub.com)",
+      "Bash(git config:*)",
+      "Bash(gh auth status:*)",
+      "Read(//Users/litingzhe/**)",
+      "Bash(security find-internet-password:*)"
     ],
     "deny": [],
     "ask": []

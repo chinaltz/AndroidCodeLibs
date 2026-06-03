@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeepSeek 又降价了：普通人怎么把它接进 Reasonix 和 CodeWhale？</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">DeepSeek 又降价了：普通人怎么把它接进 Reasonix 和 CodeWhale？</h1>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">DeepSeek 工具上手指南</p><p style="margin:4px 0;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，一起用技术创造乐趣。</p><p style="margin:4px 0;">本文写作时间：2026 年 6 月 3 日。模型价格和工具名称可能会变，动手前以官网为准。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最近 DeepSeek 又被刷屏了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一边是 DeepSeek 官方模型继续按很低的价格开放 API。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">另一边，腾讯云也在 2026 年 6 月 3 日下调了 DeepSeek-V4 系列模型调用价。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人的第一反应是：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“便宜是便宜，可我到底能拿它干什么？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这篇就不讲大模型论文，也不讲算力故事。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我们只做一件事：把 DeepSeek 接进两个能真正干活的工具里。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一个是 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Reasonix</strong>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一个是 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">CodeWhale</strong>，也就是很多人说的 DeepSeek TUI / whalecode 这类终端工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一句话结论：DeepSeek 便宜之后，最适合普通人的用法不是拿来闲聊，而是接进编程 Agent，让它读项目、改文件、跑命令。Reasonix 更适合新手稳稳上手，CodeWhale 更适合喜欢终端、想要轻量操作的人。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐⭐</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">需要会打开终端、复制命令、配置一次 API Key。第一次可能会卡在环境变量，但照着做能跑通。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先说人话：API 降价，等于“请助理的时薪变低了”</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把 AI API 想成“按字数收费的外包助理”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">以前你让它读一个项目、改一段代码、总结一堆文件，心里会有点虚：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“这一问会不会烧很多钱？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">现在 DeepSeek 这类模型价格打下来后，试错成本低了很多。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">DeepSeek 官方在价格页里列出的写作时价格是：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">缓存命中输入</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">缓存未命中输入</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">输出</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">DeepSeek-V4-Flash</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">每百万 token 0.02 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">每百万 token 1 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">每百万 token 2 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">日常问答、轻量改代码</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">DeepSeek-V4-Pro</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每百万 token 0.025 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每百万 token 3 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每百万 token 6 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">更复杂的分析和编程任务</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">腾讯云在 2026 年 6 月 3 日也宣布下调 DeepSeek-V4 模型价格：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">腾讯云模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">调整后重点</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">DeepSeek-V4-Flash</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">缓存命中价降幅达 90%，调整后与官方价持平</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">DeepSeek-V4-Pro</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">推理输入和输出降幅达 75%，缓存命中价降幅达 97.5%，调整后与官方价持平</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里有个小词要解释一下：缓存命中。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以先粗略理解成“AI 发现你前面问过类似内容，重复部分可以便宜算”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">编程 Agent 经常反复读同一个项目，所以缓存价格很重要。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里的重点不是“又便宜了几分钱”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">重点是：你终于可以把它当成日常工具来试。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">就像网约车价格降下来之后，你不会只研究发动机，你会开始想：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“那我今天去哪儿？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">DeepSeek 降价之后，我们也该问：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“那我今天让它帮我做什么？”</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最值得普通人试的，就是接进编程 Agent。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>编程 Agent 是什么？它不是聊天窗口</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">普通 AI 聊天工具像一个顾问。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你问：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">这个网页怎么改好看？</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它给你一段建议。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但你还要自己打开文件、复制代码、找报错。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">编程 Agent 更像一个坐在旁边的助理。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你说：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我看一下这个项目，
+把首页按钮颜色改成蓝色，
+然后运行测试确认没有报错。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它可以自己去读文件、改文件、跑命令。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天说的 Reasonix 和 CodeWhale，都属于这个方向。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它们的差别不在“谁更神”。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">差别在于：你更喜欢哪种工作方式。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>准备工作：先拿到 DeepSeek API Key</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不管你用 Reasonix 还是 CodeWhale，第一步都是准备模型。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你有两条路：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">方式</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合谁</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">说明</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">DeepSeek 官方 API</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">想直接用官方模型的人</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">地址是 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">https://api.deepseek.com</code></td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">腾讯云 DeepSeek</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">已经在用腾讯云的人</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">方便和云账号、账单、企业额度放一起</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你是第一次试，建议先用官方 API。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">步骤大概是：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">打开 DeepSeek 开放平台</li>
+<li style="margin:6px 0;padding-left:2px;">注册或登录账号</li>
+<li style="margin:6px 0;padding-left:2px;">进入 API Keys 页面</li>
+<li style="margin:6px 0;padding-left:2px;">新建一个 Key</li>
+<li style="margin:6px 0;padding-left:2px;">复制保存好</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">拿到之后，不要发给别人。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">API Key 就像你家的门禁卡。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">别人拿到后，就能用你的额度。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>在终端里配置 Key</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">macOS 或 Linux 可以这样写：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">export DEEPSEEK_API_KEY=&quot;你的 DeepSeek API Key&quot;
+export DEEPSEEK_BASE_URL=&quot;https://api.deepseek.com&quot;</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你想长期生效，可以写进 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">~/.zshrc</code>：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">echo 'export DEEPSEEK_API_KEY=&quot;你的 DeepSeek API Key&quot;' &gt;&gt; ~/.zshrc
+echo 'export DEEPSEEK_BASE_URL=&quot;https://api.deepseek.com&quot;' &gt;&gt; ~/.zshrc
+source ~/.zshrc</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Windows PowerShell 可以这样写：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">setx DEEPSEEK_API_KEY &quot;你的 DeepSeek API Key&quot;
+setx DEEPSEEK_BASE_URL &quot;https://api.deepseek.com&quot;</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写完后，重新打开一个终端窗口。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>方法一：接入 Reasonix，适合先稳稳跑起来</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Reasonix 是 DeepSeek 官方文档里列出的 AI 编程 Agent。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把它理解成：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">一个围绕 DeepSeek 模型设计的终端编程助手。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它适合什么人？</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">适合第一次试 DeepSeek 编程 Agent 的人。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为它的目标很明确：让你直接把 DeepSeek 用在项目里。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第一步：安装 Node.js</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先检查电脑有没有 Node.js：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">node --version</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果能看到 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">v20.10.x</code>、<code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">v22.x.x</code> 或更高版本，通常就够了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果提示找不到命令，先去 Node.js 官网下载 LTS 版本。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第二步：进入项目目录</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要一上来就拿公司项目试。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先找一个练手项目：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">mkdir deepseek-agent-demo
+cd deepseek-agent-demo</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">或者进入你已有的小项目：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">cd ~/my-project</code></pre>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第三步：启动 Reasonix</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Reasonix 官方推荐的入门方式，不需要全局安装。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">进入项目后直接运行：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">npx reasonix code</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一次运行时，它会用内置向导询问你的 DeepSeek API Key。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">填完后，配置会保存到 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">~/.reasonix/config.json</code>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以你不一定非要提前配置环境变量。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第四步：开始使用</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Reasonix 默认使用 DeepSeek-V4-Flash。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这适合日常迭代，成本低。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果下一轮想用 Pro，可以在 TUI 里输入：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">/pro</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果整个会话都想用 Pro，可以输入：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">/preset max</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不确定命令时，输入：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">/help</code></pre>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>你可以先这样问</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一次不要让它大改项目。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先从“读懂项目”开始：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请先阅读当前项目。
+不要修改任何文件。
+用普通人能看懂的话告诉我：
+1. 这个项目是做什么的
+2. 主要文件分别有什么用
+3. 如果我要改首页，应该先看哪些文件</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">确认它能正常读项目后，再让它做小改动：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请帮我把首页的主按钮文案改成“开始体验”。
+只改必要文件。
+改完后告诉我你改了哪些文件，以及我应该运行什么命令检查效果。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一步的重点是：先让 AI 小步干活。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要一上来就说“帮我重构整个项目”。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>方法二：接入 CodeWhale，适合喜欢终端的人</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">CodeWhale 是 DeepSeek 推出的终端编程工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人会把它叫 DeepSeek TUI，或者按英文顺序口误成 whalecode。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以简单理解成：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">一个在终端里运行的 DeepSeek 编程界面。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它适合什么人？</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">适合已经习惯终端、经常在项目目录里敲命令的人。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第一步：确认安装方式</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">CodeWhale 这类 TUI 工具更新会比较快。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以安装命令最好以官网为准。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">官网首页给出的 npm 安装命令是：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">npm install -g codewhale</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它也提供 Cargo、Homebrew、预构建二进制和 Docker 等方式。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不用死记命令。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">记住判断方法就行：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">情况</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你该怎么做</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">官网给 npm 命令</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">复制 npm 命令安装</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">官网给 Homebrew 命令</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">复制 brew 命令安装</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">官网给压缩包</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">下载后按说明放进 PATH</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">安装后命令找不到</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">检查 PATH，不要反复重装</td></tr></tbody></table></section>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第二步：配置 DeepSeek</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果它支持环境变量，沿用前面的配置：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">export DEEPSEEK_API_KEY=&quot;你的 DeepSeek API Key&quot;</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你也可以用它自己的认证命令保存：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">codewhale auth set --provider deepseek --api-key sk-...</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里建议先选便宜模型。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如日常改文案、看项目、写小脚本，先用 Flash。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">真遇到复杂问题，再切 Pro。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第三步：在项目里启动</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">进入项目目录：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">cd ~/my-project</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">启动 CodeWhale：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">codewhale</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你的命令叫别的名字，以官网实际提示为准。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">启动后，先问一个只读问题：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请扫描当前项目。
+不要修改文件。
+告诉我项目使用了什么框架、启动命令是什么、最适合新手看的入口文件是哪一个。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">再做一个低风险任务：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请帮我新增一个 README 的“本地运行”小节。
+先给我修改计划。
+我确认后再改文件。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这个提示词很适合新手。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为它要求 AI 先给计划，不会直接乱改。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Reasonix 和 CodeWhale 怎么选？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不用纠结。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以按下面这张表选。</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">对比项</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">Reasonix</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">CodeWhale</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">上手感觉</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">更像完整 Agent</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">更像终端工作台</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">适合人群</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">第一次接 DeepSeek 编程助手</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">已经习惯命令行的人</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">学习成本</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">中等</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">中等偏高</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">推荐第一步</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">npx reasonix code</code> 读项目</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">codewhale</code> 进入项目工作台</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">适合任务</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">项目理解、改代码、排错</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">终端内计划、编辑、运行</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">对新手友好度</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">更友好</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">更看个人终端基础</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我的建议很简单：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你只是想体验“DeepSeek 能不能帮我改项目”，先试 Reasonix。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你本来就喜欢命令行，平时经常用 Git、npm、pnpm，那可以直接试 CodeWhale。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你两个都想试，也可以这样分工：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">场景</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">推荐</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">第一次读懂陌生项目</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Reasonix</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">小范围改 README、配置、脚本</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">CodeWhale</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">需要边聊边跑命令</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">CodeWhale</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">需要更像助理一样拆任务</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Reasonix</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">工具不用信仰化。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">能帮你把事情做完，就是好工具。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>新手最容易踩的 5 个坑</h2>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>1. API Key 配错</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果工具一直提示认证失败，先检查 Key。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不要截图发群里问。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">重新生成一个 Key，旧的删掉，更稳。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>2. Base URL 写错</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">DeepSeek 官方一般是：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">https://api.deepseek.com</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">多一个空格、少一个 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">https</code>，都可能失败。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>3. 一上来就让 AI 改太多</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">新手最容易这样问：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">帮我把这个项目全部优化一下。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这句话太大。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 不知道你到底要什么。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">换成这样更好：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请先只检查首页相关文件。
+列出 3 个最容易改、风险最低的地方。
+不要直接修改文件。</code></pre>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>4. 不看改了哪些文件</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Agent 能改文件，也可能改错文件。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">每次改完，都让它说明：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请列出你刚才修改的文件。
+每个文件用一句话说明为什么改。
+如果有需要我手动检查的地方，也列出来。</code></pre>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>5. 不会停下来</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 有时候会一路往下做。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以明确告诉它：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">每次只改一个小点。
+改之前先给计划。
+我确认后再执行。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这句话对新手很有用。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>一个最适合今天照做的小练习</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你想今天就试一次，不要拿复杂项目。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">就做这个练习：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">新建一个空文件夹</li>
+<li style="margin:6px 0;padding-left:2px;">放一个简单的 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">README.md</code></li>
+<li style="margin:6px 0;padding-left:2px;">启动 Reasonix 或 CodeWhale</li>
+<li style="margin:6px 0;padding-left:2px;">让它帮你生成一个待办清单小网页</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以直接复制这段：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请在当前文件夹里做一个最简单的待办清单网页。
+要求：
+1. 只使用 HTML、CSS、JavaScript
+2. 页面可以新增待办、勾选完成、删除待办
+3. 文件结构保持简单
+4. 改文件前先告诉我计划
+5. 我确认后再创建文件</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">等它生成后，再问：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请告诉我怎么在浏览器里打开这个网页。
+如果代码有明显问题，请先自己检查一遍。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就是 DeepSeek 降价后最适合普通人的玩法。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不是研究模型参数。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而是让它帮你做一个能打开、能点击、能修改的小东西。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 3 件事：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">DeepSeek 和腾讯云降价后，普通人更适合把它接进工具里用，而不是只聊天。</li>
+<li style="margin:4px 0;">Reasonix 更适合第一次体验 DeepSeek 编程 Agent。</li>
+<li style="margin:4px 0;">CodeWhale 更适合喜欢终端、想快速在项目里操作的人。</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你不知道先选哪个，就从 Reasonix 开始。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先让它读项目，不要让它乱改。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最后给你一个通用提示词，两个工具都能用：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请先阅读当前项目。
+不要修改任何文件。
+用普通人能看懂的话告诉我：
+1. 这个项目是做什么的
+2. 我应该从哪个文件开始看
+3. 如果我要做一个最小改动，建议改哪里
+4. 改之前需要我确认哪些风险</code></pre>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">参考信息：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">DeepSeek 官方价格页：https://api-docs.deepseek.com/zh-cn/quick_start/pricing</li>
+<li style="margin:4px 0;">DeepSeek Reasonix 文档：https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/reasonix</li>
+<li style="margin:4px 0;">CodeWhale 官网：https://www.codewhale.ai/</li>
+<li style="margin:4px 0;">腾讯云 DeepSeek 模型公告与价格页：https://cloud.tencent.com/product/deepseek</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">阅读更多：Claude Code 怎么用？普通人也能上手的 AI 编程助手</em> <em style="font-style:italic;color:#7895AE;">有问题？评论区告诉我</em></p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/3 21:22:28</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function buildClipboardPayload() {
+  const el = document.getElementById('article');
+  const clone = el.cloneNode(true);
+
+  clone.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    try {
+      a.href = new URL(href, window.location.href).href;
+    } catch (_) {
+      a.setAttribute('href', href);
+    }
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  clone.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    try {
+      img.src = new URL(src, window.location.href).href;
+    } catch (_) {
+      img.setAttribute('src', src);
+    }
+  });
+
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+  const text = Array.from(clone.childNodes)
+    .map((node) => node.innerText || node.textContent || '')
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n');
+
+  const links = Array.from(clone.querySelectorAll('a[href]'))
+    .map((a) => {
+      const label = (a.innerText || a.textContent || '').trim();
+      const href = a.getAttribute('href');
+      return label && href ? label + '：' + href : href;
+    })
+    .filter(Boolean)
+    .join('\n');
+  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+
+  return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+  const holder = document.createElement('div');
+  holder.setAttribute('contenteditable', 'true');
+  holder.style.position = 'fixed';
+  holder.style.left = '-99999px';
+  holder.style.top = '0';
+  holder.innerHTML = html;
+  document.body.appendChild(holder);
+
+  const range = document.createRange();
+  range.selectNodeContents(holder);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  const ok = document.execCommand('copy');
+  sel.removeAllRanges();
+  document.body.removeChild(holder);
+  return ok;
+}
+
+async function copyArticle() {
+  try {
+    const { html, text } = buildClipboardPayload();
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      copyViaSelection(html);
+    }
+    alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+  } catch (e) {
+    try {
+      const { html } = buildClipboardPayload();
+      copyViaSelection(html);
+      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>
