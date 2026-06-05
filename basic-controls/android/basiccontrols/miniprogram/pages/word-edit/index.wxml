@@ -1,0 +1,74 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="{{pageTitle}}" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="input-panel">
+      <view class="panel-title">批量输入听写词</view>
+      <view class="panel-desc">多个词用空格、逗号或顿号分开。点击词语的顺序，就是下面处理的顺序。</view>
+      <textarea class="batch-input" value="{{batchText}}" placeholder="例如：时候、游泳、慢慢" maxlength="200" bindinput="onBatchInput" />
+
+      <view wx:if="{{candidateWords.length}}" class="candidate-grid">
+        <view
+          wx:for="{{candidateWords}}"
+          wx:key="text"
+          class="candidate-word {{item.order ? 'is-queued' : ''}} {{item.saved ? 'is-saved' : ''}}"
+          data-word="{{item.text}}"
+          bindtap="onCandidateTap"
+        >
+          <view wx:if="{{item.order}}" class="candidate-order">{{item.order}}</view>
+          <view class="candidate-text">{{item.text}}</view>
+          <view class="candidate-state">{{item.saved ? '已保存' : (item.order ? '待处理' : '点击选择')}}</view>
+        </view>
+      </view>
+
+    </view>
+
+    <view wx:if="{{activeWord}}" class="judge-panel">
+      <view class="judge-head">
+        <view>
+          <view class="panel-title">正在处理：{{activeWord}}</view>
+          <view class="panel-desc">所有字默认“会写”。点击不会写的字，再保存整个词语。</view>
+        </view>
+        <view class="saved-count">{{characterStates.length}} 字</view>
+      </view>
+
+      <view class="word-judge-grid">
+        <view
+          wx:for="{{characterStates}}"
+          wx:key="id"
+          class="word-judge-item {{item.status === 'unknown' ? 'is-unknown' : 'is-known'}}"
+          data-index="{{item.index}}"
+          bindtap="onCharacterTap"
+        >
+          <view class="word-judge-character">{{item.character}}</view>
+          <view class="word-judge-status">{{item.status === 'unknown' ? '不会写' : '会写'}}</view>
+        </view>
+      </view>
+
+      <view class="save-button" bindtap="onSaveWord">保存词语</view>
+    </view>
+
+    <view class="saved-panel">
+      <view class="saved-head">
+        <view>
+          <view class="panel-title">已保存词汇</view>
+          <view class="panel-desc">每个完整词保存一条；不会字显示关联关系。</view>
+        </view>
+        <view class="saved-count">{{savedWords.length}} 个</view>
+      </view>
+
+      <view wx:if="{{savedWords.length}}" class="saved-list">
+        <view wx:for="{{savedWords}}" wx:key="id" class="saved-word {{item.colorClass}}">
+          <view class="saved-word-text">{{item.text}}</view>
+          <view class="saved-word-main">
+            <view class="saved-word-pinyin">{{item.displayPinyin}}</view>
+            <view class="saved-word-source">{{item.sourceLabel || '日常'}}</view>
+            <view class="saved-word-relation">{{item.relationLabel ? '关联不会字：' + item.relationLabel : '全部会写，仅听写'}}</view>
+          </view>
+          <view class="saved-state">已保存</view>
+        </view>
+      </view>
+      <view wx:else class="empty-hint">还没有保存词汇。</view>
+    </view>
+  </scroll-view>
+</view>

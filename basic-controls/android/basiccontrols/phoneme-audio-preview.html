@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>基础音标音频试听</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5fbff;
+      --panel: #ffffff;
+      --text: #142524;
+      --muted: #6a7b7a;
+      --line: #dbe9e7;
+      --accent: #0b8f7a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 32px auto;
+    }
+
+    header {
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.25;
+    }
+
+    .summary {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin: 18px 0;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 8px;
+      min-height: 38px;
+      padding: 0 14px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button.primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .item {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ipa {
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .source {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .id {
+      color: var(--muted);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    audio {
+      width: 100%;
+      height: 36px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>基础音标音频试听</h1>
+      <p class="summary">来源：/Users/litingzhe/Downloads/基础音标_mp3_mp4.zip。这里播放的是已压缩后的项目内置音频：mono、22.05 kHz、32 kbps MP3。</p>
+    </header>
+
+    <div class="toolbar">
+      <button class="primary" id="playAll" type="button">顺序播放全部</button>
+      <button id="stopAll" type="button">停止</button>
+    </div>
+
+    <section class="grid" id="list" aria-label="音标音频列表"></section>
+  </main>
+
+  <script>
+    const phonemes = [
+      ["01", "i_long", "/iː/"],
+      ["02", "er_long", "/ɜː/"],
+      ["03", "a_long", "/ɑː/"],
+      ["04", "o_long", "/ɔː/"],
+      ["05", "u_long", "/uː/"],
+      ["06", "i_short", "/ɪ/"],
+      ["07", "e", "/e/"],
+      ["08", "ae", "/æ/"],
+      ["09", "schwa", "/ə/"],
+      ["10", "v_short", "/ʌ/"],
+      ["11", "o_short", "/ɒ/"],
+      ["12", "u_short", "/ʊ/"],
+      ["13", "ei", "/eɪ/"],
+      ["14", "ai", "/aɪ/"],
+      ["15", "oi", "/ɔɪ/"],
+      ["16", "ou", "/əʊ/"],
+      ["17", "au", "/aʊ/"],
+      ["18", "ia", "/ɪə/"],
+      ["19", "ea", "/eə/"],
+      ["20", "ua", "/ʊə/"],
+      ["21", "p", "/p/"],
+      ["22", "t", "/t/"],
+      ["23", "k", "/k/"],
+      ["24", "f", "/f/"],
+      ["25", "s", "/s/"],
+      ["26", "sh", "/ʃ/"],
+      ["27", "th_clear", "/θ/"],
+      ["28", "h", "/h/"],
+      ["29", "tsh", "/tʃ/"],
+      ["30", "ts", "/ts/"],
+      ["31", "tr", "/tr/"],
+      ["32", "b", "/b/"],
+      ["33", "d", "/d/"],
+      ["34", "g", "/g/"],
+      ["35", "v", "/v/"],
+      ["36", "z", "/z/"],
+      ["37", "zh", "/ʒ/"],
+      ["38", "th_voice", "/ð/"],
+      ["39", "r", "/r/"],
+      ["40", "dzh", "/dʒ/"],
+      ["41", "dz", "/dz/"],
+      ["42", "dr", "/dr/"],
+      ["43", "m", "/m/"],
+      ["44", "n", "/n/"],
+      ["45", "ng", "/ŋ/"],
+      ["46", "l", "/l/"],
+      ["47", "w", "/w/"],
+      ["48", "j", "/j/"]
+    ];
+
+    const list = document.querySelector("#list");
+
+    phonemes.forEach(([num, id, ipa]) => {
+      const card = document.createElement("article");
+      card.className = "item";
+      card.innerHTML = `
+        <div class="meta">
+          <div class="ipa">${ipa}</div>
+          <div class="source">${num}.zip</div>
+        </div>
+        <div class="id">${id}.mp3</div>
+        <audio controls preload="metadata" src="./miniprogram/assets/audio/phonemes/${id}.mp3"></audio>
+      `;
+      list.appendChild(card);
+    });
+
+    const audios = Array.from(document.querySelectorAll("audio"));
+    let playIndex = 0;
+    let playingAll = false;
+
+    function stopAll() {
+      playingAll = false;
+      audios.forEach((audio) => {
+        audio.pause();
+        audio.currentTime = 0;
+      });
+    }
+
+    function playNext() {
+      if (!playingAll || playIndex >= audios.length) {
+        playingAll = false;
+        return;
+      }
+      audios[playIndex].play();
+    }
+
+    audios.forEach((audio, index) => {
+      audio.addEventListener("play", () => {
+        audios.forEach((other) => {
+          if (other !== audio) other.pause();
+        });
+      });
+      audio.addEventListener("ended", () => {
+        if (!playingAll) return;
+        playIndex = index + 1;
+        playNext();
+      });
+    });
+
+    document.querySelector("#playAll").addEventListener("click", () => {
+      stopAll();
+      playingAll = true;
+      playIndex = 0;
+      playNext();
+    });
+
+    document.querySelector("#stopAll").addEventListener("click", stopAll);
+  </script>
+</body>
+</html>

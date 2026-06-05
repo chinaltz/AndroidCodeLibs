@@ -1,0 +1,109 @@
+.section-title {
+  font-size: 34rpx;
+  font-weight: 900;
+  margin-bottom: 18rpx;
+}
+
+.list-title {
+  margin: 28rpx 8rpx 14rpx;
+}
+
+.avatar-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+  margin-bottom: 20rpx;
+}
+
+.avatar-pick {
+  min-height: 230rpx;
+  border-radius: 28rpx;
+  border: 4rpx solid transparent;
+  background: #F8FEFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 800;
+}
+
+.avatar-pick.is-selected {
+  border-color: #43CFC7;
+  background: #E8FDF7;
+}
+
+.avatar-pick image {
+  width: 160rpx;
+  height: 160rpx;
+}
+
+.name-input {
+  min-height: 88rpx;
+  border-radius: 22rpx;
+  border: 2rpx solid #C8EAFF;
+  background: #FFFFFF;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+}
+
+.privacy {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+}
+
+.child-row {
+  min-height: 128rpx;
+  border-radius: 28rpx;
+  border: 2rpx solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 18rpx;
+  box-sizing: border-box;
+  margin-top: 16rpx;
+  box-shadow: 0 12rpx 28rpx rgba(23, 58, 98, 0.09);
+}
+
+.child-row-avatar {
+  width: 86rpx;
+  height: 86rpx;
+}
+
+.child-row-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.child-row-name {
+  font-size: 32rpx;
+  font-weight: 900;
+}
+
+.child-row-meta {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+}
+
+.switch-tag {
+  min-width: 76rpx;
+  height: 44rpx;
+  border-radius: 999rpx;
+  border: 2rpx solid #C8EAFF;
+  background: #FFFFFF;
+  color: #1479D6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.switch-tag.is-current {
+  border-color: transparent;
+  background: #E8FDF7;
+  color: #0C8F7E;
+}

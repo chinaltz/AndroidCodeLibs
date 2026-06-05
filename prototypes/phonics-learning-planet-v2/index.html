@@ -123,14 +123,10 @@
       width: 42px;
       height: 42px;
       border-radius: 14px;
-      background: linear-gradient(135deg, var(--brand), var(--blue));
-      color: #fff;
-      font-size: 21px;
-      font-weight: 900;
-      display: grid;
-      place-items: center;
+      background: transparent;
       box-shadow: var(--shadow);
       flex: 0 0 auto;
+      object-fit: contain;
     }
 
     .title {
@@ -387,6 +383,34 @@
       margin-top: 12px;
     }
 
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .quick-action {
+      min-height: 74px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      padding: 10px 6px;
+      cursor: pointer;
+      font-weight: 900;
+      box-shadow: 0 8px 16px rgba(23, 49, 59, 0.06);
+    }
+
+    .quick-action span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
     .home-child {
       display: flex;
       align-items: center;
@@ -542,6 +566,89 @@
       font-size: 11px;
       line-height: 1.35;
       display: block;
+    }
+
+    .textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      resize: vertical;
+      color: var(--ink);
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    .word-picker {
+      display: grid;
+      gap: 10px;
+    }
+
+    .word-candidate {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+    }
+
+    .candidate-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .char-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .char-chip {
+      min-width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fffc;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .char-chip.active {
+      border-color: var(--red);
+      color: #9a2f2f;
+      background: var(--red-soft);
+    }
+
+    .setting-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 52px;
+      border-bottom: 1px solid rgba(214, 231, 225, 0.72);
+    }
+
+    .setting-row:last-child {
+      border-bottom: 0;
+    }
+
+    .setting-value {
+      min-width: 78px;
+      min-height: 34px;
+      border-radius: 8px;
+      background: var(--blue-soft);
+      color: #1d55ae;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
     }
 
     .progress {
@@ -710,6 +817,199 @@
       display: block;
     }
 
+    .batch-word-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .batch-candidate-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .batch-candidate {
+      min-height: 64px;
+      border: 1px solid #d6dee5;
+      border-radius: 8px;
+      background: #eef2f5;
+      color: #758492;
+      display: grid;
+      place-items: center;
+      gap: 3px;
+      padding: 8px;
+      position: relative;
+      cursor: pointer;
+      font-weight: 900;
+    }
+
+    .batch-candidate.queued {
+      border-color: #7bb7ff;
+      background: #e6f0ff;
+      color: #1d55ae;
+    }
+
+    .batch-candidate.saved {
+      border-color: var(--brand);
+      background: #ddf7ef;
+      color: var(--brand-dark);
+    }
+
+    .batch-order {
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      width: 20px;
+      height: 20px;
+      border-radius: 99px;
+      background: var(--blue);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+    }
+
+    .batch-caption {
+      color: inherit;
+      font-size: 10px;
+    }
+
+    .character-judge-card {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-top: 14px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8feff;
+    }
+
+    .judge-character-large {
+      width: 72px;
+      height: 72px;
+      border: 2px solid #7bb7ff;
+      border-radius: 8px;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      font-size: 34px;
+      font-weight: 900;
+    }
+
+    .batch-char {
+      aspect-ratio: 1;
+      border: 2px solid #d6dee5;
+      border-radius: 8px;
+      background: #eef2f5;
+      color: #8a98a5;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      font-weight: 900;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .batch-char.active {
+      box-shadow: 0 0 0 3px rgba(49, 168, 255, 0.20);
+    }
+
+    .batch-char.saved-known {
+      border-color: var(--brand);
+      background: #ddf7ef;
+      color: var(--brand-dark);
+    }
+
+    .batch-char.saved-unknown {
+      border-color: var(--red);
+      background: var(--red-soft);
+      color: #9a2f2f;
+    }
+
+    .relation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .relation-card {
+      min-height: 82px;
+      border: 1px solid #f3c5ca;
+      border-radius: 8px;
+      background: #fff4f5;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .relation-character {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: var(--red);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 23px;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .relation-meta {
+      min-width: 0;
+      color: #8a4c54;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .relation-meta strong {
+      display: block;
+      color: #9a2f2f;
+      font-size: 14px;
+    }
+
+    .batch-state {
+      position: absolute;
+      right: 4px;
+      bottom: 3px;
+      font-size: 9px;
+    }
+
+    .judge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .judge-button {
+      min-height: 72px;
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .judge-button.selected-known {
+      border-color: var(--brand);
+      background: #ddf7ef;
+    }
+
+    .judge-button.selected-unknown {
+      border-color: var(--red);
+      background: var(--red-soft);
+    }
+
     .worksheet-options {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -851,7 +1151,7 @@
 
     <header class="topbar">
       <button class="back" id="backBtn" aria-label="返回">‹</button>
-      <div class="logo">音</div>
+      <img class="logo" src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/planets/planet-learning.png" alt="学习星球">
       <div class="title">
         <h1 id="pageTitle">添加孩子</h1>
         <p id="pageSubtitle">清空数据后重新开始</p>
@@ -1027,10 +1327,10 @@
         <div class="card">
           <div class="head">
             <div>
-              <h2>今天要处理 5 个字</h2>
-              <p class="muted">生字和错字合并为字词项，用错误次数和复习时间决定优先级。</p>
+              <h2>字词列表</h2>
+              <p class="muted">默认先看要复习的字词，新增放到独立页面。</p>
             </div>
-            <span class="chip warn">字词</span>
+            <button class="btn" data-go="wordAdd">添加</button>
           </div>
           <div class="metrics">
             <div class="metric">
@@ -1049,42 +1349,554 @@
               <div class="progress"><i style="width: 64%"></i></div>
             </div>
           </div>
+          <div class="quick-grid">
+            <button class="quick-action" data-go="wordAdd">添加字词<span>手动/语音/拍照</span></button>
+            <button class="quick-action" data-go="textbookDictation">课本听写<span>按课选字词</span></button>
+            <button class="quick-action" data-go="dictationPlayer">听写播报<span>间隔可配置</span></button>
+          </div>
         </div>
 
         <div class="card">
+          <div class="head">
+            <div>
+              <h2>不会的字</h2>
+              <p class="muted">字负责记录错误次数；每个字关联一个或多个完整听写词。</p>
+            </div>
+            <span class="chip danger" id="unknownCharacterCount">2 字</span>
+          </div>
+          <div class="relation-grid" id="unknownCharacterList">
+            <div class="relation-card">
+              <div class="relation-character">慢</div>
+              <div class="relation-meta"><strong>错 4 次</strong>关联：慢慢、缓慢</div>
+            </div>
+            <div class="relation-card">
+              <div class="relation-character">候</div>
+              <div class="relation-meta"><strong>错 2 次</strong>关联：时候、等候</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>听写词</h2>
+              <p class="muted">听写只使用完整词语，红色说明该词关联了不会字。</p>
+            </div>
+            <span class="chip blue">3 词</span>
+          </div>
+          <div class="filters">
+            <button class="filter active">待复习</button>
+            <button class="filter">高频错字</button>
+            <button class="filter">已掌握</button>
+            <button class="filter">本周新增</button>
+          </div>
+          <div class="row">
+            <div class="hanzi">慢慢</div>
+            <div class="row-main">
+              <h3>man man</h3>
+              <span class="chip danger">关联不会字：慢</span>
+              <p class="muted">来源：日常 · 明天听写</p>
+            </div>
+            <button class="btn warn">又错</button>
+          </div>
+          <div class="row">
+            <div class="hanzi">时候</div>
+            <div class="row-main">
+              <h3>shi hou</h3>
+              <span class="chip danger">关联不会字：候</span>
+              <p class="muted">一年级上 · 第二单元 · 第三课</p>
+            </div>
+            <button class="btn secondary" data-go="wordEdit">编辑</button>
+          </div>
+          <div class="row">
+            <div class="hanzi">游泳</div>
+            <div class="row-main">
+              <h3>you yong</h3>
+              <span class="chip blue">仅听写，不关联不会字</span>
+              <p class="muted">来源：日常</p>
+            </div>
+            <button class="btn secondary">选择</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>全部生词 · 按周分组</h2>
+              <p class="muted">每周新增的生字和词语统一沉淀，方便家长按周复盘和组听写。</p>
+            </div>
+            <span class="chip blue">全部</span>
+          </div>
+          <label>搜索字词
+            <input value="hou" placeholder="输入汉字、词语、拼音或课文来源">
+          </label>
+          <div class="filters">
+            <button class="filter active">全部</button>
+            <button class="filter">只看未掌握</button>
+            <button class="filter">只看词语</button>
+            <button class="filter">清空选择</button>
+          </div>
+          <div class="row">
+            <div class="hanzi">候</div>
+            <div class="row-main">
+              <h3>候 · hou</h3>
+              <span class="chip blue">来源：一年级上 · 第二单元 · 第三课</span>
+              <p class="muted">搜索命中 · 已选入本次听写</p>
+            </div>
+            <span class="chip warn">已选</span>
+          </div>
+          <div class="word-picker">
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>本周 · 6 个</h3>
+                <span class="chip warn">2 个待复习</span>
+              </div>
+              <div class="char-row">
+                <span class="char-chip active">慢</span>
+                <span class="char-chip active">候</span>
+                <span class="char-chip active">游</span>
+                <span class="char-chip active">泳</span>
+                <span class="char-chip">天</span>
+                <span class="char-chip">地</span>
+              </div>
+              <div class="actions">
+                <button class="btn" data-go="dictationPlayer">听写已选 4 个</button>
+                <button class="btn secondary">生成默写纸</button>
+              </div>
+            </div>
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>上周 · 8 个</h3>
+                <span class="chip">已复习 5 个</span>
+              </div>
+              <div class="char-row">
+                <span class="char-chip">春</span>
+                <span class="char-chip">风</span>
+                <span class="char-chip">花</span>
+                <span class="char-chip">草</span>
+                <span class="char-chip active">请</span>
+                <span class="char-chip active">清</span>
+              </div>
+              <div class="actions">
+                <button class="btn secondary" data-go="dictationPlayer">补听写</button>
+                <button class="btn secondary">选择本组</button>
+                <button class="btn secondary">展开全部</button>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" data-go="dictationPlayer">开始听写已选 5 个</button>
+            <button class="btn secondary">保存为本次听写</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="wordAdd" class="screen" data-title="添加字词" data-subtitle="选择录入方式">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>添加到字词星球</h2>
+              <p class="muted">新加入的字词默认错 1 次，并加入待听写。</p>
+            </div>
+            <span class="chip danger">错 1 次</span>
+          </div>
           <div class="module-list">
-            <button class="module-card" data-go="mistakes">
-              <span class="module-icon">错</span>
+            <button class="module-card" data-go="wordEdit">
+              <span class="module-icon">手</span>
               <span>
-                <h3>字词管理</h3>
-                <p class="muted">新增、编辑、删除、又错一次、标记掌握</p>
+                <h3>手动录入</h3>
+                <p class="muted">输入一个字或词，自动生成参考拼音</p>
               </span>
               <span class="arrow">›</span>
             </button>
-            <button class="module-card" data-go="review">
-              <span class="module-icon">听</span>
+            <button class="module-card" data-coming="语音录入">
+              <span class="module-icon">语</span>
               <span>
-                <h3>听写提醒</h3>
-                <p class="muted">按错误时间和错误频率推荐要练的字</p>
+                <h3>语音录入</h3>
+                <p class="muted">后续版本接入，本期先不做</p>
               </span>
               <span class="arrow">›</span>
             </button>
-            <button class="module-card" data-go="stats">
-              <span class="module-icon">图</span>
+            <button class="module-card" data-coming="拍照录入">
+              <span class="module-icon">拍</span>
               <span>
-                <h3>字词统计</h3>
-                <p class="muted">排行、趋势、掌握情况</p>
+                <h3>拍照录入</h3>
+                <p class="muted">后续版本接入，本期先不做</p>
               </span>
               <span class="arrow">›</span>
             </button>
-            <button class="module-card" data-go="worksheet">
-              <span class="module-icon">纸</span>
+            <button class="module-card" data-go="textbookDictation">
+              <span class="module-icon">本</span>
               <span>
-                <h3>A4 默写纸</h3>
-                <p class="muted">按拼音生成图片、Word、PDF</p>
+                <h3>按课本添加</h3>
+                <p class="muted">按年级、单元、课文选择生字和生词</p>
               </span>
               <span class="arrow">›</span>
             </button>
+          </div>
+        </div>
+      </section>
+
+      <section id="textbookDictation" class="screen" data-title="课本听写" data-subtitle="按课本选择生字和不超纲生词">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>选择课本范围</h2>
+              <p class="muted">先选年级、册、单元、课文，再勾选本课要听写的字词。</p>
+            </div>
+            <span class="chip blue">统编版</span>
+          </div>
+          <div class="form">
+            <label>年级
+              <select>
+                <option>一年级</option>
+                <option>二年级</option>
+                <option>三年级</option>
+                <option>四年级</option>
+                <option>五年级</option>
+                <option>六年级</option>
+              </select>
+            </label>
+            <label>册别
+              <select>
+                <option>上册</option>
+                <option>下册</option>
+              </select>
+            </label>
+            <label>单元与课文
+              <select>
+                <option>第一单元 · 第一课</option>
+                <option>第一单元 · 第二课</option>
+                <option>第二单元 · 识字课</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>本课生字</h2>
+              <p class="muted">来自课后生字表，保存时会带上“哪本书、哪个单元、哪一课”。</p>
+            </div>
+            <span class="chip">6 字</span>
+          </div>
+          <div class="char-row">
+            <span class="char-chip active">天</span>
+            <span class="char-chip active">地</span>
+            <span class="char-chip active">人</span>
+            <span class="char-chip">你</span>
+            <span class="char-chip">我</span>
+            <span class="char-chip">他</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>课内/不超纲生词</h2>
+              <p class="muted">只收本课出现或由已学字组成的词语，不把高年级词提前塞给低年级。</p>
+            </div>
+            <span class="chip warn">待核对</span>
+          </div>
+          <div class="word-picker">
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>天地</h3>
+                <span class="chip">课内词</span>
+              </div>
+              <div class="char-row">
+                <span class="char-chip active">天</span>
+                <span class="char-chip active">地</span>
+              </div>
+            </div>
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>你我</h3>
+                <span class="chip blue">不超纲</span>
+              </div>
+              <div class="char-row">
+                <span class="char-chip">你</span>
+                <span class="char-chip">我</span>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" data-go="dictationPlayer">加入本次听写</button>
+            <button class="btn secondary" data-go="wordPlanet">保存到字词库</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="wordEdit" class="screen" data-title="批量录入" data-subtitle="按点击顺序逐词判断">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>批量输入听写词</h2>
+              <p class="muted">多个词用空格、逗号或顿号分开。点击词语的顺序，就是下面处理的顺序。</p>
+            </div>
+            <span class="chip blue">批量录入</span>
+          </div>
+          <div class="form">
+            <label>听写词
+              <textarea class="textarea" id="batchInput" placeholder="例如：时候、游泳、慢慢">时候、游泳、慢慢</textarea>
+            </label>
+          </div>
+
+          <div class="batch-candidate-grid" id="batchCandidateGrid"></div>
+        </div>
+
+        <div class="card" id="batchJudgePanel">
+          <div class="head">
+            <div>
+              <h2 id="activeWordTitle">正在处理：时候</h2>
+              <p class="muted">所有字默认“会写”。点击不会写的字，再保存整个词语。</p>
+            </div>
+            <span class="chip" id="batchProgress">2 字</span>
+          </div>
+
+          <div class="batch-word-grid" id="batchWordGrid"></div>
+          <div class="actions">
+            <button class="btn" id="batchSave">保存词语</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>已保存词汇</h2>
+              <p class="muted">每个完整词保存一条；不会字显示关联关系。</p>
+            </div>
+            <span class="chip" id="savedWordCount">3 个</span>
+          </div>
+          <div id="savedWordList">
+            <div class="row" style="background:#ddf7ef;border-color:#20b486;">
+              <div class="hanzi">时候</div>
+              <div class="row-main"><h3>shi hou</h3><p class="muted">关联不会字：候</p></div>
+              <span class="chip">已保存</span>
+            </div>
+            <div class="row" style="background:#e6f0ff;border-color:#7bb7ff;">
+              <div class="hanzi">游泳</div>
+              <div class="row-main"><h3>you yong</h3><p class="muted">全部会写，仅听写</p></div>
+              <span class="chip blue">已保存</span>
+            </div>
+            <div class="row" style="background:#fff0dc;border-color:#ffb66d;">
+              <div class="hanzi">慢慢</div>
+              <div class="row-main"><h3>man man</h3><p class="muted">关联不会字：慢</p></div>
+              <span class="chip warn">已保存</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="wordImport" class="screen" data-title="智能录入" data-subtitle="语音转文字、图片转文字后选择字词">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>识别文本</h2>
+              <p class="muted">语音和图片识别结果先进入这里，不直接入库，家长确认后再保存。</p>
+            </div>
+            <span class="chip blue">待确认</span>
+          </div>
+          <div class="row">
+            <div class="module-icon" style="background: var(--red);">!</div>
+            <div class="row-main">
+              <h3>识别不完整时</h3>
+              <p class="muted">保留已识别文本，家长可以继续补拍、补录、手动粘贴，不需要从头再来。</p>
+            </div>
+            <span class="chip warn">可补录</span>
+          </div>
+          <div class="actions">
+            <button class="btn">继续录音</button>
+            <button class="btn secondary">补拍一张</button>
+            <button class="btn secondary">手动粘贴</button>
+            <button class="btn secondary">重新识别</button>
+          </div>
+          <label style="margin-top: 12px;">识别结果
+            <textarea class="textarea">今天听写：慢慢、时候、游泳、天上、人们。小宝说“慢慢”和“时候”还不会写。</textarea>
+          </label>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>自动分组</h2>
+              <p class="muted">先按换行、标点、语义拆成多组，家长一组一组处理，比在一大段文字里找词更快。</p>
+            </div>
+            <span class="chip blue">3 组</span>
+          </div>
+          <div class="word-picker">
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>第 1 组 · 今天听写</h3>
+                <span class="chip warn">3 个候选</span>
+              </div>
+              <p class="muted">慢慢、时候、游泳</p>
+              <div class="actions">
+                <button class="btn">处理本组</button>
+                <button class="btn secondary">整组加入听写</button>
+              </div>
+            </div>
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>第 2 组 · 课文词</h3>
+                <span class="chip">2 个候选</span>
+              </div>
+              <p class="muted">天上、人们</p>
+              <div class="actions">
+                <button class="btn secondary">处理本组</button>
+                <button class="btn secondary">忽略本组</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>快速筛选候选词</h2>
+              <p class="muted">先点选要保留的词，再标注哪个字不会写、哪个词只是听写准备。</p>
+            </div>
+            <span class="chip warn">6 个候选</span>
+          </div>
+          <div class="filters" style="padding-top: 0;">
+            <button class="filter active">词语优先</button>
+            <button class="filter">只看多字词</button>
+            <button class="filter">只看未处理</button>
+            <button class="filter">全选听写</button>
+            <button class="filter">清空</button>
+          </div>
+          <div class="word-picker">
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>慢慢</h3>
+                <span class="chip danger">整个词不会 · 听写</span>
+              </div>
+              <p class="muted">规则：保存为生词，默认错 1 次，两个“慢”都标为不会写。</p>
+              <div class="char-row">
+                <span class="char-chip active">慢</span>
+                <span class="char-chip active">慢</span>
+              </div>
+              <div class="actions">
+                <button class="btn warn">整个词不会</button>
+                <button class="btn secondary">只标某字</button>
+                <button class="btn secondary">移除</button>
+              </div>
+            </div>
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>时候</h3>
+                <span class="chip warn">只错“候” · 听写</span>
+              </div>
+              <p class="muted">规则：词语进入听写库，只把“候”计入错字。</p>
+              <div class="char-row">
+                <span class="char-chip">时</span>
+                <span class="char-chip active">候</span>
+              </div>
+              <div class="actions">
+                <button class="btn secondary">整个词不会</button>
+                <button class="btn warn">只标某字</button>
+                <button class="btn secondary">移除</button>
+              </div>
+            </div>
+            <div class="word-candidate">
+              <div class="candidate-head">
+                <h3>游泳</h3>
+                <span class="chip blue">听写准备词</span>
+              </div>
+              <p class="muted">规则：只加入本次听写，不增加错误次数。</p>
+              <div class="char-row">
+                <span class="char-chip">游</span>
+                <span class="char-chip">泳</span>
+              </div>
+              <div class="actions">
+                <button class="btn secondary">标为不会</button>
+                <button class="btn">加入听写</button>
+                <button class="btn secondary">移除</button>
+              </div>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="btn" data-go="wordPlanet">保存 3 个字词</button>
+            <button class="btn secondary" data-go="wordAdd">返回添加方式</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="dictationPlayer" class="screen" data-title="听写播报" data-subtitle="字词转语音，支持播报间隔">
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>本次听写</h2>
+              <p class="muted">按已选字词生成语音，家长可以设置每个词之间的停顿。</p>
+            </div>
+            <span class="chip">5 词</span>
+          </div>
+          <div class="row">
+            <div class="hanzi">慢慢</div>
+            <div class="row-main">
+              <h3>man man</h3>
+              <p class="muted">整个词不会写 · 日常</p>
+            </div>
+            <span class="chip danger">重点</span>
+          </div>
+          <div class="row">
+            <div class="hanzi">时候</div>
+            <div class="row-main">
+              <h3>shi hou</h3>
+              <p class="muted">只标记“候”不会写 · 一年级上 · 第二单元</p>
+            </div>
+            <span class="chip warn">部分</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="head">
+            <div>
+              <h2>播报设置</h2>
+              <p class="muted">本期只做听写 TTS。优先使用中国大陆可用、免费额度较大的云端语音合成。</p>
+            </div>
+            <span class="chip blue">腾讯云 TTS</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <h3>TTS 服务</h3>
+              <p class="muted">首选腾讯云；长期备选微软 Azure；再备选讯飞、百度</p>
+            </div>
+            <span class="setting-value">腾讯云</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <h3>免费额度策略</h3>
+              <p class="muted">先用免费资源包，超额后暂停云播报</p>
+            </div>
+            <span class="setting-value">免费优先</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <h3>词语间隔</h3>
+              <p class="muted">每个词播完后等待多久</p>
+            </div>
+            <span class="setting-value">8 秒</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <h3>重复次数</h3>
+              <p class="muted">同一个词连续播几遍</p>
+            </div>
+            <span class="setting-value">2 遍</span>
+          </div>
+          <div class="setting-row">
+            <div>
+              <h3>读音速度</h3>
+              <p class="muted">低年级默认慢速</p>
+            </div>
+            <span class="setting-value">慢速</span>
+          </div>
+          <div class="actions">
+            <button class="btn">开始播报</button>
+            <button class="btn secondary">试听当前词</button>
+            <button class="btn secondary" data-go="review">返回听写</button>
           </div>
         </div>
       </section>
@@ -1112,7 +1924,7 @@
               <h3>姐姐</h3>
               <p class="muted">音标 31/48 · 错字 6</p>
             </div>
-            <button class="btn secondary">切换</button>
+            <button class="btn secondary" data-switch-child>切换</button>
           </div>
         </div>
 
@@ -1415,6 +2227,7 @@
     const screens = Array.from(document.querySelectorAll('.screen'));
     const goButtons = Array.from(document.querySelectorAll('[data-go]'));
     const comingButtons = Array.from(document.querySelectorAll('[data-coming]'));
+    const switchChildButtons = Array.from(document.querySelectorAll('[data-switch-child]'));
     const bottomTabs = document.querySelector('#bottomTabs');
     const tabs = Array.from(document.querySelectorAll('.tab'));
     const backBtn = document.querySelector('#backBtn');
@@ -1468,6 +2281,16 @@
       });
     });
 
+    switchChildButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        pageSubtitle.textContent = '姐姐 · 本地学习数据';
+        button.textContent = '已切换';
+        window.setTimeout(() => {
+          button.textContent = '切换';
+        }, 900);
+      });
+    });
+
     kidLogos.forEach((logo) => {
       logo.addEventListener('click', () => {
         selectedAvatar = logo.dataset.avatar;
@@ -1505,6 +2328,145 @@
         window.setTimeout(() => {
           countButton.textContent = '又错';
         }, 900);
+      });
+    }
+
+    const batchInput = document.querySelector('#batchInput');
+    const batchCandidateGrid = document.querySelector('#batchCandidateGrid');
+    const batchJudgePanel = document.querySelector('#batchJudgePanel');
+    const batchWordGrid = document.querySelector('#batchWordGrid');
+    const batchSave = document.querySelector('#batchSave');
+    const activeWordTitle = document.querySelector('#activeWordTitle');
+    const batchProgress = document.querySelector('#batchProgress');
+    const savedWordList = document.querySelector('#savedWordList');
+    const savedWordCount = document.querySelector('#savedWordCount');
+    const unknownCharacterList = document.querySelector('#unknownCharacterList');
+    const unknownCharacterCount = document.querySelector('#unknownCharacterCount');
+    let savedCount = 3;
+    const unknownRelations = {
+      慢: { count: 4, words: ['慢慢', '缓慢'] },
+      候: { count: 2, words: ['时候', '等候'] },
+    };
+    let clickQueue = [];
+    let savedBatchWords = new Set();
+    let activeBatchWord = '';
+    let characterStates = [];
+
+    function splitBatchWords(text) {
+      return Array.from(new Set(
+        text.split(/[\s,，、。；;！!？?\n]+/).map((word) => word.trim()).filter(Boolean)
+      ));
+    }
+
+    function renderUnknownCharacters() {
+      unknownCharacterList.innerHTML = '';
+      Object.entries(unknownRelations).forEach(([character, relation]) => {
+        const card = document.createElement('div');
+        card.className = 'relation-card';
+        card.innerHTML = `<div class="relation-character">${character}</div><div class="relation-meta"><strong>错 ${relation.count} 次</strong>关联：${relation.words.join('、')}</div>`;
+        unknownCharacterList.appendChild(card);
+      });
+      unknownCharacterCount.textContent = `${Object.keys(unknownRelations).length} 字`;
+    }
+
+    function renderCandidates() {
+      const words = splitBatchWords(batchInput.value);
+      clickQueue = clickQueue.filter((word) => words.includes(word) && !savedBatchWords.has(word));
+      batchCandidateGrid.innerHTML = '';
+      words.forEach((word) => {
+        const order = clickQueue.indexOf(word) + 1;
+        const button = document.createElement('button');
+        button.className = `batch-candidate${order ? ' queued' : ''}${savedBatchWords.has(word) ? ' saved' : ''}`;
+        button.dataset.word = word;
+        button.innerHTML = `${order ? `<span class="batch-order">${order}</span>` : ''}<strong>${word}</strong><span class="batch-caption">${savedBatchWords.has(word) ? '已保存' : (order ? '待处理' : '点击选择')}</span>`;
+        batchCandidateGrid.appendChild(button);
+      });
+    }
+
+    function renderJudge() {
+      batchJudgePanel.style.display = activeBatchWord ? 'block' : 'none';
+      if (!activeBatchWord) return;
+      activeWordTitle.textContent = `正在处理：${activeBatchWord}`;
+      batchProgress.textContent = `${characterStates.length} 字`;
+      batchWordGrid.innerHTML = '';
+      characterStates.forEach((item) => {
+        const button = document.createElement('button');
+        button.className = `batch-char ${item.status === 'unknown' ? 'saved-unknown' : 'saved-known'}`;
+        button.dataset.index = item.index;
+        button.innerHTML = `${item.character}<span class="batch-state">${item.status === 'unknown' ? '不会写' : '会写'}</span>`;
+        batchWordGrid.appendChild(button);
+      });
+    }
+
+    function startNextBatchWord() {
+      activeBatchWord = clickQueue.find((word) => !savedBatchWords.has(word)) || '';
+      characterStates = Array.from(activeBatchWord).map((character, index) => ({
+        character,
+        index,
+        status: 'known',
+      }));
+      renderJudge();
+      renderCandidates();
+    }
+
+    renderUnknownCharacters();
+    renderCandidates();
+    renderJudge();
+    batchInput.addEventListener('input', () => {
+      renderCandidates();
+    });
+    batchCandidateGrid.addEventListener('click', (event) => {
+      const button = event.target.closest('.batch-candidate');
+      if (!button || savedBatchWords.has(button.dataset.word)) return;
+      if (!clickQueue.includes(button.dataset.word)) clickQueue.push(button.dataset.word);
+      if (!activeBatchWord) startNextBatchWord();
+      else renderCandidates();
+    });
+    batchWordGrid.addEventListener('click', (event) => {
+      const button = event.target.closest('.batch-char');
+      if (!button) return;
+      const index = Number(button.dataset.index);
+      characterStates[index].status = characterStates[index].status === 'unknown' ? 'known' : 'unknown';
+      renderJudge();
+    });
+
+    if (batchSave) {
+      batchSave.addEventListener('click', () => {
+        if (!activeBatchWord) return;
+
+        const text = activeBatchWord;
+        const unknownCharacters = Array.from(new Set(
+          characterStates.filter((item) => item.status === 'unknown').map((item) => item.character)
+        ));
+        const relationText = unknownCharacters.length
+          ? `关联不会字：${unknownCharacters.join('、')}`
+          : '全部会写，仅听写';
+        const colors = [
+          ['#ddf7ef', '#20b486'],
+          ['#e6f0ff', '#7bb7ff'],
+          ['#fff0dc', '#ffb66d'],
+          ['#eeeaff', '#b7a4ff'],
+        ];
+        const color = colors[savedCount % colors.length];
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.style.background = color[0];
+        row.style.borderColor = color[1];
+        row.innerHTML = `<div class="hanzi">${text}</div><div class="row-main"><h3>自动生成拼音</h3><p class="muted">${relationText}</p></div><span class="chip">已保存</span>`;
+        savedWordList.prepend(row);
+        unknownCharacters.forEach((character) => {
+          const relation = unknownRelations[character] || { count: 0, words: [] };
+          relation.count += 1;
+          if (!relation.words.includes(text)) relation.words.unshift(text);
+          unknownRelations[character] = relation;
+        });
+        renderUnknownCharacters();
+        savedCount += 1;
+        savedWordCount.textContent = `${savedCount} 个`;
+        savedBatchWords.add(text);
+        clickQueue = clickQueue.filter((word) => word !== text);
+        activeBatchWord = '';
+        startNextBatchWord();
       });
     }
   </script>

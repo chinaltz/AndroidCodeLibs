@@ -1,8 +1,14 @@
 {
   "pages": [
     "pages/map/index",
+    "pages/phonics/index",
     "pages/learn/index",
     "pages/check/index",
+    "pages/children/index",
+    "pages/word-planet/index",
+    "pages/word-edit/index",
+    "pages/word-list/index",
+    "pages/dictation-player/index",
     "pages/settings/index",
     "pages/settings-theme/index",
     "pages/settings-language/index",

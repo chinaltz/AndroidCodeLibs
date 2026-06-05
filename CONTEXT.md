@@ -13,6 +13,7 @@
 | 发布流水线步骤变更 | — | `.claude/skills/publish-workflow/SKILL.md` |
 | 新增专用能力 | 本文件 `CONTEXT.md` | `.claude/skills/<新skill名>/SKILL.md` |
 | 文章视觉风格 / 星球风 UI | `scripts/md-to-wechat.mjs`（导出样式） | `.agents/skills/star-article-style/SKILL.md` |
+| 微信搜一搜 / 看一看图文卡 | `scripts/gen-wechat-search-cards.py`（批量生成） | `.agents/skills/generate-images/SKILL.md` |
 
 ## 目录结构
 

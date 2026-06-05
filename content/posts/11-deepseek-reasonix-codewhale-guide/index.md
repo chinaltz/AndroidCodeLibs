@@ -2,7 +2,7 @@
 
 > DeepSeek 工具上手指南
 >
-> 关注微信公众号 **AI技趣星球**，一起用技术创造乐趣。
+> 关注微信公众号 **AI技趣星球**，回复MF 一起用技术创造乐趣。
 >
 > 本文写作时间：2026 年 6 月 3 日。模型价格和工具名称可能会变，动手前以官网为准。
 
@@ -24,7 +24,7 @@
 
 一个是 **CodeWhale**，也就是很多人说的 DeepSeek TUI / whalecode 这类终端工具。
 
-**一句话结论：DeepSeek 便宜之后，最适合普通人的用法不是拿来闲聊，而是接进编程 Agent，让它读项目、改文件、跑命令。Reasonix 更适合新手稳稳上手，CodeWhale 更适合喜欢终端、想要轻量操作的人。**
+这篇的重点很简单：DeepSeek 便宜之后，最适合普通人的用法不是拿来闲聊，而是接进编程 Agent，让它读项目、改文件、跑命令。Reasonix 更适合新手稳稳上手，CodeWhale 更适合喜欢终端、想要轻量操作的人。
 
 难度：⭐⭐⭐
 
@@ -32,7 +32,7 @@
 
 ---
 
-## 先说人话：API 降价，等于“请助理的时薪变低了”
+## API 降价，等于“请助理的时薪变低了”
 
 你可以把 AI API 想成“按字数收费的外包助理”。
 
@@ -44,12 +44,16 @@
 
 DeepSeek 官方在价格页里列出的写作时价格是：
 
+![DeepSeek 官方模型与价格页面](./images/scene1-deepseek-pricing.png)
+
 | 模型 | 缓存命中输入 | 缓存未命中输入 | 输出 | 适合什么 |
 |------|----------------|------------------|------|----------|
 | DeepSeek-V4-Flash | 每百万 token 0.02 元 | 每百万 token 1 元 | 每百万 token 2 元 | 日常问答、轻量改代码 |
 | DeepSeek-V4-Pro | 每百万 token 0.025 元 | 每百万 token 3 元 | 每百万 token 6 元 | 更复杂的分析和编程任务 |
 
 腾讯云在 2026 年 6 月 3 日也宣布下调 DeepSeek-V4 模型价格：
+
+![腾讯云 2026 年 6 月 3 日 DeepSeek-V4 系列模型降价公告](./images/scene3-tencent-deepseek-price-cut.png)
 
 | 腾讯云模型 | 调整后重点 |
 |------------|------------|
@@ -169,6 +173,8 @@ setx DEEPSEEK_BASE_URL "https://api.deepseek.com"
 
 ## 方法一：接入 Reasonix，适合先稳稳跑起来
 
+![DeepSeek 官方文档里的 Reasonix 接入页面](./images/scene2-reasonix-docs.png)
+
 Reasonix 是 DeepSeek 官方文档里列出的 AI 编程 Agent。
 
 你可以把它理解成：
@@ -281,7 +287,7 @@ Reasonix 默认使用 DeepSeek-V4-Flash。
 
 ## 方法二：接入 CodeWhale，适合喜欢终端的人
 
-CodeWhale 是 DeepSeek 推出的终端编程工具。
+CodeWhale 是一个面向 DeepSeek V4 的开源终端编程工具。
 
 很多人会把它叫 DeepSeek TUI，或者按英文顺序口误成 whalecode。
 
@@ -518,9 +524,9 @@ AI 有时候会一路往下做。
 
 ---
 
-## 今天的小结
+## 最后收一下
 
-今天只需要记住 3 件事：
+这篇先带走 3 件事：
 
 - DeepSeek 和腾讯云降价后，普通人更适合把它接进工具里用，而不是只聊天。
 - Reasonix 更适合第一次体验 DeepSeek 编程 Agent。
@@ -549,7 +555,7 @@ AI 有时候会一路往下做。
 - DeepSeek 官方价格页：https://api-docs.deepseek.com/zh-cn/quick_start/pricing
 - DeepSeek Reasonix 文档：https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/reasonix
 - CodeWhale 官网：https://www.codewhale.ai/
-- 腾讯云 DeepSeek 模型公告与价格页：https://cloud.tencent.com/product/deepseek
+- 腾讯云 DeepSeek-V4 系列模型降价公告：https://cloud.tencent.com/announce/detail/2308
 
 *阅读更多：Claude Code 怎么用？普通人也能上手的 AI 编程助手*
 *有问题？评论区告诉我*

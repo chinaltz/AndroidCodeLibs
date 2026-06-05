@@ -1,0 +1,38 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="孩子管理" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <bc-card theme="{{theme}}">
+      <view class="section-title">添加孩子</view>
+      <view class="avatar-row">
+        <view class="avatar-pick {{selectedAvatar === 'boy' ? 'is-selected' : ''}}" data-avatar="boy" bindtap="onPickAvatar">
+          <image src="/assets/images/planets/kid-boy.png" mode="aspectFit" />
+          <view>男孩</view>
+        </view>
+        <view class="avatar-pick {{selectedAvatar === 'girl' ? 'is-selected' : ''}}" data-avatar="girl" bindtap="onPickAvatar">
+          <image src="/assets/images/planets/kid-girl.png" mode="aspectFit" />
+          <view>女孩</view>
+        </view>
+      </view>
+      <input class="name-input" value="{{nickname}}" placeholder="输入孩子昵称" maxlength="12" bindinput="onNicknameInput" />
+      <bc-button text="保存孩子" variant="primary" theme="{{theme}}" bind:tap="onCreateChild" />
+      <view class="privacy" style="color: {{theme.textTertiary}};">昵称只保存在本机，用于区分孩子数据。小程序没有账号，也不会上传孩子信息。</view>
+    </bc-card>
+
+    <view class="section-title list-title">本地孩子</view>
+    <block wx:for="{{children}}" wx:key="id">
+      <view class="child-row" style="background: {{theme.surfaceRaised}}; border-color: {{item.id === currentChildId ? theme.success : theme.borderDefault}};">
+        <image class="child-row-avatar" src="{{item.avatarPath}}" mode="aspectFit" />
+        <view class="child-row-main">
+          <view class="child-row-name" style="color: {{theme.textPrimary}};">{{item.nickname}}</view>
+          <view class="child-row-meta" style="color: {{theme.textTertiary}};">{{item.isCurrent ? '当前孩子' : '本地档案'}}</view>
+        </view>
+        <view
+          class="switch-tag {{item.isCurrent ? 'is-current' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onSwitchChild"
+        >{{item.switchLabel}}</view>
+      </view>
+    </block>
+  </scroll-view>
+</view>

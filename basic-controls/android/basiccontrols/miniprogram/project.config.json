@@ -1,7 +1,12 @@
 {
   "description": "音标星球 · 微信小程序 ",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "folder",
+        "value": "docs"
+      }
+    ],
     "include": []
   },
   "setting": {

@@ -1,0 +1,66 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="听写播放" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="dictation-hero">
+      <view class="hero-copy">
+        <view class="eyebrow">课本听写机</view>
+        <view class="hero-title">{{currentText}}</view>
+        <view class="hero-subtitle">{{statusText}}</view>
+      </view>
+      <image class="hero-planet" src="/assets/images/planets/planet-words.png" mode="aspectFit" />
+    </view>
+
+    <view class="control-panel">
+      <view class="panel-title">播报设置</view>
+      <view class="settings-grid">
+        <view class="setting-card">
+          <view class="setting-label">间隔秒数</view>
+          <input class="setting-input" type="number" value="{{intervalSeconds}}" bindinput="onIntervalInput" />
+        </view>
+        <view class="setting-card">
+          <view class="setting-label">重复次数</view>
+          <input class="setting-input" type="number" value="{{repeatCount}}" bindinput="onRepeatInput" />
+        </view>
+      </view>
+      <view class="tts-state">
+        <view>
+          <view class="state-title">腾讯云 TTS</view>
+          <view class="state-desc">SecretId：{{maskedSecretId}} · SecretKey：{{maskedSecretKey}}</view>
+        </view>
+        <view class="state-action" bindtap="openConfig">配置</view>
+      </view>
+      <view class="primary-row">
+        <bc-button wx:if="{{!playing}}" text="开始听写" variant="primary" theme="{{theme}}" bind:tap="startQueue" />
+        <bc-button wx:else text="暂停" variant="primary" theme="{{theme}}" bind:tap="stopQueue" />
+      </view>
+    </view>
+
+    <view class="queue-section">
+      <view class="section-title">听写队列</view>
+      <block wx:for="{{queue}}" wx:key="id">
+        <view class="queue-row {{currentIndex === index ? 'is-current' : ''}}">
+          <view class="queue-index">{{index + 1}}</view>
+          <view class="queue-main">
+            <view class="queue-text">{{item.text}}</view>
+            <view class="queue-source">{{item.sourceLabel}}</view>
+          </view>
+          <view class="queue-play" data-index="{{index}}" bindtap="playOne">试听</view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{configOpen}}" class="config-mask" bindtap="closeConfig">
+    <view class="config-sheet" catchtap="noop">
+      <view class="config-title">本机 TTS 配置</view>
+      <view class="config-desc">只保存在当前小程序本机 storage，用于临时调测；正式版建议挪到云函数。</view>
+      <input class="config-input" value="{{secretId}}" placeholder="SecretId" bindinput="onSecretIdInput" />
+      <input class="config-input" value="{{secretKey}}" placeholder="SecretKey" password="{{true}}" bindinput="onSecretKeyInput" />
+      <view class="config-actions">
+        <view class="config-secondary" bindtap="closeConfig">取消</view>
+        <view class="config-primary" bindtap="saveConfig">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

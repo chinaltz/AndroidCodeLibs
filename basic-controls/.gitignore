@@ -11,6 +11,7 @@
 **/*.iml
 **/local.properties
 **/project.private.config.json
+**/config/tts.local.js
 
 # Generated packages
 *.tgz

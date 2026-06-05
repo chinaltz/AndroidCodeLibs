@@ -12,6 +12,7 @@ App({
   },
 
   onLaunch() {
+    this.checkForUpdates();
     const themeKey = storage.getThemeKey();
     const language = storage.getLanguage();
     i18n.setLanguage(language);
@@ -20,6 +21,28 @@ App({
     this.globalData.completed = storage.getCompleted();
     this.applyTheme(themeKey);
     audio.configureOutput();
+  },
+
+  checkForUpdates() {
+    if (typeof wx.getUpdateManager !== 'function') return;
+    const updateManager = wx.getUpdateManager();
+    updateManager.onCheckForUpdate(() => {});
+    updateManager.onUpdateReady(() => {
+      wx.showModal({
+        title: '更新提示',
+        content: '新版本已经准备好，重启后即可使用最新音频。',
+        showCancel: false,
+        success: () => {
+          updateManager.applyUpdate();
+        },
+      });
+    });
+    updateManager.onUpdateFailed(() => {
+      wx.showToast({
+        title: '更新失败，请重新进入小程序',
+        icon: 'none',
+      });
+    });
   },
 
   applyTheme(themeKey) {

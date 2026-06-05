@@ -1,69 +1,78 @@
-const { GROUPS, PHONEMES, firstUnfinished } = require('../../data/phonemes');
 const nav = require('../../utils/nav');
-const audio = require('../../utils/audio');
 const share = require('../../utils/share');
+const storage = require('../../utils/storage');
 
-function buildCellStyleMap(completed, currentId, theme) {
-  const cellStyleMap = {};
-  PHONEMES.forEach((p) => {
-    const done = completed.indexOf(p.id) >= 0;
-    const active = p.id === currentId;
-    cellStyleMap[p.id] = {
-      bg: done ? theme.selectedFill : (active ? theme.activeFill : theme.surfaceRaised),
-      border: done ? theme.success : (active ? theme.warning : theme.borderDefault),
-    };
-  });
-  return cellStyleMap;
-}
+const PLANETS = [
+  {
+    key: 'phonics',
+    title: '音标星球',
+    desc: '48 音标地图、学习、过关检查',
+    image: '/assets/images/planets/planet-phonics.png',
+    path: '/pages/phonics/index',
+    stat: '继续学习',
+    badge: '核心',
+    accent: '#6C8DFF',
+  },
+  {
+    key: 'words',
+    title: '字词星球',
+    desc: '错字管理、听写提醒、统计和默写纸',
+    image: '/assets/images/planets/planet-words.png',
+    path: '/pages/word-planet/index',
+    stat: '待复习',
+    badge: '听写',
+    accent: '#43CFC7',
+  },
+  {
+    key: 'pinyin',
+    title: '拼音星球',
+    desc: '拼音认读、拼读训练',
+    image: '/assets/images/planets/planet-pinyin.png',
+    coming: true,
+    stat: 'Coming soon',
+    badge: '预告',
+    accent: '#FFB648',
+  },
+  {
+    key: 'points',
+    title: '积分星球',
+    desc: '积分、打卡和奖励',
+    image: '/assets/images/planets/planet-points.png',
+    coming: true,
+    stat: 'Coming soon',
+    badge: '奖励',
+    accent: '#FF7A90',
+  },
+  {
+    key: 'pet',
+    title: '宠物星球',
+    desc: '学习养成和宠物成长',
+    image: '/assets/images/planets/planet-pet.png',
+    coming: true,
+    stat: 'Coming soon',
+    badge: '养成',
+    accent: '#8DDB64',
+  },
+];
 
 Page({
   data: {
     theme: {},
-    groups: GROUPS,
-    currentId: '',
-    completed: [],
-    cellStyleMap: {},
-    progressText: '',
-    progressRatio: 0,
-    percentText: '0%',
-    startText: '',
+    child: null,
+    childSubtitle: '先添加一个孩子',
+    childAvatarPath: '',
+    childrenCount: 0,
+    selectedAvatar: '',
+    nickname: '',
+    planets: PLANETS,
+    phonicsText: '0/48',
+    wordPendingCount: 0,
+    dictationTodayCount: 0,
+    maxWrongCount: 0,
+    todayQuests: [],
     tabs: [],
-    i18n: {},
     statusBarHeight: 20,
     headerHeight: 108,
-    tabHeight: 100,
-  },
-
-  onShow() {
-    const app = getApp();
-    const completed = app.globalData.completed || [];
-    const current = firstUnfinished(completed);
-    const theme = app.globalData.theme;
-    const cellStyleMap = buildCellStyleMap(completed, current.id, theme);
-    const ratio = completed.length / PHONEMES.length;
-    this.setData({
-      theme,
-      completed,
-      currentId: current.id,
-      cellStyleMap,
-      progressRatio: ratio,
-      progressText: app.tf('page/map/progress', completed.length, PHONEMES.length),
-      percentText: Math.round(ratio * 100) + '%',
-      startText: app.tf('btn/start_learn', current.symbol),
-      tabs: [
-        { key: 'learn', icon: '⌂', label: app.t('tab/learn') },
-        { key: 'settings', icon: '⚙', label: app.t('tab/settings') },
-      ],
-      i18n: {
-        appName: app.t('app/name'),
-        appSlogan: app.t('app/slogan'),
-        hint: app.t('page/map/hint'),
-      },
-    });
-    wx.setNavigationBarColor({
-      frontColor: theme.dark ? '#ffffff' : '#000000',
-      backgroundColor: theme.pageStart,
-    });
   },
 
   onLoad() {
@@ -82,22 +91,82 @@ Page({
     });
   },
 
-  onPhonemeTap(e) {
-    const id = e.currentTarget.dataset.id;
-    const phoneme = PHONEMES.find((item) => item.id === id) || PHONEMES[0];
+  onShow() {
     const app = getApp();
+    const theme = app.globalData.theme;
+    const child = storage.getCurrentChild();
+    const children = storage.getChildren();
+    const completed = storage.getCompleted();
+    const wordStats = storage.getWordStats(child && child.id);
+    app.globalData.completed = completed;
     this.setData({
-      currentId: id,
-      cellStyleMap: buildCellStyleMap(this.data.completed, id, this.data.theme),
-      startText: app.tf('btn/start_learn', phoneme.symbol),
+      theme,
+      child,
+      childSubtitle: child ? `${child.nickname} · 本地学习数据` : '先添加一个孩子',
+      childAvatarPath: child && child.avatar === 'girl' ? '/assets/images/planets/kid-girl.png' : '/assets/images/planets/kid-boy.png',
+      childrenCount: children.length,
+      phonicsText: `${completed.length}/48`,
+      wordPendingCount: wordStats.pendingCount,
+      dictationTodayCount: wordStats.todayCount,
+      maxWrongCount: wordStats.maxWrongCount,
+      todayQuests: [
+        { key: 'phonics', title: '音标闯关', desc: `已完成 ${completed.length}/48`, image: '/assets/images/planets/planet-phonics.png', path: '/pages/phonics/index' },
+        { key: 'words', title: '字词听写', desc: `${wordStats.todayCount} 个今日建议`, image: '/assets/images/planets/planet-words.png', path: '/pages/word-planet/index' },
+      ],
+      tabs: [
+        { key: 'home', icon: '⌂', label: '首页' },
+        { key: 'settings', icon: '⚙', label: '设置' },
+      ],
     });
-    audio.play(audio.phonemePath(id)).catch(() => {
-      wx.showToast({ title: app.tf('toast/play_failed', phoneme.symbol), icon: 'none' });
+    wx.setNavigationBarColor({
+      frontColor: theme.dark ? '#ffffff' : '#000000',
+      backgroundColor: theme.pageStart,
     });
   },
 
-  onStartLearn() {
-    nav.navigateTo(`/pages/learn/index?id=${this.data.currentId}`);
+  onPickAvatar(e) {
+    const avatar = e.currentTarget.dataset.avatar;
+    this.setData({
+      selectedAvatar: avatar,
+      nickname: avatar === 'girl' ? '姐姐' : '小宝',
+    });
+  },
+
+  onNicknameInput(e) {
+    this.setData({ nickname: e.detail.value });
+  },
+
+  onSaveChild() {
+    const nickname = (this.data.nickname || '').trim();
+    if (!this.data.selectedAvatar) {
+      wx.showToast({ title: '先选择孩子头像', icon: 'none' });
+      return;
+    }
+    if (!nickname) {
+      wx.showToast({ title: '请输入孩子昵称', icon: 'none' });
+      return;
+    }
+    storage.createChild({
+      nickname,
+      avatar: this.data.selectedAvatar,
+    });
+    this.setData({ selectedAvatar: '', nickname: '' });
+    this.onShow();
+  },
+
+  goChildren() {
+    nav.navigateTo('/pages/children/index');
+  },
+
+  onPlanetTap(e) {
+    const key = e.currentTarget.dataset.key;
+    const planet = PLANETS.find((item) => item.key === key);
+    if (!planet) return;
+    if (planet.coming) {
+      wx.showToast({ title: `${planet.title} Coming soon`, icon: 'none' });
+      return;
+    }
+    nav.navigateTo(planet.path);
   },
 
   onTabChange(e) {

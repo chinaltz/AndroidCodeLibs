@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "dataset": "primary_chinese_textbook_dictation_catalog_sample",
+  "publisher": "统编版/人教版",
+  "scope": "小学语文 1-6 年级按课本听写数据结构",
+  "status": "skeleton_sample_only",
+  "notice": "本文件用于产品和技术结构验证，不是完整教材数据。正式内置前必须按实际教材版本逐课核对，并确认课文、生字表、生词表录入与分发的授权边界。",
+  "copyrightPolicy": {
+    "canShipAsIs": false,
+    "reason": "完整逐课教材生字表和课文生词可能涉及教材版本、出版社授权和内容版权。",
+    "allowedMvpUse": [
+      "使用少量人工录入样例验证页面和数据结构",
+      "支持家长自行录入或 OCR 导入后保存在本地",
+      "使用已获授权或公开许可的数据源生成正式包"
+    ]
+  },
+  "wordLevelPolicy": {
+    "newCharacters": "只放本课课后生字表或人工确认的本课应掌握字。",
+    "lessonWords": "只放课文中出现、适合本课听写的词语。",
+    "withinGradeWords": "由本册或此前已学字组成，且不提前引入高年级生字的词语。",
+    "unknownScope": "词语超过一个字时，听写结果支持 whole_word 或 chars 标记。"
+  },
+  "books": [
+    {
+      "bookId": "rj-yw-g1a",
+      "grade": 1,
+      "volume": "上",
+      "title": "一年级上",
+      "status": "sample_partial",
+      "units": [
+        {
+          "unitNo": 1,
+          "unitTitle": "第一单元",
+          "lessons": [
+            {
+              "lessonNo": 1,
+              "lessonTitle": "第一课",
+              "lessonId": "rj-yw-g1a-u1-l1",
+              "sourceLabel": "一年级上 · 第一单元 · 第一课",
+              "verified": false,
+              "newCharacters": [
+                { "text": "天", "pinyin": "tian", "tone": 1 },
+                { "text": "地", "pinyin": "di", "tone": 4 },
+                { "text": "人", "pinyin": "ren", "tone": 2 },
+                { "text": "你", "pinyin": "ni", "tone": 3 },
+                { "text": "我", "pinyin": "wo", "tone": 3 },
+                { "text": "他", "pinyin": "ta", "tone": 1 }
+              ],
+              "lessonWords": [
+                { "text": "天地", "pinyin": "tian di", "source": "lesson", "withinGrade": true },
+                { "text": "你我", "pinyin": "ni wo", "source": "within_grade", "withinGrade": true }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "bookId": "rj-yw-g1b",
+      "grade": 1,
+      "volume": "下",
+      "title": "一年级下",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g2a",
+      "grade": 2,
+      "volume": "上",
+      "title": "二年级上",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g2b",
+      "grade": 2,
+      "volume": "下",
+      "title": "二年级下",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g3a",
+      "grade": 3,
+      "volume": "上",
+      "title": "三年级上",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g3b",
+      "grade": 3,
+      "volume": "下",
+      "title": "三年级下",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g4a",
+      "grade": 4,
+      "volume": "上",
+      "title": "四年级上",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g4b",
+      "grade": 4,
+      "volume": "下",
+      "title": "四年级下",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g5a",
+      "grade": 5,
+      "volume": "上",
+      "title": "五年级上",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g5b",
+      "grade": 5,
+      "volume": "下",
+      "title": "五年级下",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g6a",
+      "grade": 6,
+      "volume": "上",
+      "title": "六年级上",
+      "status": "skeleton",
+      "units": []
+    },
+    {
+      "bookId": "rj-yw-g6b",
+      "grade": 6,
+      "volume": "下",
+      "title": "六年级下",
+      "status": "skeleton",
+      "units": []
+    }
+  ]
+}

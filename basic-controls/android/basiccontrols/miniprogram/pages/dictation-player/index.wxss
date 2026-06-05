@@ -1,0 +1,261 @@
+.dictation-hero {
+  position: relative;
+  min-height: 330rpx;
+  border-radius: 36rpx;
+  background: linear-gradient(135deg, #FFF5C7 0%, #BDF4EA 54%, #A9D9FF 100%);
+  overflow: hidden;
+  padding: 34rpx;
+  box-sizing: border-box;
+  box-shadow: 0 24rpx 48rpx rgba(23, 58, 98, 0.14);
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  width: 58%;
+}
+
+.eyebrow {
+  display: inline-flex;
+  height: 42rpx;
+  padding: 0 18rpx;
+  border-radius: 15rpx;
+  background: rgba(255, 255, 255, 0.86);
+  color: #0C8F7E;
+  align-items: center;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.hero-title {
+  margin-top: 26rpx;
+  font-size: 76rpx;
+  line-height: 1;
+  font-weight: 900;
+  color: #173A62;
+}
+
+.hero-subtitle {
+  margin-top: 18rpx;
+  font-size: 26rpx;
+  line-height: 1.5;
+  color: #416279;
+}
+
+.hero-planet {
+  position: absolute;
+  right: 2rpx;
+  bottom: -16rpx;
+  width: 270rpx;
+  height: 270rpx;
+}
+
+.control-panel,
+.queue-section {
+  margin-top: 22rpx;
+  border-radius: 28rpx;
+  background: rgba(255, 255, 255, 0.92);
+  border: 2rpx solid #D8EEF8;
+  padding: 24rpx;
+  box-sizing: border-box;
+  box-shadow: 0 14rpx 32rpx rgba(23, 58, 98, 0.09);
+}
+
+.panel-title,
+.section-title {
+  font-size: 32rpx;
+  font-weight: 900;
+  color: #173A62;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+  margin-top: 18rpx;
+}
+
+.setting-card {
+  border-radius: 22rpx;
+  background: #F8FEFF;
+  border: 2rpx solid #D8EEF8;
+  padding: 18rpx;
+  box-sizing: border-box;
+}
+
+.setting-label {
+  font-size: 23rpx;
+  color: #7895AE;
+  font-weight: 800;
+}
+
+.setting-input {
+  margin-top: 10rpx;
+  min-height: 66rpx;
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #173A62;
+}
+
+.tts-state {
+  margin-top: 18rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  border-radius: 22rpx;
+  background: #FFF7E5;
+  padding: 18rpx;
+}
+
+.state-title {
+  font-size: 28rpx;
+  font-weight: 900;
+  color: #173A62;
+}
+
+.state-desc {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #8F5300;
+}
+
+.state-action,
+.queue-play {
+  min-width: 88rpx;
+  height: 54rpx;
+  border-radius: 17rpx;
+  background: #0C8F7E;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.primary-row {
+  margin-top: 20rpx;
+}
+
+.queue-row {
+  min-height: 108rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  border-radius: 22rpx;
+  background: #F8FEFF;
+  border: 2rpx solid #D8EEF8;
+  padding: 16rpx;
+  box-sizing: border-box;
+  margin-top: 16rpx;
+}
+
+.queue-row.is-current {
+  border-color: #43CFC7;
+  background: #E8FDF7;
+}
+
+.queue-index {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 18rpx;
+  background: #FFFFFF;
+  color: #173A62;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.queue-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.queue-text {
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #173A62;
+}
+
+.queue-source {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #7895AE;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.config-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 20;
+  background: rgba(23, 58, 98, 0.36);
+  display: flex;
+  align-items: flex-end;
+}
+
+.config-sheet {
+  width: 100%;
+  border-radius: 34rpx 34rpx 0 0;
+  background: #FFFFFF;
+  padding: 30rpx;
+  box-sizing: border-box;
+}
+
+.config-title {
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #173A62;
+}
+
+.config-desc {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  line-height: 1.5;
+  color: #7895AE;
+}
+
+.config-input {
+  min-height: 82rpx;
+  border-radius: 22rpx;
+  border: 2rpx solid #C8EAFF;
+  background: #F8FEFF;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  margin-top: 18rpx;
+  font-size: 26rpx;
+}
+
+.config-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 22rpx;
+}
+
+.config-secondary,
+.config-primary {
+  flex: 1;
+  height: 78rpx;
+  border-radius: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.config-secondary {
+  background: #F1F7FB;
+  color: #416279;
+}
+
+.config-primary {
+  background: #0C8F7E;
+  color: #FFFFFF;
+}

@@ -1,0 +1,112 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="字词星球" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <bc-card theme="{{theme}}">
+      <view class="hero-head">
+        <view class="hero-main">
+          <view class="hero-title">字词列表</view>
+          <view class="hero-subtitle" style="color: {{theme.textTertiary}};">默认先看要复习的字词，新增放到独立页面。</view>
+        </view>
+        <view class="add-button" bindtap="goAddWord">＋</view>
+      </view>
+      <view class="summary-grid">
+        <view class="summary-cell">
+          <view class="summary-number">{{stats.pendingCount}}</view>
+          <view class="summary-label">错字待练</view>
+        </view>
+        <view class="summary-cell">
+          <view class="summary-number">{{stats.todayCount}}</view>
+          <view class="summary-label">今日听写</view>
+        </view>
+        <view class="summary-cell">
+          <view class="summary-number">{{stats.maxWrongCount}}</view>
+          <view class="summary-label">最高错次</view>
+        </view>
+      </view>
+    </bc-card>
+
+    <view class="section-heading">
+      <view class="section-main">
+        <view class="section-title">不会的字</view>
+        <view class="section-desc">字记录错误次数和复习状态，听写时使用它关联的完整词语。</view>
+      </view>
+      <view class="section-count">{{characters.length}} 字</view>
+    </view>
+
+    <view wx:if="{{characters.length}}" class="character-grid">
+      <view wx:for="{{characters}}" wx:key="id" class="character-card">
+        <view class="character-text">{{item.text}}</view>
+        <view class="character-main">
+          <view class="character-count">错 {{item.wrongCount}} 次</view>
+          <view class="character-related">关联：{{item.relatedWords}}</view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="character-empty">暂时没有不会字。录入听写词时，点击其中不会写的字即可加入。</view>
+
+    <view class="section-heading dictation-heading">
+      <view class="section-main">
+        <view class="section-title">听写词</view>
+        <view class="section-desc">每条是一个完整词语，可关联一个或多个不会字。</view>
+      </view>
+      <view class="section-count">{{allWords.length}} 词</view>
+    </view>
+
+    <view class="filter-row">
+      <view
+        wx:for="{{filters}}"
+        wx:key="*this"
+        class="filter-chip {{activeFilter === item ? 'is-active' : ''}}"
+        data-filter="{{item}}"
+        bindtap="onFilterTap"
+      >{{item}}</view>
+    </view>
+
+    <view wx:if="{{!words.length}}" class="word-empty">
+      <view class="word-empty-title">这个分类还没有字词</view>
+      <view class="word-empty-desc">点击右上角加号，录入本周要练的字或词语。</view>
+    </view>
+
+    <block wx:for="{{words}}" wx:key="id">
+      <view class="word-row" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};">
+        <view class="word-check {{item.selected ? 'is-selected' : ''}}" data-id="{{item.id}}" bindtap="toggleWord">{{item.selected ? '✓' : ''}}</view>
+        <view class="word-box">{{item.text}}</view>
+        <view class="word-main">
+          <view class="word-title" style="color: {{theme.textPrimary}};">{{item.text}} · {{item.pinyin}}</view>
+          <view class="word-relation">{{item.relationLabel ? '关联不会字：' + item.relationLabel : '仅听写，不关联不会字'}}</view>
+          <view class="word-source">{{item.sourceLabel}}</view>
+          <view class="word-meta" style="color: {{theme.textTertiary}};">{{item.meta}}</view>
+        </view>
+        <view class="word-actions">
+          <view wx:if="{{item.relationLabel}}" class="word-action is-wrong" data-id="{{item.id}}" bindtap="markWordWrong">又错</view>
+          <view class="word-action" data-id="{{item.id}}" bindtap="editWord">编辑</view>
+        </view>
+      </view>
+    </block>
+
+    <view class="all-words-entry" bindtap="goAllWords">
+      <view class="entry-date">日</view>
+      <view class="entry-main">
+        <view class="entry-title">全部生词</view>
+        <view class="entry-desc">按周分组，支持搜索、选词和听写</view>
+      </view>
+      <view class="entry-count">{{allWords.length}} 个</view>
+      <view class="entry-arrow">›</view>
+    </view>
+
+    <view class="entry-card" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};" data-name="听写提醒" bindtap="coming">
+      <image src="/assets/images/planets/planet-pinyin.png" mode="aspectFit" />
+      <view class="entry-main">
+        <view class="entry-title">听写提醒</view>
+        <view class="entry-desc" style="color: {{theme.textTertiary}};">按错误时间和错误频率推荐</view>
+      </view>
+      <view class="entry-arrow">›</view>
+    </view>
+  </scroll-view>
+
+  <view class="page-action word-page-action">
+    <view class="bottom-secondary" bindtap="goAddWord">添加字词</view>
+    <view class="bottom-primary" bindtap="startSelectedDictation">听写已选 {{selectedCount}}</view>
+  </view>
+</view>

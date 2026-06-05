@@ -77,7 +77,7 @@
 </div>
 <div id="article">
 <h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">DeepSeek 又降价了：普通人怎么把它接进 Reasonix 和 CodeWhale？</h1>
-<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">DeepSeek 工具上手指南</p><p style="margin:4px 0;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，一起用技术创造乐趣。</p><p style="margin:4px 0;">本文写作时间：2026 年 6 月 3 日。模型价格和工具名称可能会变，动手前以官网为准。</p></blockquote>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">DeepSeek 工具上手指南</p><p style="margin:4px 0;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，回复MF 一起用技术创造乐趣。</p><p style="margin:4px 0;">本文写作时间：2026 年 6 月 3 日。模型价格和工具名称可能会变，动手前以官网为准。</p></blockquote>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">最近 DeepSeek 又被刷屏了。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">一边是 DeepSeek 官方模型继续按很低的价格开放 API。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">另一边，腾讯云也在 2026 年 6 月 3 日下调了 DeepSeek-V4 系列模型调用价。</p>
@@ -87,19 +87,21 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">我们只做一件事：把 DeepSeek 接进两个能真正干活的工具里。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">一个是 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Reasonix</strong>。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">一个是 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">CodeWhale</strong>，也就是很多人说的 DeepSeek TUI / whalecode 这类终端工具。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一句话结论：DeepSeek 便宜之后，最适合普通人的用法不是拿来闲聊，而是接进编程 Agent，让它读项目、改文件、跑命令。Reasonix 更适合新手稳稳上手，CodeWhale 更适合喜欢终端、想要轻量操作的人。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这篇的重点很简单：DeepSeek 便宜之后，最适合普通人的用法不是拿来闲聊，而是接进编程 Agent，让它读项目、改文件、跑命令。Reasonix 更适合新手稳稳上手，CodeWhale 更适合喜欢终端、想要轻量操作的人。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐⭐</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">需要会打开终端、复制命令、配置一次 API Key。第一次可能会卡在环境变量，但照着做能跑通。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先说人话：API 降价，等于“请助理的时薪变低了”</h2>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>API 降价，等于“请助理的时薪变低了”</h2>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把 AI API 想成“按字数收费的外包助理”。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">以前你让它读一个项目、改一段代码、总结一堆文件，心里会有点虚：</p>
 <blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">“这一问会不会烧很多钱？”</p></blockquote>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">现在 DeepSeek 这类模型价格打下来后，试错成本低了很多。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">DeepSeek 官方在价格页里列出的写作时价格是：</p>
+<p style="margin:18px 0;"><img src="images/scene1-deepseek-pricing.png" alt="DeepSeek 官方模型与价格页面" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">缓存命中输入</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">缓存未命中输入</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">输出</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">DeepSeek-V4-Flash</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">每百万 token 0.02 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">每百万 token 1 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">每百万 token 2 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">日常问答、轻量改代码</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">DeepSeek-V4-Pro</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每百万 token 0.025 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每百万 token 3 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">每百万 token 6 元</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">更复杂的分析和编程任务</td></tr></tbody></table></section>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">腾讯云在 2026 年 6 月 3 日也宣布下调 DeepSeek-V4 模型价格：</p>
+<p style="margin:18px 0;"><img src="images/scene3-tencent-deepseek-price-cut.png" alt="腾讯云 2026 年 6 月 3 日 DeepSeek-V4 系列模型降价公告" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">腾讯云模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">调整后重点</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">DeepSeek-V4-Flash</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">缓存命中价降幅达 90%，调整后与官方价持平</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">DeepSeek-V4-Pro</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">推理输入和输出降幅达 75%，缓存命中价降幅达 97.5%，调整后与官方价持平</td></tr></tbody></table></section>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">这里有个小词要解释一下：缓存命中。</p>
@@ -158,6 +160,7 @@ setx DEEPSEEK_BASE_URL &quot;https://api.deepseek.com&quot;</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">写完后，重新打开一个终端窗口。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>方法一：接入 Reasonix，适合先稳稳跑起来</h2>
+<p style="margin:18px 0;"><img src="images/scene2-reasonix-docs.png" alt="DeepSeek 官方文档里的 Reasonix 接入页面" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">Reasonix 是 DeepSeek 官方文档里列出的 AI 编程 Agent。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把它理解成：</p>
 <blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">一个围绕 DeepSeek 模型设计的终端编程助手。</p></blockquote>
@@ -209,7 +212,7 @@ cd deepseek-agent-demo</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">不要一上来就说“帮我重构整个项目”。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>方法二：接入 CodeWhale，适合喜欢终端的人</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">CodeWhale 是 DeepSeek 推出的终端编程工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">CodeWhale 是一个面向 DeepSeek V4 的开源终端编程工具。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人会把它叫 DeepSeek TUI，或者按英文顺序口误成 whalecode。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以简单理解成：</p>
 <blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">一个在终端里运行的 DeepSeek 编程界面。</p></blockquote>
@@ -326,8 +329,8 @@ cd deepseek-agent-demo</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">不是研究模型参数。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">而是让它帮你做一个能打开、能点击、能修改的小东西。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 3 件事：</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>最后收一下</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这篇先带走 3 件事：</p>
 <ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">DeepSeek 和腾讯云降价后，普通人更适合把它接进工具里用，而不是只聊天。</li>
 <li style="margin:4px 0;">Reasonix 更适合第一次体验 DeepSeek 编程 Agent。</li>
 <li style="margin:4px 0;">CodeWhale 更适合喜欢终端、想快速在项目里操作的人。</li></ul>
@@ -346,11 +349,11 @@ cd deepseek-agent-demo</code></pre>
 <ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">DeepSeek 官方价格页：https://api-docs.deepseek.com/zh-cn/quick_start/pricing</li>
 <li style="margin:4px 0;">DeepSeek Reasonix 文档：https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/reasonix</li>
 <li style="margin:4px 0;">CodeWhale 官网：https://www.codewhale.ai/</li>
-<li style="margin:4px 0;">腾讯云 DeepSeek 模型公告与价格页：https://cloud.tencent.com/product/deepseek</li></ul>
+<li style="margin:4px 0;">腾讯云 DeepSeek-V4 系列模型降价公告：https://cloud.tencent.com/announce/detail/2308</li></ul>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">阅读更多：Claude Code 怎么用？普通人也能上手的 AI 编程助手</em> <em style="font-style:italic;color:#7895AE;">有问题？评论区告诉我</em></p>
 
 </div>
-<p class="meta">由 md-to-wechat 自动生成 · 2026/6/3 21:22:28</p>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/4 07:42:22</p>
 <script>
 function selectArticle() {
   const el = document.getElementById('article');

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "dataset": "primary_textbook_words_sample",
+  "publisher": "人教版/统编版",
+  "scope": "小学 1-6 年级语文生字库",
+  "status": "sample_only",
+  "notice": "本文件是数据结构样例，不是完整教材数据。正式内置前需要按实际教材版本逐课核对，并确认生字表录入与分发的授权边界。",
+  "books": [
+    {
+      "grade": 1,
+      "volume": "上",
+      "bookId": "rj-yw-g1a",
+      "title": "一年级上",
+      "units": [
+        {
+          "unitNo": 1,
+          "unitTitle": "第一单元",
+          "lessons": [
+            {
+              "lessonNo": 1,
+              "lessonTitle": "第一课",
+              "sourceId": "rj-yw-g1a-u1-l1",
+              "sourceLabel": "一年级上 · 第一单元 · 第一课",
+              "verified": false,
+              "words": [
+                { "text": "天", "pinyin": "tian", "tone": 1 },
+                { "text": "地", "pinyin": "di", "tone": 4 },
+                { "text": "人", "pinyin": "ren", "tone": 2 },
+                { "text": "你", "pinyin": "ni", "tone": 3 },
+                { "text": "我", "pinyin": "wo", "tone": 3 },
+                { "text": "他", "pinyin": "ta", "tone": 1 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

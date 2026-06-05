@@ -1,0 +1,50 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="全部生词" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+
+  <view class="search-bar">
+    <input value="{{keyword}}" placeholder="搜索字词、拼音或课文来源" bindinput="onSearchInput" />
+    <view wx:if="{{selectedCount}}" class="clear-link" bindtap="clearSelection">清空 {{selectedCount}}</view>
+  </view>
+
+  <scroll-view scroll-y class="page-body page-scroll word-list-scroll">
+    <view wx:if="{{!groups.length}}" class="empty-state">
+      <view class="empty-title">还没有生词</view>
+      <view class="empty-desc">从字词星球添加后，会按周显示在这里。</view>
+    </view>
+
+    <block wx:for="{{groups}}" wx:key="key">
+      <view class="week-section">
+        <view class="week-head">
+          <view>
+            <view class="week-title">{{item.label}}</view>
+            <view class="week-count">{{item.count}} 个字词 · {{item.pendingCount}} 个待练</view>
+          </view>
+          <view class="select-week" data-key="{{item.key}}" bindtap="selectWeek">选择本周</view>
+        </view>
+        <view class="week-word-grid">
+          <view
+            wx:for="{{item.words}}"
+            wx:for-item="word"
+            wx:key="id"
+            class="week-word {{word.selected ? 'is-selected' : ''}}"
+            data-id="{{word.id}}"
+            bindtap="toggleWord"
+          >
+            <view class="word-check">{{word.selected ? '✓' : ''}}</view>
+            <view class="word-text">{{word.text}}</view>
+            <view class="word-pinyin">{{word.pinyin || '自动拼音'}}</view>
+            <view class="word-source">{{word.sourceLabel}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+
+  <view class="dictation-dock">
+    <view>
+      <view class="dock-count">已选 {{selectedCount}} 个</view>
+      <view class="dock-desc">按选择顺序加入听写</view>
+    </view>
+    <view class="dock-button" bindtap="startDictation">开始听写</view>
+  </view>
+</view>
