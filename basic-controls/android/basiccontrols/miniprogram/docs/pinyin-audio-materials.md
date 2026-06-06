@@ -98,17 +98,18 @@ materials/pinyin-audio/
 - 44 个可复用的唯一候选 MP3。
 - `o`、`eng` 标记为 `self_record_required`。
 
-正式接入前复制到：
+正式接入目录：
 
 ```text
-assets/audio/pinyin/teaching/
+packages/pinyin/assets/audio/teaching/
+packages/pinyin/assets/audio/syllables/
 ```
 
 并增加：
 
 ```text
-assets/audio/pinyin/THIRD_PARTY_NOTICE.md
-assets/audio/pinyin/audio_generation_record.json
+packages/pinyin/assets/audio/THIRD_PARTY_NOTICE.md
+packages/pinyin/assets/audio/audio-manifest.json
 ```
 
 ## 5. 真人补录清单

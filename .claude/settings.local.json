@@ -33,7 +33,10 @@
       "Bash(git config:*)",
       "Bash(gh auth status:*)",
       "Read(//Users/litingzhe/**)",
-      "Bash(security find-internet-password:*)"
+      "Bash(security find-internet-password:*)",
+      "Bash(for comp in bc-alert bc-amount bc-bottom-tab bc-button bc-card bc-chip bc-icon-button bc-key-value-label bc-notification bc-pin-input bc-progress bc-stepper bc-sticky-footer bc-text-link bc-top-bar)",
+      "Bash(ls:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []

@@ -1,29 +1,14 @@
 const defaults = require('../config/tts');
 const { signTencentV3 } = require('./tencent-sign');
 
-const STORE_KEY = 'dictation_tts_config';
-
 function getConfig() {
-  const local = wx.getStorageSync(STORE_KEY) || {};
-  return Object.assign({}, defaults, local);
-}
-
-function saveConfig(patch) {
-  const next = Object.assign({}, getConfig(), patch || {});
-  wx.setStorageSync(STORE_KEY, next);
-  return next;
-}
-
-function maskSecret(value) {
-  const text = String(value || '');
-  if (text.length <= 8) return text ? '已填写' : '未填写';
-  return `${text.slice(0, 4)}****${text.slice(-4)}`;
+  return Object.assign({}, defaults);
 }
 
 function requestTencentTts(text, options) {
   const config = Object.assign({}, getConfig(), options || {});
   if (!config.secretId || !config.secretKey) {
-    return Promise.reject(new Error('请先配置 TTS SecretId / SecretKey'));
+    return Promise.reject(new Error('TTS 内置配置缺少 SecretId / SecretKey'));
   }
   const host = 'tts.tencentcloudapi.com';
   const payload = JSON.stringify({
@@ -95,7 +80,5 @@ function synthesizeToTempFile(text, options) {
 
 module.exports = {
   getConfig,
-  saveConfig,
-  maskSecret,
   synthesizeToTempFile,
 };

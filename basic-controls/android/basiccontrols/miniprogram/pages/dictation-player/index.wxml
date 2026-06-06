@@ -16,19 +16,19 @@
       <view class="settings-grid">
         <view class="setting-card">
           <view class="setting-label">间隔秒数</view>
-          <input class="setting-input" type="number" value="{{intervalSeconds}}" bindinput="onIntervalInput" />
+          <input class="setting-input" type="number" value="{{intervalSeconds}}" bindinput="onIntervalInput" bindblur="onIntervalBlur" />
         </view>
         <view class="setting-card">
           <view class="setting-label">重复次数</view>
-          <input class="setting-input" type="number" value="{{repeatCount}}" bindinput="onRepeatInput" />
+          <input class="setting-input" type="number" value="{{repeatCount}}" bindinput="onRepeatInput" bindblur="onRepeatBlur" />
         </view>
       </view>
       <view class="tts-state">
         <view>
           <view class="state-title">腾讯云 TTS</view>
-          <view class="state-desc">SecretId：{{maskedSecretId}} · SecretKey：{{maskedSecretKey}}</view>
+          <view class="state-desc">{{hasConfig ? '已使用内置语音配置，直接开始听写' : '内置语音配置尚未填写'}}</view>
         </view>
-        <view class="state-action" bindtap="openConfig">配置</view>
+        <view class="state-badge {{hasConfig ? 'is-ready' : ''}}">{{hasConfig ? '就绪' : '未配置'}}</view>
       </view>
       <view class="primary-row">
         <bc-button wx:if="{{!playing}}" text="开始听写" variant="primary" theme="{{theme}}" bind:tap="startQueue" />
@@ -51,16 +51,4 @@
     </view>
   </scroll-view>
 
-  <view wx:if="{{configOpen}}" class="config-mask" bindtap="closeConfig">
-    <view class="config-sheet" catchtap="noop">
-      <view class="config-title">本机 TTS 配置</view>
-      <view class="config-desc">只保存在当前小程序本机 storage，用于临时调测；正式版建议挪到云函数。</view>
-      <input class="config-input" value="{{secretId}}" placeholder="SecretId" bindinput="onSecretIdInput" />
-      <input class="config-input" value="{{secretKey}}" placeholder="SecretKey" password="{{true}}" bindinput="onSecretKeyInput" />
-      <view class="config-actions">
-        <view class="config-secondary" bindtap="closeConfig">取消</view>
-        <view class="config-primary" bindtap="saveConfig">保存</view>
-      </view>
-    </view>
-  </view>
 </view>

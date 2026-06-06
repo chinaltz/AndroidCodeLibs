@@ -27,6 +27,64 @@
   margin-top: 20rpx;
 }
 
+.quick-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14rpx;
+  margin-top: 18rpx;
+}
+
+.quick-entry {
+  min-height: 116rpx;
+  border-radius: 24rpx;
+  border: 2rpx solid #D8EEF8;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  padding: 16rpx;
+  box-sizing: border-box;
+}
+
+.manual-entry {
+  background: #E8FDF7;
+}
+
+.textbook-entry {
+  background: #FFF3E4;
+  border-color: #FFD8AD;
+}
+
+.quick-icon {
+  width: 58rpx;
+  height: 58rpx;
+  border-radius: 18rpx;
+  background: #FFFFFF;
+  color: #173A62;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.quick-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.quick-title {
+  color: #173A62;
+  font-size: 25rpx;
+  font-weight: 900;
+}
+
+.quick-desc {
+  margin-top: 5rpx;
+  color: #7895AE;
+  font-size: 19rpx;
+  line-height: 1.35;
+}
+
 .add-button {
   width: 64rpx;
   height: 64rpx;

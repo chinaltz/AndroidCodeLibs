@@ -65,4 +65,19 @@ function wordPath(text) {
   return `/assets/audio/words/${String(text).toLowerCase()}.mp3`;
 }
 
-module.exports = { configureOutput, play, phonemePath, wordPath };
+function pinyinTeachingPath(audioId) {
+  return `/packages/pinyin/assets/audio/teaching/${audioId}.mp3`;
+}
+
+function pinyinSyllablePath(audioId) {
+  return `/packages/pinyin/assets/audio/syllables/${audioId}.mp3`;
+}
+
+module.exports = {
+  configureOutput,
+  play,
+  phonemePath,
+  wordPath,
+  pinyinTeachingPath,
+  pinyinSyllablePath,
+};

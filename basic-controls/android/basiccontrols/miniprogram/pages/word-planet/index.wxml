@@ -26,6 +26,25 @@
       </view>
     </bc-card>
 
+    <view class="quick-entry-grid">
+      <view class="quick-entry manual-entry" bindtap="goAddWord">
+        <view class="quick-icon">手</view>
+        <view class="quick-main">
+          <view class="quick-title">手动录入</view>
+          <view class="quick-desc">批量添加听写词</view>
+        </view>
+        <view class="entry-arrow">›</view>
+      </view>
+      <view class="quick-entry textbook-entry" bindtap="goTextbookDictation">
+        <view class="quick-icon">本</view>
+        <view class="quick-main">
+          <view class="quick-title">课文听写</view>
+          <view class="quick-desc">按年级和课本选字</view>
+        </view>
+        <view class="entry-arrow">›</view>
+      </view>
+    </view>
+
     <view class="section-heading">
       <view class="section-main">
         <view class="section-title">不会的字</view>

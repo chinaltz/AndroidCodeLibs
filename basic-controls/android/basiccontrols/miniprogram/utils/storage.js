@@ -69,6 +69,10 @@ function createChild(input) {
   data.childData = data.childData || {};
   data.childData[child.id] = {
     doneIds: [],
+    pinyinDoneIds: [],
+    pinyinLastUnitId: '',
+    pinyinMistakes: {},
+    pinyinPracticeLog: [],
     wordStats: {
       pendingCount: 0,
       todayCount: 0,
@@ -120,6 +124,73 @@ function setCompleted(ids) {
   data.childData = data.childData || {};
   data.childData[childId] = data.childData[childId] || {};
   data.childData[childId].doneIds = ids;
+  save(data);
+}
+
+function getPinyinCompleted(childId) {
+  const targetChildId = childId || getCurrentChildId();
+  if (!targetChildId) return load().pinyinDoneIds || [];
+  return getChildData(targetChildId).pinyinDoneIds || [];
+}
+
+function setPinyinCompleted(ids, childId) {
+  const data = load();
+  const targetChildId = childId || getCurrentChildId();
+  if (!targetChildId) {
+    data.pinyinDoneIds = ids;
+  } else {
+    data.childData = data.childData || {};
+    data.childData[targetChildId] = data.childData[targetChildId] || {};
+    data.childData[targetChildId].pinyinDoneIds = ids;
+  }
+  save(data);
+}
+
+function getPinyinLastUnit(childId) {
+  const targetChildId = childId || getCurrentChildId();
+  if (!targetChildId) return load().pinyinLastUnitId || '';
+  return getChildData(targetChildId).pinyinLastUnitId || '';
+}
+
+function setPinyinLastUnit(id, childId) {
+  const data = load();
+  const targetChildId = childId || getCurrentChildId();
+  if (!targetChildId) {
+    data.pinyinLastUnitId = id;
+  } else {
+    data.childData = data.childData || {};
+    data.childData[targetChildId] = data.childData[targetChildId] || {};
+    data.childData[targetChildId].pinyinLastUnitId = id;
+  }
+  save(data);
+}
+
+function getPinyinMistakes(childId) {
+  const targetChildId = childId || getCurrentChildId();
+  if (!targetChildId) return load().pinyinMistakes || {};
+  return getChildData(targetChildId).pinyinMistakes || {};
+}
+
+function recordPinyinMistake(unitId, childId) {
+  const data = load();
+  const targetChildId = childId || getCurrentChildId();
+  const target = targetChildId
+    ? ((data.childData = data.childData || {}), (data.childData[targetChildId] = data.childData[targetChildId] || {}), data.childData[targetChildId])
+    : data;
+  target.pinyinMistakes = target.pinyinMistakes || {};
+  target.pinyinMistakes[unitId] = (target.pinyinMistakes[unitId] || 0) + 1;
+  save(data);
+  return target.pinyinMistakes[unitId];
+}
+
+function appendPinyinPracticeLog(result, childId) {
+  const data = load();
+  const targetChildId = childId || getCurrentChildId();
+  const target = targetChildId
+    ? ((data.childData = data.childData || {}), (data.childData[targetChildId] = data.childData[targetChildId] || {}), data.childData[targetChildId])
+    : data;
+  const log = target.pinyinPracticeLog || [];
+  target.pinyinPracticeLog = [Object.assign({ completedAt: Date.now() }, result)].concat(log).slice(0, 100);
   save(data);
 }
 
@@ -308,6 +379,13 @@ function markWordWrong(id, childId) {
 module.exports = {
   getCompleted,
   setCompleted,
+  getPinyinCompleted,
+  setPinyinCompleted,
+  getPinyinLastUnit,
+  setPinyinLastUnit,
+  getPinyinMistakes,
+  recordPinyinMistake,
+  appendPinyinPracticeLog,
   getThemeKey,
   setThemeKey,
   getLanguage,

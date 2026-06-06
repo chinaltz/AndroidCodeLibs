@@ -28,9 +28,9 @@ const PLANETS = [
     title: '拼音星球',
     desc: '拼音认读、拼读训练',
     image: '/assets/images/planets/planet-pinyin.png',
-    coming: true,
-    stat: 'Coming soon',
-    badge: '预告',
+    path: '/packages/pinyin/pages/index',
+    stat: '开始学习',
+    badge: '语文',
     accent: '#FFB648',
   },
   {
@@ -97,6 +97,7 @@ Page({
     const child = storage.getCurrentChild();
     const children = storage.getChildren();
     const completed = storage.getCompleted();
+    const pinyinCompleted = storage.getPinyinCompleted();
     const wordStats = storage.getWordStats(child && child.id);
     app.globalData.completed = completed;
     this.setData({
@@ -109,8 +110,14 @@ Page({
       wordPendingCount: wordStats.pendingCount,
       dictationTodayCount: wordStats.todayCount,
       maxWrongCount: wordStats.maxWrongCount,
+      planets: PLANETS.map((planet) => (
+        planet.key === 'pinyin'
+          ? Object.assign({}, planet, { stat: `${pinyinCompleted.length}/63` })
+          : planet
+      )),
       todayQuests: [
         { key: 'phonics', title: '音标闯关', desc: `已完成 ${completed.length}/48`, image: '/assets/images/planets/planet-phonics.png', path: '/pages/phonics/index' },
+        { key: 'pinyin', title: '拼音拼读', desc: `已完成 ${pinyinCompleted.length}/63`, image: '/assets/images/planets/planet-pinyin.png', path: '/packages/pinyin/pages/index' },
         { key: 'words', title: '字词听写', desc: `${wordStats.todayCount} 个今日建议`, image: '/assets/images/planets/planet-words.png', path: '/pages/word-planet/index' },
       ],
       tabs: [

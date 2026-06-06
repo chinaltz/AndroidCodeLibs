@@ -21,19 +21,18 @@
 ## 2. 页面结构
 
 ```text
-pages/pinyin/index             # 拼音星球地图
-pages/pinyin-learn/index       # 单项学习
-pages/pinyin-blend/index       # 自由拼读
-pages/pinyin-check/index       # 三题过关
-pages/pinyin-progress/index    # 家长进度，可后置到 V1.1
+packages/pinyin/pages/index                # 拼音星球地图
+packages/pinyin/pages/pinyin-learn/index   # 单项学习
+packages/pinyin/pages/pinyin-blend/index   # 自由拼读
+packages/pinyin/pages/pinyin-check/index   # 三题过关
 ```
 
 路由参数：
 
 ```text
-/pages/pinyin-learn/index?id=initial_b
-/pages/pinyin-check/index?id=initial_b
-/pages/pinyin-blend/index?initial=m&final=a
+/packages/pinyin/pages/pinyin-learn/index?id=initial_b
+/packages/pinyin/pages/pinyin-check/index?id=initial_b
+/packages/pinyin/pages/pinyin-blend/index?initial=m&final=a
 ```
 
 ## 3. 数据结构
@@ -101,16 +100,17 @@ miniprogram/
 │   ├── pinyin-units.js
 │   ├── pinyin-combinations.js
 │   └── pinyin-tones.js
-├── pages/
-│   ├── pinyin/
-│   ├── pinyin-learn/
-│   ├── pinyin-blend/
-│   └── pinyin-check/
-├── assets/audio/pinyin/
-│   ├── teaching/
-│   ├── syllables/
-│   ├── THIRD_PARTY_NOTICE.md
-│   └── audio-manifest.json
+├── packages/pinyin/
+│   ├── pages/
+│   │   ├── index.*
+│   │   ├── pinyin-learn/
+│   │   ├── pinyin-blend/
+│   │   └── pinyin-check/
+│   └── assets/audio/
+│       ├── teaching/
+│       ├── syllables/
+│       ├── THIRD_PARTY_NOTICE.md
+│       └── audio-manifest.json
 └── utils/
     ├── audio.js
     └── pinyin-learning.js
@@ -158,11 +158,11 @@ appendPinyinPracticeLog(result, childId)
 
 ```js
 function pinyinTeachingPath(audioId) {
-  return `/assets/audio/pinyin/teaching/${audioId}.mp3`;
+  return `/packages/pinyin/assets/audio/teaching/${audioId}.mp3`;
 }
 
 function pinyinSyllablePath(audioId) {
-  return `/assets/audio/pinyin/syllables/${audioId}.mp3`;
+  return `/packages/pinyin/assets/audio/syllables/${audioId}.mp3`;
 }
 ```
 
@@ -191,10 +191,11 @@ function pinyinSyllablePath(audioId) {
 
 V1 建议：
 
-- 教学名称音约 46 个唯一文件，小于 1 MB（转码后）。
-- 高频拼读组合先内置 120-180 个。
-- 扩展音节按年级或学习区拆分分包。
-- 小程序主包只保留首关所需音频，其余进入分包或按需下载缓存。
+- 拼音页面和音频全部放入 `packages/pinyin` 分包。
+- 当前教学名称音 44 个，拼读/示例音节 197 个。
+- 当前分包约 1.8 MB，低于微信单分包 2 MB 上限。
+- 自由拼读只展示已内置四声音频的 33 组组合。
+- 完整合法组合表保留在数据层，后续补音频后再逐步开放。
 
 ## 7. 声调显示
 

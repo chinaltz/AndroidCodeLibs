@@ -7,12 +7,25 @@
     "pages/children/index",
     "pages/word-planet/index",
     "pages/word-edit/index",
+    "pages/textbook-dictation/index",
     "pages/word-list/index",
     "pages/dictation-player/index",
     "pages/settings/index",
     "pages/settings-theme/index",
     "pages/settings-language/index",
     "pages/basic-samples/index"
+  ],
+  "subpackages": [
+    {
+      "root": "packages/pinyin",
+      "name": "pinyin",
+      "pages": [
+        "pages/index",
+        "pages/pinyin-learn/index",
+        "pages/pinyin-blend/index",
+        "pages/pinyin-check/index"
+      ]
+    }
   ],
   "window": {
     "navigationStyle": "custom",
@@ -24,7 +37,6 @@
       "desc": "用于过关检查中录制自己的读音，便于和标准读音做对比"
     }
   },
-  "lazyCodeLoading": "requiredComponents",
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

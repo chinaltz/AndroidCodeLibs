@@ -3,7 +3,8 @@ const https = require('https');
 const path = require('path');
 
 const SOURCE_URL = 'https://www.46.la/tool/primary-chinese-character-list';
-const OUTPUT = path.resolve(__dirname, '../data/textbook-characters.full.json');
+const JSON_OUTPUT = path.resolve(__dirname, '../data/textbook-characters.full.json');
+const JS_OUTPUT = path.resolve(__dirname, '../data/textbook-characters.full.js');
 const GRADE_LABELS = ['一', '二', '三', '四', '五', '六'];
 
 function fetchText(url) {
@@ -70,8 +71,10 @@ async function main() {
     uniqueCount: new Set(books.flatMap((book) => book.characters)).size,
     books,
   };
-  fs.writeFileSync(OUTPUT, `${JSON.stringify(output, null, 2)}\n`);
-  console.log(`wrote ${books.length} books / ${output.totalCount} entries / ${output.uniqueCount} unique chars`);
+  const json = JSON.stringify(output, null, 2);
+  fs.writeFileSync(JSON_OUTPUT, `${json}\n`);
+  fs.writeFileSync(JS_OUTPUT, `module.exports = ${json};\n`);
+  console.log(`wrote JSON + JS: ${books.length} books / ${output.totalCount} entries / ${output.uniqueCount} unique chars`);
 }
 
 main().catch((error) => {

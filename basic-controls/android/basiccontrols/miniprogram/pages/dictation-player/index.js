@@ -16,6 +16,14 @@ function normalizeQueue(queue) {
   })).filter((item) => item.text);
 }
 
+function normalizeIntervalSeconds(value) {
+  return Math.max(3, Math.min(30, Number(value) || 8));
+}
+
+function normalizeRepeatCount(value) {
+  return Math.max(1, Math.min(3, Number(value) || 2));
+}
+
 Page({
   data: {
     theme: {},
@@ -25,11 +33,6 @@ Page({
     intervalSeconds: 8,
     repeatCount: 2,
     playing: false,
-    configOpen: false,
-    secretId: '',
-    secretKey: '',
-    maskedSecretId: '未填写',
-    maskedSecretKey: '未填写',
     hasConfig: false,
     statusText: '准备听写',
   },
@@ -49,8 +52,6 @@ Page({
     this.setData({
       theme: app.globalData.theme,
       hasConfig: !!(config.secretId && config.secretKey),
-      maskedSecretId: tts.maskSecret(config.secretId),
-      maskedSecretKey: tts.maskSecret(config.secretKey),
     });
   },
 
@@ -59,56 +60,20 @@ Page({
   },
 
   onIntervalInput(e) {
-    const value = Math.max(3, Math.min(30, Number(e.detail.value) || 8));
-    this.setData({ intervalSeconds: value });
+    this.setData({ intervalSeconds: e.detail.value });
+  },
+
+  onIntervalBlur(e) {
+    this.setData({ intervalSeconds: normalizeIntervalSeconds(e.detail.value) });
   },
 
   onRepeatInput(e) {
-    const value = Math.max(1, Math.min(3, Number(e.detail.value) || 2));
-    this.setData({ repeatCount: value });
+    this.setData({ repeatCount: e.detail.value });
   },
 
-  openConfig() {
-    const config = tts.getConfig();
-    this.setData({
-      configOpen: true,
-      secretId: config.secretId || '',
-      secretKey: config.secretKey || '',
-    });
+  onRepeatBlur(e) {
+    this.setData({ repeatCount: normalizeRepeatCount(e.detail.value) });
   },
-
-  closeConfig() {
-    this.setData({ configOpen: false, secretId: '', secretKey: '' });
-  },
-
-  onSecretIdInput(e) {
-    this.setData({ secretId: e.detail.value });
-  },
-
-  onSecretKeyInput(e) {
-    this.setData({ secretKey: e.detail.value });
-  },
-
-  saveConfig() {
-    const secretId = (this.data.secretId || '').trim();
-    const secretKey = (this.data.secretKey || '').trim();
-    if (!secretId || !secretKey) {
-      wx.showToast({ title: '请填写 SecretId 和 SecretKey', icon: 'none' });
-      return;
-    }
-    const config = tts.saveConfig({ secretId, secretKey });
-    this.setData({
-      configOpen: false,
-      secretId: '',
-      secretKey: '',
-      hasConfig: true,
-      maskedSecretId: tts.maskSecret(config.secretId),
-      maskedSecretKey: tts.maskSecret(config.secretKey),
-    });
-    wx.showToast({ title: '已保存到本机', icon: 'success' });
-  },
-
-  noop() {},
 
   playOne(e) {
     const index = Number(e.currentTarget.dataset.index || 0);
@@ -132,41 +97,89 @@ Page({
     });
   },
 
-  waitInterval() {
+  cancelIntervalWait() {
+    if (this._intervalTimer) {
+      clearTimeout(this._intervalTimer);
+      this._intervalTimer = null;
+    }
+    if (this._intervalResolve) {
+      const resolve = this._intervalResolve;
+      this._intervalResolve = null;
+      resolve(false);
+    }
+  },
+
+  waitInterval(seconds, runId) {
     return new Promise((resolve) => {
-      setTimeout(resolve, this.data.intervalSeconds * 1000);
+      if (!this.data.playing || this._dictationRunId !== runId) {
+        resolve(false);
+        return;
+      }
+      this._intervalResolve = resolve;
+      this._intervalTimer = setTimeout(() => {
+        this._intervalTimer = null;
+        this._intervalResolve = null;
+        resolve(this.data.playing && this._dictationRunId === runId);
+      }, seconds * 1000);
     });
   },
 
   startQueue() {
     if (this.data.playing) return;
     if (!this.data.hasConfig) {
-      this.openConfig();
-      wx.showToast({ title: '先配置 TTS Key', icon: 'none' });
+      wx.showToast({ title: 'TTS 内置配置未填写', icon: 'none' });
       return;
     }
-    this.setData({ playing: true, statusText: '听写开始' });
-    this.runQueue().then(() => {
+    this.cancelIntervalWait();
+    const runId = (this._dictationRunId || 0) + 1;
+    const intervalSeconds = normalizeIntervalSeconds(this.data.intervalSeconds);
+    const repeatCount = normalizeRepeatCount(this.data.repeatCount);
+    this._dictationRunId = runId;
+    this.setData({
+      intervalSeconds,
+      repeatCount,
+      playing: true,
+      statusText: '听写开始',
+    });
+    this.runQueue({ runId, intervalSeconds, repeatCount }).then((completed) => {
+      if (!completed || this._dictationRunId !== runId) return;
       this.setData({ playing: false, statusText: '听写完成' });
     });
   },
 
   stopQueue() {
+    this._dictationRunId = (this._dictationRunId || 0) + 1;
+    this.cancelIntervalWait();
     this.setData({ playing: false, statusText: '已暂停' });
   },
 
-  runQueue() {
+  onUnload() {
+    this._dictationRunId = (this._dictationRunId || 0) + 1;
+    this.cancelIntervalWait();
+  },
+
+  runQueue(options) {
+    const { runId, intervalSeconds, repeatCount } = options;
     const next = (index) => {
-      if (!this.data.playing || index >= this.data.queue.length) return Promise.resolve();
+      if (!this.data.playing || this._dictationRunId !== runId) return Promise.resolve(false);
+      if (index >= this.data.queue.length) return Promise.resolve(true);
       let chain = Promise.resolve();
-      for (let i = 0; i < this.data.repeatCount; i += 1) {
-        chain = chain.then(() => this.playTextAt(index));
+      for (let i = 0; i < repeatCount; i += 1) {
+        chain = chain.then(() => {
+          if (!this.data.playing || this._dictationRunId !== runId) return null;
+          return this.playTextAt(index);
+        });
       }
       return chain.then(() => {
-        if (!this.data.playing || index >= this.data.queue.length - 1) return null;
-        this.setData({ statusText: `${this.data.intervalSeconds} 秒后播报下一词` });
-        return this.waitInterval();
-      }).then(() => next(index + 1));
+        if (!this.data.playing || this._dictationRunId !== runId) return false;
+        if (index >= this.data.queue.length - 1) return true;
+        this.setData({ statusText: `${intervalSeconds} 秒后播报下一词` });
+        return this.waitInterval(intervalSeconds, runId);
+      }).then((shouldContinue) => {
+        if (!shouldContinue) return false;
+        if (index >= this.data.queue.length - 1) return true;
+        return next(index + 1);
+      });
     };
     return next(0);
   },

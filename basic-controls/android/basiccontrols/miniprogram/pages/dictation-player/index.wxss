@@ -119,7 +119,7 @@
   color: #8F5300;
 }
 
-.state-action,
+.state-badge,
 .queue-play {
   min-width: 88rpx;
   height: 54rpx;
@@ -131,6 +131,14 @@
   justify-content: center;
   font-size: 24rpx;
   font-weight: 900;
+}
+
+.state-badge {
+  background: #9AA7B2;
+}
+
+.state-badge.is-ready {
+  background: #0C8F7E;
 }
 
 .primary-row {

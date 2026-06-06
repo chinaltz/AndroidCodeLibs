@@ -1,51 +1,44 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="{{pageTitle}}" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+  <bc-top-bar title="批量录入" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
 
   <scroll-view scroll-y class="page-body page-scroll">
     <view class="input-panel">
       <view class="panel-title">批量输入听写词</view>
-      <view class="panel-desc">多个词用空格、逗号或顿号分开。点击词语的顺序，就是下面处理的顺序。</view>
+      <view class="panel-desc">多个词用空格、逗号或顿号分开，所有字自动平铺。</view>
       <textarea class="batch-input" value="{{batchText}}" placeholder="例如：时候、游泳、慢慢" maxlength="200" bindinput="onBatchInput" />
 
-      <view wx:if="{{candidateWords.length}}" class="candidate-grid">
+      <view wx:if="{{charPool.length}}" class="char-pool">
         <view
-          wx:for="{{candidateWords}}"
-          wx:key="text"
-          class="candidate-word {{item.order ? 'is-queued' : ''}} {{item.saved ? 'is-saved' : ''}}"
-          data-word="{{item.text}}"
-          bindtap="onCandidateTap"
-        >
-          <view wx:if="{{item.order}}" class="candidate-order">{{item.order}}</view>
-          <view class="candidate-text">{{item.text}}</view>
-          <view class="candidate-state">{{item.saved ? '已保存' : (item.order ? '待处理' : '点击选择')}}</view>
-        </view>
-      </view>
-
-    </view>
-
-    <view wx:if="{{activeWord}}" class="judge-panel">
-      <view class="judge-head">
-        <view>
-          <view class="panel-title">正在处理：{{activeWord}}</view>
-          <view class="panel-desc">所有字默认“会写”。点击不会写的字，再保存整个词语。</view>
-        </view>
-        <view class="saved-count">{{characterStates.length}} 字</view>
-      </view>
-
-      <view class="word-judge-grid">
-        <view
-          wx:for="{{characterStates}}"
+          wx:for="{{charPool}}"
           wx:key="id"
-          class="word-judge-item {{item.status === 'unknown' ? 'is-unknown' : 'is-known'}}"
-          data-index="{{item.index}}"
-          bindtap="onCharacterTap"
-        >
-          <view class="word-judge-character">{{item.character}}</view>
-          <view class="word-judge-status">{{item.status === 'unknown' ? '不会写' : '会写'}}</view>
-        </view>
+          class="cp-char {{item.inQueue ? 'in-queue' : ''}} {{item.saved ? 'is-saved' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onCharTap"
+        >{{item.char}}</view>
       </view>
 
-      <view class="save-button" bindtap="onSaveWord">保存词语</view>
+      <view wx:if="{{judgeList.length}}" class="judge-list">
+        <view wx:for="{{judgeList}}" wx:key="id" class="judge-item">
+          <view class="ji-char {{item.status === 'known' ? 'is-known' : ''}} {{item.status === 'unknown' ? 'is-unknown' : ''}}">{{item.char}}</view>
+          <view class="ji-btns">
+            <view
+              class="ji-btn {{item.status === 'known' ? 'ji-btn--active-known' : ''}}"
+              data-id="{{item.id}}"
+              data-judge="known"
+              bindtap="onJudgeTap"
+            >会</view>
+            <view
+              class="ji-btn ji-btn--danger {{item.status === 'unknown' ? 'ji-btn--active-unknown' : ''}}"
+              data-id="{{item.id}}"
+              data-judge="unknown"
+              bindtap="onJudgeTap"
+            >不会</view>
+          </view>
+        </view>
+
+        <view wx:if="{{!selectionComplete}}" class="selection-hint">请把当前词的所有字都点到下方，再逐字选择“会 / 不会”。</view>
+        <view wx:if="{{allDecided}}" class="ji-save-row" bindtap="onSave">保存</view>
+      </view>
     </view>
 
     <view class="saved-panel">
@@ -62,7 +55,6 @@
           <view class="saved-word-text">{{item.text}}</view>
           <view class="saved-word-main">
             <view class="saved-word-pinyin">{{item.displayPinyin}}</view>
-            <view class="saved-word-source">{{item.sourceLabel || '日常'}}</view>
             <view class="saved-word-relation">{{item.relationLabel ? '关联不会字：' + item.relationLabel : '全部会写，仅听写'}}</view>
           </view>
           <view class="saved-state">已保存</view>

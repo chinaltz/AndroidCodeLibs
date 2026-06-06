@@ -1,4 +1,4 @@
-const fullCatalog = require('./textbook-characters.full.json');
+const fullCatalog = require('./textbook-characters.full.js');
 const pinyin = require('../utils/pinyin');
 
 const DAILY_SOURCE = {

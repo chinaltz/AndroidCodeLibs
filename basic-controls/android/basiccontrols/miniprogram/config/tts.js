@@ -1,4 +1,6 @@
-module.exports = {
+const local = require('./tts.local');
+
+module.exports = Object.assign({
   provider: 'tencent',
   endpoint: 'https://tts.tencentcloudapi.com/',
   service: 'tts',
@@ -9,4 +11,4 @@ module.exports = {
   codec: 'mp3',
   speed: 0,
   volume: 0,
-};
+}, local);

@@ -41,6 +41,7 @@ function matchesFilter(word, filter) {
   if (filter === '高频错字') return (word.relationWrongCount || 0) >= 3 && word.status !== '已掌握';
   if (filter === '已掌握') return word.status === '已掌握';
   if (filter === '本周新增') return (word.createdAt || 0) >= startOfWeek(Date.now());
+  if (filter === '听写准备') return word.needsDictation !== false;
   return word.status !== '已掌握' && !word.dictationOnly;
 }
 
@@ -61,7 +62,7 @@ Page({
       todayCount: 0,
       maxWrongCount: 0,
     },
-    filters: ['待复习', '高频错字', '已掌握', '本周新增'],
+    filters: ['待复习', '听写准备', '高频错字', '已掌握', '本周新增'],
     activeFilter: '待复习',
     words: [],
     allWords: [],
@@ -102,6 +103,10 @@ Page({
 
   goAddWord() {
     nav.navigateTo('/pages/word-edit/index');
+  },
+
+  goTextbookDictation() {
+    nav.navigateTo('/pages/textbook-dictation/index');
   },
 
   goAllWords() {

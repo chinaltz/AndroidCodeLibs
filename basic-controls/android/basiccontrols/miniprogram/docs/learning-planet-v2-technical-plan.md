@@ -8,7 +8,7 @@
 - 每个孩子独立音标进度、生字、错字、听写记录。
 - 错字重复错误计数。
 - 本地听写提醒。
-- 字词转语音辅助听写播报。
+- 听写列表管理和按间隔顺序播放。
 - A4 默写纸图片导出，后续扩展 Word/PDF。
 
 约束：
@@ -18,7 +18,7 @@
 - 不上传孩子数据。
 - 继续使用现有基础组件库。
 
-说明：本期只接听写 TTS。语音转文字和图片转文字后续版本再做。生产环境接入云 TTS 时需要轻量服务端或云函数代理，小程序端不能直接暴露云厂商密钥。当前没有后台时，只允许做本机调测配置，密钥保存在小程序本机 storage，不提交到仓库。
+说明：产品和数据层不依赖具体语音厂商，不保存云服务密钥，也不在听写页面展示服务商信息。播放能力通过可替换的语音适配层提供。
 
 ## 2. 现有基础
 
@@ -56,7 +56,10 @@ pages/words/edit              # 新增/编辑生字
 pages/words/import            # 语音/图片识别结果确认
 pages/mistakes/index          # 错字本
 pages/dictation/index         # 听写提醒与选字
-pages/dictation/player        # TTS 播报和间隔设置
+pages/dictation/list          # 本次听写列表增删改
+pages/dictation/player        # 播放和间隔设置
+pages/dictation/correction    # 逐词批改和具体错字选择
+pages/dictation/result        # 听写结果和再次听写错词
 pages/worksheet/index         # A4 默写纸预览与导出
 ```
 
@@ -128,10 +131,13 @@ const KEY = 'phonics_learning_planet_v2';
           "id": "character_1710000000001",
           "text": "候",
           "wrongCount": 2,
+          "correctCount": 4,
+          "dictationCount": 6,
           "status": "待复习",
           "createdAt": 1710000000001,
           "updatedAt": 1710000000003,
-          "lastWrongAt": 1710000000003
+          "lastWrongAt": 1710000000003,
+          "lastCorrectAt": 1710000000002
         }
       ],
       "words": [
@@ -148,6 +154,9 @@ const KEY = 'phonics_learning_planet_v2';
             }
           ],
           "needsDictation": true,
+          "dictationCount": 6,
+          "correctCount": 4,
+          "wrongCount": 2,
           "createdAt": 1710000000002,
           "updatedAt": 1710000000003,
           "lastPracticedAt": null
@@ -157,9 +166,13 @@ const KEY = 'phonics_learning_planet_v2';
         {
           "id": "dictation_1710000000004",
           "title": "本周听写",
+          "sourceType": "mistake",
+          "sourceLabel": "错词听写",
+          "status": "playing",
           "itemIds": ["word_1710000000002"],
           "createdAt": 1710000000004,
-          "finishedAt": null
+          "finishedAt": null,
+          "gradedAt": null
         }
       ]
     }
@@ -214,233 +227,144 @@ const KEY = 'phonics_learning_planet_v2';
 
 旧版 `mistakes` 集合不再作为独立真相源，后续迁移时转换为 `characters + words + unknownCharacterRefs`，避免同一错误在多个集合重复维护。
 
-批量录入页使用临时队列，不需要单独落盘：
+批量录入页使用临时字符队列，不需要单独落盘：
 
 ```js
 {
-  candidateWords: ["时候", "游泳", "慢慢"],
-  clickQueue: ["慢慢", "时候"],
-  activeWord: "慢慢",
-  characterStates: [
-    { index: 0, character: "慢", status: "unknown" },
-    { index: 1, character: "慢", status: "known" }
+  wordList: ["时候", "游泳", "慢慢"],
+  queuedItems: [
+    { id: "时候__0", word: "时候", index: 0, char: "时", status: "known" },
+    { id: "时候__1", word: "时候", index: 1, char: "候", status: "unknown" }
   ]
 }
 ```
 
-- `clickQueue` 按点击顺序追加，禁止重复。
-- `characterStates.status` 取值为 `pending | known | unknown`。
-- 每次保存当前字后寻找下一个 `pending`。
-- 没有 `pending` 时生成一条完整 `word`，并将所有 `unknown` 字转换为 `unknownCharacterRefs`。
-- 保存完成后从队列移除当前词，继续处理队首词。
+- 输入文本按空格、逗号、顿号、标点和换行拆分为 `wordList`。
+- 每个字符使用 `word + "__" + index` 作为临时唯一标识，重复字不能使用 `indexOf` 推导下标。
+- 点击灰色字块时按点击顺序追加到 `queuedItems`，禁止重复追加。
+- `queuedItems.status` 取值为 `pending | known | unknown`。
+- 保存条件一：涉及的每个词，其全部字符都已进入 `queuedItems`。
+- 保存条件二：`queuedItems` 中不存在 `pending`。
+- 两个条件同时满足时才展示并响应保存按钮。
+- 保存时按 `word` 分组，每个完整词生成一条 `words` 记录。
+- 每组中 `unknown` 字按原始 `index` 生成 `unknownChars`，并转换为 `unknownCharacterRefs`。
+- 手动录入不提供来源选择，内部统一记录 `sourceType = "manual"` 与 `sourceLabel = "手动录入"`。
+- 保存完成后刷新已保存词汇列表，并同步到字词星球的生字词库。
 
-## 5. 听写 TTS API 方案
+### 4.2 听写记录与批改快照
 
-### 5.1 本期范围和 API 选型结论
+听写不能只保存 `itemIds`。词语后续可能被编辑或删除，因此每次听写需要保存当时的文本和关联快照：
 
-本期先不做语音转文字和图片转文字。ASR/OCR 相关页面只保留后续版本方案，不进入本期实现。
+```ts
+type DictationStatus = 'ready' | 'playing' | 'awaiting_grade' | 'graded' | 'cancelled';
+type GradeResult = 'pending' | 'correct' | 'wrong';
 
-截至 2026-06-05，国内可用且适合 MVP 的 TTS 优先级如下：
-
-| 排名 | 推荐服务 | 免费额度判断 | 接入建议 |
-|------|----------|--------------|----------|
-| 1 | 腾讯云语音合成 TTS | 官方免费资源包文档说明新用户可领取基础/精品音色免费资源包，示例为 600 万调用字符、3 个月有效期。 | 首选。听写是短词播报，缓存后额度更够用。 |
-| 2 | 微软 Azure AI Speech TTS | 官方免费层通常为每月 50 万计费字符；中文汉字按 2 个字符计费，实际约 25 万汉字/月。中国大陆生产环境建议评估 Azure 中国区账号和可用区域。 | 长期备选。免费层按月续，适合低频稳定使用；账号和接入门槛高于国内云。 |
-| 3 | 讯飞在线语音合成 | 官方文档说明创建应用后默认每日 500 次。 | 备选。中文效果好，但日次数限制更明显。 |
-| 4 | 百度智能云语音合成 | 官方文档说明各语音接口有免费调用量，具体额度以控制台为准。 | 备选兜底。接入前确认账号当前免费额度。 |
-
-参考官方入口：
-
-- 腾讯云语音合成：https://cloud.tencent.com/document/product/1073
-- Azure AI Speech 定价：https://azure.microsoft.com/pricing/details/cognitive-services/speech-services/
-- 百度智能云语音技术：https://cloud.baidu.com/product/speech
-- 讯飞开放平台在线语音合成：https://www.xfyun.cn/doc/tts/online_tts/API.html
-
-首版推荐：
-
-```text
-文字转声音：腾讯云 TTS
+type DictationSession = {
+  id: string;
+  childId: string;
+  status: DictationStatus;
+  intervalSeconds: number;
+  repeatCount: number;
+  items: Array<{
+    wordId?: string;
+    text: string;
+    pinyin?: string;
+    addedFrom: 'mistake' | 'textbook' | 'library' | 'manual' | 'retry';
+    sourceLabel?: string;
+    linkedCharacterIds: string[];
+    result: GradeResult;
+    wrongChars: Array<{
+      index: number;
+      char: string;
+      characterId?: string;
+    }>;
+  }>;
+  startedAt?: number;
+  finishedAt?: number;
+  gradedAt?: number;
+  gradingRevision: number;
+};
 ```
 
-原因：
+约束：
 
-- 国内访问稳定。
-- 免费资源包额度相对大，适合 MVP 验证。
-- 小程序、云函数、Node 服务端都有成熟签名示例。
-- 听写播报不是高并发场景，首版更看重稳定、额度和易接入。
-- 微软 Azure 免费层适合做长期低频兜底，但中国大陆可用性要走 Azure 中国区或做网络合规评估。
+- 同一听写列表允许混合多种来源，每一项用 `addedFrom` 记录加入位置。
+- `items` 保存听写开始时的快照，批改时不依赖当前词库文本。
+- 听写开始前允许增删改 `items`；开始后锁定快照，不再同步字词库变化。
+- 编辑列表项只更新当前会话副本，不覆盖 `words` 原记录。
+- 相同 `wordId` 不能重复加入；没有 `wordId` 时按规范化 `text` 去重。
+- `wrongChars` 使用 `index + char` 标识，正确处理“慢慢”这类重复字。
+- `status = graded` 且 `gradedAt` 非空表示已结算，普通保存请求必须拒绝重复结算。
+- 如后续支持修改已保存结果，必须先按上一版快照反向撤销计数，再应用新结果，并递增 `gradingRevision`。
 
-### 5.2 安全边界
+## 5. 听写列表与播放方案
 
-生产环境不能在小程序端直连云厂商 API。
+### 5.1 统一听写列表
 
-推荐结构：
+所有选词入口都只做一件事：把完整词语加入当前孩子的临时听写列表。
 
 ```text
-小程序
-  ↓ 发送待播报字词文本
-轻量代理服务或云函数
-  ↓ 携带 SecretId / SecretKey 调云 API
-云厂商 TTS
-  ↓ 返回音频地址或音频二进制
-代理服务
-  ↓ 返回可播放音频
-小程序听写播报页
+课本选词 / 错词推荐 / 字词库勾选 / 手动添加
+  ↓
+addItemsToDictationDraft
+  ↓
+统一听写列表
+  ↓
+增删改并确认
+  ↓
+创建正式听写会话
 ```
 
-### 5.2.1 当前前端调测实现
+草稿结构：
 
-当前阶段没有后台，先实现“小程序本机临时配置 + 前端签名调用腾讯云 TTS”。
+```ts
+type DictationDraftItem = {
+  draftItemId: string;
+  wordId?: string;
+  text: string;
+  pinyin?: string;
+  sourceId?: string;
+  sourceLabel?: string;
+  addedFrom: 'mistake' | 'textbook' | 'library' | 'manual' | 'retry';
+  linkedCharacterIds: string[];
+  createdAt: number;
+};
 
-落地范围：
+type DictationDraft = {
+  childId: string;
+  items: DictationDraftItem[];
+  updatedAt: number;
+};
+```
 
-- `pages/dictation-player/index`：听写播报页，支持播报间隔、重复次数、TTS 本机配置。
-- `utils/tencent-sign.js`：纯 JS 实现 TC3-HMAC-SHA256 签名，避免引入 Node crypto。
-- `utils/tencent-tts.js`：调用腾讯云 `TextToVoice`，把返回 base64 写入小程序临时 mp3 文件。
-- `config/tts.js`：只保存公开默认参数，不保存 SecretId / SecretKey。
-- SecretId / SecretKey 通过听写页配置弹层写入 `wx.setStorageSync('dictation_tts_config')`。
+列表操作：
 
-注意：
+- 新增：合并新选词并保持原加入顺序。
+- 删除：只删除草稿项，不删除教材数据或 `words` 记录。
+- 编辑：创建并修改本次听写副本，不回写 `words`。
+- 去重：优先按 `wordId` 去重；无 `wordId` 时按去空格后的 `text` 去重。
+- 清空：清除当前孩子的听写草稿。
+- 开始：校验至少 1 项后，把草稿复制成 `DictationSession.items` 并锁定。
 
-- 这只是 MVP 调测方案，不是正式发布方案。
-- 不把真实 SecretId / SecretKey 写入代码、文档、Git 历史或截图。
-- `.gitignore` 已预留 `**/config/tts.local.js`，如果后续必须做本地文件配置，也不能提交真实密钥。
-- 上线前必须把签名和密钥迁到云函数或服务端，并给接口加频控、文本长度限制和缓存。
-- 音标星球继续使用 `utils/audio.js` 播放内置音频，TTS 能力新增在 `utils/tencent-tts.js`，不改旧音标学习链路。
+建议存储键：
 
-腾讯云 TTS 调用参数：
+```text
+dictation_draft:{childId}
+```
 
-```json
-{
-  "Action": "TextToVoice",
-  "Version": "2019-08-23",
-  "Region": "ap-guangzhou",
-  "Text": "时候",
-  "SessionId": "dictation_...",
-  "ModelType": 1,
-  "VoiceType": 101001,
-  "Codec": "mp3",
-  "Speed": 0,
-  "Volume": 0
+### 5.2 播放适配层
+
+播放页面不感知具体语音厂商、密钥或网络协议，只依赖统一接口：
+
+```ts
+interface DictationSpeechAdapter {
+  prepare(text: string, options: PlaybackOptions): Promise<PlayableAudio>;
+  play(audio: PlayableAudio): Promise<void>;
+  stop(): void;
 }
 ```
 
-听写页播放流程：
-
-```text
-字词星球选择字词
-  ↓
-写入本机 dictation_queue
-  ↓
-进入 pages/dictation-player/index
-  ↓
-按 repeatCount 调 TTS 合成并播放
-  ↓
-等待 intervalSeconds
-  ↓
-播放下一词
-```
-
-代理服务职责：
-
-- 保存云厂商密钥。
-- 做接口签名。
-- 做基础频控，避免免费额度被刷。
-- 记录 TTS 调用字符数、调用次数和缓存命中率。
-- 免费额度接近上限时停止新合成，回退到手动听写。
-- 过滤不需要上传的孩子信息。
-- 统一返回小程序需要的数据结构。
-
-### 5.3 接口草案
-
-```ts
-type RecognizeSpeechRequest = {
-  childId: string;
-  filePath: string;
-  durationMs: number;
-};
-
-type RecognizeImageRequest = {
-  childId: string;
-  filePath: string;
-};
-
-type RecognitionResult = {
-  importType: 'speech' | 'image';
-  rawText: string;
-  confidence?: number;
-  groups: RecognitionGroup[];
-};
-
-type RecognitionGroup = {
-  groupIndex: number;
-  groupTitle: string;
-  rawText: string;
-  candidates: WordCandidate[];
-};
-
-type WordCandidate = {
-  text: string;
-  pinyin?: string;
-  groupIndex?: number;
-  groupTitle?: string;
-  sourceId?: string;
-  sourceLabel?: string;
-  unknownScope: 'whole_word' | 'chars';
-  unknownChars: Array<{ index: number; char: string }>;
-  dictationOnly: boolean;
-};
-
-type SynthesizeDictationRequest = {
-  text: string;
-  speed: 'slow' | 'normal';
-  voice: 'female_child_friendly' | 'male_child_friendly';
-};
-```
-
-### 5.4 识别结果选词
-
-处理流程：
-
-```text
-ASR/OCR rawText
-  ↓
-识别失败或部分失败时保留已有 rawText，允许继续录音/补拍/手动粘贴
-  ↓
-清理空白、去掉无关标点
-  ↓
-按换行、段落、明显提示词拆成多组
-  ↓
-家长选择处理某一组、整组加入听写或忽略整组
-  ↓
-按换行、顿号、逗号、句号、空格切分
-  ↓
-过滤过短/重复候选
-  ↓
-优先展示多字词，提供只看多字词/全选听写/清空
-  ↓
-按本地教材库匹配出处
-  ↓
-进入确认页
-  ↓
-家长选择整个词不会写、某些字不会写，或仅作为听写准备词
-  ↓
-保存字词
-```
-
-词语规则：
-
-- 单字：默认 `unknownScope = 'whole_word'`。
-- 2-8 字词语：必须让家长确认 `whole_word` 或 `chars`。
-- `chars` 模式记录字下标，避免重复字无法区分，例如“慢慢”的第一个“慢”和第二个“慢”。
-- `dictationOnly = true` 的候选只加入本次听写，不增加错误次数。
-- 新增不会写的字词默认 `wrongCount = 1`。
-- 识别文本可以手动编辑，候选词重新生成。
-- 多组文本保留 `groupIndex` 和 `groupTitle`，方便回看来源和批量撤销。
-- “整组加入听写”只设置 `dictationOnly = true`，除非家长进一步标记不会写的字。
-- “忽略本组”只影响本次确认，不删除原始识别文本。
-
-### 5.5 听写 TTS 播报
+具体实现可以后续替换为系统朗读、离线音频或其他合规语音能力，但不能影响听写列表、批改和统计的数据结构。
 
 配置字段：
 
@@ -449,8 +373,7 @@ ASR/OCR rawText
   "dictationPlayback": {
     "intervalSeconds": 8,
     "repeatCount": 2,
-    "speed": "slow",
-    "voice": "female_child_friendly"
+    "speed": "slow"
   }
 }
 ```
@@ -458,11 +381,7 @@ ASR/OCR rawText
 播放流程：
 
 ```text
-选择听写字词
-  ↓
-检查本地是否已有 TTS 缓存
-  ↓
-没有缓存则调用 TTS 代理合成
+从听写列表创建会话快照
   ↓
 按 repeatCount 播放当前词
   ↓
@@ -475,8 +394,78 @@ ASR/OCR rawText
 
 - 词语播报只读词语本身，不读“拼音”和“答案”。
 - 可选第二遍读法：“请写：慢慢”，但默认只读词语，避免影响听写。
-- TTS 音频按 `text + voice + speed` 生成缓存 key。
 - 播放失败时降级为页面文本提示，不阻塞听写流程。
+- 启动队列时复制并固定 `intervalSeconds` 和 `repeatCount`，本轮播放不再读取可变页面状态。
+- 间隔从当前词最后一遍音频的 `onEnded` 之后开始计算，最后一个词播放后不再额外等待。
+- 暂停、退出页面或开始新队列时取消旧定时器，并用 `runId` 阻止旧异步任务回写“听写完成”。
+
+### 5.3 听写批改与统计结算
+
+结算入口接收完整的 `DictationSession.items`，必须在一次本地存储事务中完成。
+
+```ts
+type SaveDictationGradeInput = {
+  sessionId: string;
+  items: Array<{
+    wordId?: string;
+    result: 'correct' | 'wrong';
+    wrongChars: Array<{ index: number; char: string }>;
+  }>;
+};
+```
+
+校验：
+
+1. 会话必须属于当前孩子，状态必须为 `awaiting_grade`。
+2. 每个听写项都必须有 `correct` 或 `wrong` 结果。
+3. `wrong` 项至少包含一个 `wrongChars`，`correct` 项的 `wrongChars` 必须为空。
+4. `index` 必须落在词语文本范围内，并且 `text[index] === char`。
+5. 同一项内使用 `index` 去重，不能只按汉字去重。
+
+原子结算规则：
+
+```text
+加载 session、words、characters
+  ↓
+校验 session 未结算
+  ↓
+逐个更新 word 的 dictationCount / correctCount / wrongCount
+  ↓
+正确词：其已关联不会字 correctCount +1
+  ↓
+错误词：选中的具体字 wrongCount +1；不存在则新增并建立关联
+  ↓
+错误词中已关联但本次未选中的不会字 correctCount +1
+  ↓
+写入 session.items 批改结果
+  ↓
+session.status = graded，写入 gradedAt
+  ↓
+一次 saveStore 持久化
+```
+
+统计字段：
+
+```ts
+type CharacterStats = {
+  wrongCount: number;
+  correctCount: number;
+  dictationCount: number;
+  lastWrongAt?: number;
+  lastCorrectAt?: number;
+  lastPracticedAt?: number;
+};
+
+type WordStats = CharacterStats;
+```
+
+`dictationCount` 每次只增加 1，且必须满足：
+
+```text
+dictationCount = correctCount + wrongCount
+```
+
+普通字本次写对时不创建 `characters` 记录；只有被标为错字时才新增。这样不会字库仍只包含真正需要复习的字。
 
 ## 6. 存储 API 设计
 
@@ -521,6 +510,13 @@ function markMistakeMastered(childId, mistakeId)
 
 function getDictationReminders(childId, now)
 function markPracticed(childId, itemRefs, practicedAt)
+
+function createDictationSession(childId, input)
+function getDictationSession(childId, sessionId)
+function markDictationAwaitingGrade(childId, sessionId, finishedAt)
+function saveDictationGrade(childId, input)
+function listDictationHistory(childId)
+function createRetryQueueFromSession(childId, sessionId)
 ```
 
 兼容原则：
@@ -557,7 +553,7 @@ type WordWeekGroup = {
 - 展示每周总数和待练数量。
 - 展示本周词语预览。
 - 支持按汉字、词语、拼音、课文来源搜索。
-- 支持跨周勾选字词，形成临时听写队列。
+- 支持跨周勾选字词，加入统一听写列表。
 - 支持“听写本周”和“生成默写纸”。
 - 支持“听写已选”，只把已选字词传入听写播报页。
 
@@ -568,7 +564,7 @@ type WordWeekGroup = {
 - 搜索不改变原始周分组，只影响可见项和搜索结果区。
 - 已选项用 `selectedWordIds` 存在页面状态里，不直接写入持久存储。
 
-## 7. 错字计数算法
+## 7. 错字计数与听写批改算法
 
 输入：
 
@@ -591,9 +587,13 @@ type WordWeekGroup = {
    - 如果传入了新拼音或来源，补齐空字段，不覆盖家长手动编辑过的非空字段。
 4. 找不到则新增：
    - `wrongCount = 1`
+   - `correctCount = 0`
+   - `dictationCount = 1`
    - `status = 'practice'`
    - `createdAt = now`
    - `lastWrongAt = now`
+
+听写批改必须使用第 5.6 节的会话结算，不直接循环调用“又错一次”。原因是批改还需要同步更新正确次数、词语次数和会话状态，并保证整次保存幂等。
 
 ## 8. 听写提醒算法
 
@@ -761,10 +761,60 @@ JSON 结构：
 - `withinGrade`：默认只展示 true；false 只用于数据校验和人工复核。
 - `verified`：只有 true 的课文进入正式发布包。
 
+课本筛选状态：
+
+```ts
+type TextbookScopeMode = 'single_lesson' | 'multiple_lessons' | 'whole_unit';
+
+type TextbookSelection = {
+  grade: number;
+  volume: '上' | '下';
+  unitId: string;
+  mode: TextbookScopeMode;
+  lessonIds: string[];
+};
+```
+
+级联规则：
+
+- 修改 `grade` 或 `volume`：重新加载对应分册，清空原 `unitId` 和 `lessonIds`，默认定位第一单元第一课。
+- 修改 `unitId`：课文列表只读取当前单元，清空其他单元的选择。
+- `single_lesson`：`lessonIds` 最多 1 项。
+- `multiple_lessons`：允许选择当前单元的多个课文，至少 1 项。
+- `whole_unit`：`lessonIds` 自动等于当前单元全部可用课文 ID，UI 不再逐课取消。
+- 只有 `verified: true` 的课文可进入正式选择结果。
+
+汇总算法：
+
+```text
+根据 lessonIds 读取课文
+  ↓
+合并 newCharacters 和 lessonWords
+  ↓
+按 text 去重
+  ↓
+为每个结果保留 sourceRefs[]
+  ↓
+生成页面汇总和待勾选列表
+```
+
+来源结构：
+
+```ts
+type TextbookSourceRef = {
+  bookId: string;
+  unitId: string;
+  lessonId: string;
+  sourceLabel: string;
+};
+```
+
+同一个字或词在多篇课文中出现时只生成一个候选项，但 `sourceRefs` 保留全部来源，加入听写列表时随快照保存。
+
 运行期建议：
 
-- MVP 可以直接 require 一个大 JSON。
-- 数据量增大后按 `grade + volume` 拆分为 12 个 JSON，进入课本听写页时懒加载。
+- MVP 可以直接加载一个大 JS 数据模块。
+- 数据量增大后按 `grade + volume` 拆分为 12 个 JS 模块，选择年级和册别后再加载对应分册。
 - 构建时增加校验脚本：检查重复字词、空拼音、未核对课文、`withinGrade: false` 被错误打包。
 - 正式数据不从网上爬教材内容；只使用人工录入、授权数据或家长本地导入数据。
 
@@ -894,8 +944,9 @@ V2.1：
 8. 全部生词按周分组列表。
 9. 按课本听写页和 1-6 年级大 JSON 骨架。
 10. 听写提醒计算和首页展示。
-11. 云函数或轻量代理接入腾讯云 TTS。
-12. 听写播报、间隔配置、用量统计和 TTS 缓存。
+11. 统一听写草稿列表和增删改。
+12. 播放适配层、间隔配置和暂停恢复。
+13. 听写批改与统计结算。
 14. A4 默写纸图片导出。
 15. 设置页增加数据导出和清空入口。
 
@@ -918,9 +969,9 @@ V2.1：
 - 全部生词列表能按“本周、上周、更早周”分组。
 - 分组内包含手动、按课本添加的字词；语音/拍照添加后续版本接入后也进入分组。
 - 每个分组能显示总数、待练数量和词语预览。
-- 点击“听写本周”时只取该周字词进入听写队列。
+- 点击“听写本周”时只取该周字词进入听写列表。
 - 能搜索汉字、词语、拼音、课文来源。
-- 能跨周选择多个字词，点击“听写已选”进入听写队列。
+- 能跨周选择多个字词，点击“听写已选”进入听写列表。
 
 提醒：
 
@@ -943,17 +994,21 @@ V2.1：
 - 新增不会写的字词默认错 1 次。
 - 语音/拍照识别本期不实现，只保留后续方案文档。
 - 识别文本修改后候选词重新生成。
-- 2 字以上词语必须能选择“整个词不会写”或“指定字不会写”。
+- 2 字以上词语必须逐字选择“会 / 不会”，并按原始下标保存不会字。
 - 多文字识别结果可以快速移除候选、只看多字词、全选听写。
 - 听写准备词可以不增加错误次数。
 - 保存候选词后继续执行教材出处匹配，未匹配时显示“日常”。
 
-听写播报：
+听写列表与播放：
 
+- 课本、错词、字词库和手动新增都能加入同一个听写列表。
+- 相同词语不会重复加入。
+- 删除列表项不删除字词库原记录。
+- 编辑列表项只修改本次听写副本。
+- 空列表不能开始听写。
 - 能配置词语间隔、重复次数和语速。
-- TTS 合成结果按 `text + voice + speed` 缓存。
 - 播放队列能按配置等待后播放下一个词。
-- TTS 失败时不影响查看听写列表和生成默写纸。
+- 播放能力不可用时不影响查看、修改听写列表和生成默写纸。
 
 导出：
 
