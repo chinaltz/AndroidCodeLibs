@@ -19,6 +19,10 @@
         "value": "assets/images/pet"
       },
       {
+        "type": "folder",
+        "value": "assets/images/home"
+      },
+      {
         "type": "glob",
         "value": "**/*_ref.png"
       },
@@ -37,6 +41,38 @@
       {
         "type": "glob",
         "value": "data/textbook-dictation.catalog.sample.json"
+      },
+      {
+        "type": "glob",
+        "value": "pages/basic-samples/**"
+      },
+      {
+        "type": "glob",
+        "value": "pages/dictation-correction-sim/**"
+      },
+      {
+        "type": "glob",
+        "value": "pages/settings-language/**"
+      },
+      {
+        "type": "glob",
+        "value": "pages/input-diagnostic/**"
+      },
+      {
+        "type": "folder",
+        "value": "packages/pinyin/docs"
+      },
+      {
+        "type": "glob",
+        "value": "packages/pinyin/assets/audio/*.md"
+      },
+      {
+        "type": "glob",
+        "value": "packages/pinyin/assets/audio/LICENSE"
+      },
+      {
+        "type": "glob",
+        "value": "packages/pinyin/assets/audio/audio-manifest.json"
       }
     ],
     "include": []

@@ -10,7 +10,11 @@
   <view class="map-body map-body--tab">
     <block wx:if="{{child}}">
       <view class="adventure-hero">
-        <image class="hero-background" src="/assets/images/home/hero-pet-learning.png" mode="aspectFill" />
+        <view class="hero-background hero-background--css">
+          <view class="hero-deco hero-deco--cloud-a"></view>
+          <view class="hero-deco hero-deco--cloud-b"></view>
+          <image class="hero-deco hero-deco--pet" src="/assets/icons/module-pet.png" mode="aspectFit" />
+        </view>
         <view class="hero-top">
           <view class="child-chip" bindtap="goChildren">
             <image class="child-avatar" src="{{childAvatarPath}}" mode="aspectFit" />

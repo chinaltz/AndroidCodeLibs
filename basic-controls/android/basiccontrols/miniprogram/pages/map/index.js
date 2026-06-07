@@ -1,6 +1,7 @@
 const nav = require('../../utils/nav');
 const share = require('../../utils/share');
 const storage = require('../../utils/storage');
+const petService = require('../../utils/pet-service');
 
 function measureHeader() {
   const info = wx.getSystemInfoSync();
@@ -38,6 +39,7 @@ Page({
     wordPendingCount: 0,
     dictationTodayCount: 0,
     maxWrongCount: 0,
+    petPoints: 0,
     todayQuests: [],
     enabledModules: { phonics: true, pinyin: true, words: true },
     enabledModuleCount: 3,
@@ -76,11 +78,21 @@ Page({
       result[key] = true;
       return result;
     }, {});
-    const todayQuests = [
+    const learningQuests = [
       { key: 'phonics', title: '音标闯关', desc: `已完成 ${completed.length}/48`, image: '/assets/icons/module-phonics.png', path: '/pages/phonics/index' },
       { key: 'pinyin', title: '拼音拼读', desc: `已完成 ${pinyinCompleted.length}/63`, image: '/assets/icons/module-pinyin.png', path: '/packages/pinyin/pages/index' },
       { key: 'words', title: '字词听写', desc: `${wordStats.pendingCount} 个错字待练`, image: '/assets/icons/module-words.png', path: '/pages/word-planet/index' },
     ].filter((quest) => childModules.indexOf(quest.key) >= 0);
+    const petState = petService.state();
+    const todayQuests = learningQuests.concat({
+      key: 'pet',
+      title: '电子宠物',
+      desc: petState.adopted
+        ? `${petState.profile.name} Lv.${petState.level} · ${petState.points} 积分`
+        : '领养一位蓝色学习伙伴',
+      image: '/assets/icons/module-pet.png',
+      path: petState.adopted ? '/pages/pet-home/index' : '/pages/pet-adopt/index',
+    });
     app.globalData.completed = completed;
     this.setData(Object.assign({
       theme,
@@ -94,6 +106,7 @@ Page({
       dictationPendingCount: wordStats.pendingCount,
       totalWrongCharCount: wordStats.totalCount,
       maxWrongCount: wordStats.maxWrongCount,
+      petPoints: petState.points,
       todayQuests,
       enabledModules,
       enabledModuleCount: childModules.length,

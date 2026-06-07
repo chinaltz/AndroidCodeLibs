@@ -1,6 +1,14 @@
 {
   "pages": [
     "pages/map/index",
+    "pages/pet/index",
+    "pages/pet-adopt/index",
+    "pages/pet-home/index",
+    "pages/pet-tasks/index",
+    "pages/pet-rewards/index",
+    "pages/pet-wardrobe/index",
+    "pages/pet-shop/index",
+    "pages/pet-growth/index",
     "pages/phonics/index",
     "pages/learn/index",
     "pages/check/index",
@@ -14,13 +22,10 @@
     "pages/dictation-player/index",
     "pages/dictation-list/index",
     "pages/dictation-correction/index",
-    "pages/dictation-correction-sim/index",
     "pages/dictation-result/index",
     "pages/settings/index",
     "pages/settings-data/index",
-    "pages/settings-theme/index",
-    "pages/settings-language/index",
-    "pages/basic-samples/index"
+    "pages/settings-theme/index"
   ],
   "subpackages": [
     {
@@ -32,8 +37,29 @@
         "pages/pinyin-blend/index",
         "pages/pinyin-check/index"
       ]
+    },
+    {
+      "root": "packages/phonics-media",
+      "name": "phonics-media",
+      "pages": [
+        "pages/stub/index"
+      ]
     }
   ],
+  "preloadRule": {
+    "pages/phonics/index": {
+      "network": "all",
+      "packages": [
+        "phonics-media"
+      ]
+    },
+    "pages/learn/index": {
+      "network": "all",
+      "packages": [
+        "phonics-media"
+      ]
+    }
+  },
   "window": {
     "navigationStyle": "custom",
     "backgroundColor": "#DDF4FF",

@@ -2,6 +2,7 @@ const { findById, unitsByKind } = require('../../../../data/pinyin-units');
 const nav = require('../../../../utils/nav');
 const audio = require('../../../../utils/audio');
 const storage = require('../../../../utils/storage');
+const petIntegration = require('../../../../utils/pinyin-pet-integration');
 
 function buildOptions(unit) {
   const pool = unitsByKind(unit.kind).filter((item) => item.id !== unit.id);
@@ -195,6 +196,8 @@ Page({
       wx.showToast({ title: '请先录制一次跟读', icon: 'none' });
       return;
     }
+    if (this.completing) return;
+    this.completing = true;
     const completed = storage.getPinyinCompleted().slice();
     if (completed.indexOf(this.unit.id) < 0) completed.push(this.unit.id);
     storage.setPinyinCompleted(completed);
@@ -204,13 +207,14 @@ Page({
       correctCount: this.correctCount,
       wrongCount: this.wrongCount,
     });
-    wx.showToast({ title: `${this.unit.symbol} 已过关`, icon: 'success' });
-    setTimeout(() => {
-      wx.reLaunch({ url: '/packages/pinyin/pages/index' });
-    }, 700);
+    petIntegration.complete(this, this.unit);
   },
 
   onHide() {
     if (this.data.isRecording && this.recorder) this.recorder.stop();
+  },
+
+  onShareAppMessage(options) {
+    return petIntegration.onShare(this, options);
   },
 });

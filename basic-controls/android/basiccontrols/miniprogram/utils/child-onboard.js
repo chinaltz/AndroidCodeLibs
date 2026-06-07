@@ -11,9 +11,9 @@ const DEFAULT_THEME_BY_AVATAR = {
 };
 
 const MODULES = [
-  { key: 'phonics', label: '音标星球', desc: '48 音标闯关', icon: '/assets/images/planets/planet-phonics.png' },
-  { key: 'pinyin', label: '拼音星球', desc: '拼音认读拼读', icon: '/assets/images/planets/planet-pinyin.png' },
-  { key: 'words', label: '字词星球', desc: '听写错字管理', icon: '/assets/images/planets/planet-words.png' },
+  { key: 'phonics', label: '音标星球', desc: '48 音标闯关', icon: '/assets/icons/module-phonics.png' },
+  { key: 'pinyin', label: '拼音星球', desc: '拼音认读拼读', icon: '/assets/icons/module-pinyin.png' },
+  { key: 'words', label: '字词星球', desc: '听写错字管理', icon: '/assets/icons/module-words.png' },
 ];
 
 function createOnboardState() {

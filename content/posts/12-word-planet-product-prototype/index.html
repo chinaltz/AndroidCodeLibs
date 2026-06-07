@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我用 AI 设计“字词星球”：真正难的不是画页面，而是理清错字和听写词</title>
+<title>我用 AI 反复改了十几版，才把「字词星球」原型理顺</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -76,124 +76,162 @@
   <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
 </div>
 <div id="article">
-<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">我用 AI 设计“字词星球”：真正难的不是画页面，而是理清错字和听写词</h1>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子写错一个字时，家长最自然的动作，是把这个字记下来。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">可到了下一次听写，我们不能只念一个孤零零的字。我们通常会念“时候”“等候”这样的完整词语。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就是我设计“字词星球”时遇到的第一个难题。</p>
-<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，回复MF 一起用技术创造乐趣。</p></blockquote>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">一句话结论：用 AI 做产品原型，最有价值的不是快速生成页面，而是帮我们把真实场景、数据关系和操作顺序提前想清楚。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">自己写的：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">工作太忙了，每天剩下 寥寥无几的时间，有时候还得花时间带孩子听写，如果加班有时候连日常听写都会落下，经常无法日常带娃进行字词听写。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">既然音标的做了，那把听写也加上吧。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI做产品的能力一般，如果你有完整的设计文档和需求文档他去编码还行。给他 一个实用场景让他发挥完善功能。做的很差，经常无法准确的达到你的要求。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">而且上下文和 Token都有限，有时候有些工作就要从头开始。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">目前我的方案是  先不让他进行编码阶段，就进行 原型 需求的review，和需求文档 和设计文档的输出。人工审核后再进入编码。按照文档进行编码是AI的强项</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">他不需要发散思维，只需要在边界内实现</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">下面是AI 写的</p>
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">我用 AI 反复改了十几版，才把「字词星球」原型理顺</h1>
+<p style="margin:18px 0;"><img src="images/miniprogram-qr.png" alt="学习星球小程序码" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">一个家长做学习工具的真实产品复盘</p><p style="margin:4px 0;">技趣星球 · 用技术创造乐趣</p></blockquote>
+<p style="margin:18px 0;"><img src="images/header-v2.png" alt="字词星球产品原型设计" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最开始，我只是想在音标小程序里加一个错字本。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子写错一个字，我记下来；下次再错，次数加一；隔几天提醒复习。听起来并不复杂。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">可真正开始画页面后，问题一个接一个：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">「生字」和「错字」是不是两套东西？</li>
+<li style="margin:4px 0;">听写时念单个字，还是念完整词语？</li>
+<li style="margin:4px 0;">「时候」只错了「候」，到底存「候」还是存「时候」？</li>
+<li style="margin:4px 0;">课本生字、手动录入、历史错字，怎么放进同一场听写？</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这篇不讲最终代码，只聊怎么用 AI 梳理需求、输出手机 HTML 原型，再通过一轮轮调测，把模糊想法收成能开发的产品方案。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先别画页面，先把生活里的动作说清楚</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">一开始，我只想给原来的音标小程序增加一个错字本。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">需求听起来很简单：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">记录不会写的字</li>
-<li style="margin:4px 0;">又错一次就加一</li>
-<li style="margin:4px 0;">过几天提醒复习</li>
-<li style="margin:4px 0;">可以开始听写</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">但我把需求交给 AI 后，第一版原型很快出现了重复功能。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">页面里同时有“生字”“错字”“听写词”。入口很多，家长却不知道应该从哪里开始。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就像整理孩子的书桌。你可以摆三个收纳盒，但如果一支铅笔同时属于三个盒子，最后一定越收越乱。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以我没有继续让 AI 美化页面，而是先让它扮演产品经理。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以这样问 AI：</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第一版的问题：功能都有，但用起来不顺</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我最早给 AI 的需求很直接：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">增加孩子档案，每个孩子独立进度</li>
+<li style="margin:4px 0;">生字积累，错字再次写错时增加次数</li>
+<li style="margin:4px 0;">很久没听写要提醒</li>
+<li style="margin:4px 0;">可以生成 A4 默写纸</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 很快列出：生字积累、错字管理、听写提醒、错字统计、课文听写、手动录入。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">单看每个功能都合理，放在一起入口却太多。家长要记住「这个字去生字还是错字」，孩子也看不懂首页为什么摆这么多按钮。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我后来才意识到，一开始把「功能名称」当成了「产品结构」——像整理书桌，收纳盒买再多，一支笔同时属于三个盒子，最后还是不知道该放哪里。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">第一个合并决定：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">生字和错字不做两个独立模块。新学、不会写、经常写错的字，都放进「字词星球」；靠状态和错误次数区分，不靠入口区分。</p></blockquote>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>真正难理清的是「字」和「词」</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子不会写的是字，家长听写时念的通常是词。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如「时候」的「候」写错了：只存「候」，下次只念一个「候」，语境很奇怪；只存「时候」，又不知道到底是「时」不会还是「候」不会。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最后确定两层记录：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">不会字</strong>：哪个字不会、错了几次、最近什么时候错</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">听写词</strong>：播报时使用的完整词语</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">二者建立关联：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">不会字：候
+关联词语：时候、等候
+
+听写词：时候
+本次不会字：候</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">复习「候」时可以播报「时候」或「等候」——家长听到完整词，系统统计的仍是具体错字。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我当时给 AI 的任务：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我要做一个给小学生家庭使用的本地错字和听写工具。
 
 请先不要画页面。
-请从家长真实操作出发，区分：
-1. 不会写的单字
-2. 用于播报的完整听写词
-3. 一次听写任务
+请区分：
+1. 孩子不会写的单字
+2. 家长听写时播报的完整词语
+3. 一次临时听写列表
 
-请给出它们之间的关系、增加错误次数的规则，
-并用“时候，只错了候”举例说明。</code></pre>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这个问题把产品从“页面集合”变成了“可执行流程”。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">最后我们确定：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">不会字是最小复习对象</li>
-<li style="margin:4px 0;">完整词语是最小播报对象</li>
-<li style="margin:4px 0;">一个词可以关联多个不会字</li>
-<li style="margin:4px 0;">一个不会字也可以关联多个词</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">例如“候”可以关联“时候”和“等候”。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">下次复习“候”时，系统念的是完整词，不是只念“候”。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>原型不是一次定稿，而是一轮轮排除错误答案</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">字词录入页改了很多次。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">最早是一行表单，输入字、拼音和来源。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">后来发现，家长一次可能录入很多词。逐个填表太慢。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">第二版改成批量输入，但又把每个字拆成单独记录。这样“时候”会变成“时”和“候”两条听写内容，也不对。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">最终交互变成：</p>
-<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">一次输入多个词</li>
-<li style="margin:6px 0;padding-left:2px;">每个词拆成可点击的字块</li>
-<li style="margin:6px 0;padding-left:2px;">按点击顺序加入判断区</li>
-<li style="margin:6px 0;padding-left:2px;">每个字选择“会”或“不会”</li>
-<li style="margin:6px 0;padding-left:2px;">整个词处理完成后才能保存</li>
-<li style="margin:6px 0;padding-left:2px;">保存的是完整词，不会的字单独建立关联</li></ol>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">“时候”的正确操作是：</p>
-<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">点击“时” -&gt; 选择会
-点击“候” -&gt; 选择不会
-保存“时候”
-不会字库增加“候”
-听写词库保留“时候”</code></pre>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里有一个很实用的 AI 用法：不要只让它给方案，也让它检查方案。</p>
-<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请以一位每天给孩子听写的家长身份，
-检查下面这套录入交互。
+请用「时候只错了候」说明三者如何保存，
+以及下次又错一次时，哪些数据应该增加。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一轮之后，录入、听写和批改才有了统一基础。</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>先输出手机 HTML，而不是直接改小程序</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">结构理顺后，我没有马上让 AI 改小程序代码，而是先做原生 HTML 手机原型：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">浏览器打开就能看，改页面快</li>
+<li style="margin:4px 0;">能连续点击走完整流程</li>
+<li style="margin:4px 0;">不用每改一句文案就重新编译</li>
+<li style="margin:4px 0;">产品结构还不稳时，正式代码不会越改越乱</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">原型用手机外框模拟小程序尺寸，只是可点击的「样板间」，不是网页版产品。</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">prototypes/phonics-learning-planet-v2/index.html</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">浏览器打开即可体验孩子管理、字词星球、课文选词、听写列表、播放和批改。</p>
+<p style="margin:18px 0;"><img src="images/prototype-word-planet-v2.png" alt="字词星球 HTML 手机原型" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">首页只保留三类信息：待复习数量、今日听写数量、最高错误次数。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">三个主入口：添加字词、课本听写、听写列表。往下才展示不会的字、完整听写词和按周整理的生词。</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>录入页是返工次数最多的页面</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">手动录入前后改了很多轮：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">版本</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">问题</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">第一版</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">单字表单，填拼音/来源/次数，太慢</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">第二版</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">一次输入多词，保存时拆成单字，「时候」变成两条</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">第三版</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">点字块只显示当前字，点「候」时「时」消失，无法确认整词状态</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最终流程：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">一次输入多个完整词</li>
+<li style="margin:6px 0;padding-left:2px;">自动拆成可点击字块</li>
+<li style="margin:6px 0;padding-left:2px;">按点击顺序加入下方判断区</li>
+<li style="margin:6px 0;padding-left:2px;">每个字分别选「会」或「不会」</li>
+<li style="margin:6px 0;padding-left:2px;">整词处理完才允许保存</li>
+<li style="margin:6px 0;padding-left:2px;">保存一条听写词，同时记录其中不会的字</li></ol>
+<p style="margin:18px 0;"><img src="images/prototype-word-entry-v2.png" alt="批量录入与逐字判断原型" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">例如输入「时候、游泳、慢慢」，先点「时」再点「候」，下方依次出现 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">[会] [不会]</code> 选项。选「时会写、候不会写」后，保存完整词「时候」，不会字库增加「候」并建立关联。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">实用做法：不要只让 AI 给方案，还要让它扮演真实使用者挑问题。</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请以每天给一年级孩子听写的家长身份，
+实际走一遍下面的录入流程。
 
-重点找出：
-- 哪一步会让人困惑
-- 哪一步点击太多
-- 哪些数据会被错误拆分
-- 保存后家长预期看到什么
+请指出：
+- 哪一步不知道该点什么
+- 哪一步需要重复输入
+- 保存后会误以为数据丢了的地方
+- 多字词可能被错误拆开的地方
 
-请用具体例子指出问题，不要只说“建议优化体验”。</code></pre>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这种角色检查，比“帮我优化 UI”有效得多。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>首页为什么最后没有做成功能大全</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">有了音标、字词、拼音、积分和宠物后，首页很容易变成按钮列表。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">对家长来说，列表很清楚。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">对孩子来说，它却像后台管理系统。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以首页最后采用“学习星球”结构：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">顶部是当前孩子</li>
-<li style="margin:4px 0;">中间是今日学习任务</li>
-<li style="margin:4px 0;">下方是已开启的学习模块</li>
-<li style="margin:4px 0;">没开放的模块不强行展示</li>
-<li style="margin:4px 0;">不同孩子可以选择不同模块</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子切换必须放在首页一级位置，不能藏进设置。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">因为同一台 iPad 可能由两个孩子共用。一旦切错档案，音标进度、错字次数和听写记录都会混在一起。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">视觉上，我们也没有继续堆卡片。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">最终方向是电子宠物风格：圆润、明亮、像一个可以陪伴学习的小伙伴。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">但功能按钮仍然使用统一基础组件。这样换主题时，按钮颜色、边框和状态会一起变化。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>产品选型：为什么坚持本地数据</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这个工具最初就是家里自己用。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子昵称只是为了区分本机档案。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">因此第一版明确不做：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">账号登录</li>
-<li style="margin:4px 0;">云端同步</li>
-<li style="margin:4px 0;">孩子真实姓名</li>
-<li style="margin:4px 0;">在线排行榜</li>
-<li style="margin:4px 0;">强提醒推送</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">所有数据保存在小程序本地。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这样做的好处是简单、隐私边界清楚，也不需要为了一个家庭工具先搭服务器。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">代价也很明确：清理缓存或更换设备后，数据可能丢失。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以后续增加的是“本地导出和导入”，而不是马上做账号系统。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这也是产品设计里很重要的一课：不是能做的功能都应该立刻做。</p>
+请用「时候、游泳、慢慢」实际演示。</code></pre>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>课文听写也不是加几个下拉框就结束</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一开始只有年级和上下册，放入一到六年级内容后列表变得很长，于是增加单元、一课或多课、全部单元、全部课文。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">单元和课文平铺占大半屏，后来改成点击弹出选择层。调测中还暴露：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">选第一单元，标题仍显示全部单元</li>
+<li style="margin:4px 0;">选全部课文，下方没有生字</li>
+<li style="margin:4px 0;">选 3 个字，生成了 7 个词</li>
+<li style="margin:4px 0;">切换单元，旧课文选择没清空</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">说明筛选条件、显示文字和实际数据没用同一个状态。我把每次调测写成：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">初始：一年级上册、全部单元、全部课文
+操作：选择第一单元
+预期：标题显示第一单元，下方展示第一单元全部课文的生字
+实际：标题仍显示全部单元，下方为空</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 收到这种描述，才容易顺着状态变化找到问题。</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>真机调测比电脑预览更能暴露问题</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">HTML 原型定稿后才开始迁进小程序。开发者工具正常，不代表 iPad 也正常。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">输入昵称会卡死</strong>：iPad 点昵称输入框可能卡住，清缓存、改事件都试过，最后改成点击区域调用系统输入弹窗。手动录入字词也有同样问题。遇到真机问题，先做最小诊断页，分别测原生输入框、文本框和弹窗。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">听写间隔定义写错</strong>：「间隔 8 秒、播放 2 次」被理解成每次播放之间等 8 秒。真实需求是：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">时候 -&gt; 时候 -&gt; 等待 8 秒 -&gt; 游泳 -&gt; 游泳</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">播放次数 = 同一个词连续念几次；间隔秒数 = 两个不同词之间等多久。文案不说清楚，代码很容易按另一种合理方式实现。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">组件风格不一致</strong>：新增页面混用原生按钮和写死颜色，换主题后「开始」按钮还是旧色。最后统一顶部栏、卡片、按钮主题色和底部 Tab，只有 iPad 诊断页保留原生控件。原型阶段关注流程，落地再统一组件，顺序更稳。</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>为什么第一版坚持只做本地数据</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">工具最初只给家里用，孩子昵称只为区分同一设备上的进度。第一版没做账号、云端同步、真实姓名、排行榜和强推送，数据全在本机。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">好处是隐私清楚，不用先搭服务器；代价是清缓存或换设备可能丢数据。所以后面优先做「导出本地数据和恢复」，而不是马上上账号系统。</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>这轮原型最终定下了什么</h2>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">从课本、错字库或手动录入选择完整词语
+  ↓
+加入统一听写列表
+  ↓
+开始前增删并确认顺序
+  ↓
+按播放次数和词语间隔播报
+  ↓
+逐词标记正确或错误
+  ↓
+错误词继续选择具体错字
+  ↓
+更新错误次数和复习时间</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这条主流程不是 AI 第一次就给的，是把真实使用中的问题一次次讲清楚，再让 AI 修改、检查、重出原型后慢慢收敛出来的。</p>
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 3 件事：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">先梳理真实动作，再让 AI 画原型</li>
-<li style="margin:4px 0;">“不会字”和“听写词”必须分开建模</li>
-<li style="margin:4px 0;">原型的价值是尽早发现错误，而不是尽早做得漂亮</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">你现在就可以把自己的想法交给 AI，但先不要说“帮我做一个 App”。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">试试这个模板：</p>
-<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我要做一个给[谁]使用的[工具]。
-请先不要写代码和画页面。
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">先分清「字」和「词」，再画页面</li>
+<li style="margin:4px 0;">结构不稳时，先做可点击的手机 HTML 原型</li>
+<li style="margin:4px 0;">调测问题写成「初始、操作、预期、实际」</li>
+<li style="margin:4px 0;">AI 改得快，最终判断仍要来自真实使用</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">可复制这段开始：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我要做一个给[谁]使用的[什么工具]。
 
-请列出：
-1. 使用者在现实中原本怎么做
-2. 最小需要记录的三类数据
-3. 从开始到完成的一条主流程
-4. 最容易产生歧义的三个地方
-5. 第一版应该明确不做什么</code></pre>
-<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，回复MF 一起用技术创造乐趣。</p></blockquote>
+请先不要写正式代码。
+先完成：
+1. 梳理现实中的使用流程
+2. 找出容易混淆的数据
+3. 给出第一版明确不做的功能
+4. 输出一个手机尺寸的可点击 HTML 原型
+5. 为每条主流程写出调测步骤和预期结果
+
+页面定稿后，再给出正式代码方案。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先做一个能点、能试、能推翻的原型，比一开始就堆正式代码省事得多。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
-<p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">阅读更多：下一篇《字词星球代码实战》</em> <em style="font-style:italic;color:#7895AE;">有问题？评论区告诉我</em></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">阅读更多：下一篇《字词星球代码实战》</em></p>
 
 </div>
-<p class="meta">由 md-to-wechat 自动生成 · 2026/6/6 22:34:50</p>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/7 17:30:13</p>
 <script>
 function selectArticle() {
   const el = document.getElementById('article');

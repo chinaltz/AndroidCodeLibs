@@ -3,6 +3,7 @@ const SESSION_KEYS = [
   'dictation_queue',
   'dictation_session_results',
   'dictation_session_summary',
+  'pet_reward_state_v1',
 ];
 const BACKUP_VERSION = 1;
 const APP_ID = 'basiccontrols-miniprogram';

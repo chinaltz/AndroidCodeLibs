@@ -197,3 +197,40 @@ page {
 .mt-sm {
   margin-top: 16rpx;
 }
+
+.pet-page {
+  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, #ddf4ff, #fffdf4);
+  color: #173a62;
+  box-sizing: border-box;
+}
+.pet-scroll {
+  flex: 1;
+  height: 0;
+  min-height: 0;
+  box-sizing: border-box;
+  padding: 22rpx 20rpx 50rpx;
+}
+.pet-card { margin-bottom: 18rpx; padding: 24rpx; border: 2rpx solid #c9e9ff; border-radius: 30rpx; background: rgba(255,255,255,.96); box-shadow: 0 14rpx 32rpx rgba(23,58,98,.09); }
+.pet-section-head { display: flex; align-items: center; justify-content: space-between; gap: 16rpx; margin-bottom: 16rpx; }
+.pet-section-title { font-size: 31rpx; font-weight: 900; color: #173a62; }
+.pet-muted { color: #718da8; font-size: 23rpx; line-height: 1.55; }
+.pet-chip { padding: 8rpx 16rpx; border-radius: 999rpx; background: #e9fcf7; color: #087f74; font-size: 21rpx; font-weight: 900; }
+.pet-chip--yellow { background: #fff6d3; color: #a36500; }
+.pet-primary,.pet-secondary { min-height: 86rpx; display: flex; align-items: center; justify-content: center; border-radius: 24rpx; font-size: 28rpx; font-weight: 900; }
+.pet-primary { background: #31a8ff; color: #fff; }
+.pet-secondary { background: #fff; border: 2rpx solid #c9e9ff; color: #1678bd; }
+.pet-progress { height: 16rpx; overflow: hidden; border-radius: 999rpx; background: #e5eef4; }
+.pet-progress__fill { height: 100%; border-radius: 999rpx; background: linear-gradient(90deg,#43cfc7,#31a8ff); }
+.pet-empty { padding: 32rpx 10rpx; text-align: center; color: #718da8; font-size: 23rpx; line-height: 1.5; }
+.pet-item-row { display: flex; align-items: center; gap: 16rpx; padding: 18rpx 0; border-bottom: 2rpx solid #e8f3f8; }
+.pet-item-row:last-child { border-bottom: 0; }
+.pet-item-image { width: 92rpx; height: 92rpx; flex: 0 0 auto; object-fit: contain; }
+.pet-item-main { flex: 1; min-width: 0; }
+.pet-item-title { font-size: 26rpx; font-weight: 900; color: #173a62; }
+.pet-item-meta { margin-top: 5rpx; font-size: 21rpx; color: #718da8; line-height: 1.4; }
+.pet-small-button { min-height: 62rpx; padding: 0 18rpx; display: flex; align-items: center; justify-content: center; border-radius: 18rpx; background: #e9fcf7; color: #087f74; font-size: 22rpx; font-weight: 900; }
+.pet-small-button--disabled { background: #edf2f5; color: #92a6b5; }

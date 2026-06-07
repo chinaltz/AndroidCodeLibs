@@ -1,7 +1,7 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
   <bc-top-bar title="拼音过关" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
 
-  <scroll-view scroll-y class="page-body page-scroll">
+  <scroll-view wx:if="{{!rewardResult}}" scroll-y class="page-body page-scroll">
     <view class="step-track">
       <view class="step-dot {{step >= 0 ? 'is-active' : ''}}"></view>
       <view class="step-dot {{step >= 1 ? 'is-active' : ''}}"></view>
@@ -56,5 +56,9 @@
     <view wx:if="{{feedback}}" class="feedback">{{feedback}}</view>
   </scroll-view>
 
-  <bc-sticky-footer theme="{{theme}}"><bc-button text="{{actionText}}" variant="primary" theme="{{theme}}" bind:tap="onPrimary" /></bc-sticky-footer>
+  <scroll-view wx:else scroll-y class="page-body page-scroll">
+    <pet-task-reward title="{{unit.symbol}} 拼音过关" result="{{rewardResult}}" share-text="{{shareRewardText}}" event-id="{{taskEventId}}" finish-path="/packages/pinyin/pages/index" />
+  </scroll-view>
+
+  <bc-sticky-footer wx:if="{{!rewardResult}}" theme="{{theme}}"><bc-button text="{{actionText}}" variant="primary" theme="{{theme}}" bind:tap="onPrimary" /></bc-sticky-footer>
 </view>

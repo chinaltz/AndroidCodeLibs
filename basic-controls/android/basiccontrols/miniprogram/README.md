@@ -19,7 +19,7 @@ miniprogram/
 ├── pages/                   # 音标星球页面
 ├── data/phonemes.js         # 48 音标数据
 ├── utils/                   # 音频 / 题库 / 存储
-└── assets/audio/            # 离线 MP3（需同步）
+└── packages/phonics-media/assets/audio/  # 音标离线 MP3（分包）
 ```
 
 ## 快速开始
@@ -69,4 +69,4 @@ chmod +x tools/sync-audio.sh
 小程序包体限制下，开发阶段可先同步部分音频测试；正式发布建议：
 
 - 主包放常用音标，其余走分包或云存储（若后续扩展）
-- 当前实现与 Android 相同路径：`/assets/audio/phonemes/{id}.mp3`
+- 音标音频路径：`/packages/phonics-media/assets/audio/phonemes/{id}.mp3`

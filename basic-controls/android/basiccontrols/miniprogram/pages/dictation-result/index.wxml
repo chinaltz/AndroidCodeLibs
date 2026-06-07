@@ -7,6 +7,15 @@
       <view class="banner-hint">仅记录你点选的具体错字；不会把整词或听写选字误记为错字。</view>
     </view>
 
+    <view wx:if="{{rewardResult}}" class="reward-panel">
+      <view class="reward-title">电子宠物奖励</view>
+      <view class="reward-points">+{{rewardResult.points}} 积分</view>
+      <view class="reward-meta">{{rewardResult.xp}} 成长经验 · 当前积分 {{rewardResult.balance}}</view>
+      <button class="reward-share" open-type="share">{{shareRewardText}}</button>
+      <view class="reward-rule">每个任务限领 1 次分享奖励，每日最多 3 次。</view>
+      <view class="reward-pet-link" bindtap="goPet">查看电子宠物</view>
+    </view>
+
     <view wx:if="{{changes.length}}" class="changes-panel">
       <view class="panel-title">本次数据变化</view>
       <view class="panel-desc">同一听写记录只结算一次，避免重复累加。</view>

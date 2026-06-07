@@ -84,7 +84,7 @@ content/posts/[NN-slug]/
 | ⭐⭐⭐⭐ | 需要多个工具配合 + 有踩坑概率 |
 | ⭐⭐⭐⭐⭐ | 需要专业知识，不建议零基础硬刚 |
 
-## Skills 总览（11 个）
+## Skills 总览（12 个）
 
 | Skill | 用途 | 调用方式 |
 |-------|------|----------|
@@ -94,6 +94,7 @@ content/posts/[NN-slug]/
 | `/create-metaphor` | 把技术概念转化为日常比喻 | 手动 / 自动 |
 | `/generate-images` | **生成配图方案、即梦/Midjourney提示词、ASCII排版装饰、封面设计，所有方案标注操作难度** | 手动 / 自动 |
 | `/review-post` | 按5条内容原则全面审查文章 | 手动 / 自动 |
+| `/author-preface-article` | **双作者定稿：`自己写的` → `---` → `下面是AI 写的` → 正文；手写块逐字保留，仅优化 AI 段** | 手动 / 自动 |
 | `/publish-workflow` | **一键跑通8步发布流水线，输出多平台适配版** | 手动 |
 | `/publish-platforms` | 第一/二梯队平台清单、格式速查、发布顺序 | 手动 / 自动 |
 | `/star-article-style` | 技趣星球统一文章视觉风格，适用于文章排版、短内容卡片和后续 UI 编码 | 手动 / 自动 |

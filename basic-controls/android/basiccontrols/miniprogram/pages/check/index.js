@@ -3,6 +3,7 @@ const nav = require('../../utils/nav');
 const audio = require('../../utils/audio');
 const quiz = require('../../utils/quiz');
 const share = require('../../utils/share');
+const petReward = require('../../utils/pet-reward');
 
 Page({
   data: {
@@ -22,6 +23,8 @@ Page({
     actionText: '',
     q1Label: '', q1Title: '', q2Label: '', q2Title: '', q3Label: '', q3Title: '', q3Hint: '',
     recordText: '', playMineText: '', playCorrectText: '',
+    rewardResult: null,
+    shareRewardText: `分享学习成果 +${petReward.SHARE_POINTS} 宠物积分`,
   },
 
   onLoad(query) {
@@ -230,12 +233,27 @@ Page({
         wx.showToast({ title: app.t('toast/answer_first'), icon: 'none' });
         return;
       }
+      if (this.completing) return;
+      this.completing = true;
       const completed = app.globalData.completed.slice();
       if (completed.indexOf(this.phonemeId) < 0) completed.push(this.phonemeId);
       app.setCompleted(completed);
-      wx.showToast({ title: app.tf('toast/completed', this.phoneme.symbol), icon: 'success' });
-      setTimeout(() => nav.navigateBack({ delta: 2 }), 800);
+      this.taskEventId = petReward.createEventId('phonics', this.phonemeId);
+      const rewardResult = petReward.grantTaskReward({
+        eventId: this.taskEventId,
+        moduleId: 'phonics',
+        title: `音标 ${this.phoneme.symbol} 过关`,
+      });
+      this.setData({ rewardResult });
     }
+  },
+
+  goPet() {
+    nav.navigateTo('/pages/pet/index');
+  },
+
+  finishAndBack() {
+    nav.navigateBack({ delta: 2 });
   },
 
   onHide() {
@@ -244,7 +262,21 @@ Page({
     }
   },
 
-  onShareAppMessage() {
+  onShareAppMessage(options) {
+    if (options && options.from === 'button' && this.taskEventId) {
+      const result = petReward.claimShareReward(this.taskEventId);
+      if (result.awarded) {
+        this.setData({
+          'rewardResult.balance': result.balance,
+          shareRewardText: `已获得 ${result.points} 宠物积分`,
+        });
+      } else if (result.reason === 'already_claimed') {
+        this.setData({ shareRewardText: '本次分享奖励已领取' });
+      } else if (result.reason === 'daily_limit') {
+        this.setData({ shareRewardText: '今日分享奖励已达上限' });
+      }
+      return petReward.shareMessage(this.taskEventId);
+    }
     return share.appMessage();
   },
 

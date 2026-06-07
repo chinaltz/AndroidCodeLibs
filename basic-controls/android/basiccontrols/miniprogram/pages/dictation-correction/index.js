@@ -1,5 +1,6 @@
 const nav = require('../../utils/nav');
 const correction = require('../../utils/dictation-correction');
+const petReward = require('../../utils/pet-reward');
 
 Page({
   data: {
@@ -55,11 +56,13 @@ Page({
   },
 
   onSave() {
+    if (this.saving) return;
     const validation = correction.validateGradedItems(this.data.items);
     if (!validation.ok) {
       wx.showToast({ title: validation.message, icon: 'none' });
       return;
     }
+    this.saving = true;
 
     const sessionResults = correction.buildSessionResults(this.data.items);
     const beforeSnapshot = correction.snapshotCharacters();
@@ -68,6 +71,7 @@ Page({
     wx.setStorageSync('dictation_session_summary', {
       results: sessionResults,
       beforeSnapshot: beforeSnapshot,
+      taskEventId: petReward.createEventId('dictation', `${sessionResults.length}words`),
     });
     nav.navigateTo('/pages/dictation-result/index');
   },

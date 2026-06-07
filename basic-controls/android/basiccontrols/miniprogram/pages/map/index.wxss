@@ -257,6 +257,57 @@ page {
   z-index: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+}
+
+.hero-background--css {
+  background: linear-gradient(135deg, #ffe893 0%, #8ee4c8 52%, #66a7ff 100%);
+}
+
+.hero-deco {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero-deco--cloud-a {
+  top: 36rpx;
+  right: -40rpx;
+  width: 160rpx;
+  height: 56rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: -36rpx 10rpx 0 rgba(255, 255, 255, 0.66), 36rpx 12rpx 0 rgba(255, 255, 255, 0.62);
+  animation: hero-cloud-drift 16s linear infinite;
+}
+
+.hero-deco--cloud-b {
+  top: 120rpx;
+  right: -80rpx;
+  width: 120rpx;
+  height: 44rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: -28rpx 8rpx 0 rgba(255, 255, 255, 0.58);
+  animation: hero-cloud-drift 22s linear infinite;
+}
+
+.hero-deco--pet {
+  right: 24rpx;
+  bottom: 8rpx;
+  width: 180rpx;
+  height: 180rpx;
+  opacity: 0.92;
+  animation: hero-pet-float 3.6s ease-in-out infinite;
+}
+
+@keyframes hero-cloud-drift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-720rpx); }
+}
+
+@keyframes hero-pet-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10rpx); }
 }
 
 .hero-top {

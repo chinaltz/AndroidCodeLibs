@@ -213,7 +213,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
     }
     .pet-reference-note {
       display: inline-flex;
@@ -251,8 +251,7 @@
       position: relative;
       z-index: 2;
       margin-top: 12px;
-      object-fit: cover;
-      mix-blend-mode: multiply;
+      object-fit: contain;
       transition: transform .25s ease;
     }
     .home-pet-art.celebrate { animation: celebrate .7s ease; }
@@ -770,7 +769,7 @@
             <img
               class="pet-reference"
               id="adoptPetArt"
-              src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_idle_ref.png"
+              src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-idle.png"
               alt="晴空蓝星芽兽参考图"
             >
           </div>
@@ -805,7 +804,7 @@
           <img
             class="home-pet-art"
             id="homePetArt"
-            src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_idle_ref.png"
+            src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-idle.png"
             alt="宠物小屋中的星芽兽"
           >
           <div class="pet-caption" id="petCaption">今天也一起学一小关吧。</div>
@@ -886,7 +885,7 @@
           <span class="chip yellow">音标首次过关</span>
           <img
             class="reward-art"
-            src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_happy_v2_ref.png"
+            src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-happy.png"
             alt="星芽兽统一骨架庆祝动作参考图"
           >
           <h2>学会 /æ/ 啦</h2>
@@ -1035,11 +1034,16 @@
     const screensWithDock = new Set(['adopt', 'wardrobe']);
     const colorClass = { sky: '', mint: 'mint', orange: 'orange' };
     const petArtByColor = {
-      sky: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_idle_ref.png',
+      sky: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-idle.png',
       mint: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_mint_idle_ref.png',
       orange: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sunset_idle_ref.png'
     };
     const foxArt = '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_fox_orange_idle_ref.png';
+    const petBehaviors = [
+      { src: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-happy.png', className: 'celebrate', caption: '今天也很开心！', duration: 2100 },
+      { src: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-sleepy.png', className: 'play', caption: '让我慢慢休息一下。', duration: 2500 },
+      { src: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-idle.png', className: 'play', caption: '我在等下一次学习冒险。', duration: 1900 }
+    ];
 
     function toast(message) {
       const el = document.getElementById('toast');
@@ -1063,7 +1067,9 @@
       document.getElementById('pointsTop').textContent = state.points;
       document.getElementById('shopPoints').textContent = state.points;
       document.getElementById('homePetName').textContent = state.name;
-      document.getElementById('homePetArt').src = state.species === 'fox' ? foxArt : petArtByColor[state.color];
+      if (!window.petBehaviorActive) {
+        document.getElementById('homePetArt').src = state.species === 'fox' ? foxArt : petArtByColor[state.color];
+      }
       document.getElementById('hungerValue').textContent = state.hunger;
       document.getElementById('moodValue').textContent = state.mood;
       document.getElementById('energyValue').textContent = state.energy;
@@ -1086,6 +1092,39 @@
       const action = document.getElementById('primaryAction');
       action.textContent = id === 'adopt' ? '确认领养 · 获得 30 ★' : '保存穿戴';
       render();
+      if (id === 'home') schedulePetBehavior();
+      else clearPetBehavior();
+    }
+
+    function clearPetBehavior() {
+      clearTimeout(window.petBehaviorTimer);
+      clearTimeout(window.petBehaviorResetTimer);
+      window.petBehaviorTimer = null;
+      window.petBehaviorResetTimer = null;
+      window.petBehaviorActive = false;
+    }
+
+    function runPetBehavior(behavior) {
+      clearPetBehavior();
+      const pet = document.getElementById('homePetArt');
+      window.petBehaviorActive = true;
+      pet.src = behavior.src;
+      pet.classList.add(behavior.className);
+      document.getElementById('petCaption').textContent = behavior.caption;
+      window.petBehaviorResetTimer = setTimeout(() => {
+        pet.classList.remove(behavior.className);
+        pet.src = petArtByColor.sky;
+        document.getElementById('petCaption').textContent = '今天也一起学一小关吧。';
+        window.petBehaviorActive = false;
+        schedulePetBehavior();
+      }, behavior.duration);
+    }
+
+    function schedulePetBehavior() {
+      clearTimeout(window.petBehaviorTimer);
+      window.petBehaviorTimer = setTimeout(() => {
+        runPetBehavior(petBehaviors[Math.floor(Math.random() * petBehaviors.length)]);
+      }, 6000 + Math.floor(Math.random() * 8000));
     }
 
     document.querySelectorAll('[data-screen]').forEach(button => {
@@ -1142,9 +1181,7 @@
       state.points -= 8;
       state.hunger = Math.min(100, state.hunger + 20);
       document.getElementById('petCaption').textContent = '星星饼干真好吃，谢谢你。';
-      const pet = document.getElementById('homePetArt');
-      pet.classList.add('celebrate');
-      setTimeout(() => pet.classList.remove('celebrate'), 750);
+      runPetBehavior({ src: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-eat.png', className: 'celebrate', caption: '星星饼干真好吃，谢谢你。', duration: 2400 });
       render();
       toast('使用星星饼干：饱腹 +20，积分 -8');
     });
@@ -1153,9 +1190,7 @@
       state.mood = Math.min(100, state.mood + 15);
       state.energy = Math.max(0, state.energy - 5);
       document.getElementById('petCaption').textContent = '弹弹球时间！玩耍不会生成积分。';
-      const pet = document.getElementById('homePetArt');
-      pet.classList.add('play');
-      setTimeout(() => pet.classList.remove('play'), 750);
+      runPetBehavior({ src: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet-runtime/pet-sprout-blue-play.png', className: 'play', caption: '弹弹球时间！玩耍不会生成积分。', duration: 2800 });
       render();
       toast('心情 +15，活力 -5');
     });

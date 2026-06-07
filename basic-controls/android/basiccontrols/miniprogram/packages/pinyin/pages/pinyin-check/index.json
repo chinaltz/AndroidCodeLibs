@@ -5,6 +5,7 @@
     "bc-top-bar": "/basic-controls/components/bc-top-bar/bc-top-bar",
     "bc-choice-chip": "/basic-controls/components/bc-choice-chip/bc-choice-chip",
     "bc-icon-button": "/basic-controls/components/bc-icon-button/bc-icon-button",
-    "bc-sticky-footer": "/basic-controls/components/bc-sticky-footer/bc-sticky-footer"
+    "bc-sticky-footer": "/basic-controls/components/bc-sticky-footer/bc-sticky-footer",
+    "pet-task-reward": "/basic-controls/components/pet-task-reward/pet-task-reward"
   }
 }

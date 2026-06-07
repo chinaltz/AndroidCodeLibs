@@ -34,8 +34,12 @@
 
 .bc-topbar__title {
   flex: 1;
+  min-width: 0;
   text-align: center;
   font-size: 34rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .bc-topbar__action {

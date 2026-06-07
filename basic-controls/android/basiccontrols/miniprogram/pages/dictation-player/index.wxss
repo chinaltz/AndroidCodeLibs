@@ -222,3 +222,13 @@
   background: #0C8F7E;
   color: #FFFFFF;
 }
+
+.tts-hint {
+  padding: 22rpx 24rpx;
+  border-radius: 24rpx;
+  background: #fff6d3;
+  border: 2rpx solid #ffd166;
+  color: #8f5300;
+  font-size: 23rpx;
+  line-height: 1.55;
+}

@@ -36,6 +36,7 @@ Page({
     playing: false,
     finished: false,
     hasConfig: false,
+    configHint: '',
     statusText: '准备听写',
   },
 
@@ -51,9 +52,14 @@ Page({
   onShow() {
     const app = getApp();
     const config = tts.getConfig();
+    const hasConfig = !!(config.secretId && config.secretKey);
     this.setData({
       theme: app.globalData.theme,
-      hasConfig: !!(config.secretId && config.secretKey),
+      hasConfig,
+      configHint: hasConfig
+        ? ''
+        : '听写播报需腾讯云 TTS：复制 config/tts.local.example.js 为 tts.local.js 并填入密钥；真机还需在小程序后台添加 request 域名 https://tts.tencentcloudapi.com',
+      statusText: hasConfig ? this.data.statusText : 'TTS 未配置，无法播报',
     });
   },
 
@@ -78,12 +84,20 @@ Page({
   },
 
   playOne(e) {
+    if (!this.data.hasConfig) {
+      wx.showToast({ title: '请先配置 TTS 密钥', icon: 'none' });
+      return;
+    }
     audio.primeFromUserGesture();
     const index = Number(e.currentTarget.dataset.index || 0);
     this.playTextAt(index);
   },
 
   playTextAt(index) {
+    if (!this.data.hasConfig) {
+      wx.showToast({ title: '请先配置 TTS 密钥', icon: 'none' });
+      return Promise.resolve();
+    }
     audio.primeFromUserGesture();
     const item = this.data.queue[index];
     if (!item) return Promise.resolve();
@@ -94,7 +108,7 @@ Page({
     });
     return tts.synthesizeToTempFile(item.text).then((filePath) => {
       this.setData({ statusText: `正在播报：${item.text}` });
-      return audio.play(filePath, item.text);
+      return audio.playDictation(filePath, item.text);
     }).catch((err) => {
       wx.showToast({ title: err.message || '播报失败', icon: 'none' });
       this.setData({ statusText: 'TTS 失败，可先手动听写' });
@@ -125,7 +139,8 @@ Page({
       currentText: item.text,
       statusText: `正在播报：${item.text}（${playNo}/${repeatCount}）`,
     });
-    return audio.play(filePath, item.text);
+    audio.primeFromUserGesture();
+    return audio.playDictation(filePath, item.text);
   },
 
   cancelIntervalWait() {
@@ -158,7 +173,7 @@ Page({
   startQueue() {
     if (this.data.playing) return;
     if (!this.data.hasConfig) {
-      wx.showToast({ title: 'TTS 内置配置未填写', icon: 'none' });
+      wx.showToast({ title: 'TTS 未配置，无法开始听写', icon: 'none' });
       return;
     }
     audio.primeFromUserGesture();
@@ -194,6 +209,7 @@ Page({
     this._dictationRunId = (this._dictationRunId || 0) + 1;
     this.cancelIntervalWait();
     this._audioCache = {};
+    audio.resetPlayer();
   },
 
   runQueue(options) {

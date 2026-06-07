@@ -21,6 +21,23 @@
   line-height: 1.5;
 }
 
+.reward-panel {
+  border-radius: 30rpx;
+  background: #FFF8E8;
+  border: 2rpx solid #FFD88A;
+  padding: 26rpx 24rpx;
+  box-sizing: border-box;
+  margin-bottom: 18rpx;
+  text-align: center;
+}
+
+.reward-title { color: #8F5300; font-size: 28rpx; font-weight: 900; }
+.reward-points { margin-top: 10rpx; color: #F39A25; font-size: 48rpx; font-weight: 900; }
+.reward-meta, .reward-rule { margin-top: 8rpx; color: #9A7443; font-size: 22rpx; line-height: 1.5; }
+.reward-share { margin-top: 20rpx; min-height: 82rpx; border: 0; border-radius: 22rpx; background: #0C8F7E; color: #FFFFFF; font-size: 27rpx; font-weight: 900; line-height: 82rpx; }
+.reward-share::after { border: 0; }
+.reward-pet-link { margin-top: 16rpx; color: #0C8F7E; font-size: 25rpx; font-weight: 900; }
+
 .changes-panel {
   border-radius: 30rpx;
   background: rgba(255, 255, 255, 0.94);

@@ -11,6 +11,10 @@
       <image class="hero-planet" src="/assets/images/planets/planet-words.png" mode="aspectFit" />
     </view>
 
+    <view wx:if="{{configHint}}" class="content-card-wrap">
+      <view class="tts-hint">{{configHint}}</view>
+    </view>
+
     <view class="content-card-wrap"><bc-card theme="{{theme}}">
       <view class="panel-title">播报设置</view>
       <view class="settings-grid">

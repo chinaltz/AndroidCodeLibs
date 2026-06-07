@@ -1,7 +1,7 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
   <bc-top-bar title="{{pageTitle}}" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
 
-  <scroll-view scroll-y class="page-body page-scroll">
+  <scroll-view wx:if="{{!rewardResult}}" scroll-y class="page-body page-scroll">
     <bc-card theme="{{theme}}" wx:if="{{step === 0}}">
       <view class="q-label" style="color: {{theme.brandDark}};">{{q1Label}}</view>
       <view class="q-title">{{q1Title}}</view>
@@ -49,7 +49,20 @@
     </bc-card>
   </scroll-view>
 
-  <view class="page-action">
+  <scroll-view wx:else scroll-y class="page-body page-scroll">
+    <view class="reward-card">
+      <view class="reward-badge">任务完成</view>
+      <view class="reward-title">{{phoneme.symbol}} 音标过关</view>
+      <view class="reward-points">+{{rewardResult.points}} 宠物积分</view>
+      <view class="reward-xp">同时获得 {{rewardResult.xp}} 成长经验 · 当前积分 {{rewardResult.balance}}</view>
+      <button class="reward-share" open-type="share">{{shareRewardText}}</button>
+      <view class="reward-tip">分享奖励每个任务限领 1 次，每日最多 3 次。</view>
+      <view class="reward-link" bindtap="goPet">去看看电子宠物</view>
+      <view class="reward-back" bindtap="finishAndBack">继续学习</view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{!rewardResult}}" class="page-action">
     <bc-button text="{{actionText}}" variant="primary" theme="{{theme}}" bind:tap="onPrimary" />
   </view>
 </view>
