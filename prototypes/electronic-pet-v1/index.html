@@ -1,0 +1,1211 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>宠物星球 V1 · 交互原型</title>
+  <style>
+    :root {
+      --ink: #173a62;
+      --muted: #718da8;
+      --blue: #4fa8ff;
+      --blue-soft: #eaf6ff;
+      --mint: #43cfc7;
+      --mint-soft: #e9fcf7;
+      --yellow: #ffc85c;
+      --yellow-soft: #fff6d3;
+      --orange: #ff9d59;
+      --purple: #8e7bff;
+      --pink: #ff8eae;
+      --white: #fff;
+      --line: #c9e9ff;
+      --shadow: 0 16px 38px rgba(23, 58, 98, .14);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255, 200, 92, .34), transparent 25%),
+        radial-gradient(circle at 88% 15%, rgba(67, 207, 199, .26), transparent 25%),
+        linear-gradient(155deg, #f4fbff 0%, #e9f7ff 52%, #fff9e8 100%);
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 250px minmax(360px, 430px) 310px;
+      justify-content: center;
+      gap: 28px;
+      padding: 28px;
+    }
+
+    .side {
+      position: sticky;
+      top: 28px;
+      height: fit-content;
+      padding: 24px;
+      border: 2px solid rgba(200, 234, 255, .9);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, .84);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 50px;
+      height: 50px;
+      position: relative;
+      border-radius: 48% 52% 45% 55%;
+      background: linear-gradient(145deg, #7bc8ff, #4fa8ff);
+      box-shadow: inset -7px -8px 0 rgba(23, 58, 98, .08);
+    }
+    .brand-mark::before, .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 19px;
+      height: 11px;
+      top: -5px;
+      border-radius: 100% 10% 100% 10%;
+      background: var(--mint);
+    }
+    .brand-mark::before { left: 10px; transform: rotate(-28deg); }
+    .brand-mark::after { right: 7px; transform: rotate(32deg) scaleX(-1); }
+    .brand h1 { margin: 0; font-size: 21px; }
+    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+
+    .nav { display: grid; gap: 9px; margin-top: 24px; }
+    .nav button {
+      border: 0;
+      border-radius: 18px;
+      padding: 12px 14px;
+      color: var(--muted);
+      background: transparent;
+      text-align: left;
+      font-weight: 850;
+    }
+    .nav button.active {
+      color: #087f74;
+      background: var(--mint-soft);
+      box-shadow: inset 0 0 0 2px rgba(67, 207, 199, .3);
+    }
+
+    .phone {
+      width: 100%;
+      height: 850px;
+      position: relative;
+      overflow: hidden;
+      border: 10px solid var(--ink);
+      border-radius: 48px;
+      background: linear-gradient(#eaf7ff, #fffdf4);
+      box-shadow: 0 28px 70px rgba(23, 58, 98, .25);
+    }
+    .status {
+      height: 28px;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 22px 0;
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .topbar {
+      height: 62px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 18px;
+    }
+    .back, .round-button {
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 14px;
+      color: var(--ink);
+      background: rgba(255,255,255,.9);
+      font-size: 22px;
+      font-weight: 900;
+    }
+    .topbar-copy { flex: 1; min-width: 0; }
+    .topbar-title { font-size: 19px; font-weight: 950; }
+    .topbar-subtitle { margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .points-pill {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: var(--white);
+      font-size: 12px;
+      font-weight: 950;
+    }
+    .star { color: #e99e14; }
+
+    .screen {
+      display: none;
+      height: calc(100% - 90px);
+      overflow-y: auto;
+      padding: 8px 18px 105px;
+      scrollbar-width: none;
+    }
+    .screen::-webkit-scrollbar { display: none; }
+    .screen.active { display: block; }
+
+    .card {
+      margin-bottom: 14px;
+      padding: 17px;
+      border: 2px solid rgba(201, 233, 255, .9);
+      border-radius: 25px;
+      background: rgba(255,255,255,.93);
+      box-shadow: 0 10px 24px rgba(23, 58, 98, .08);
+    }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 13px;
+    }
+    .section-head h2, .section-head h3 { margin: 0; }
+    .section-head h2 { font-size: 18px; }
+    .section-head h3 { font-size: 16px; }
+    .muted { color: var(--muted); }
+    .tiny { font-size: 11px; line-height: 1.55; }
+    .chip {
+      display: inline-flex;
+      min-height: 28px;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 11px;
+      color: #087f74;
+      background: var(--mint-soft);
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .chip.yellow { color: #a36500; background: var(--yellow-soft); }
+    .chip.blue { color: #1678bd; background: var(--blue-soft); }
+
+    .adopt-hero {
+      padding: 22px 18px;
+      border-radius: 30px;
+      text-align: center;
+      background: linear-gradient(145deg, #fff4bd, #c9f7e9 55%, #b9e1ff);
+      box-shadow: var(--shadow);
+    }
+    .adopt-hero h2 { margin: 10px 0 6px; font-size: 27px; }
+    .adopt-hero p { margin: 0 auto; max-width: 290px; color: #46677f; font-size: 13px; line-height: 1.6; }
+    .pet-reference-frame {
+      width: 210px;
+      height: 210px;
+      margin: 12px auto 4px;
+      overflow: hidden;
+      border: 5px solid rgba(255,255,255,.86);
+      border-radius: 38px;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(23,58,98,.15);
+    }
+    .pet-reference {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .pet-reference-note {
+      display: inline-flex;
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      color: #55738b;
+      background: rgba(255,255,255,.76);
+      font-size: 10px;
+      font-weight: 850;
+    }
+
+    .pet-stage {
+      min-height: 300px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 31px;
+      background:
+        radial-gradient(circle at 78% 22%, rgba(255,255,255,.85) 0 9%, transparent 10%),
+        linear-gradient(180deg, #bde9ff 0 50%, #e8fbdc 50% 100%);
+      background-position: center;
+      background-size: cover;
+      box-shadow: var(--shadow);
+    }
+    .pet-stage.art-room {
+      background-image:
+        linear-gradient(rgba(255,255,255,.03), rgba(255,255,255,.03)),
+        url("../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/room_default_ref.png");
+    }
+    .home-pet-art {
+      width: 238px;
+      height: 238px;
+      position: relative;
+      z-index: 2;
+      margin-top: 12px;
+      object-fit: cover;
+      mix-blend-mode: multiply;
+      transition: transform .25s ease;
+    }
+    .home-pet-art.celebrate { animation: celebrate .7s ease; }
+    .home-pet-art.play { animation: wiggle .7s ease; }
+    .pet-stage::after {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 30px;
+      bottom: 34px;
+      border-radius: 50%;
+      background: rgba(23,58,98,.08);
+    }
+    .room-window {
+      position: absolute;
+      width: 82px;
+      height: 82px;
+      right: 21px;
+      top: 22px;
+      border: 8px solid rgba(255,255,255,.8);
+      border-radius: 50%;
+      background: linear-gradient(#7798ff, #b9d7ff);
+    }
+    .room-shelf {
+      position: absolute;
+      left: 18px;
+      bottom: 64px;
+      width: 62px;
+      height: 82px;
+      border-radius: 16px 16px 5px 5px;
+      background: #fff4c9;
+      box-shadow: inset 0 -8px 0 #f2c982;
+    }
+
+    .pet {
+      --pet-color: #69baff;
+      width: 145px;
+      height: 168px;
+      position: relative;
+      z-index: 2;
+      margin-top: 28px;
+      border: 5px solid #2e658b;
+      border-radius: 48% 52% 43% 43% / 43% 44% 58% 57%;
+      background: var(--pet-color);
+      box-shadow: inset -13px -14px 0 rgba(23,58,98,.08);
+      transition: transform .25s ease;
+    }
+    .pet.mint { --pet-color: #62d6ba; }
+    .pet.orange { --pet-color: #ffad61; }
+    .pet.celebrate { animation: celebrate .7s ease; }
+    .pet.play { animation: wiggle .7s ease; }
+    @keyframes celebrate {
+      0%,100% { transform: translateY(0) scale(1); }
+      45% { transform: translateY(-24px) scale(1.04); }
+    }
+    @keyframes wiggle {
+      0%,100% { transform: rotate(0); }
+      25% { transform: rotate(-7deg); }
+      70% { transform: rotate(7deg); }
+    }
+    .leaf {
+      position: absolute;
+      width: 47px;
+      height: 26px;
+      top: -28px;
+      border: 4px solid #277a70;
+      border-radius: 100% 12% 100% 12%;
+      background: #51d5a5;
+    }
+    .leaf.left { left: 31px; transform: rotate(-28deg); }
+    .leaf.right { right: 24px; transform: rotate(27deg) scaleX(-1); background: #ffd05c; }
+    .eye {
+      position: absolute;
+      width: 15px;
+      height: 22px;
+      top: 53px;
+      border-radius: 50%;
+      background: var(--ink);
+    }
+    .eye::after {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: white;
+    }
+    .eye.left { left: 35px; }
+    .eye.right { right: 35px; }
+    .mouth {
+      position: absolute;
+      width: 26px;
+      height: 14px;
+      left: 55px;
+      top: 87px;
+      border-bottom: 5px solid var(--ink);
+      border-radius: 0 0 50% 50%;
+    }
+    .belly {
+      position: absolute;
+      width: 80px;
+      height: 58px;
+      left: 28px;
+      bottom: 13px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.62);
+    }
+    .arm {
+      position: absolute;
+      width: 31px;
+      height: 57px;
+      top: 93px;
+      border: 4px solid #2e658b;
+      border-radius: 50%;
+      background: var(--pet-color);
+      z-index: -1;
+    }
+    .arm.left { left: -20px; transform: rotate(19deg); }
+    .arm.right { right: -20px; transform: rotate(-19deg); }
+    .hat {
+      display: none;
+      position: absolute;
+      width: 38px;
+      height: 38px;
+      top: -7px;
+      right: 13px;
+      z-index: 4;
+      color: #f1a817;
+      font-size: 38px;
+      line-height: 1;
+      transform: rotate(10deg);
+    }
+    .hat.visible { display: block; }
+    .scarf {
+      display: none;
+      position: absolute;
+      width: 96px;
+      height: 21px;
+      left: 20px;
+      top: 110px;
+      z-index: 4;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #48cdb5 0 33%, #ffd05c 33% 66%, #ff9d59 66%);
+      transform: rotate(-3deg);
+    }
+    .scarf.visible { display: block; }
+    .pet-caption {
+      position: absolute;
+      z-index: 4;
+      bottom: 8px;
+      left: 22px;
+      right: 22px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: #3b617d;
+      background: rgba(255,255,255,.86);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .color-grid, .quick-grid, .status-grid, .shop-grid { display: grid; gap: 10px; }
+    .species-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
+    .species-choice {
+      overflow: hidden;
+      padding: 8px;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      color: var(--ink);
+      background: white;
+      font-weight: 900;
+    }
+    .species-choice.active { border-color: var(--mint); background: var(--mint-soft); }
+    .species-choice img { width: 100%; height: 110px; display: block; border-radius: 14px; object-fit: cover; }
+    .species-choice span { display: block; margin-top: 7px; font-size: 12px; }
+    .color-grid { grid-template-columns: repeat(3, 1fr); margin-top: 16px; }
+    .color-choice {
+      padding: 12px 8px;
+      border: 2px solid transparent;
+      border-radius: 18px;
+      color: var(--ink);
+      background: var(--white);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .color-choice.active { border-color: var(--mint); background: var(--mint-soft); }
+    .color-dot {
+      width: 38px;
+      height: 38px;
+      margin: 0 auto 8px;
+      border: 4px solid rgba(23,58,98,.18);
+      border-radius: 50%;
+      background: #69baff;
+    }
+    .color-dot.mint { background: #62d6ba; }
+    .color-dot.orange { background: #ffad61; }
+    .name-input {
+      width: 100%;
+      margin-top: 10px;
+      padding: 13px 14px;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      color: var(--ink);
+      background: white;
+      outline: none;
+      font-weight: 800;
+    }
+
+    .level-card {
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      margin: 14px 0;
+      padding: 14px;
+      border-radius: 22px;
+      background: white;
+      box-shadow: 0 9px 22px rgba(23,58,98,.08);
+    }
+    .level-badge {
+      width: 49px;
+      height: 49px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: #805400;
+      background: var(--yellow);
+      font-weight: 950;
+    }
+    .level-info { flex: 1; }
+    .level-top { display: flex; justify-content: space-between; font-size: 12px; font-weight: 900; }
+    .progress {
+      height: 10px;
+      overflow: hidden;
+      margin-top: 8px;
+      border-radius: 10px;
+      background: #e9f1f7;
+    }
+    .progress i {
+      display: block;
+      width: 32%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--mint), var(--blue));
+      transition: width .3s ease;
+    }
+
+    .status-grid { grid-template-columns: repeat(3, 1fr); }
+    .status-item {
+      padding: 13px 8px;
+      border-radius: 18px;
+      text-align: center;
+      background: white;
+      box-shadow: 0 8px 18px rgba(23,58,98,.07);
+    }
+    .status-icon { font-size: 23px; }
+    .status-item strong { display: block; margin: 4px 0; font-size: 14px; }
+    .status-item small { color: var(--muted); }
+
+    .quick-grid { grid-template-columns: repeat(4, 1fr); margin: 14px 0; }
+    .quick {
+      min-height: 78px;
+      border: 0;
+      border-radius: 20px;
+      color: var(--ink);
+      background: white;
+      box-shadow: 0 9px 20px rgba(23,58,98,.08);
+      font-weight: 900;
+    }
+    .quick span { display: block; margin-bottom: 6px; font-size: 23px; }
+    .quick small { font-size: 11px; font-weight: 850; }
+
+    .task {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      align-items: center;
+      gap: 11px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e9f1f7;
+    }
+    .task:last-child { border-bottom: 0; }
+    .task-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      background: var(--blue-soft);
+      font-weight: 950;
+    }
+    .task strong { display: block; font-size: 13px; }
+    .task p { margin: 4px 0 0; font-size: 11px; color: var(--muted); }
+    .task-reward { text-align: right; font-size: 11px; font-weight: 900; }
+    .task.done .task-icon { color: white; background: var(--mint); }
+
+    .primary, .secondary {
+      min-height: 48px;
+      border: 0;
+      border-radius: 17px;
+      padding: 0 18px;
+      font-weight: 950;
+    }
+    .primary { color: white; background: linear-gradient(135deg, var(--blue), #6d8dff); box-shadow: 0 9px 20px rgba(79,168,255,.28); }
+    .secondary { color: var(--ink); background: var(--blue-soft); }
+    .full { width: 100%; }
+
+    .reward-panel {
+      padding: 24px 18px;
+      border-radius: 30px;
+      text-align: center;
+      background: linear-gradient(145deg, #fff4bd, #c9f7e9 55%, #b9e1ff);
+      box-shadow: var(--shadow);
+    }
+    .reward-panel h2 { margin: 10px 0 6px; font-size: 27px; }
+    .reward-art {
+      width: 184px;
+      height: 184px;
+      display: block;
+      margin: 12px auto -2px;
+      border: 5px solid rgba(255,255,255,.88);
+      border-radius: 34px;
+      object-fit: cover;
+      background: white;
+      box-shadow: 0 14px 30px rgba(23,58,98,.13);
+    }
+    .reward-values { display: flex; justify-content: center; gap: 12px; margin: 20px 0; }
+    .reward-value {
+      min-width: 120px;
+      padding: 15px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.9);
+    }
+    .reward-value strong { display: block; font-size: 24px; }
+    .mini-pet { transform: scale(.58); margin: -26px auto -40px; }
+
+    .tabs { display: flex; gap: 8px; margin-bottom: 13px; overflow-x: auto; }
+    .tabs button {
+      flex: none;
+      border: 0;
+      border-radius: 13px;
+      padding: 9px 13px;
+      color: var(--muted);
+      background: white;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .tabs button.active { color: #087f74; background: var(--mint-soft); }
+
+    .wardrobe-stage { min-height: 285px; }
+    .item-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .item {
+      min-height: 108px;
+      padding: 10px 7px;
+      border: 2px solid transparent;
+      border-radius: 18px;
+      text-align: center;
+      background: white;
+    }
+    .item.active { border-color: var(--mint); background: var(--mint-soft); }
+    .item.locked { opacity: .56; }
+    .item-visual {
+      height: 48px;
+      display: grid;
+      place-items: center;
+      font-size: 32px;
+    }
+    .item-visual img { width: 48px; height: 48px; object-fit: contain; }
+    .item strong { display: block; font-size: 11px; }
+    .item small { color: var(--muted); font-size: 10px; }
+
+    .shop-grid { grid-template-columns: repeat(2, 1fr); }
+    .shop-item {
+      padding: 14px;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 8px 18px rgba(23,58,98,.07);
+    }
+    .shop-item .item-visual { height: 60px; font-size: 40px; }
+    .shop-item .item-visual img { width: 64px; height: 64px; object-fit: contain; }
+    .shop-item h3 { margin: 7px 0 4px; font-size: 14px; }
+    .shop-item p { min-height: 31px; margin: 0; color: var(--muted); font-size: 10px; line-height: 1.5; }
+    .buy-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+    .buy-row button {
+      border: 0;
+      border-radius: 11px;
+      padding: 7px 9px;
+      color: white;
+      background: var(--blue);
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .timeline { position: relative; padding-left: 24px; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 12px;
+      bottom: 12px;
+      width: 3px;
+      border-radius: 3px;
+      background: var(--line);
+    }
+    .milestone {
+      position: relative;
+      margin-bottom: 13px;
+      padding: 14px;
+      border-radius: 18px;
+      background: white;
+    }
+    .milestone::before {
+      content: "";
+      position: absolute;
+      width: 13px;
+      height: 13px;
+      left: -23px;
+      top: 19px;
+      border: 4px solid white;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 0 2px var(--mint);
+    }
+    .milestone.locked { opacity: .55; }
+    .milestone.locked::before { background: #c7d6e2; box-shadow: 0 0 0 2px #c7d6e2; }
+    .milestone h3 { margin: 0 0 5px; font-size: 14px; }
+    .milestone p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    .dock {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      padding: 15px 18px 20px;
+      background: linear-gradient(transparent, rgba(255,253,244,.94) 28%, #fffdf4);
+    }
+
+    .toast {
+      position: absolute;
+      z-index: 30;
+      left: 50%;
+      bottom: 92px;
+      max-width: 310px;
+      transform: translateX(-50%) translateY(20px);
+      padding: 11px 15px;
+      border-radius: 14px;
+      color: white;
+      background: rgba(23,58,98,.92);
+      text-align: center;
+      font-size: 12px;
+      font-weight: 850;
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .note h2 { margin: 0 0 12px; font-size: 18px; }
+    .note p, .note li { color: #416279; font-size: 13px; line-height: 1.65; }
+    .note ul { padding-left: 18px; }
+    .rule-box {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 18px;
+      color: #42637c;
+      background: var(--yellow-soft);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1060px) {
+      .workspace { grid-template-columns: minmax(360px, 430px); }
+      .side { position: static; }
+      .note { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="workspace">
+    <aside class="side">
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div>
+          <h1>宠物星球 V1</h1>
+          <p>学习成长系统交互原型</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="active" data-screen="adopt">1. 首次领养</button>
+        <button data-screen="home">2. 宠物小屋</button>
+        <button data-screen="tasks">3. 今日任务</button>
+        <button data-screen="reward">4. 学习奖励</button>
+        <button data-screen="wardrobe">5. 装扮间</button>
+        <button data-screen="shop">6. 星星商店</button>
+        <button data-screen="growth">7. 成长手册</button>
+      </nav>
+    </aside>
+
+    <section class="phone" aria-label="宠物星球手机原型">
+      <div class="status"><span>9:41</span><span>5G 100%</span></div>
+      <header class="topbar">
+        <button class="back">‹</button>
+        <div class="topbar-copy">
+          <div class="topbar-title" id="pageTitle">领养伙伴</div>
+          <div class="topbar-subtitle" id="pageSubtitle">选择一位陪你学习的小伙伴</div>
+        </div>
+        <div class="points-pill"><span class="star">★</span><span id="pointsTop">0</span></div>
+      </header>
+
+      <section class="screen active" id="adopt">
+        <div class="adopt-hero">
+          <span class="chip yellow">学习伙伴</span>
+          <div class="pet-reference-frame">
+            <img
+              class="pet-reference"
+              id="adoptPetArt"
+              src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_idle_ref.png"
+              alt="晴空蓝星芽兽参考图"
+            >
+          </div>
+          <span class="pet-reference-note">角色定稿参考 · 正式版将使用透明底动画</span>
+          <h2>领养一只星芽兽</h2>
+          <p>完成音标、拼音和听写任务，它会和你一起升级、玩耍和收集装扮。</p>
+        </div>
+        <div class="species-grid">
+          <button class="species-choice active" data-species="sprout">
+            <img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_idle_ref.png" alt="">
+            <span>星芽兽 · 成长精灵</span>
+          </button>
+          <button class="species-choice" data-species="fox">
+            <img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_fox_orange_idle_ref.png" alt="">
+            <span>星绒狐 · 动物伙伴</span>
+          </button>
+        </div>
+        <div class="color-grid">
+          <button class="color-choice active" data-color="sky"><i class="color-dot"></i>晴空蓝</button>
+          <button class="color-choice" data-color="mint"><i class="color-dot mint"></i>薄荷绿</button>
+          <button class="color-choice" data-color="orange"><i class="color-dot orange"></i>暖橙黄</button>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="section-head"><h3>给伙伴起个名字</h3><span class="chip blue">1-8 个字</span></div>
+          <input class="name-input" id="petNameInput" value="芽芽" maxlength="8" aria-label="宠物名字">
+          <p class="muted tiny">宠物和学习数据只保存在当前孩子的本机档案中。</p>
+        </div>
+      </section>
+
+      <section class="screen" id="home">
+        <div class="pet-stage art-room">
+          <img
+            class="home-pet-art"
+            id="homePetArt"
+            src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_idle_ref.png"
+            alt="宠物小屋中的星芽兽"
+          >
+          <div class="pet-caption" id="petCaption">今天也一起学一小关吧。</div>
+        </div>
+
+        <div class="level-card">
+          <div class="level-badge" id="levelBadge">Lv.3</div>
+          <div class="level-info">
+            <div class="level-top"><span id="homePetName">芽芽</span><span id="xpText">126 / 180 XP</span></div>
+            <div class="progress"><i id="xpBar" style="width:32%"></i></div>
+          </div>
+        </div>
+
+        <div class="status-grid">
+          <div class="status-item"><span class="status-icon">🍪</span><strong id="hungerValue">72</strong><small>饱腹</small></div>
+          <div class="status-item"><span class="status-icon">♥</span><strong id="moodValue">84</strong><small>心情</small></div>
+          <div class="status-item"><span class="status-icon">⚡</span><strong id="energyValue">65</strong><small>活力</small></div>
+        </div>
+
+        <div class="quick-grid">
+          <button class="quick" id="feedButton"><span>🍪</span><small>喂养</small></button>
+          <button class="quick" id="playButton"><span>●</span><small>玩耍</small></button>
+          <button class="quick" data-jump="wardrobe"><span>♢</span><small>装扮</small></button>
+          <button class="quick" data-jump="shop"><span>★</span><small>商店</small></button>
+        </div>
+
+        <div class="card">
+          <div class="section-head"><h3>今日任务</h3><button class="chip" data-jump="tasks">查看全部</button></div>
+          <div class="task done">
+            <div class="task-icon">✓</div>
+            <div><strong>完成 1 个学习关卡</strong><p>音标 / 拼音任选</p></div>
+            <div class="task-reward">+5 XP<br>+5 ★</div>
+          </div>
+          <div class="task">
+            <div class="task-icon">词</div>
+            <div><strong>完成 5 个字词听写</strong><p>当前 2 / 5</p></div>
+            <div class="task-reward">+5 XP<br>+5 ★</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-head"><h3>下一个目标</h3><span class="chip yellow">还差 54 XP</span></div>
+          <p class="muted tiny">升到 4 级将解锁星星发卡，并获得 15 星星积分。</p>
+        </div>
+      </section>
+
+      <section class="screen" id="tasks">
+        <div class="card">
+          <div class="section-head"><h2>今天完成 1 / 3</h2><span class="chip yellow">已得 5 ★</span></div>
+          <div class="progress"><i style="width:33%"></i></div>
+          <p class="muted tiny">任务每天更新。没完成不会扣积分，也不会影响宠物。</p>
+        </div>
+        <div class="card">
+          <div class="task done">
+            <div class="task-icon">✓</div>
+            <div><strong>完成 1 个学习关卡</strong><p>已完成音标 /æ/ 过关</p></div>
+            <div class="task-reward">已入账</div>
+          </div>
+          <div class="task">
+            <div class="task-icon">词</div>
+            <div><strong>完成 5 个字词听写</strong><p>当前 2 / 5</p></div>
+            <div class="task-reward">+5 XP<br>+5 ★</div>
+          </div>
+          <div class="task">
+            <div class="task-icon">2</div>
+            <div><strong>学习两个不同模块</strong><p>已完成音标，再完成拼音或听写</p></div>
+            <div class="task-reward">+10 XP<br>+8 ★</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-head"><h3>奖励规则</h3><span class="chip blue">家长可看</span></div>
+          <p class="muted tiny">经验只会增加，不会被消费。星星积分只能通过学习和成长任务获得，不能充值。宠物不会生病或离开。</p>
+        </div>
+      </section>
+
+      <section class="screen" id="reward">
+        <div class="reward-panel">
+          <span class="chip yellow">音标首次过关</span>
+          <img
+            class="reward-art"
+            src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_happy_v2_ref.png"
+            alt="星芽兽统一骨架庆祝动作参考图"
+          >
+          <h2>学会 /æ/ 啦</h2>
+          <p class="muted">奖励已经自动放进小宝的宠物档案。</p>
+          <div class="reward-values">
+            <div class="reward-value"><strong>+12</strong><span>经验 XP</span></div>
+            <div class="reward-value"><strong>+8 ★</strong><span>星星积分</span></div>
+          </div>
+          <button class="primary full" id="applyReward">去看看芽芽</button>
+        </div>
+        <div class="card" style="margin-top:14px">
+          <div class="section-head"><h3>为什么有奖励？</h3></div>
+          <p class="muted tiny">这是本关第一次通过，所以获得完整奖励。以后复习这关仍有少量练习奖励，但每天有上限。</p>
+        </div>
+      </section>
+
+      <section class="screen" id="wardrobe">
+        <div class="pet-stage wardrobe-stage">
+          <div class="pet" id="wardrobePet">
+            <i class="leaf left"></i><i class="leaf right"></i>
+            <i class="eye left"></i><i class="eye right"></i><i class="mouth"></i>
+            <i class="belly"></i><i class="arm left"></i><i class="arm right"></i>
+            <i class="hat" id="wardrobeHat">★</i><i class="scarf" id="wardrobeScarf"></i>
+          </div>
+          <div class="pet-caption">先预览，点击“穿戴”后才会保存。</div>
+        </div>
+        <div class="tabs">
+          <button class="active">头部</button><button>颈部</button><button>背部</button><button>手持</button><button>房间</button>
+        </div>
+        <div class="item-list">
+          <button class="item active" data-accessory="none"><span class="item-visual">○</span><strong>不穿戴</strong><small>默认</small></button>
+          <button class="item" data-accessory="hat"><span class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/accessories/accessory_head_star_clip.png" alt=""></span><strong>星星发卡</strong><small id="hatState">4 级解锁</small></button>
+          <button class="item locked"><span class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/accessories/accessory_head_headphones.png" alt=""></span><strong>小耳机</strong><small>5 级解锁</small></button>
+          <button class="item" data-accessory="scarf"><span class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/accessories/accessory_neck_rainbow_scarf.png" alt=""></span><strong>彩条围巾</strong><small>已拥有</small></button>
+          <button class="item locked"><span class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/accessories/accessory_head_explorer_hat.png" alt=""></span><strong>探索帽</strong><small>商店购买</small></button>
+          <button class="item locked"><span class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/accessories/accessory_head_cloud_nightcap.png" alt=""></span><strong>云朵睡帽</strong><small>8 级解锁</small></button>
+        </div>
+      </section>
+
+      <section class="screen" id="shop">
+        <div class="card">
+          <div class="section-head"><h2>星星商店</h2><span class="chip yellow"><span class="star">★</span>&nbsp;<span id="shopPoints">30</span></span></div>
+          <p class="muted tiny">固定价格、永久拥有，不使用抽卡。积分不足时可以回到学习任务继续获得。</p>
+        </div>
+        <div class="tabs">
+          <button class="active">推荐</button><button>食物</button><button>玩具</button><button>配饰</button>
+        </div>
+        <div class="shop-grid">
+          <div class="shop-item">
+            <div class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/food/food_star_cookie.png" alt=""></div><h3>星星饼干</h3><p>饱腹 +20，状态太满时不会扣积分。</p>
+            <div class="buy-row"><strong>8 ★</strong><button data-buy="cookie" data-price="8">购买</button></div>
+          </div>
+          <div class="shop-item">
+            <div class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/toys/toy_puzzle_blocks.png" alt=""></div><h3>拼图积木</h3><p>永久玩具，玩耍时增加心情。</p>
+            <div class="buy-row"><strong>30 ★</strong><button data-buy="blocks" data-price="30">购买</button></div>
+          </div>
+          <div class="shop-item">
+            <div class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/accessories/accessory_head_star_clip.png" alt=""></div><h3>星星发卡</h3><p>4 级解锁的头部配饰。</p>
+            <div class="buy-row"><strong>80 ★</strong><button data-buy="hat" data-price="80">等级不足</button></div>
+          </div>
+          <div class="shop-item">
+            <div class="item-visual"><img src="../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/accessories/accessory_neck_rainbow_scarf.png" alt=""></div><h3>彩条围巾</h3><p>颈部配饰，购买后永久拥有。</p>
+            <div class="buy-row"><strong>90 ★</strong><button data-buy="scarf" data-price="90">购买</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="growth">
+        <div class="card">
+          <div class="section-head"><h2>芽芽 · 3 级</h2><span class="chip yellow">一起成长 6 天</span></div>
+          <div class="level-top"><span>累计 126 XP</span><span>下一级 180 XP</span></div>
+          <div class="progress"><i style="width:70%"></i></div>
+        </div>
+        <div class="timeline">
+          <div class="milestone">
+            <h3>第 1 个音标过关</h3>
+            <p>你和芽芽第一次完成学习关卡。</p>
+          </div>
+          <div class="milestone">
+            <h3>升到 2 级 · 解锁玩耍</h3>
+            <p>获得默认弹弹球和 10 星星积分。</p>
+          </div>
+          <div class="milestone">
+            <h3>升到 3 级 · 解锁装扮间</h3>
+            <p>可以给芽芽穿戴已拥有的配饰。</p>
+          </div>
+          <div class="milestone locked">
+            <h3>4 级 · 星星发卡</h3>
+            <p>还差 54 XP，升级后获得购买资格和 15 星星积分。</p>
+          </div>
+          <div class="milestone locked">
+            <h3>5 级 · 成长为小星苗</h3>
+            <p>嫩芽更舒展，并解锁新的庆祝动作。</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="dock" id="dock">
+        <button class="primary full" id="primaryAction">确认领养 · 获得 30 ★</button>
+      </div>
+      <div class="toast" id="toast"></div>
+    </section>
+
+    <aside class="side note">
+      <h2>原型说明</h2>
+      <p>宠物是学习奖励层，不是独立刷积分小游戏。经验、积分和状态分别承担不同作用。</p>
+      <ul>
+        <li>经验只升级，不消费。</li>
+        <li>积分用于照顾和装扮。</li>
+        <li>玩耍不产出积分，避免循环刷币。</li>
+        <li>学习奖励自动入账，关闭结算页也不会丢失。</li>
+        <li>宠物不会死亡、生病或因断签离开。</li>
+      </ul>
+      <div class="rule-box">领养、奖励和小屋已接入高保真参考图；装扮仍使用 CSS 分层占位，用于验证配饰槽位与交互，不代表最终美术资产。</div>
+    </aside>
+  </main>
+
+  <script>
+    const meta = {
+      adopt: ['领养伙伴', '选择一位陪你学习的小伙伴'],
+      home: ['宠物小屋', '小宝 · 芽芽'],
+      tasks: ['今日任务', '学习会带来经验和星星积分'],
+      reward: ['学习奖励', '奖励已自动进入宠物档案'],
+      wardrobe: ['装扮间', '已拥有的配饰可以随时更换'],
+      shop: ['星星商店', '固定价格 · 不抽卡'],
+      growth: ['成长手册', '记录你们一起学会的事情']
+    };
+
+    const state = {
+      screen: 'adopt',
+      species: 'sprout',
+      color: 'sky',
+      name: '芽芽',
+      points: 0,
+      xp: 126,
+      level: 3,
+      adopted: false,
+      hunger: 72,
+      mood: 84,
+      energy: 65,
+      accessory: 'none',
+      rewardApplied: false,
+      owned: new Set(['scarf'])
+    };
+
+    const screensWithDock = new Set(['adopt', 'wardrobe']);
+    const colorClass = { sky: '', mint: 'mint', orange: 'orange' };
+    const petArtByColor = {
+      sky: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sky_idle_ref.png',
+      mint: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_mint_idle_ref.png',
+      orange: '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_sprout_sunset_idle_ref.png'
+    };
+    const foxArt = '../../basic-controls/android/basiccontrols/miniprogram/assets/images/pet/previews/pet_star_fox_orange_idle_ref.png';
+
+    function toast(message) {
+      const el = document.getElementById('toast');
+      el.textContent = message;
+      el.classList.add('show');
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => el.classList.remove('show'), 1900);
+    }
+
+    function applyPetColor() {
+      document.getElementById('adoptPetArt').src = state.species === 'fox' ? foxArt : petArtByColor[state.color];
+      ['adoptPet', 'homePet', 'wardrobePet'].forEach(id => {
+        const pet = document.getElementById(id);
+        if (!pet) return;
+        pet.classList.remove('mint', 'orange');
+        if (colorClass[state.color]) pet.classList.add(colorClass[state.color]);
+      });
+    }
+
+    function render() {
+      document.getElementById('pointsTop').textContent = state.points;
+      document.getElementById('shopPoints').textContent = state.points;
+      document.getElementById('homePetName').textContent = state.name;
+      document.getElementById('homePetArt').src = state.species === 'fox' ? foxArt : petArtByColor[state.color];
+      document.getElementById('hungerValue').textContent = state.hunger;
+      document.getElementById('moodValue').textContent = state.mood;
+      document.getElementById('energyValue').textContent = state.energy;
+      document.getElementById('levelBadge').textContent = `Lv.${state.level}`;
+      document.getElementById('xpText').textContent = `${state.xp} / 180 XP`;
+      document.getElementById('xpBar').style.width = `${Math.min(100, (state.xp - 100) / 80 * 100)}%`;
+      document.getElementById('wardrobeHat').classList.toggle('visible', state.accessory === 'hat');
+      document.getElementById('wardrobeScarf').classList.toggle('visible', state.accessory === 'scarf');
+      applyPetColor();
+    }
+
+    function showScreen(id) {
+      state.screen = id;
+      document.querySelectorAll('.screen').forEach(el => el.classList.toggle('active', el.id === id));
+      document.querySelectorAll('.nav button').forEach(el => el.classList.toggle('active', el.dataset.screen === id));
+      document.getElementById('pageTitle').textContent = meta[id][0];
+      document.getElementById('pageSubtitle').textContent = meta[id][1];
+      const dock = document.getElementById('dock');
+      dock.style.display = screensWithDock.has(id) ? 'block' : 'none';
+      const action = document.getElementById('primaryAction');
+      action.textContent = id === 'adopt' ? '确认领养 · 获得 30 ★' : '保存穿戴';
+      render();
+    }
+
+    document.querySelectorAll('[data-screen]').forEach(button => {
+      button.addEventListener('click', () => showScreen(button.dataset.screen));
+    });
+    document.querySelectorAll('[data-jump]').forEach(button => {
+      button.addEventListener('click', () => showScreen(button.dataset.jump));
+    });
+
+    document.querySelectorAll('[data-color]').forEach(button => {
+      button.addEventListener('click', () => {
+        state.color = button.dataset.color;
+        document.querySelectorAll('[data-color]').forEach(el => el.classList.toggle('active', el === button));
+        applyPetColor();
+      });
+    });
+    document.querySelectorAll('[data-species]').forEach(button => {
+      button.addEventListener('click', () => {
+        state.species = button.dataset.species;
+        document.querySelectorAll('[data-species]').forEach(el => el.classList.toggle('active', el === button));
+        document.querySelectorAll('[data-color]').forEach(el => {
+          el.disabled = state.species === 'fox';
+          el.style.opacity = state.species === 'fox' ? '.48' : '1';
+        });
+        document.querySelector('.adopt-hero h2').textContent = state.species === 'fox' ? '领养一只星绒狐' : '领养一只星芽兽';
+        const nameInput = document.getElementById('petNameInput');
+        if (nameInput.value === '芽芽' || nameInput.value === '绒绒') {
+          nameInput.value = state.species === 'fox' ? '绒绒' : '芽芽';
+        }
+        applyPetColor();
+      });
+    });
+
+    document.getElementById('primaryAction').addEventListener('click', () => {
+      if (state.screen === 'adopt') {
+        const value = document.getElementById('petNameInput').value.trim();
+        state.name = value || '芽芽';
+        if (!state.adopted) {
+          state.adopted = true;
+          state.points += 30;
+        }
+        document.getElementById('petCaption').textContent = `${state.name} 已经准备好陪你学习啦。`;
+        toast('领养成功，新手礼包 30 ★ 已入账');
+        setTimeout(() => showScreen('home'), 450);
+      } else {
+        toast('穿戴已保存');
+        setTimeout(() => showScreen('home'), 350);
+      }
+    });
+
+    document.getElementById('feedButton').addEventListener('click', () => {
+      if (state.hunger >= 90) return toast('芽芽已经吃得很饱啦，没有消耗积分');
+      if (state.points < 8) return toast(`还差 ${8 - state.points} ★，完成学习任务可以获得`);
+      state.points -= 8;
+      state.hunger = Math.min(100, state.hunger + 20);
+      document.getElementById('petCaption').textContent = '星星饼干真好吃，谢谢你。';
+      const pet = document.getElementById('homePetArt');
+      pet.classList.add('celebrate');
+      setTimeout(() => pet.classList.remove('celebrate'), 750);
+      render();
+      toast('使用星星饼干：饱腹 +20，积分 -8');
+    });
+
+    document.getElementById('playButton').addEventListener('click', () => {
+      state.mood = Math.min(100, state.mood + 15);
+      state.energy = Math.max(0, state.energy - 5);
+      document.getElementById('petCaption').textContent = '弹弹球时间！玩耍不会生成积分。';
+      const pet = document.getElementById('homePetArt');
+      pet.classList.add('play');
+      setTimeout(() => pet.classList.remove('play'), 750);
+      render();
+      toast('心情 +15，活力 -5');
+    });
+
+    document.getElementById('applyReward').addEventListener('click', () => {
+      if (!state.rewardApplied) {
+        state.rewardApplied = true;
+        state.xp += 12;
+        state.points += 8;
+        state.mood = Math.min(100, state.mood + 3);
+        toast('奖励已演示入账；真实实现会按事件 ID 去重');
+      } else {
+        toast('这条奖励已经入账，不会重复增加');
+      }
+      setTimeout(() => showScreen('home'), 450);
+    });
+
+    document.querySelectorAll('[data-accessory]').forEach(button => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.accessory;
+        if (id === 'hat' && !state.owned.has('hat')) return toast('星星发卡尚未拥有');
+        state.accessory = id;
+        document.querySelectorAll('[data-accessory]').forEach(el => el.classList.toggle('active', el === button));
+        render();
+      });
+    });
+
+    document.querySelectorAll('[data-buy]').forEach(button => {
+      button.addEventListener('click', () => {
+        const id = button.dataset.buy;
+        const price = Number(button.dataset.price);
+        if (id === 'hat' && state.level < 4) return toast('升到 4 级后才能购买星星发卡');
+        if (state.owned.has(id)) return toast('已经拥有，不会重复扣积分');
+        if (state.points < price) return toast(`还差 ${price - state.points} ★，去完成学习任务吧`);
+        state.points -= price;
+        state.owned.add(id);
+        button.textContent = '已拥有';
+        button.disabled = true;
+        if (id === 'hat') document.getElementById('hatState').textContent = '已拥有';
+        render();
+        toast('购买成功，物品已永久加入背包');
+      });
+    });
+
+    document.querySelector('.back').addEventListener('click', () => {
+      if (state.screen === 'home') toast('返回学习星球首页');
+      else showScreen('home');
+    });
+
+    render();
+  </script>
+</body>
+</html>

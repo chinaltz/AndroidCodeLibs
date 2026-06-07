@@ -1,50 +1,80 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="全部生词" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+  <bc-top-bar title="全部错字" show-back="{{true}}" action-text="录入" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" bind:action="goManualWrongEntry" />
 
-  <view class="search-bar">
-    <input value="{{keyword}}" placeholder="搜索字词、拼音或课文来源" bindinput="onSearchInput" />
-    <view wx:if="{{selectedCount}}" class="clear-link" bindtap="clearSelection">清空 {{selectedCount}}</view>
+  <view class="toolbar" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};">
+    <view class="search-input"><bc-input theme="{{theme}}" value="{{keyword}}" placeholder="搜索错字或关联听写词" bind:input="onSearchInput" /></view>
+    <bc-choice-chip wx:if="{{selectedCount}}" text="清空 {{selectedCount}}" danger="{{true}}" theme="{{theme}}" bind:tap="clearSelection" />
   </view>
 
-  <scroll-view scroll-y class="page-body page-scroll word-list-scroll">
-    <view wx:if="{{!groups.length}}" class="empty-state">
-      <view class="empty-title">还没有生词</view>
-      <view class="empty-desc">从字词星球添加后，会按周显示在这里。</view>
+  <scroll-view scroll-x class="sort-scroll" enable-flex enhanced show-scrollbar="{{false}}" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};">
+    <view class="sort-row">
+      <bc-choice-chip
+        wx:for="{{sortModes}}"
+        wx:key="id"
+        text="{{item.label}}"
+        selected="{{sortMode === item.id}}"
+        theme="{{theme}}"
+        data-mode="{{item.id}}"
+        bind:tap="onSortTap"
+      />
+    </view>
+  </scroll-view>
+
+  <scroll-view scroll-y class="page-body page-scroll words-page-scroll word-list-scroll">
+    <view wx:if="{{!groups.length}}" class="empty-state" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};">
+      <view class="empty-title" style="color: {{theme.textPrimary}};">还没有错字</view>
+      <view class="empty-desc" style="color: {{theme.textTertiary}};">听写批改或录入听写词时标记不会的字，会积累到这里。</view>
     </view>
 
     <block wx:for="{{groups}}" wx:key="key">
-      <view class="week-section">
+      <bc-card theme="{{theme}}">
         <view class="week-head">
-          <view>
-            <view class="week-title">{{item.label}}</view>
-            <view class="week-count">{{item.count}} 个字词 · {{item.pendingCount}} 个待练</view>
+          <view class="week-head-main">
+            <view class="week-title" style="color: {{theme.textPrimary}};">{{item.label}}</view>
+            <view class="week-count" style="color: {{theme.textTertiary}};">
+              {{item.count}} 个错字<text wx:if="{{sortMode === 'wrongCount'}}"> · 错次从高到低</text>
+            </view>
           </view>
-          <view class="select-week" data-key="{{item.key}}" bindtap="selectWeek">选择本周</view>
+          <bc-choice-chip
+            text="{{item.selectAction === 'all' ? '全选' : '选择本周'}}"
+            theme="{{theme}}"
+            data-key="{{item.key}}"
+            bind:tap="selectGroup"
+          />
         </view>
         <view class="week-word-grid">
-          <view
-            wx:for="{{item.words}}"
-            wx:for-item="word"
+          <bc-choice-card
+            wx:for="{{item.characters}}"
+            wx:for-item="character"
             wx:key="id"
-            class="week-word {{word.selected ? 'is-selected' : ''}}"
-            data-id="{{word.id}}"
-            bindtap="toggleWord"
+            selected="{{character.selected}}"
+            theme="{{theme}}"
+            data-id="{{character.id}}"
+            bind:tap="toggleCharacter"
           >
-            <view class="word-check">{{word.selected ? '✓' : ''}}</view>
-            <view class="word-text">{{word.text}}</view>
-            <view class="word-pinyin">{{word.pinyin || '自动拼音'}}</view>
-            <view class="word-source">{{word.sourceLabel}}</view>
-          </view>
+            <view class="week-word">
+              <view class="word-check">{{character.selected ? '✓' : ''}}</view>
+              <view class="word-text" style="color: {{theme.textPrimary}};">{{character.text}}</view>
+              <view class="word-meta" style="color: {{theme.textSecondary}};">错 <text style="color: {{theme.danger}}; font-weight: 900;">{{character.wrongCount || 0}}</text> 次</view>
+              <view class="word-source" style="color: {{theme.textTertiary}};">关联词：{{character.relatedWords}}</view>
+            </view>
+          </bc-choice-card>
         </view>
-      </view>
+      </bc-card>
+      <view class="words-section-gap" />
     </block>
   </scroll-view>
 
-  <view class="dictation-dock">
-    <view>
-      <view class="dock-count">已选 {{selectedCount}} 个</view>
-      <view class="dock-desc">按选择顺序加入听写</view>
+  <bc-sticky-footer theme="{{theme}}">
+    <view class="dictation-dock">
+      <view class="dock-main">
+        <view class="dock-count" style="color: {{theme.textPrimary}};">已选 {{selectedCount}} 字</view>
+        <view class="dock-desc" style="color: {{theme.textTertiary}};">删除或按关联听写词开始听写</view>
+      </view>
+      <view class="dock-actions">
+        <bc-button text="删除" variant="danger" disabled="{{selectedCount === 0}}" theme="{{theme}}" bind:tap="onDeleteSelected" />
+        <bc-button text="开始听写" variant="primary" disabled="{{selectedCount === 0}}" theme="{{theme}}" bind:tap="startDictation" />
+      </view>
     </view>
-    <view class="dock-button" bindtap="startDictation">开始听写</view>
-  </view>
+  </bc-sticky-footer>
 </view>

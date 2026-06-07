@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+.bc-choice-card {
+  box-sizing: border-box;
+  border: 2rpx solid var(--bc-border);
+  border-radius: 24rpx;
+  background: var(--bc-surface);
+  overflow: hidden;
+}
+
+.bc-choice-card.is-selected {
+  border-color: var(--bc-brand);
+  background: var(--bc-active);
+  box-shadow: 0 10rpx 24rpx rgba(23, 58, 98, 0.08);
+}
+
+.bc-choice-card.is-disabled {
+  opacity: 0.5;
+}

@@ -1,71 +1,144 @@
+const nav = require('../../utils/nav');
 const storage = require('../../utils/storage');
+const onboard = require('../../utils/child-onboard');
 
 Page({
-  data: {
-    theme: {},
-    children: [],
-    currentChildId: '',
-    selectedAvatar: 'boy',
+  data: Object.assign({
+    theme: onboard.getTheme('sky'),
+    pageTitle: '添加孩子',
+    saveText: '保存孩子',
+    editingId: '',
+    isFirstChild: false,
     nickname: '',
+  }, onboard.createOnboardState()),
+
+  onLoad(options) {
+    if (options && options.mode === 'first') {
+      this.setData({
+        isFirstChild: true,
+        pageTitle: '添加第一个孩子',
+        saveText: '保存并开始',
+      });
+      return;
+    }
+    const editingId = options && options.id ? options.id : '';
+    if (!editingId) return;
+    const child = storage.getChildren().find((item) => item.id === editingId);
+    if (!child) return;
+    const modules = child.modules && child.modules.length
+      ? child.modules
+      : ['phonics', 'pinyin', 'words'];
+    this.setData({
+      editingId,
+      pageTitle: '编辑孩子',
+      saveText: '保存修改',
+      selectedAvatar: child.avatar || 'boy',
+      selectedThemeKey: child.themeKey || 'sky',
+      selectedModules: modules,
+      nickname: child.nickname || '',
+      colorThemes: onboard.buildColorThemes(child.themeKey || 'sky'),
+      moduleList: onboard.buildModuleList(modules),
+    });
   },
 
   onShow() {
-    const app = getApp();
-    const currentChildId = storage.getCurrentChildId();
+    const selectedThemeKey = this.data.selectedThemeKey || 'sky';
     this.setData({
-      theme: app.globalData.theme,
-      children: buildChildren(storage.getChildren(), currentChildId),
-      currentChildId,
+      theme: onboard.getTheme(selectedThemeKey),
     });
   },
 
   onBack() {
-    wx.navigateBack();
+    nav.navigateBack();
+  },
+
+  goChildList() {
+    nav.navigateTo('/pages/child-list/index');
   },
 
   onPickAvatar(e) {
-    this.setData({ selectedAvatar: e.currentTarget.dataset.avatar });
+    const avatar = (e.currentTarget.dataset && e.currentTarget.dataset.avatar)
+      || (e.detail && e.detail.key);
+    if (!avatar || avatar === this.data.selectedAvatar) return;
+
+    this.setData({ selectedAvatar: avatar });
   },
 
-  onNicknameInput(e) {
-    this.setData({ nickname: e.detail.value });
+  openNicknameEditor() {
+    wx.showModal({
+      title: '孩子昵称',
+      content: this.data.nickname || '',
+      editable: true,
+      placeholderText: '输入孩子昵称，例如：小宝',
+      confirmText: '确定',
+      success: (result) => {
+        if (!result.confirm) return;
+        const nickname = (result.content || '').trim().slice(0, 12);
+        this.setData({ nickname });
+      },
+    });
   },
 
-  onCreateChild() {
+  onToggleModule(e) {
+    const key = (e.detail && e.detail.key) || e.currentTarget.dataset.key;
+    const selectedModules = this.data.selectedModules.slice();
+    const idx = selectedModules.indexOf(key);
+    if (idx >= 0) {
+      if (selectedModules.length === 1) {
+        wx.showToast({ title: '至少保留一个学习模块', icon: 'none' });
+        return;
+      }
+      selectedModules.splice(idx, 1);
+    } else {
+      selectedModules.push(key);
+    }
+    this.setData({
+      selectedModules,
+      moduleList: onboard.buildModuleList(selectedModules),
+    });
+  },
+
+  onPickColor(e) {
+    const themeKey = (e.detail && e.detail.key) || e.currentTarget.dataset.key;
+    if (!themeKey) return;
+    this.setData({
+      selectedThemeKey: themeKey,
+      colorThemes: onboard.buildColorThemes(themeKey),
+      theme: onboard.getTheme(themeKey),
+    });
+  },
+
+  onSave() {
     const nickname = (this.data.nickname || '').trim();
     if (!nickname) {
       wx.showToast({ title: '请输入孩子昵称', icon: 'none' });
       return;
     }
-    storage.createChild({
+    if (!this.data.selectedThemeKey) {
+      wx.showToast({ title: '请选择主题颜色', icon: 'none' });
+      return;
+    }
+    if (!this.data.selectedModules.length) {
+      wx.showToast({ title: '至少选择一个学习模块', icon: 'none' });
+      return;
+    }
+    const input = {
       nickname,
       avatar: this.data.selectedAvatar,
-    });
-    this.setData({
-      nickname: '',
-      children: buildChildren(storage.getChildren(), storage.getCurrentChildId()),
-      currentChildId: storage.getCurrentChildId(),
-    });
+      themeKey: this.data.selectedThemeKey,
+      modules: this.data.selectedModules,
+    };
+    if (this.data.editingId) storage.updateChild(this.data.editingId, input);
+    else storage.createChild(input);
+    getApp().syncThemeAfterChildChange();
     getApp().globalData.completed = storage.getCompleted();
-    wx.showToast({ title: '已保存', icon: 'success' });
-  },
-
-  onSwitchChild(e) {
-    const id = e.currentTarget.dataset.id;
-    storage.switchChild(id);
-    this.setData({
-      currentChildId: storage.getCurrentChildId(),
-      children: buildChildren(storage.getChildren(), storage.getCurrentChildId()),
-    });
-    getApp().globalData.completed = storage.getCompleted();
-    wx.showToast({ title: '已切换', icon: 'success' });
+    wx.showToast({ title: this.data.editingId ? '已保存' : '已添加', icon: 'success' });
+    setTimeout(() => {
+      if (this.data.isFirstChild) {
+        wx.reLaunch({ url: '/pages/map/index' });
+        return;
+      }
+      nav.navigateBack();
+    }, 500);
   },
 });
-
-function buildChildren(children, currentChildId) {
-  return children.map((child) => Object.assign({}, child, {
-    isCurrent: child.id === currentChildId,
-    switchLabel: child.id === currentChildId ? '当前' : '切换',
-    avatarPath: child.avatar === 'girl' ? '/assets/images/planets/kid-girl.png' : '/assets/images/planets/kid-boy.png',
-  }));
-}

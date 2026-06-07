@@ -9,6 +9,8 @@ function save(data) {
 }
 
 function getThemeKey() {
+  const child = getCurrentChild();
+  if (child && child.themeKey) return child.themeKey;
   const data = load();
   if (data.nightTheme === true) return 'night';
   return data.themeKey || 'sky';
@@ -16,7 +18,15 @@ function getThemeKey() {
 
 function setThemeKey(key) {
   const data = load();
-  data.themeKey = key;
+  const childId = getCurrentChildId();
+  if (childId) {
+    data.children = (data.children || []).map((child) => {
+      if (child.id !== childId) return child;
+      return Object.assign({}, child, { themeKey: key, updatedAt: Date.now() });
+    });
+  } else {
+    data.themeKey = key;
+  }
   delete data.nightTheme;
   save(data);
 }
@@ -61,6 +71,8 @@ function createChild(input) {
     id: nowId('child'),
     nickname: (input.nickname || '').trim(),
     avatar: input.avatar || 'boy',
+    themeKey: input.themeKey || 'sky',
+    modules: normalizeModules(input.modules),
     createdAt: time,
     updatedAt: time,
   };
@@ -75,7 +87,7 @@ function createChild(input) {
     pinyinPracticeLog: [],
     wordStats: {
       pendingCount: 0,
-      todayCount: 0,
+      totalCount: 0,
       maxWrongCount: 0,
     },
   };
@@ -95,9 +107,30 @@ function updateChild(id, patch) {
   const data = load();
   data.children = (data.children || []).map((child) => {
     if (child.id !== id) return child;
-    return Object.assign({}, child, patch, { updatedAt: Date.now() });
+    const nextPatch = Object.assign({}, patch);
+    if (nextPatch.modules) nextPatch.modules = normalizeModules(nextPatch.modules);
+    return Object.assign({}, child, nextPatch, { updatedAt: Date.now() });
   });
   save(data);
+}
+
+function deleteChild(id) {
+  const data = load();
+  const children = data.children || [];
+  if (!children.some((child) => child.id === id)) return false;
+  data.children = children.filter((child) => child.id !== id);
+  if (data.childData) delete data.childData[id];
+  if (data.currentChildId === id) {
+    data.currentChildId = data.children[0] ? data.children[0].id : '';
+  }
+  save(data);
+  return true;
+}
+
+function normalizeModules(modules) {
+  const allowed = ['phonics', 'pinyin', 'words'];
+  const source = Array.isArray(modules) && modules.length ? modules : allowed;
+  return allowed.filter((key) => source.indexOf(key) >= 0);
 }
 
 function getChildData(childId) {
@@ -195,20 +228,12 @@ function appendPinyinPracticeLog(result, childId) {
 }
 
 function getWordStats(childId) {
-  const childData = getChildData(childId);
-  const words = childData.words || load().words || [];
-  const characters = childData.characters || load().characters || [];
-  const activeCharacterIds = {};
-  words.forEach((word) => {
-    (word.unknownCharacterRefs || []).forEach((ref) => {
-      activeCharacterIds[ref.characterId] = true;
-    });
-  });
-  const activeCharacters = characters.filter((character) => activeCharacterIds[character.id]);
+  const characters = getCharacters(childId);
+  const pendingCharacters = characters.filter((character) => character.status !== '已掌握');
   return {
-    pendingCount: activeCharacters.filter((character) => character.status !== '已掌握').length,
-    todayCount: words.filter((word) => word.needsDictation !== false).length,
-    maxWrongCount: activeCharacters.reduce((max, character) => Math.max(max, character.wrongCount || 0), 0),
+    pendingCount: pendingCharacters.length,
+    totalCount: characters.length,
+    maxWrongCount: characters.reduce((max, character) => Math.max(max, character.wrongCount || 0), 0),
   };
 }
 
@@ -232,6 +257,46 @@ function findWordByText(text, childId, excludeId) {
     word.id !== excludeId
     && String(word.text || '').trim() === normalized
   )) || null;
+}
+
+function findCharacterById(id, childId) {
+  return getCharacters(childId).find((character) => character.id === id) || null;
+}
+
+function findCharacterByText(text, childId) {
+  const normalized = String(text || '').trim();
+  return getCharacters(childId).find((character) => character.text === normalized) || null;
+}
+
+function appendRelatedWordToCharacter(character, wordText, sourceLabel, time) {
+  if (!wordText || !character || wordText.indexOf(character.text) < 0) return character;
+  const texts = (character.relatedWordTexts || []).slice();
+  if (texts.indexOf(wordText) < 0) texts.unshift(wordText);
+  const meta = Object.assign({}, character.relatedWordMeta || {});
+  meta[wordText] = sourceLabel || '听写';
+  return Object.assign({}, character, {
+    relatedWordTexts: texts.slice(0, 30),
+    relatedWordMeta: meta,
+    updatedAt: time,
+  });
+}
+
+function linkWordToWrongChars(wordText, charTexts, childId, sourceLabel, time) {
+  const normalizedText = String(wordText || '').trim();
+  if (!normalizedText || !charTexts.length) return;
+  const characters = getCharacters(childId).slice();
+  charTexts.forEach((charText) => {
+    if (normalizedText.indexOf(charText) < 0) return;
+    const index = characters.findIndex((item) => item.text === charText);
+    if (index < 0) return;
+    characters[index] = appendRelatedWordToCharacter(
+      characters[index],
+      normalizedText,
+      sourceLabel,
+      time,
+    );
+  });
+  writeCharacters(characters, childId);
 }
 
 function writeWords(words, childId) {
@@ -295,31 +360,39 @@ function updateUnknownCharacters(text, unknownCharacters, childId, time, increas
 
 function addWord(input, childId) {
   const time = Date.now();
-  const unknownCharacterRefs = updateUnknownCharacters(
-    input.text || '',
-    input.unknownCharacters || [],
-    childId,
-    time,
-    true,
-  );
+  const dictationOnly = !!input.dictationOnly;
+  const unknownCharacters = input.unknownCharacters || [];
+  let unknownCharacterRefs = input.unknownCharacterRefs;
+  if (!unknownCharacterRefs && !dictationOnly && unknownCharacters.length) {
+    unknownCharacterRefs = updateUnknownCharacters(
+      input.text || '',
+      unknownCharacters,
+      childId,
+      time,
+      true,
+    );
+  }
+  unknownCharacterRefs = unknownCharacterRefs || [];
   const word = Object.assign(
     {
       id: nowId('word'),
       text: '',
       pinyin: '',
       tone: 3,
-      wrongCount: 1,
-      status: '待复习',
+      wrongCount: dictationOnly ? 0 : (unknownCharacters.length ? 1 : 0),
+      status: dictationOnly ? '听写准备' : (unknownCharacters.length ? '待复习' : '听写准备'),
       sourceType: 'daily',
       sourceLabel: '日常',
       sourceId: 'daily',
       needsDictation: true,
+      dictationOnly: dictationOnly,
       unknownCharacterRefs,
       createdAt: time,
       updatedAt: time,
     },
     input,
     {
+      unknownCharacterRefs,
       updatedAt: time,
     },
   );
@@ -376,6 +449,177 @@ function markWordWrong(id, childId) {
   return updateWord(id, { lastWrongAt: time, status: '待复习' }, childId);
 }
 
+function markWordCorrect(id, childId) {
+  const word = findWordById(id, childId);
+  if (!word) return null;
+  const refIds = {};
+  (word.unknownCharacterRefs || []).forEach((ref) => { refIds[ref.characterId] = true; });
+  const time = Date.now();
+  if (Object.keys(refIds).length) {
+    const characters = getCharacters(childId).map((character) => {
+      if (!refIds[character.id]) return character;
+      const correctCount = (character.correctCount || 0) + 1;
+      const newStatus = correctCount >= 3 ? '已掌握' : character.status;
+      return Object.assign({}, character, {
+        correctCount: correctCount,
+        status: newStatus,
+        lastCorrectAt: time,
+        updatedAt: time,
+      });
+    });
+    writeCharacters(characters, childId);
+  }
+  return updateWord(id, { lastCorrectAt: time }, childId);
+}
+
+function markWordWrongWithChars(id, wrongChars, childId) {
+  const word = findWordById(id, childId);
+  if (!word) return null;
+  const time = Date.now();
+  const wrongCharTexts = Array.from(new Set((wrongChars || []).map((c) => c.char).filter(Boolean)));
+  if (!wrongCharTexts.length) return word;
+  const newRefs = updateUnknownCharacters(word.text, wrongCharTexts, childId, time, true);
+  const existingRefs = word.unknownCharacterRefs || [];
+  const refMap = {};
+  existingRefs.forEach((ref) => { refMap[ref.text] = ref; });
+  newRefs.forEach((ref) => { refMap[ref.text] = ref; });
+  const mergedRefs = Object.keys(refMap).map((key) => refMap[key]);
+  return updateWord(id, {
+    lastWrongAt: time,
+    status: word.dictationOnly ? '听写准备' : '待复习',
+    unknownCharacterRefs: mergedRefs,
+  }, childId);
+}
+
+function deleteWord(id, childId) {
+  const targetChildId = childId || getCurrentChildId();
+  const word = findWordById(id, targetChildId);
+  if (!word) return false;
+
+  const words = getWords(targetChildId).filter((item) => item.id !== id);
+  writeWords(words, targetChildId);
+
+  const referencedIds = {};
+  words.forEach((item) => {
+    (item.unknownCharacterRefs || []).forEach((ref) => {
+      if (ref.characterId) referencedIds[ref.characterId] = true;
+    });
+  });
+  const characters = getCharacters(targetChildId).filter((character) => referencedIds[character.id]);
+  if (characters.length !== getCharacters(targetChildId).length) {
+    writeCharacters(characters, targetChildId);
+  }
+  return true;
+}
+
+function deleteCharacter(id, childId) {
+  const targetChildId = childId || getCurrentChildId();
+  if (!findCharacterById(id, targetChildId)) return false;
+
+  writeCharacters(getCharacters(targetChildId).filter((character) => character.id !== id), targetChildId);
+
+  const words = getWords(targetChildId).map((word) => {
+    const refs = (word.unknownCharacterRefs || []).filter((ref) => ref.characterId !== id);
+    if (refs.length === (word.unknownCharacterRefs || []).length) return word;
+    return Object.assign({}, word, {
+      unknownCharacterRefs: refs,
+      updatedAt: Date.now(),
+    });
+  });
+  writeWords(words, targetChildId);
+  return true;
+}
+
+function recordWrongCharsFromDictation(wordText, wrongChars, childId, meta) {
+  const normalizedText = String(wordText || '').trim();
+  const wrongCharTexts = Array.from(new Set((wrongChars || []).map((item) => item.char).filter(Boolean)));
+  if (!normalizedText || !wrongCharTexts.length) return [];
+
+  const time = Date.now();
+  const sourceLabel = (meta && meta.sourceLabel) || '听写';
+  updateUnknownCharacters(normalizedText, wrongCharTexts, childId, time, true);
+  linkWordToWrongChars(normalizedText, wrongCharTexts, childId, sourceLabel, time);
+  return wrongCharTexts;
+}
+
+function recordManualWrongChars(wordText, unknownChars, childId, meta) {
+  const normalizedText = String(wordText || '').trim();
+  const texts = Array.from(new Set((unknownChars || []).map((item) => item.char).filter(Boolean)));
+  if (!normalizedText) return null;
+
+  const time = Date.now();
+  const sourceLabel = (meta && meta.sourceLabel) || '手动录入';
+  const targetChildId = childId || getCurrentChildId();
+  const existing = getCharacters(targetChildId);
+  const prevLinked = {};
+  existing.forEach((character) => {
+    if ((character.relatedWordTexts || []).indexOf(normalizedText) >= 0) {
+      prevLinked[character.text] = true;
+    }
+  });
+
+  if (!texts.length) return [];
+
+  const characters = existing.slice();
+  texts.forEach((charText) => {
+    if (normalizedText.indexOf(charText) < 0) return;
+    const index = characters.findIndex((item) => item.text === charText);
+    let record;
+    if (index >= 0) {
+      record = Object.assign({}, characters[index], {
+        status: '待复习',
+        updatedAt: time,
+      });
+      if (!prevLinked[charText]) record.lastWrongAt = time;
+      characters[index] = appendRelatedWordToCharacter(record, normalizedText, sourceLabel, time);
+    } else {
+      record = appendRelatedWordToCharacter({
+        id: nowId('character'),
+        text: charText,
+        wrongCount: 1,
+        status: '待复习',
+        lastWrongAt: time,
+        createdAt: time,
+        updatedAt: time,
+      }, normalizedText, sourceLabel, time);
+      characters.unshift(record);
+    }
+  });
+  writeCharacters(characters, targetChildId);
+  return texts;
+}
+
+function syncWordUnknownChars(id, unknownChars, childId) {
+  const word = findWordById(id, childId);
+  if (!word) return null;
+  return recordManualWrongChars(word.text, unknownChars, childId, {
+    sourceLabel: word.sourceLabel || '手动录入',
+  });
+}
+
+function markCharacterWrong(id, childId) {
+  const targetChildId = childId || getCurrentChildId();
+  const time = Date.now();
+  let updated = null;
+  const characters = getCharacters(targetChildId).map((character) => {
+    if (character.id !== id) return character;
+    updated = Object.assign({}, character, {
+      wrongCount: (character.wrongCount || 0) + 1,
+      status: '待复习',
+      lastWrongAt: time,
+      updatedAt: time,
+    });
+    return updated;
+  });
+  if (!updated) return null;
+  writeCharacters(characters, targetChildId);
+  return updated;
+}
+
+function recordWrongCharsOnly(text, wrongChars, childId, meta) {
+  return recordWrongCharsFromDictation(text, wrongChars, childId, meta);
+}
+
 module.exports = {
   getCompleted,
   setCompleted,
@@ -396,12 +640,24 @@ module.exports = {
   createChild,
   switchChild,
   updateChild,
+  deleteChild,
   getWordStats,
   getWords,
   getCharacters,
   findWordById,
   findWordByText,
+  findCharacterById,
+  findCharacterByText,
   addWord,
   updateWord,
+  deleteWord,
+  deleteCharacter,
+  markCharacterWrong,
+  syncWordUnknownChars,
+  recordWrongCharsFromDictation,
+  recordManualWrongChars,
   markWordWrong,
+  markWordCorrect,
+  markWordWrongWithChars,
+  recordWrongCharsOnly,
 };

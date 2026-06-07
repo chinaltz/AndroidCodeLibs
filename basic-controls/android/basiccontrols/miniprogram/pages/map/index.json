@@ -1,9 +1,7 @@
 {
+  "disableScroll": false,
   "usingComponents": {
-    "bc-card": "/basic-controls/components/bc-card/bc-card",
-    "bc-button": "/basic-controls/components/bc-button/bc-button",
-    "bc-progress": "/basic-controls/components/bc-progress/bc-progress",
-    "bc-chip": "/basic-controls/components/bc-chip/bc-chip",
-    "bc-bottom-tab": "/basic-controls/components/bc-bottom-tab/bc-bottom-tab"
+    "bc-bottom-tab": "/basic-controls/components/bc-bottom-tab/bc-bottom-tab",
+    "bc-button": "/basic-controls/components/bc-button/bc-button"
   }
 }

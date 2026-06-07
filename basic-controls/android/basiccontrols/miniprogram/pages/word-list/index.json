@@ -1,5 +1,10 @@
 {
   "usingComponents": {
-    "bc-top-bar": "/basic-controls/components/bc-top-bar/bc-top-bar"
+    "bc-top-bar": "/basic-controls/components/bc-top-bar/bc-top-bar",
+    "bc-button": "/basic-controls/components/bc-button/bc-button",
+    "bc-choice-card": "/basic-controls/components/bc-choice-card/bc-choice-card",
+    "bc-choice-chip": "/basic-controls/components/bc-choice-chip/bc-choice-chip",
+    "bc-input": "/basic-controls/components/bc-input/bc-input",
+    "bc-sticky-footer": "/basic-controls/components/bc-sticky-footer/bc-sticky-footer"
   }
 }

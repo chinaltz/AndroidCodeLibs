@@ -1,0 +1,13 @@
+{
+  "localPack": {
+    "name": "汉语拼音(mp3)",
+    "defaultPath": "/Users/litingzhe/Downloads/汉语拼音(mp3)",
+    "materialsPath": "materials/pinyin-audio-pack",
+    "structure": {
+      "initials": "声母",
+      "finals": "韵母",
+      "syllables": "所有有拼音"
+    }
+  },
+  "policy": "local_only"
+}

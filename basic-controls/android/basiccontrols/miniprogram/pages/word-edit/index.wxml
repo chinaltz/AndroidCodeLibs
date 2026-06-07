@@ -1,11 +1,20 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="批量录入" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+  <bc-top-bar title="手动录入错字" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
 
   <scroll-view scroll-y class="page-body page-scroll">
-    <view class="input-panel">
-      <view class="panel-title">批量输入听写词</view>
-      <view class="panel-desc">多个词用空格、逗号或顿号分开，所有字自动平铺。</view>
-      <textarea class="batch-input" value="{{batchText}}" placeholder="例如：时候、游泳、慢慢" maxlength="200" bindinput="onBatchInput" />
+    <bc-card theme="{{theme}}">
+      <view class="panel-title">批量输入词语</view>
+      <view class="panel-desc">选择词语中的每个字并标记“会 / 不会”，不会的字将保存到错字库。</view>
+      <view
+        class="batch-input-picker"
+        style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};"
+        bindtap="openBatchEditor"
+      >
+        <view class="batch-input-value {{batchText ? '' : 'is-placeholder'}}">
+          {{batchText || '点击输入词语，例如：时候、游泳、慢慢'}}
+        </view>
+        <view class="batch-input-action" style="color: {{theme.brandPrimary}};">{{batchText ? '修改' : '输入'}}</view>
+      </view>
 
       <view wx:if="{{charPool.length}}" class="char-pool">
         <view
@@ -21,46 +30,55 @@
         <view wx:for="{{judgeList}}" wx:key="id" class="judge-item">
           <view class="ji-char {{item.status === 'known' ? 'is-known' : ''}} {{item.status === 'unknown' ? 'is-unknown' : ''}}">{{item.char}}</view>
           <view class="ji-btns">
-            <view
-              class="ji-btn {{item.status === 'known' ? 'ji-btn--active-known' : ''}}"
+            <bc-choice-chip
+              text="会"
+              selected="{{item.status === 'known'}}"
+              theme="{{theme}}"
               data-id="{{item.id}}"
               data-judge="known"
-              bindtap="onJudgeTap"
-            >会</view>
-            <view
-              class="ji-btn ji-btn--danger {{item.status === 'unknown' ? 'ji-btn--active-unknown' : ''}}"
+              bind:tap="onJudgeTap"
+            />
+            <bc-choice-chip
+              text="不会"
+              selected="{{item.status === 'unknown'}}"
+              danger="{{true}}"
+              theme="{{theme}}"
               data-id="{{item.id}}"
               data-judge="unknown"
-              bindtap="onJudgeTap"
-            >不会</view>
+              bind:tap="onJudgeTap"
+            />
           </view>
         </view>
 
         <view wx:if="{{!selectionComplete}}" class="selection-hint">请把当前词的所有字都点到下方，再逐字选择“会 / 不会”。</view>
-        <view wx:if="{{allDecided}}" class="ji-save-row" bindtap="onSave">保存</view>
+        <view wx:if="{{allDecided}}" class="ji-save-row">
+          <bc-button text="保存到错字库" variant="primary" block="{{true}}" theme="{{theme}}" bind:tap="onSave" />
+        </view>
       </view>
-    </view>
+    </bc-card>
 
     <view class="saved-panel">
-      <view class="saved-head">
-        <view>
-          <view class="panel-title">已保存词汇</view>
-          <view class="panel-desc">每个完整词保存一条；不会字显示关联关系。</view>
-        </view>
-        <view class="saved-count">{{savedWords.length}} 个</view>
-      </view>
-
-      <view wx:if="{{savedWords.length}}" class="saved-list">
-        <view wx:for="{{savedWords}}" wx:key="id" class="saved-word {{item.colorClass}}">
-          <view class="saved-word-text">{{item.text}}</view>
-          <view class="saved-word-main">
-            <view class="saved-word-pinyin">{{item.displayPinyin}}</view>
-            <view class="saved-word-relation">{{item.relationLabel ? '关联不会字：' + item.relationLabel : '全部会写，仅听写'}}</view>
+      <bc-card theme="{{theme}}">
+        <view class="saved-head">
+          <view>
+            <view class="panel-title">本次已录入错字</view>
+            <view class="panel-desc">错字已长期保存，可在“全部错字”中管理。</view>
           </view>
-          <view class="saved-state">已保存</view>
+          <bc-chip text="{{savedEntries.length}} 组" variant="success" theme="{{theme}}" />
         </view>
-      </view>
-      <view wx:else class="empty-hint">还没有保存词汇。</view>
+
+        <view wx:if="{{savedEntries.length}}" class="saved-list">
+          <view wx:for="{{savedEntries}}" wx:key="id" class="saved-word color-0">
+            <view class="saved-word-text">{{item.word}}</view>
+            <view class="saved-word-main">
+              <view class="saved-word-pinyin">已保存错字</view>
+              <view class="saved-word-relation">{{item.chars}}</view>
+            </view>
+          </view>
+        </view>
+        <view wx:else class="empty-hint">还没有保存错字。</view>
+      </bc-card>
     </view>
+    <view class="word-edit-safe-bottom"></view>
   </scroll-view>
 </view>

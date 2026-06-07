@@ -1,5 +1,5 @@
 <view
-  class="bc-btn bc-btn--{{variant}} {{disabled ? 'is-disabled' : ''}} {{pressed ? 'is-pressed' : ''}}"
+  class="bc-btn bc-btn--{{variant}} bc-btn--{{size}} {{disabled ? 'is-disabled' : ''}} {{pressed ? 'is-pressed' : ''}}"
   style="--bc-brand: {{theme.brandPrimary}}; --bc-brand-dark: {{theme.brandDark}}; --bc-text: {{theme.textPrimary}}; --bc-surface: {{theme.surfaceRaised}}; --bc-border: {{theme.borderDefault}}; --bc-danger: {{theme.danger}};"
   bindtouchstart="onTouchStart"
   bindtouchend="onTouchEnd"

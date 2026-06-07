@@ -1,5 +1,5 @@
 const storage = require('../../utils/storage');
-const pinyin = require('../../utils/pinyin');
+const nav = require('../../utils/nav');
 
 function splitWords(text) {
   const result = [];
@@ -13,10 +13,10 @@ function splitWords(text) {
   return result.slice(0, 30);
 }
 
-function buildCharPool(wordList, queuedIds, savedWordTexts) {
+function buildCharPool(wordList, queuedIds, processedWordTexts) {
   const items = [];
   wordList.forEach((word) => {
-    const wordSaved = savedWordTexts.indexOf(word) >= 0;
+    const wordProcessed = processedWordTexts.indexOf(word) >= 0;
     Array.from(word).forEach((char, idx) => {
       const id = word + '__' + idx;
       const inQueue = queuedIds.indexOf(id) >= 0;
@@ -26,7 +26,7 @@ function buildCharPool(wordList, queuedIds, savedWordTexts) {
         index: idx,
         word: word,
         inQueue: inQueue,
-        saved: wordSaved,
+        saved: wordProcessed,
       });
     });
   });
@@ -53,14 +53,6 @@ function selectedWordsComplete(wordList, queuedItems) {
   });
 }
 
-function displaySavedWords(words) {
-  return words.map((word, index) => Object.assign({}, word, {
-    colorClass: 'color-' + (index % 4),
-    displayPinyin: word.pinyin || pinyin.toPinyin(word.text),
-    relationLabel: (word.unknownCharacterRefs || []).map((ref) => ref.text).join('、'),
-  }));
-}
-
 Page({
   data: {
     theme: {},
@@ -69,50 +61,42 @@ Page({
     judgeList: [],
     allDecided: false,
     selectionComplete: false,
-    savedWords: [],
+    savedEntries: [],
   },
 
   _wordList: [],
   _queuedItems: [],
-  _savedWordTexts: [],
-  _editingWord: null,
-
-  onLoad(options) {
-    const editId = options && options.id ? options.id : '';
-    const word = editId ? storage.findWordById(editId) : null;
-    if (!word) return;
-
-    const unknownIndexes = {};
-    (word.unknownChars || []).forEach((item) => { unknownIndexes[item.index] = true; });
-    this._editingWord = word;
-    this._wordList = [word.text];
-    this._queuedItems = Array.from(word.text).map((char, index) => ({
-      id: word.text + '__' + index,
-      char: char,
-      index: index,
-      word: word.text,
-      status: unknownIndexes[index] ? 'unknown' : 'known',
-    }));
-    this._render(word.text);
-  },
+  _processedWordTexts: [],
 
   onShow() {
     this.setData({
       theme: getApp().globalData.theme,
-      savedWords: displaySavedWords(storage.getWords()),
     });
   },
 
   onBack() {
-    wx.navigateBack();
+    nav.navigateBack();
   },
 
-  onBatchInput(e) {
-    const batchText = e.detail.value;
-    this._wordList = splitWords(batchText);
-    this._queuedItems = this._queuedItems.filter((q) => {
-      return this._wordList.some((w) => q.id.indexOf(w + '__') === 0);
+  openBatchEditor() {
+    wx.showModal({
+      title: '批量输入听写词',
+      content: this.data.batchText || '',
+      editable: true,
+      placeholderText: '用逗号、顿号或空格分隔词语',
+      confirmText: '确定',
+      success: (result) => {
+        if (!result.confirm) return;
+        this._applyBatchText((result.content || '').slice(0, 200));
+      },
     });
+  },
+
+  _applyBatchText(batchText) {
+    this._wordList = splitWords(batchText);
+    this._queuedItems = this._queuedItems.filter((q) => (
+      this._wordList.some((w) => q.id.indexOf(w + '__') === 0)
+    ));
     this._render(batchText);
   },
 
@@ -152,52 +136,38 @@ Page({
       wordMap[item.word].push(item);
     });
 
+    const savedEntries = [];
     Object.keys(wordMap).forEach((word) => {
       const chars = wordMap[word];
-      const editingWord = this._editingWord && this._editingWord.text === word
-        ? this._editingWord
-        : null;
       const unknownChars = [];
-      const unknownCharacters = [];
       chars.forEach((item) => {
         if (item.status === 'unknown') {
           unknownChars.push({ index: item.index, char: item.char });
-          if (unknownCharacters.indexOf(item.char) < 0) {
-            unknownCharacters.push(item.char);
-          }
         }
       });
 
-      const patch = {
-        text: word,
-        pinyin: pinyin.toPinyin(word),
-        sourceId: editingWord ? editingWord.sourceId : 'manual',
-        sourceType: editingWord ? editingWord.sourceType : 'manual',
-        sourceLabel: editingWord ? editingWord.sourceLabel : '手动录入',
-        unknownScope: 'chars',
-        unknownChars: unknownChars,
-        unknownCharacters: unknownCharacters,
-        dictationOnly: unknownCharacters.length === 0,
-        wrongCount: unknownCharacters.length ? 1 : 0,
-        needsDictation: true,
-        status: unknownCharacters.length ? '待复习' : '听写准备',
-        meta: editingWord ? editingWord.meta : '手动录入',
-      };
-
-      const duplicate = storage.findWordByText(word, null, null);
-      if (duplicate) storage.updateWord(duplicate.id, patch);
-      else storage.addWord(patch);
-
-      this._savedWordTexts.push(word);
+      if (unknownChars.length) {
+        storage.recordManualWrongChars(word, unknownChars, null, {
+          sourceLabel: '手动录入错字',
+        });
+        savedEntries.push({
+          id: `manual_${Date.now()}_${word}`,
+          word,
+          chars: unknownChars.map((item) => item.char).join('、'),
+        });
+      }
+      this._processedWordTexts.push(word);
     });
 
     this._queuedItems = [];
-    this._editingWord = null;
     this.setData({
-      savedWords: displaySavedWords(storage.getWords()),
+      savedEntries: savedEntries.concat(this.data.savedEntries),
     });
     this._render(this.data.batchText);
-    wx.showToast({ title: '已保存', icon: 'success' });
+    wx.showToast({
+      title: savedEntries.length ? '错字已保存' : '没有标记不会的字',
+      icon: savedEntries.length ? 'success' : 'none',
+    });
   },
 
   _render(batchText) {
@@ -207,7 +177,7 @@ Page({
     const selectionComplete = selectedWordsComplete(this._wordList, this._queuedItems);
     this.setData({
       batchText: batchText,
-      charPool: buildCharPool(this._wordList, queuedIds, this._savedWordTexts),
+      charPool: buildCharPool(this._wordList, queuedIds, this._processedWordTexts),
       judgeList: buildJudgeList(this._queuedItems),
       allDecided: allDecided && selectionComplete,
       selectionComplete: selectionComplete,

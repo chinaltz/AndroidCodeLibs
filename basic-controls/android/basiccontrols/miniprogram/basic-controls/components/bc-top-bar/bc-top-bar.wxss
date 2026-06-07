@@ -1,3 +1,10 @@
+:host {
+  display: block;
+  flex: 0 0 auto;
+  position: relative;
+  z-index: 30;
+}
+
 .bc-topbar {
   flex: 0 0 auto;
   box-sizing: border-box;
@@ -12,7 +19,7 @@
 }
 
 .bc-topbar__back {
-  width: 64rpx;
+  width: 120rpx;
   height: 64rpx;
   display: flex;
   align-items: center;
@@ -31,6 +38,14 @@
   font-size: 34rpx;
 }
 
-.bc-topbar__spacer {
-  width: 64rpx;
+.bc-topbar__action {
+  width: 120rpx;
+  color: var(--bc-brand);
+  font-size: 24rpx;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.bc-topbar__action.is-hidden {
+  visibility: hidden;
 }

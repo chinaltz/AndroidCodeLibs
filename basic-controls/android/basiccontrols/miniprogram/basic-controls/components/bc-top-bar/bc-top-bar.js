@@ -2,6 +2,7 @@ Component({
   properties: {
     title: { type: String, value: '' },
     showBack: { type: Boolean, value: false },
+    actionText: { type: String, value: '' },
     bgColor: { type: String, value: '#DDF4FF' },
     theme: { type: Object, value: {} },
   },
@@ -28,6 +29,9 @@ Component({
   methods: {
     onBack() {
       this.triggerEvent('back');
+    },
+    onAction() {
+      if (this.data.actionText) this.triggerEvent('action');
     },
   },
 });

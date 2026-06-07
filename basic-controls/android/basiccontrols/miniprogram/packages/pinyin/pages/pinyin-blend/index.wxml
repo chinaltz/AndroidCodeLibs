@@ -1,0 +1,63 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="自由拼读" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="blend-stage">
+      <view class="blend-tag">声母 + 韵母</view>
+      <view class="blend-equation">
+        <view class="blend-part">{{selectedInitial}}</view>
+        <view class="blend-sign">+</view>
+        <view class="blend-part">{{selectedFinal}}</view>
+        <view class="blend-sign">→</view>
+        <view class="blend-result">{{result}}</view>
+      </view>
+      <bc-button text="▶ 播放完整音节" variant="primary" theme="{{theme}}" bind:tap="playBlend" />
+    </view>
+
+    <bc-card theme="{{theme}}">
+      <view class="selector-title">选择声母</view>
+      <view class="selector-grid">
+        <bc-choice-chip
+          wx:for="{{initials}}"
+          wx:key="symbol"
+          text="{{item.symbol}}"
+          selected="{{item.active}}"
+          theme="{{theme}}"
+          data-symbol="{{item.symbol}}"
+          bind:tap="selectInitial"
+        />
+      </view>
+    </bc-card>
+
+    <bc-card theme="{{theme}}">
+      <view class="selector-title">选择当前离线可拼的韵母</view>
+      <view class="selector-grid">
+        <bc-choice-chip
+          wx:for="{{finals}}"
+          wx:key="id"
+          text="{{item.symbol}}"
+          selected="{{item.active}}"
+          theme="{{theme}}"
+          data-symbol="{{item.symbol}}"
+          bind:tap="selectFinal"
+        />
+      </view>
+    </bc-card>
+
+    <bc-card theme="{{theme}}">
+      <view class="selector-title">选择声调</view>
+      <view class="tone-grid">
+        <bc-choice-chip
+          wx:for="{{tones}}"
+          wx:key="tone"
+          text="{{item.tone}} 声 · {{item.label}}"
+          selected="{{item.active}}"
+          theme="{{theme}}"
+          data-tone="{{item.tone}}"
+          bind:tap="selectTone"
+        />
+      </view>
+      <view class="rule-note">{{ruleNote}}</view>
+    </bc-card>
+  </scroll-view>
+</view>

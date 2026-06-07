@@ -1,41 +1,16 @@
-<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <view class="home-header" style="height: {{headerHeight}}px; padding-top: {{statusBarHeight}}px; background: {{theme.pageStart}};">
-    <image class="home-logo home-logo--image" src="/assets/images/planets/planet-learning.png" mode="aspectFit" />
+<view class="map-page" style="min-height: {{pageHeight}}px; background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <view class="map-header home-header" style="height: {{headerHeight}}px; padding-top: {{statusBarHeight}}px; background: {{theme.pageStart}};">
+    <image class="home-logo home-logo--image" src="/assets/icons/app-learning.png" mode="aspectFit" />
     <view class="home-title">
       <view class="home-name" style="color: {{theme.textPrimary}};">学习星球</view>
       <view class="home-slogan" style="color: {{theme.textTertiary}};">{{childSubtitle}}</view>
     </view>
   </view>
 
-  <scroll-view scroll-y class="page-body page-scroll">
-    <block wx:if="{{!child}}">
-      <view class="onboard-hero">
-        <view class="onboard-copy">
-          <view class="onboard-title" style="color: {{theme.textPrimary}};">选择孩子头像</view>
-          <view class="onboard-subtitle" style="color: {{theme.textTertiary}};">数据只保存在本机，用昵称区分不同孩子。</view>
-        </view>
-        <image class="onboard-planet" src="/assets/images/planets/planet-learning.png" mode="aspectFit" />
-      </view>
-
-      <view class="avatar-grid">
-        <view class="avatar-card {{selectedAvatar === 'boy' ? 'is-selected' : ''}}" data-avatar="boy" bindtap="onPickAvatar">
-          <image class="avatar-image" src="/assets/images/planets/kid-boy.png" mode="aspectFit" />
-          <view class="avatar-title">男孩</view>
-        </view>
-        <view class="avatar-card {{selectedAvatar === 'girl' ? 'is-selected' : ''}}" data-avatar="girl" bindtap="onPickAvatar">
-          <image class="avatar-image" src="/assets/images/planets/kid-girl.png" mode="aspectFit" />
-          <view class="avatar-title">女孩</view>
-        </view>
-      </view>
-
-      <view class="nickname-panel {{selectedAvatar ? 'show' : ''}}">
-        <input class="nickname-input" value="{{nickname}}" placeholder="输入孩子昵称，例如：小宝" maxlength="12" bindinput="onNicknameInput" />
-        <bc-button text="保存并开始" variant="primary" theme="{{theme}}" bind:tap="onSaveChild" />
-      </view>
-    </block>
-
-    <block wx:else>
+  <view class="map-body map-body--tab">
+    <block wx:if="{{child}}">
       <view class="adventure-hero">
+        <image class="hero-background" src="/assets/images/home/hero-pet-learning.png" mode="aspectFill" />
         <view class="hero-top">
           <view class="child-chip" bindtap="goChildren">
             <image class="child-avatar" src="{{childAvatarPath}}" mode="aspectFit" />
@@ -44,70 +19,76 @@
               <view class="child-meta">{{childrenCount}} 个本地档案</view>
             </view>
           </view>
-          <view class="child-switch" bindtap="goChildren">切换</view>
+          <view class="child-switch" bindtap="openSwitchSheet">切换</view>
         </view>
         <view class="hero-copy">
           <view class="hero-eyebrow">今日冒险</view>
-          <view class="hero-title">去星球地图闯关</view>
-          <view class="hero-subtitle">先完成听写和音标，再领取积分奖励。</view>
+          <view class="hero-title">完成今日学习任务</view>
+          <view class="hero-subtitle">按已开启的学习模块完成今天的任务。</view>
         </view>
-        <image class="hero-kid" src="{{childAvatarPath}}" mode="aspectFit" />
-        <image class="hero-planet hero-planet-main" src="/assets/images/planets/planet-learning.png" mode="aspectFit" />
-        <image class="hero-planet hero-planet-words" src="/assets/images/planets/planet-words.png" mode="aspectFit" />
       </view>
 
-      <view class="metrics-rail">
-        <view class="metric-card">
+      <view class="metrics-rail" style="grid-template-columns: repeat({{enabledModuleCount}}, 1fr);">
+        <view wx:if="{{enabledModules.phonics}}" class="metric-card">
           <view class="metric-value">{{phonicsText}}</view>
           <view class="metric-label">音标进度</view>
         </view>
-        <view class="metric-card">
+        <view wx:if="{{enabledModules.words}}" class="metric-card">
           <view class="metric-value">{{wordPendingCount}}</view>
           <view class="metric-label">错字待练</view>
         </view>
-        <view class="metric-card">
-          <view class="metric-value">{{dictationTodayCount}}</view>
-          <view class="metric-label">今日听写</view>
+        <view wx:if="{{enabledModules.pinyin}}" class="metric-card">
+          <view class="metric-value">{{pinyinText}}</view>
+          <view class="metric-label">拼音进度</view>
         </view>
       </view>
 
       <view class="section-line">
-        <view class="section-title" style="color: {{theme.textPrimary}};">今日任务</view>
-        <view class="section-action" bindtap="goChildren">档案</view>
+        <view class="section-title" style="color: {{theme.textPrimary}};">当前任务</view>
       </view>
-      <view class="quest-grid">
-        <view wx:for="{{todayQuests}}" wx:key="key" class="quest-card" data-key="{{item.key}}" bindtap="onPlanetTap">
+      <view class="quest-grid quest-grid--last">
+        <view wx:for="{{todayQuests}}" wx:key="key" class="quest-card" data-path="{{item.path}}" bindtap="onQuestTap">
           <image class="quest-image" src="{{item.image}}" mode="aspectFit" />
           <view class="quest-main">
             <view class="quest-title">{{item.title}}</view>
             <view class="quest-desc">{{item.desc}}</view>
           </view>
-          <view class="quest-play">开始</view>
-        </view>
-      </view>
-
-      <view class="section-line">
-        <view class="section-title" style="color: {{theme.textPrimary}};">星球地图</view>
-        <view class="section-note">5 个学习区域</view>
-      </view>
-      <view class="planet-map">
-        <view
-          wx:for="{{planets}}"
-          wx:key="key"
-          class="planet-tile {{item.coming ? 'is-coming' : ''}}"
-          data-key="{{item.key}}"
-          bindtap="onPlanetTap"
-          style="--planet-accent: {{item.accent}};"
-        >
-          <view class="tile-badge">{{item.badge}}</view>
-          <image class="tile-image" src="{{item.image}}" mode="aspectFit" />
-          <view class="tile-title">{{item.title}}</view>
-          <view class="tile-desc">{{item.desc}}</view>
-          <view class="tile-stat">{{item.stat}}</view>
+          <view class="quest-play">
+            <bc-button
+              text="开始"
+              size="compact"
+              variant="primary"
+              theme="{{theme}}"
+              data-path="{{item.path}}"
+              catch:tap="onQuestTap"
+            />
+          </view>
         </view>
       </view>
     </block>
-  </scroll-view>
+  </view>
 
-  <bc-bottom-tab wx:if="{{child}}" tabs="{{tabs}}" selected="{{0}}" theme="{{theme}}" bind:change="onTabChange" />
+  <view wx:if="{{child}}" class="map-tabbar">
+    <bc-bottom-tab tabs="{{tabs}}" selected="{{0}}" theme="{{theme}}" bind:change="onTabChange" />
+  </view>
+
+  <view wx:if="{{showSwitchSheet}}" class="sheet-mask" bindtap="closeSwitchSheet"></view>
+  <view wx:if="{{showSwitchSheet}}" class="switch-sheet is-open">
+    <view class="sheet-handle"></view>
+    <view class="sheet-title">切换孩子</view>
+    <view class="sheet-list">
+      <view
+        wx:for="{{sheetChildren}}"
+        wx:key="id"
+        class="sheet-item {{item.isCurrent ? 'is-current' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="onSheetSwitchChild"
+      >
+        <image class="sheet-avatar" src="{{item.avatarPath}}" mode="aspectFit" />
+        <view class="sheet-name">{{item.nickname}}</view>
+        <view class="sheet-tag">{{item.isCurrent ? '当前' : '切换'}}</view>
+      </view>
+    </view>
+    <view class="sheet-add" bindtap="onSheetAddChild">+ 添加孩子</view>
+  </view>
 </view>

@@ -1,33 +1,47 @@
-const { THEMES } = require('../../basic-controls/theme/theme');
+const onboard = require('../../utils/child-onboard');
+const nav = require('../../utils/nav');
 const share = require('../../utils/share');
+const storage = require('../../utils/storage');
 
 Page({
-  data: { theme: {}, title: '', hint: '', options: [] },
+  data: {
+    theme: {},
+    title: '',
+    hint: '',
+    childHint: '',
+    colorThemes: [],
+  },
 
   onShow() {
     share.enableShareMenu();
     const app = getApp();
     const current = app.globalData.themeKey;
+    const child = storage.getCurrentChild();
     this.setData({
       theme: app.globalData.theme,
       title: app.t('page/settings/theme_page_title'),
       hint: app.t('page/settings/theme_page_hint'),
-      options: Object.keys(THEMES).map((key) => ({
-        key,
-        label: themeName(key, app),
-        selected: current === key,
-      })),
+      childHint: child
+        ? app.tf('page/settings/color_page_child_hint', child.nickname)
+        : app.t('page/settings/color_page_no_child_hint'),
+      colorThemes: onboard.buildColorThemes(current),
     });
   },
 
-  onBack() { wx.navigateBack(); },
+  onBack() {
+    nav.navigateBack();
+  },
 
   onPick(e) {
     const key = e.currentTarget.dataset.key;
     const app = getApp();
     if (key === app.globalData.themeKey) return;
     app.applyTheme(key);
-    wx.navigateBack();
+    wx.setNavigationBarColor({
+      frontColor: app.globalData.theme.dark ? '#ffffff' : '#000000',
+      backgroundColor: app.globalData.theme.pageStart,
+    });
+    nav.navigateBack();
   },
 
   onShareAppMessage() {
@@ -38,13 +52,3 @@ Page({
     return share.timeline();
   },
 });
-
-function themeName(key, app) {
-  const map = {
-    sky: 'page/settings/theme_day',
-    night: 'page/settings/theme_dark',
-    mint: 'page/settings/theme_mint',
-    sunrise: 'page/settings/theme_sunrise',
-  };
-  return app.t(map[key] || map.sky);
-}

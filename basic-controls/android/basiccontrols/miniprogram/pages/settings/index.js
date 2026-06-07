@@ -1,42 +1,57 @@
 const nav = require('../../utils/nav');
 const share = require('../../utils/share');
+const onboard = require('../../utils/child-onboard');
 
 Page({
   data: {
     theme: {},
     title: '',
     subtitle: '',
-    entryTheme: '',
-    entryLanguage: '',
-    themeLabel: '',
-    languageLabel: '',
+    entryColor: '',
+    colorLabel: '',
+    tabs: [
+      {
+        key: 'home',
+        iconSrc: '/assets/icons/nav-home.png',
+        activeIconSrc: '/assets/icons/nav-home-active.png',
+        label: '首页',
+      },
+      {
+        key: 'settings',
+        iconSrc: '/assets/icons/nav-settings.png',
+        activeIconSrc: '/assets/icons/nav-settings-active.png',
+        label: '设置',
+      },
+    ],
   },
 
   onShow() {
     share.enableShareMenu();
     const app = getApp();
-    const themeKey = app.globalData.themeKey;
     this.setData({
       theme: app.globalData.theme,
       title: app.t('page/settings/title'),
       subtitle: app.t('page/settings/subtitle'),
-      entryTheme: app.t('page/settings/entry_theme'),
-      entryLanguage: app.t('page/settings/entry_language'),
-      themeLabel: themeName(themeKey, app),
-      languageLabel: app.t('language/' + app.globalData.language),
+      entryColor: app.t('page/settings/theme'),
+      colorLabel: onboard.getThemeLabel(app.globalData.themeKey),
     });
   },
 
-  onBack() {
-    wx.navigateBack();
-  },
-
-  goTheme() {
+  goColor() {
     nav.navigateTo('/pages/settings-theme/index');
   },
 
-  goLanguage() {
-    nav.navigateTo('/pages/settings-language/index');
+  goDataBackup() {
+    nav.navigateTo('/pages/settings-data/index');
+  },
+
+  onTabChange(e) {
+    if (e.detail.key === 'home') {
+      wx.redirectTo({
+        url: '/pages/map/index',
+        fail: () => wx.showToast({ title: '首页打开失败', icon: 'none' }),
+      });
+    }
   },
 
   onShareAppMessage() {
@@ -46,15 +61,4 @@ Page({
   onShareTimeline() {
     return share.timeline();
   },
-
 });
-
-function themeName(key, app) {
-  const map = {
-    sky: 'page/settings/theme_day',
-    night: 'page/settings/theme_dark',
-    mint: 'page/settings/theme_mint',
-    sunrise: 'page/settings/theme_sunrise',
-  };
-  return app.t(map[key] || map.sky);
-}

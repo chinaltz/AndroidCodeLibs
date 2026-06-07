@@ -1,0 +1,27 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="听写结果" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="result-banner">
+      <view class="banner-score">{{correctCount}} 词正确 · {{wrongCount}} 个错字</view>
+      <view class="banner-hint">仅记录你点选的具体错字；不会把整词或听写选字误记为错字。</view>
+    </view>
+
+    <view wx:if="{{changes.length}}" class="changes-panel">
+      <view class="panel-title">本次数据变化</view>
+      <view class="panel-desc">同一听写记录只结算一次，避免重复累加。</view>
+      <view class="change-list">
+        <view wx:for="{{changes}}" wx:key="id" class="change-item">
+          <view class="change-char">{{item.char}}</view>
+          <view class="change-label">{{item.label}}</view>
+          <view class="change-tag {{item.tagClass}}">{{item.tag}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="action-panel">
+      <view wx:if="{{wrongItems.length}}" class="btn-primary" bindtap="retryWrong">只重听本次错词 {{wrongItems.length}} 个</view>
+      <view class="btn-secondary" bindtap="goWordPlanet">返回字词星球</view>
+    </view>
+  </scroll-view>
+</view>

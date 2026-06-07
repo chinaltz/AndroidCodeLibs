@@ -50,15 +50,8 @@
   height: 270rpx;
 }
 
-.control-panel,
-.queue-section {
+.content-card-wrap {
   margin-top: 22rpx;
-  border-radius: 28rpx;
-  background: rgba(255, 255, 255, 0.92);
-  border: 2rpx solid #D8EEF8;
-  padding: 24rpx;
-  box-sizing: border-box;
-  box-shadow: 0 14rpx 32rpx rgba(23, 58, 98, 0.09);
 }
 
 .panel-title,
@@ -89,56 +82,18 @@
   font-weight: 800;
 }
 
+.setting-note {
+  margin-top: 14rpx;
+  font-size: 21rpx;
+  line-height: 1.5;
+}
+
 .setting-input {
   margin-top: 10rpx;
   min-height: 66rpx;
   font-size: 34rpx;
   font-weight: 900;
   color: #173A62;
-}
-
-.tts-state {
-  margin-top: 18rpx;
-  display: flex;
-  align-items: center;
-  gap: 16rpx;
-  border-radius: 22rpx;
-  background: #FFF7E5;
-  padding: 18rpx;
-}
-
-.state-title {
-  font-size: 28rpx;
-  font-weight: 900;
-  color: #173A62;
-}
-
-.state-desc {
-  margin-top: 6rpx;
-  font-size: 22rpx;
-  color: #8F5300;
-}
-
-.state-badge,
-.queue-play {
-  min-width: 88rpx;
-  height: 54rpx;
-  border-radius: 17rpx;
-  background: #0C8F7E;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24rpx;
-  font-weight: 900;
-}
-
-.state-badge {
-  background: #9AA7B2;
-}
-
-.state-badge.is-ready {
-  background: #0C8F7E;
 }
 
 .primary-row {

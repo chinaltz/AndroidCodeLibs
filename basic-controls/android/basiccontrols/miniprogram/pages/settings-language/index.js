@@ -1,4 +1,5 @@
 const i18n = require('../../basic-controls/i18n/i18n');
+const nav = require('../../utils/nav');
 const share = require('../../utils/share');
 
 Page({
@@ -20,14 +21,14 @@ Page({
     });
   },
 
-  onBack() { wx.navigateBack(); },
+  onBack() { nav.navigateBack(); },
 
   onPick(e) {
     const code = e.currentTarget.dataset.code;
     const app = getApp();
     if (code === app.globalData.language) return;
     app.setLanguage(code);
-    wx.navigateBack();
+    nav.navigateBack();
   },
 
   onShareAppMessage() {

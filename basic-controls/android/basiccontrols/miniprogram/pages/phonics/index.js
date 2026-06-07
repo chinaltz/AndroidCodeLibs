@@ -64,7 +64,7 @@ Page({
   },
 
   onBack() {
-    wx.navigateBack();
+    nav.navigateBack();
   },
 
   onPhonemeTap(e) {

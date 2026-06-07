@@ -1,0 +1,28 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="孩子列表" show-back="{{true}}" action-text="添加" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" bind:action="addChild" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view wx:if="{{!children.length}}" class="empty-state">
+      <view class="empty-title">还没有孩子档案</view>
+      <view class="empty-desc">添加后，每个孩子拥有独立的模块、进度和字词数据。</view>
+      <view class="empty-action"><bc-button text="添加孩子" variant="primary" theme="{{theme}}" bind:tap="addChild" /></view>
+    </view>
+
+    <view wx:for="{{children}}" wx:key="id" class="child-card-wrap">
+      <bc-card theme="{{theme}}">
+        <view class="child-row">
+          <image class="child-avatar" src="{{item.avatarPath}}" mode="aspectFit" />
+          <view class="child-main">
+            <view class="child-name">{{item.nickname}}</view>
+            <view class="child-meta" style="color: {{theme.textTertiary}};">{{item.moduleLabel || '未选择模块'}}</view>
+          </view>
+          <bc-choice-chip text="{{item.isCurrent ? '当前' : '切换'}}" selected="{{item.isCurrent}}" disabled="{{item.isCurrent}}" theme="{{theme}}" data-id="{{item.id}}" bind:tap="switchChild" />
+        </view>
+        <view class="child-actions">
+          <bc-button text="修改" variant="default" theme="{{theme}}" data-id="{{item.id}}" bind:tap="editChild" />
+          <bc-button text="删除" variant="danger" theme="{{theme}}" data-id="{{item.id}}" bind:tap="deleteChild" />
+        </view>
+      </bc-card>
+    </view>
+  </scroll-view>
+</view>

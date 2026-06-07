@@ -1,0 +1,129 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="课文听写" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <bc-card theme="{{theme}}">
+      <view class="panel-title">选择课本</view>
+      <view class="panel-desc">按年级、册别、单元和课文筛选生字。</view>
+
+      <view class="selector-label">年级</view>
+      <view class="selector-row">
+        <bc-choice-chip
+          wx:for="{{grades}}"
+          wx:key="*this"
+          text="{{item}} 年级"
+          option-key="{{item}}"
+          selected="{{grade === item}}"
+          theme="{{theme}}"
+          bind:tap="selectGrade"
+        />
+      </view>
+
+      <view class="selector-label">册别</view>
+      <view class="volume-row">
+        <bc-choice-chip
+          wx:for="{{volumes}}"
+          wx:key="*this"
+          text="{{item}}册"
+          option-key="{{item}}"
+          selected="{{volume === item}}"
+          theme="{{theme}}"
+          bind:tap="selectVolume"
+        />
+      </view>
+
+      <view class="selector-label">单元</view>
+      <view class="picker-field" bindtap="openUnitPicker" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};">
+        <view class="picker-field-text">{{selectedUnitLabel}}</view>
+        <view class="picker-field-arrow">›</view>
+      </view>
+
+      <view class="selector-label">课文</view>
+      <view class="picker-field" bindtap="openLessonPicker" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};">
+        <view class="picker-field-text">{{selectedLessonLabel}}</view>
+        <view class="picker-field-arrow">›</view>
+      </view>
+    </bc-card>
+
+    <view class="character-panel-wrap">
+    <bc-card theme="{{theme}}">
+      <view class="character-head">
+        <view>
+          <view class="panel-title">生字列表</view>
+          <view class="panel-desc">{{sourceLabel}}</view>
+        </view>
+        <bc-chip text="已选 {{selectedCount}} 字 · {{wordCount}} 词" bg="{{theme.warning}}" color="{{theme.textPrimary}}" />
+      </view>
+
+      <view class="toolbar">
+        <view class="tool-action"><bc-button text="全选" variant="primary" theme="{{theme}}" bind:tap="selectAll" /></view>
+        <view class="tool-action"><bc-button text="清空" variant="default" theme="{{theme}}" bind:tap="clearSelection" /></view>
+      </view>
+
+      <view wx:if="{{characters.length}}" class="character-grid">
+        <view
+          wx:for="{{characters}}"
+          wx:key="text"
+          class="character-cell {{item.selected ? 'is-selected' : ''}}"
+          data-character="{{item.text}}"
+          bindtap="toggleCharacter"
+        >
+          <view class="character-text">{{item.text}}</view>
+          <view class="character-state">{{item.selected ? '已选' : '选择'}}</view>
+        </view>
+      </view>
+      <view wx:else class="empty-state">当前范围暂无生字数据，请选择其他单元或课文。</view>
+
+      <view wx:if="{{wordQueue.length}}" class="word-preview">
+        <view class="word-preview-title">将听写的词语（{{wordCount}} 个）</view>
+        <view class="word-preview-list">
+          <view
+            wx:for="{{wordQueue}}"
+            wx:key="word"
+          ><bc-chip text="{{item.word}}" bg="{{theme.activeFill}}" color="{{theme.brandDark}}" /></view>
+        </view>
+      </view>
+    </bc-card>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{showPicker}}" class="picker-mask" bindtap="closePicker">
+    <view class="picker-sheet" style="background: {{theme.surfaceRaised}};" catchtap="stopPickerTap">
+      <view class="picker-handle"></view>
+      <view class="picker-head">
+        <view class="picker-title">{{pickerTitle}}</view>
+        <view class="picker-close" bindtap="closePicker">完成</view>
+      </view>
+      <scroll-view scroll-y class="picker-list">
+        <block wx:if="{{pickerType === 'unit'}}">
+          <view class="picker-option" wx:for="{{pickerOptions}}" wx:key="unitNo">
+            <bc-choice-chip
+              text="{{item.title}}"
+              option-key="{{item.optionKey}}"
+              selected="{{selectedUnitNo === item.unitNo}}"
+              theme="{{theme}}"
+              bind:tap="selectUnit"
+            />
+          </view>
+        </block>
+        <block wx:else>
+          <view class="picker-option" wx:for="{{pickerOptions}}" wx:key="lessonNo">
+            <bc-choice-chip
+              text="{{item.title}}"
+              option-key="{{item.optionKey}}"
+              selected="{{selectedLessonNo === item.lessonNo}}"
+              theme="{{theme}}"
+              bind:tap="selectLesson"
+            />
+          </view>
+        </block>
+      </scroll-view>
+    </view>
+  </view>
+
+  <bc-sticky-footer theme="{{theme}}">
+    <view class="action-row">
+      <bc-button text="加入听写 {{wordCount}} 词" variant="primary" disabled="{{!wordCount}}" theme="{{theme}}" bind:tap="startDictation" />
+    </view>
+  </bc-sticky-footer>
+</view>

@@ -178,6 +178,22 @@ miniprogram/
 }
 ```
 
+`speciesId` 首版枚举：
+
+```js
+star_sprout // 星芽兽，支持 sky / mint / sunset
+star_fox    // 星绒狐，V1 仅支持 orange
+```
+
+配饰目录共用，但每个物品需在适配配置中声明两个宠物的锚点：
+
+```js
+anchors: {
+  star_sprout: { x: 0.5, y: 0.22, scale: 1 },
+  star_fox: { x: 0.5, y: 0.18, scale: 0.92 }
+}
+```
+
 ### 5.1 关键约束
 
 - `progression.xp` 和 `lifetimeXp` V1 保持一致，预留未来赛季但不实现。
@@ -555,4 +571,3 @@ room background
 | 商品是否随机 | 否，固定价格购买 |
 | 配饰是否导出整宠物图 | 否，V1 固定姿势分层叠加 |
 | 是否新建独立 storage key | 暂不，先扩展现有每孩子数据 |
-

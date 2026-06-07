@@ -84,11 +84,40 @@ prototypes/phonics-learning-planet-v2/index.html
 
 ### 2.3 课本听写页（`textbookDictation`）
 
-- 依次选年级 / 册别 / 单元
-- 课文范围支持“某一课 / 选择几课 / 整个单元”
-- 当前选择会实时展示范围摘要和汇总字词数量
-- 展示本课生字 + 课内/不超纲生词
-- 勾选后加入听写 或 保存到字词库
+选择路径：年级 → 册别 → 单元（含"全部单元"） → 课文（含"全部课文"）
+
+- 选定范围后实时展示汇总生字列表，支持逐字勾选
+- "全选 / 清空"快捷操作
+- 选完后可「保存到字词库」或直接「开始听写」→ 跳转听写列表
+
+#### 课文数据文件
+
+`data/textbook-lessons.js` — 按年级+册别索引的课文目录，结构如下：
+
+```js
+LESSON_CATALOG[grade][volume] = {
+  verified: false,
+  units: [
+    {
+      unitNo: 1,
+      title: '第一单元',
+      lessons: [
+        { lessonNo: 1, title: '第1课 天地人', characters: ['天', '地', '人', ...] },
+      ]
+    },
+  ]
+}
+```
+
+导出工具函数：
+
+| 函数 | 说明 |
+|------|------|
+| `getUnits(grade, volume)` | 返回该册所有单元 `{ unitNo, title }[]` |
+| `getLessons(grade, volume, unitNo)` | `unitNo=null` 返回全册课文 |
+| `getCharacters(grade, volume, unitNo, lessonNos)` | 按范围汇总去重生字 |
+
+**数据完整性说明**：当前一至六年级每册均有 1–2 个单元的示例数据，标记 `verified: false`。正式发布前需按统编版教材逐课核验并补全。需要补充某册数据时，在 `LESSON_CATALOG` 中添加对应 `units` 条目即可，页面无需改动。
 
 ### 2.4 听写列表与批改闭环
 

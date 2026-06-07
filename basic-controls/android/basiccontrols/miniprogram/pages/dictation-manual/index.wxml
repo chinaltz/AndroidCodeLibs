@@ -1,0 +1,90 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="听写词录入" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll dictation-manual-scroll">
+    <bc-card theme="{{theme}}">
+      <view class="panel-title">批量输入听写词</view>
+      <view class="panel-desc" style="color: {{theme.textTertiary}};">输入多个词后，点击需要听写的字，再直接保存到听写列表。</view>
+      <view
+        class="batch-picker"
+        style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};"
+        bindtap="openBatchEditor"
+      >
+        <view class="batch-value {{batchText ? '' : 'is-placeholder'}}">{{batchText || '点击输入词语，例如：时候、游泳、慢慢'}}</view>
+        <view class="batch-action" style="color: {{theme.brandPrimary}};">{{batchText ? '修改' : '输入'}}</view>
+      </view>
+
+      <view wx:if="{{charPool.length}}" class="char-pool">
+        <view
+          wx:for="{{charPool}}"
+          wx:key="id"
+          class="char-item {{item.selected ? 'is-selected' : ''}} {{item.saved ? 'is-saved' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onCharTap"
+        >{{item.char}}</view>
+      </view>
+
+      <view wx:if="{{selectedSequence.length}}" class="selected-panel" style="background: {{theme.selectedFill}}; border-color: {{theme.borderDefault}};">
+        <view class="selected-head">
+          <view class="selected-title" style="color: {{theme.textPrimary}};">已选字 · 按点击顺序</view>
+          <view class="selected-tip" style="color: {{theme.textTertiary}};">点击已选字可撤销</view>
+        </view>
+        <view class="selected-sequence">
+          <view
+            wx:for="{{selectedSequence}}"
+            wx:key="id"
+            class="selected-char"
+            style="background: {{theme.surfaceRaised}}; border-color: {{theme.brandPrimary}}; color: {{theme.brandDark}};"
+            data-id="{{item.id}}"
+            bindtap="onSelectedCharTap"
+          >
+            <view class="selected-order">{{item.order}}</view>
+            <view class="selected-text">{{item.char}}</view>
+            <view class="selected-word">{{item.word}}</view>
+          </view>
+        </view>
+        <view wx:if="{{!selectionComplete}}" class="selection-hint">
+          请把已选择词语的所有字都点到这里，完整后才能保存。
+        </view>
+      </view>
+
+      <view wx:if="{{selectedSequence.length}}" class="save-row">
+        <bc-button
+          text="保存到听写列表"
+          variant="primary"
+          disabled="{{!selectionComplete}}"
+          theme="{{theme}}"
+          bind:tap="onSave"
+        />
+      </view>
+    </bc-card>
+
+    <view class="section-gap"></view>
+
+    <bc-card theme="{{theme}}">
+      <view class="saved-head">
+        <view>
+          <view class="panel-title">本次听写列表</view>
+          <view class="panel-desc" style="color: {{theme.textTertiary}};">保存后返回听写列表，可继续增删或开始听写。</view>
+        </view>
+        <bc-chip text="{{queue.length}} 词" variant="success" theme="{{theme}}" />
+      </view>
+
+      <view wx:if="{{queue.length}}" class="queue-list">
+        <view wx:for="{{queue}}" wx:key="id" class="queue-item" style="border-color: {{theme.borderDefault}};">
+          <view class="queue-word" style="color: {{theme.textPrimary}};">{{item.text}}</view>
+          <view class="queue-main">
+            <view class="queue-pinyin" style="color: {{theme.textSecondary}};">{{item.displayPinyin}}</view>
+            <view class="queue-source" style="color: {{theme.textTertiary}};">{{item.sourceLabel}}</view>
+          </view>
+        </view>
+        <view class="save-row">
+          <bc-button text="返回听写列表" variant="default" theme="{{theme}}" bind:tap="goDictationList" />
+        </view>
+      </view>
+      <view wx:else class="empty-hint" style="color: {{theme.textTertiary}};">还没有加入听写词。</view>
+    </bc-card>
+
+    <view class="safe-bottom"></view>
+  </scroll-view>
+</view>

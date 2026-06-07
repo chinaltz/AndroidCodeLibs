@@ -1,16 +1,22 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="{{title}}" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+  <bc-top-bar title="{{title}}" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
   <scroll-view scroll-y class="page-body page-scroll">
-    <view style="font-size:26rpx;color:{{theme.textTertiary}};">{{hint}}</view>
-    <bc-card theme="{{theme}}">
+    <view class="color-hint" style="color: {{theme.textTertiary}};">{{hint}}</view>
+    <view class="color-hint color-hint--child" style="color: {{theme.textSecondary}};">{{childHint}}</view>
+
+    <view class="color-grid">
       <view
-        wx:for="{{options}}"
+        wx:for="{{colorThemes}}"
         wx:key="key"
-        class="option-row"
-        style="background: {{item.selected ? theme.selectedFill : theme.surfaceRaised}}; border-color: {{item.selected ? theme.success : theme.borderDefault}};"
+        class="color-card {{item.selected ? 'is-selected' : ''}}"
         data-key="{{item.key}}"
         bindtap="onPick"
-      >{{item.label}}</view>
-    </bc-card>
+        style="border-color: {{item.selected ? item.color : theme.borderDefault}}; background: {{item.selected ? theme.selectedFill : theme.surfaceRaised}};"
+      >
+        <view class="color-swatch" style="background: linear-gradient(135deg, {{item.color}}, {{item.pageStart}});"></view>
+        <view class="color-label" style="color: {{theme.textPrimary}};">{{item.label}}</view>
+        <view wx:if="{{item.selected}}" class="color-check" style="color: {{item.color}};">✓</view>
+      </view>
+    </view>
   </scroll-view>
 </view>

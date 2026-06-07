@@ -1,0 +1,18 @@
+{
+  "version": 6,
+  "status": "local_pack_synced",
+  "source": {
+    "name": "汉语拼音(mp3)",
+    "defaultPath": "/Users/litingzhe/Downloads/汉语拼音(mp3)",
+    "materialsPath": "materials/pinyin-audio-pack"
+  },
+  "format": {
+    "codec": "mp3",
+    "sampleRate": 22050,
+    "channels": 1
+  },
+  "counts": {
+    "teaching": 63,
+    "syllables": 216
+  }
+}

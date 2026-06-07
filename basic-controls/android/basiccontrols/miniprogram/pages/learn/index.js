@@ -35,7 +35,7 @@ Page({
   },
 
   onBack() {
-    wx.navigateBack();
+    nav.navigateBack();
   },
 
   onPlaySymbol() {

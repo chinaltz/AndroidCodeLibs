@@ -1,13 +1,3 @@
-.input-panel,
-.saved-panel {
-  border-radius: 30rpx;
-  background: rgba(255, 255, 255, 0.94);
-  border: 2rpx solid #D8EEF8;
-  padding: 24rpx;
-  box-sizing: border-box;
-  box-shadow: 0 14rpx 32rpx rgba(23, 58, 98, 0.09);
-}
-
 .saved-panel {
   margin-top: 18rpx;
 }
@@ -25,17 +15,40 @@
   color: #7895AE;
 }
 
-.batch-input {
+.batch-input-picker {
   width: 100%;
-  min-height: 150rpx;
-  border-radius: 22rpx;
-  border: 2rpx solid #C8EAFF;
-  background: #F8FEFF;
-  padding: 20rpx 22rpx;
   margin-top: 18rpx;
-  font-size: 30rpx;
+  min-height: 112rpx;
+  border: 2rpx solid;
+  border-radius: 22rpx;
+  padding: 20rpx 22rpx;
   box-sizing: border-box;
-  line-height: 1.6;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.batch-input-value {
+  flex: 1;
+  min-width: 0;
+  color: #173A62;
+  font-size: 27rpx;
+  line-height: 1.55;
+  word-break: break-all;
+}
+
+.batch-input-value.is-placeholder {
+  color: #7895AE;
+}
+
+.batch-input-action {
+  flex: 0 0 auto;
+  font-size: 25rpx;
+  font-weight: 800;
+}
+
+.word-edit-safe-bottom {
+  height: calc(40rpx + env(safe-area-inset-bottom));
 }
 
 .char-pool {
@@ -118,54 +131,14 @@
 }
 
 .ji-btns {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 10rpx;
   flex: 1;
 }
 
-.ji-btn {
-  flex: 1;
-  min-height: 58rpx;
-  border-radius: 16rpx;
-  border: 2rpx solid #C8EAFF;
-  background: #FFFFFF;
-  color: #7895AE;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26rpx;
-  font-weight: 900;
-}
-
-.ji-btn--danger {
-  border-color: #F8C8CB;
-  color: #C0616B;
-  background: #FFF4F5;
-}
-
-.ji-btn--active-known {
-  border-color: #43CFC7;
-  background: #E8FDF7;
-  color: #0C8F7E;
-}
-
-.ji-btn--active-unknown {
-  border-color: #F45B69;
-  background: #FFE8EA;
-  color: #A92F3A;
-}
-
 .ji-save-row {
-  height: 82rpx;
-  border-radius: 22rpx;
-  background: #0C8F7E;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin-top: 18rpx;
-  font-size: 29rpx;
-  font-weight: 900;
 }
 
 .selection-hint {
@@ -187,18 +160,6 @@
 .saved-head > view:first-child {
   flex: 1;
   min-width: 0;
-}
-
-.saved-count {
-  height: 48rpx;
-  padding: 0 18rpx;
-  border-radius: 999rpx;
-  background: #E8FDF7;
-  color: #0C8F7E;
-  display: flex;
-  align-items: center;
-  font-size: 23rpx;
-  font-weight: 900;
 }
 
 .saved-list {

@@ -1,0 +1,27 @@
+<textarea
+  wx:if="{{multiline}}"
+  class="bc-input bc-input--multiline"
+  style="--bc-surface: {{theme.surfaceRaised}}; --bc-text: {{theme.textPrimary}}; --bc-muted: {{theme.textTertiary}}; --bc-border: {{theme.borderDefault}};"
+  value="{{value}}"
+  placeholder="{{placeholder}}"
+  placeholder-style="color: {{theme.textTertiary}};"
+  maxlength="{{maxlength}}"
+  disabled="{{disabled}}"
+  adjust-position="{{adjustPosition}}"
+  catchinput="onInput"
+  catchblur="onBlur"
+/>
+<input
+  wx:else
+  class="bc-input"
+  style="--bc-surface: {{theme.surfaceRaised}}; --bc-text: {{theme.textPrimary}}; --bc-muted: {{theme.textTertiary}}; --bc-border: {{theme.borderDefault}};"
+  value="{{value}}"
+  placeholder="{{placeholder}}"
+  placeholder-style="color: {{theme.textTertiary}};"
+  type="{{type}}"
+  maxlength="{{maxlength}}"
+  disabled="{{disabled}}"
+  adjust-position="{{adjustPosition}}"
+  catchinput="onInput"
+  catchblur="onBlur"
+/>

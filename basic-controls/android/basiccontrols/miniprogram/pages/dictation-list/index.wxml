@@ -1,0 +1,60 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="听写列表" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll words-page-scroll">
+    <bc-card theme="{{theme}}">
+      <view class="panel-head">
+        <view class="panel-head-main">
+          <view class="panel-title" style="color: {{theme.textPrimary}};">本次听写 · {{count}} 个词</view>
+          <view class="panel-desc" style="color: {{theme.textTertiary}};">听写词仅本次有效，关闭后清空；批改产生的错字会长期保留。</view>
+        </view>
+        <bc-chip text="{{count}}" bg="{{theme.activeFill}}" color="{{theme.brandPrimary}}" />
+      </view>
+
+      <view wx:if="{{queue.length}}" class="queue-list">
+        <view
+          wx:for="{{queue}}"
+          wx:key="id"
+          class="queue-item"
+          style="border-color: {{theme.borderDefault}};"
+        >
+          <view class="qi-badge" style="background: {{theme.selectedFill}}; border-color: {{theme.borderDefault}}; color: {{theme.textPrimary}};">{{item.text}}</view>
+          <view class="qi-main">
+            <view class="qi-pinyin" style="color: {{theme.textSecondary}};">{{item.pinyin}}</view>
+            <view class="qi-source" style="color: {{theme.textTertiary}};">{{item.sourceLabel}}</view>
+          </view>
+          <bc-choice-chip text="删除" danger="{{true}}" theme="{{theme}}" data-id="{{item.id}}" bind:tap="onDelete" />
+        </view>
+      </view>
+      <view wx:else class="empty-hint" style="color: {{theme.textTertiary}}; background: {{theme.selectedFill}}; border-color: {{theme.borderDefault}};">
+        列表为空，从下方添加词语。
+      </view>
+
+      <view class="add-row">
+        <bc-choice-chip text="课本" theme="{{theme}}" bind:tap="goAddFromTextbook" />
+        <bc-choice-chip text="错字" theme="{{theme}}" bind:tap="goAddFromWrongChars" />
+        <bc-choice-chip text="手动录入" theme="{{theme}}" bind:tap="goAddManual" />
+      </view>
+    </bc-card>
+
+    <view class="words-section-gap" />
+
+    <bc-card theme="{{theme}}">
+      <view class="panel-desc" style="color: {{theme.textTertiary}};">删除或清空只影响本次听写，不影响错字库。</view>
+    </bc-card>
+  </scroll-view>
+
+  <bc-sticky-footer theme="{{theme}}">
+    <view class="footer-actions">
+      <bc-button
+        text="开始听写 {{count}} 词"
+        variant="primary"
+        block="{{true}}"
+        disabled="{{count === 0}}"
+        theme="{{theme}}"
+        bind:tap="startDictation"
+      />
+      <bc-button text="清空" variant="default" block="{{true}}" theme="{{theme}}" bind:tap="onClear" />
+    </view>
+  </bc-sticky-footer>
+</view>

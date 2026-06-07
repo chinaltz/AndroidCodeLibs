@@ -1,0 +1,75 @@
+@import '../../styles/words-page.wxss';
+
+.queue-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+  padding: 14rpx 0;
+  border-bottom: 2rpx solid;
+}
+
+.queue-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.qi-badge {
+  min-width: 72rpx;
+  height: 72rpx;
+  padding: 0 10rpx;
+  border-radius: 18rpx;
+  border: 2rpx solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 900;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.qi-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.qi-pinyin {
+  font-size: 24rpx;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.qi-source {
+  margin-top: 4rpx;
+  font-size: 21rpx;
+  line-height: 1.35;
+}
+
+.add-row {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 24rpx;
+  flex-wrap: wrap;
+}
+
+.empty-hint {
+  margin-top: 20rpx;
+  min-height: 120rpx;
+  border-radius: 22rpx;
+  border: 2rpx dashed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23rpx;
+  line-height: 1.5;
+  padding: 20rpx;
+  box-sizing: border-box;
+  text-align: center;
+}

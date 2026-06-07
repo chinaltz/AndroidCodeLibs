@@ -1,0 +1,45 @@
+.words-page-scroll {
+  padding-bottom: calc(168rpx + env(safe-area-inset-bottom));
+}
+
+.words-section {
+  margin-top: 24rpx;
+}
+
+.words-section-gap {
+  height: 24rpx;
+}
+
+.panel-title {
+  font-size: 32rpx;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
+.panel-desc {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  line-height: 1.55;
+}
+
+.panel-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+}
+
+.panel-head-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.footer-actions {
+  display: grid;
+  grid-template-columns: 1fr 200rpx;
+  gap: 14rpx;
+  align-items: center;
+}
+
+.footer-actions--single {
+  grid-template-columns: 1fr;
+}

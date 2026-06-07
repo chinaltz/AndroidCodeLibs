@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>积分星球 V1 · 交互原型</title>
+  <style>
+    :root {
+      --ink: #173a62;
+      --muted: #718da8;
+      --blue: #4fa8ff;
+      --blue-soft: #eaf6ff;
+      --mint: #43cfc7;
+      --mint-soft: #e9fcf7;
+      --yellow: #ffc85c;
+      --yellow-soft: #fff6d3;
+      --orange: #ff9d59;
+      --pink: #ff8eae;
+      --pink-soft: #ffe8ef;
+      --red-soft: #ffecec;
+      --white: #fff;
+      --line: #c9e9ff;
+      --shadow: 0 16px 38px rgba(23, 58, 98, .14);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(255, 200, 92, .34), transparent 25%),
+        radial-gradient(circle at 88% 15%, rgba(255, 142, 174, .22), transparent 25%),
+        linear-gradient(155deg, #f4fbff 0%, #e9f7ff 52%, #fff9e8 100%);
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 250px minmax(360px, 430px) 320px;
+      justify-content: center;
+      gap: 28px;
+      padding: 28px;
+    }
+    .side {
+      position: sticky;
+      top: 28px;
+      height: fit-content;
+      padding: 24px;
+      border: 2px solid rgba(200, 234, 255, .9);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, .84);
+      box-shadow: var(--shadow);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark {
+      width: 50px; height: 50px;
+      display: grid; place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #ffb347, #ff8eae);
+      font-size: 26px;
+      box-shadow: inset -4px -6px 0 rgba(23, 58, 98, .08);
+    }
+    .brand h1 { margin: 0; font-size: 21px; }
+    .brand p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .nav { display: grid; gap: 9px; margin-top: 24px; }
+    .nav button {
+      border: 0; border-radius: 18px; padding: 12px 14px;
+      color: var(--muted); background: transparent; text-align: left; font-weight: 850;
+    }
+    .nav button.active {
+      color: #c45a00;
+      background: var(--yellow-soft);
+      box-shadow: inset 0 0 0 2px rgba(255, 200, 92, .45);
+    }
+
+    .phone {
+      width: 100%; height: 850px; position: relative; overflow: hidden;
+      border: 10px solid var(--ink); border-radius: 48px;
+      background: linear-gradient(#eaf7ff, #fffdf4);
+      box-shadow: 0 28px 70px rgba(23, 58, 98, .25);
+    }
+    .status {
+      height: 28px; display: flex; justify-content: space-between;
+      padding: 8px 22px 0; font-size: 11px; font-weight: 900;
+    }
+    .topbar {
+      height: 62px; display: flex; align-items: center; gap: 12px; padding: 0 18px;
+    }
+    .back {
+      width: 38px; height: 38px; border: 0; border-radius: 14px;
+      color: var(--ink); background: rgba(255,255,255,.9); font-size: 22px; font-weight: 900;
+    }
+    .topbar-copy { flex: 1; min-width: 0; }
+    .topbar-title { font-size: 19px; font-weight: 950; }
+    .topbar-subtitle { margin-top: 2px; color: var(--muted); font-size: 11px; }
+    .token-pill {
+      display: flex; gap: 5px; align-items: center;
+      padding: 8px 10px; border-radius: 14px; background: var(--white);
+      font-size: 12px; font-weight: 950;
+    }
+
+    .screen {
+      display: none; height: calc(100% - 90px); overflow-y: auto;
+      padding: 8px 18px 105px; scrollbar-width: none;
+    }
+    .screen::-webkit-scrollbar { display: none; }
+    .screen.active { display: block; }
+
+    .card {
+      margin-bottom: 14px; padding: 17px;
+      border: 2px solid rgba(201, 233, 255, .9); border-radius: 25px;
+      background: rgba(255,255,255,.93);
+      box-shadow: 0 10px 24px rgba(23, 58, 98, .08);
+    }
+    .section-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 13px;
+    }
+    .section-head h2, .section-head h3 { margin: 0; }
+    .section-head h2 { font-size: 18px; }
+    .section-head h3 { font-size: 16px; }
+    .muted { color: var(--muted); }
+    .tiny { font-size: 11px; line-height: 1.55; }
+    .chip {
+      display: inline-flex; min-height: 28px; align-items: center;
+      padding: 0 10px; border-radius: 11px;
+      color: #087f74; background: var(--mint-soft);
+      font-size: 11px; font-weight: 900;
+    }
+    .chip.yellow { color: #a36500; background: var(--yellow-soft); }
+    .chip.pink { color: #b43d62; background: var(--pink-soft); }
+    .chip.red { color: #b33; background: var(--red-soft); }
+
+    .balance-hero {
+      text-align: center; padding: 18px 12px 8px;
+      border-radius: 28px;
+      background: linear-gradient(145deg, #fff4bd, #ffd9e8 55%, #b9e1ff);
+      box-shadow: var(--shadow);
+    }
+    .balance-icon { font-size: 42px; line-height: 1; }
+    .balance-value { font-size: 48px; font-weight: 950; margin-top: 4px; }
+    .balance-label { color: #46677f; font-size: 13px; margin-top: 4px; }
+
+    .progress-bar {
+      height: 10px; border-radius: 999px; background: rgba(23,58,98,.08); overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--mint), var(--blue));
+      transition: width .3s ease;
+    }
+
+    .goal-grid { display: grid; gap: 10px; }
+    .goal-card {
+      padding: 14px; border-radius: 20px;
+      background: var(--blue-soft);
+      border: 2px solid rgba(79,168,255,.25);
+    }
+    .goal-card.achieved { background: var(--mint-soft); border-color: rgba(67,207,199,.35); }
+    .goal-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .goal-title { font-weight: 950; font-size: 14px; }
+    .goal-meta { margin-top: 8px; font-size: 11px; color: var(--muted); }
+
+    .token-wall {
+      display: flex; flex-wrap: wrap; gap: 8px; min-height: 64px;
+    }
+    .token-wall span {
+      width: 36px; height: 36px; display: grid; place-items: center;
+      border-radius: 12px; background: var(--yellow-soft); font-size: 20px;
+      animation: pop .35s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(.4); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .record-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+    .record-tabs button {
+      flex: 1; border: 0; border-radius: 16px; padding: 12px;
+      font-weight: 900; color: var(--muted); background: rgba(255,255,255,.7);
+    }
+    .record-tabs button.active {
+      color: var(--ink); background: var(--white);
+      box-shadow: inset 0 0 0 2px var(--line);
+    }
+    .record-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .record-item {
+      border: 0; border-radius: 22px; padding: 16px 12px; text-align: center;
+      background: var(--white); box-shadow: 0 8px 18px rgba(23,58,98,.07);
+      min-height: 88px;
+    }
+    .record-item.bonus { box-shadow: inset 0 0 0 2px rgba(67,207,199,.35); }
+    .record-item.penalty { box-shadow: inset 0 0 0 2px rgba(255,141,141,.45); }
+    .record-item:disabled { opacity: .45; cursor: not-allowed; }
+    .record-item .name { font-size: 13px; font-weight: 900; margin-top: 6px; }
+    .record-item .val { font-size: 12px; font-weight: 950; margin-top: 4px; }
+    .record-item .val.pos { color: #0a8f7a; }
+    .record-item .val.neg { color: #d44; }
+
+    .style-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .style-option {
+      border: 2px solid transparent; border-radius: 18px; padding: 12px 6px;
+      background: var(--white); text-align: center; font-size: 11px; font-weight: 900;
+    }
+    .style-option.active {
+      border-color: var(--orange);
+      background: var(--yellow-soft);
+    }
+    .style-option .icon { font-size: 28px; display: block; margin-bottom: 4px; }
+
+    .rule-list { display: grid; gap: 8px; }
+    .rule-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px; border-radius: 18px; background: var(--white);
+      box-shadow: inset 0 0 0 1px rgba(201,233,255,.9);
+    }
+    .rule-row input[type="text"], .rule-row input[type="number"] {
+      border: 0; border-radius: 10px; padding: 8px; background: var(--blue-soft);
+      width: 100%; font-weight: 800;
+    }
+    .rule-row .pts { width: 52px; text-align: center; }
+    .rule-row .del {
+      border: 0; width: 32px; height: 32px; border-radius: 10px;
+      background: var(--red-soft); color: #b33; font-weight: 900;
+    }
+
+    .health-panel {
+      padding: 14px; border-radius: 20px;
+      background: var(--mint-soft);
+      border: 2px solid rgba(67,207,199,.3);
+    }
+    .health-panel.warn { background: var(--yellow-soft); border-color: rgba(255,200,92,.5); }
+    .health-panel.strict { background: var(--pink-soft); border-color: rgba(255,142,174,.4); }
+
+    .ledger-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 1px dashed rgba(201,233,255,.9);
+      font-size: 13px;
+    }
+    .ledger-item:last-child { border-bottom: 0; }
+    .ledger-left .title { font-weight: 900; }
+    .ledger-left .time { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .ledger-delta.pos { color: #0a8f7a; font-weight: 950; }
+    .ledger-delta.neg { color: #d44; font-weight: 950; }
+
+    .cta {
+      position: absolute; left: 18px; right: 18px; bottom: 18px;
+      border: 0; border-radius: 22px; padding: 16px;
+      color: white; font-size: 16px; font-weight: 950;
+      background: linear-gradient(135deg, #ffad61, #ff8eae);
+      box-shadow: 0 12px 28px rgba(255, 141, 141, .35);
+    }
+
+    .doc-panel h2 { margin: 0 0 8px; font-size: 18px; }
+    .doc-panel p, .doc-panel li { font-size: 13px; line-height: 1.65; color: #46677f; }
+    .doc-panel ul { padding-left: 18px; margin: 10px 0; }
+    .doc-kv {
+      display: grid; gap: 8px; margin-top: 16px;
+      padding: 14px; border-radius: 18px; background: var(--blue-soft);
+      font-size: 12px;
+    }
+    .doc-kv div { display: flex; justify-content: space-between; gap: 12px; }
+    .doc-kv strong { color: var(--ink); }
+
+    @media (max-width: 1080px) {
+      .workspace { grid-template-columns: 1fr; }
+      .side, .doc-panel { position: static; }
+      .phone { max-width: 430px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="workspace">
+    <aside class="side">
+      <div class="brand">
+        <div class="brand-mark">🌸</div>
+        <div>
+          <h1>积分星球</h1>
+          <p>可配置家庭积分板 · V1 原型</p>
+        </div>
+      </div>
+      <nav class="nav" id="nav">
+        <button class="active" data-screen="home">积分首页</button>
+        <button data-screen="record">快速记录</button>
+        <button data-screen="rules">规则管理</button>
+        <button data-screen="goals">目标管理</button>
+        <button data-screen="ledger">积分流水</button>
+      </nav>
+    </aside>
+
+    <main class="phone">
+      <div class="status"><span>9:41</span><span>学习星球</span></div>
+
+      <!-- 积分首页 -->
+      <section class="screen active" id="screen-home">
+        <div class="topbar">
+          <button class="back" type="button">‹</button>
+          <div class="topbar-copy">
+            <div class="topbar-title">积分星球</div>
+            <div class="topbar-subtitle">小宝的 <span id="home-style-name">小红花</span></div>
+          </div>
+          <div class="token-pill"><span id="home-token-icon">🌸</span> <span id="home-balance">10</span></div>
+        </div>
+
+        <div class="balance-hero card">
+          <div class="balance-icon" id="hero-icon">🌸</div>
+          <div class="balance-value" id="hero-balance">10</div>
+          <div class="balance-label">当前积分</div>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <h3>今日摘要</h3>
+            <span class="chip" id="today-chip">5 / 12</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="today-progress" style="width:42%"></div></div>
+          <p class="tiny muted" style="margin:10px 0 0">今日已扣 <strong id="today-penalty">0</strong> 分 · 还可获得 <strong id="today-remain">7</strong> 分 · 收工 +3 待领取</p>
+        </div>
+
+        <div class="card">
+          <div class="section-head"><h3>周期目标</h3><span class="chip yellow">3 项进行中</span></div>
+          <div class="goal-grid" id="goal-preview"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-head"><h3>积分墙</h3><span class="tiny muted">最近获得</span></div>
+          <div class="token-wall" id="token-wall"></div>
+        </div>
+      </section>
+
+      <!-- 快速记录 -->
+      <section class="screen" id="screen-record">
+        <div class="topbar">
+          <button class="back" type="button" data-goto="home">‹</button>
+          <div class="topbar-copy">
+            <div class="topbar-title">记一笔</div>
+            <div class="topbar-subtitle">点选即可记录</div>
+          </div>
+        </div>
+        <div class="record-tabs">
+          <button class="active" data-tab="bonus" type="button">加分</button>
+          <button data-tab="penalty" type="button">减分</button>
+        </div>
+        <div class="record-grid" id="record-grid"></div>
+      </section>
+
+      <!-- 规则管理 -->
+      <section class="screen" id="screen-rules">
+        <div class="topbar">
+          <button class="back" type="button" data-goto="home">‹</button>
+          <div class="topbar-copy">
+            <div class="topbar-title">规则管理</div>
+            <div class="topbar-subtitle">家长设置</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-head"><h3>积分样式</h3><span class="chip pink">技术标准</span></div>
+          <div class="style-grid" id="style-grid"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-head"><h3>每日最多可获得</h3></div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <input type="range" id="daily-cap" min="3" max="30" value="12" style="flex:1">
+            <strong style="font-size:24px;min-width:36px" id="daily-cap-label">12</strong>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-head"><h3>规则健康度</h3></div>
+          <div class="health-panel" id="health-panel">
+            <strong id="health-title">规则合理</strong>
+            <p class="tiny" style="margin:8px 0 0" id="health-desc">理论最大日获得 9 分，接近日上限 10 分。</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <h3>加分项</h3>
+            <button type="button" id="add-bonus" style="border:0;background:var(--mint-soft);padding:6px 10px;border-radius:10px;font-weight:900;color:#087f74">+ 新增</button>
+          </div>
+          <div class="rule-list" id="bonus-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="section-head">
+            <h3>减分项</h3>
+            <button type="button" id="add-penalty" style="border:0;background:var(--red-soft);padding:6px 10px;border-radius:10px;font-weight:900;color:#b33">+ 新增</button>
+          </div>
+          <div class="rule-list" id="penalty-list"></div>
+        </div>
+      </section>
+
+      <!-- 目标管理 -->
+      <section class="screen" id="screen-goals">
+        <div class="topbar">
+          <button class="back" type="button" data-goto="home">‹</button>
+          <div class="topbar-copy">
+            <div class="topbar-title">目标管理</div>
+            <div class="topbar-subtitle">周 · 月 · 学期</div>
+          </div>
+        </div>
+        <div id="goals-full"></div>
+      </section>
+
+      <!-- 积分流水 -->
+      <section class="screen" id="screen-ledger">
+        <div class="topbar">
+          <button class="back" type="button" data-goto="home">‹</button>
+          <div class="topbar-copy">
+            <div class="topbar-title">积分流水</div>
+            <div class="topbar-subtitle">全部记录</div>
+          </div>
+        </div>
+        <div class="card" id="ledger-list"></div>
+      </section>
+
+      <button class="cta" type="button" id="fab-record">记一笔</button>
+    </main>
+
+    <aside class="side doc-panel">
+      <h2 id="doc-title">积分首页</h2>
+      <p id="doc-body">孩子友好的积分总览：样式余额、今日进度、周期目标与积分墙。</p>
+      <ul id="doc-list">
+        <li>四种样式为全模块统一标准</li>
+        <li>日上限控制每日最多可获得积分</li>
+        <li>目标进度随记录实时更新</li>
+      </ul>
+      <div class="doc-kv" id="doc-kv"></div>
+    </aside>
+  </div>
+
+  <script>
+    const STYLES = {
+      flower: { icon: '🌸', name: '小红花' },
+      stamp:  { icon: '🔖', name: '小印章' },
+      star:   { icon: '⭐', name: '小星星' },
+      heart:  { icon: '❤️', name: '小心心' },
+    };
+
+    const state = {
+      tokenStyle: 'flower',
+      dailyCap: 12,
+      balance: 10,
+      todayEarned: 5,
+      todayPenalty: 0,
+      bonusRules: [
+        { id: 'b830', name: '八点半前完成学习', value: 3, dailyMax: 1 },
+        { id: 'bextra', name: '主动加练', value: 1, dailyMax: 1 },
+        { id: 'bschool', name: '学校任务完成', value: 2, dailyMax: 1 },
+        { id: 'bschoolE', name: '学校任务超前', value: 1, dailyMax: 1 },
+        { id: 'bcare', name: '托管任务完成', value: 2, dailyMax: 1 },
+        { id: 'bcareE', name: '托管超量完成', value: 2, dailyMax: 1 },
+        { id: 'bread', name: '主动阅读20分钟', value: 1, dailyMax: 1 },
+        { id: 'bbag', name: '自己整理书包', value: 1, dailyMax: 1 },
+        { id: 'bhelp', name: '主动帮忙家务', value: 1, dailyMax: 2 },
+      ],
+      penaltyRules: [
+        { id: 'psleep', name: '拖延睡觉', value: 1, dailyMax: 1 },
+        { id: 'prude', name: '顶嘴不礼貌', value: 1, dailyMax: 1 },
+        { id: 'phw', name: '作业未完成', value: 2, dailyMax: 1 },
+        { id: 'pmess', name: '乱扔不整理', value: 1, dailyMax: 1 },
+      ],
+      todayCounts: {},
+      goals: [
+        { id: 'w1', type: 'weekly', name: '本周自律星', target: 42, current: 18, daysLeft: 4 },
+        { id: 'm1', type: 'monthly', name: '三月小达人', target: 150, current: 52, daysLeft: 18 },
+        { id: 's1', type: 'semester', name: '三年级上学期', target: 600, current: 138, daysLeft: 62 },
+      ],
+      ledger: [
+        { id: 'l1', title: '托管任务完成', delta: 2, time: '今天 17:30', type: 'earn' },
+        { id: 'l2', title: '学校任务完成', delta: 2, time: '今天 19:40', type: 'earn' },
+        { id: 'l3', title: '主动阅读20分钟', delta: 1, time: '今天 20:05', type: 'earn' },
+      ],
+      tokenWall: [2, 2, 1],
+      recordTab: 'bonus',
+    };
+
+    const DOCS = {
+      home: {
+        title: '积分首页',
+        body: '孩子友好的积分总览：样式余额、今日进度、周期目标与积分墙。',
+        list: ['四种样式为全模块统一标准', '日上限控制每日最多可获得积分', '目标进度随记录实时更新'],
+      },
+      record: {
+        title: '快速记录',
+        body: '家长一键点选加分/减分项。校验日上限与单项次数上限。',
+        list: ['加分达日上限后不再增加', '减分需确认（原型简化为直接扣）', '记录后同步流水与目标'],
+      },
+      rules: {
+        title: '规则管理',
+        body: '编辑加分项、减分项、日上限与积分样式。系统给出规则健康度建议。',
+        list: ['理论最大 = Σ(分值 × 日次数上限)', '偏宽松 / 合理 / 偏严格 三档提示', '样式切换不影响历史数值'],
+      },
+      goals: {
+        title: '目标管理',
+        body: '周目标、月目标、学期目标。进度 = 周期内净获得 / 目标值。',
+        list: ['周目标默认 ≈ 日上限 × 5 × 0.7', '月目标 ≈ 周目标 × 4 × 0.9', '达成后触发庆祝动画'],
+      },
+      ledger: {
+        title: '积分流水',
+        body: '完整加减分记录，可按类型筛选。',
+        list: ['保留规则名称快照', '本地最多 300 条', '删除孩子时一并清除'],
+      },
+    };
+
+    function tokenIcon() { return STYLES[state.tokenStyle].icon; }
+
+    function theoreticalMax() {
+      return state.bonusRules.reduce((sum, r) => sum + r.value * (r.dailyMax || 1), 0);
+    }
+
+    function healthStatus() {
+      const max = theoreticalMax();
+      const cap = state.dailyCap;
+      if (max > cap * 1.3) return { key: 'warn', title: '偏宽松', desc: `理论最大日获得 ${max} 分，超过日上限 ${cap}。建议降低高分项分值或收紧次数上限。` };
+      if (max < cap * 0.5) return { key: 'strict', title: '偏严格', desc: `理论最大日获得 ${max} 分，远低于日上限 ${cap}。建议提高分值或增加加分项。` };
+      return { key: 'ok', title: '规则合理', desc: `理论最大日获得 ${max} 分，接近日上限 ${cap} 分。` };
+    }
+
+    function countKey(ruleId) { return `${ruleId}_${todayKey()}`; }
+    function todayKey() { return new Date().toISOString().slice(0, 10); }
+
+    function renderHome() {
+      const icon = tokenIcon();
+      document.getElementById('home-token-icon').textContent = icon;
+      document.getElementById('home-balance').textContent = state.balance;
+      document.getElementById('hero-icon').textContent = icon;
+      document.getElementById('hero-balance').textContent = state.balance;
+      document.getElementById('home-style-name').textContent = STYLES[state.tokenStyle].name;
+      document.getElementById('today-chip').textContent = `${state.todayEarned} / ${state.dailyCap}`;
+      document.getElementById('today-penalty').textContent = state.todayPenalty;
+      document.getElementById('today-remain').textContent = Math.max(0, state.dailyCap - state.todayEarned);
+      document.getElementById('today-progress').style.width = `${Math.min(100, (state.todayEarned / state.dailyCap) * 100)}%`;
+
+      document.getElementById('goal-preview').innerHTML = state.goals.map(g => {
+        const pct = Math.min(100, Math.round((g.current / g.target) * 100));
+        const achieved = g.current >= g.target;
+        return `<div class="goal-card ${achieved ? 'achieved' : ''}">
+          <div class="goal-top"><span class="goal-title">${g.name}</span><span class="chip ${achieved ? '' : 'yellow'}">${goalTypeLabel(g.type)}</span></div>
+          <div class="progress-bar" style="margin-top:10px"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div class="goal-meta">${g.current} / ${g.target} ${icon} · 剩余 ${g.daysLeft} 天</div>
+        </div>`;
+      }).join('');
+
+      document.getElementById('token-wall').innerHTML = state.tokenWall.slice(-14).map(() => `<span>${icon}</span>`).join('') || `<span class="muted tiny">还没有记录，去记一笔吧</span>`;
+    }
+
+    function goalTypeLabel(t) {
+      return { weekly: '周目标', monthly: '月目标', semester: '学期目标' }[t] || t;
+    }
+
+    function renderRecord() {
+      const rules = state.recordTab === 'bonus' ? state.bonusRules : state.penaltyRules;
+      const grid = document.getElementById('record-grid');
+      grid.innerHTML = rules.map(r => {
+        const used = state.todayCounts[countKey(r.id)] || 0;
+        const disabled = state.recordTab === 'bonus'
+          ? (state.todayEarned >= state.dailyCap || (r.dailyMax && used >= r.dailyMax))
+          : false;
+        const sign = state.recordTab === 'bonus' ? '+' : '-';
+        return `<button class="record-item ${state.recordTab}" type="button" data-rule="${r.id}" data-type="${state.recordTab}" ${disabled ? 'disabled' : ''}>
+          <div>${tokenIcon()}</div>
+          <div class="name">${r.name}</div>
+          <div class="val ${state.recordTab === 'bonus' ? 'pos' : 'neg'}">${sign}${r.value}</div>
+        </button>`;
+      }).join('');
+    }
+
+    function renderRules() {
+      document.getElementById('style-grid').innerHTML = Object.entries(STYLES).map(([k, v]) =>
+        `<button class="style-option ${state.tokenStyle === k ? 'active' : ''}" type="button" data-style="${k}">
+          <span class="icon">${v.icon}</span>${v.name}
+        </button>`).join('');
+
+      document.getElementById('daily-cap').value = state.dailyCap;
+      document.getElementById('daily-cap-label').textContent = state.dailyCap;
+
+      const h = healthStatus();
+      const panel = document.getElementById('health-panel');
+      panel.className = 'health-panel' + (h.key === 'warn' ? ' warn' : h.key === 'strict' ? ' strict' : '');
+      document.getElementById('health-title').textContent = h.title;
+      document.getElementById('health-desc').textContent = h.desc;
+
+      document.getElementById('bonus-list').innerHTML = state.bonusRules.map(r => ruleRow(r, 'bonus')).join('');
+      document.getElementById('penalty-list').innerHTML = state.penaltyRules.map(r => ruleRow(r, 'penalty')).join('');
+    }
+
+    function ruleRow(r, type) {
+      return `<div class="rule-row" data-id="${r.id}" data-type="${type}">
+        <input type="text" value="${r.name}" data-field="name" style="flex:1">
+        <input type="number" class="pts" value="${r.value}" min="1" max="10" data-field="value">
+        <input type="number" class="pts" value="${r.dailyMax || ''}" placeholder="次" min="1" max="5" data-field="dailyMax" title="每日次数上限">
+        <button class="del" type="button" data-del="${r.id}" data-type="${type}">×</button>
+      </div>`;
+    }
+
+    function renderGoals() {
+      document.getElementById('goals-full').innerHTML = state.goals.map(g => {
+        const pct = Math.min(100, Math.round((g.current / g.target) * 100));
+        const suggested = suggestGoal(g.type);
+        return `<div class="card">
+          <div class="section-head">
+            <h3>${goalTypeLabel(g.type)}</h3>
+            <span class="chip yellow">建议 ${suggested}</span>
+          </div>
+          <div class="rule-row" style="background:var(--blue-soft);box-shadow:none">
+            <input type="text" value="${g.name}" data-goal="${g.id}" data-field="name" style="flex:1;background:transparent">
+            <input type="number" value="${g.target}" data-goal="${g.id}" data-field="target" class="pts" style="background:transparent">
+          </div>
+          <div class="progress-bar" style="margin-top:12px"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <p class="tiny muted" style="margin:10px 0 0">当前 ${g.current} / ${g.target} · 剩余 ${g.daysLeft} 天</p>
+        </div>`;
+      }).join('');
+    }
+
+    function suggestGoal(type) {
+      const cap = state.dailyCap;
+      const weekly = Math.round(cap * 5 * 0.7);
+      if (type === 'weekly') return weekly;
+      if (type === 'monthly') return Math.round(weekly * 4 * 0.9);
+      return Math.round(weekly * 4 * 0.9 * 4.5);
+    }
+
+    function renderLedger() {
+      document.getElementById('ledger-list').innerHTML = state.ledger.length
+        ? state.ledger.map(l => `<div class="ledger-item">
+            <div class="ledger-left"><div class="title">${l.title}</div><div class="time">${l.time}</div></div>
+            <div class="ledger-delta ${l.delta > 0 ? 'pos' : 'neg'}">${l.delta > 0 ? '+' : ''}${l.delta}</div>
+          </div>`).join('')
+        : '<p class="tiny muted">暂无流水</p>';
+    }
+
+    function recordRule(ruleId, type) {
+      const list = type === 'bonus' ? state.bonusRules : state.penaltyRules;
+      const rule = list.find(r => r.id === ruleId);
+      if (!rule) return;
+
+      const ck = countKey(ruleId);
+      const used = state.todayCounts[ck] || 0;
+      if (rule.dailyMax && used >= rule.dailyMax) return;
+
+      if (type === 'bonus') {
+        if (state.todayEarned >= state.dailyCap) return;
+        const gain = Math.min(rule.value, state.dailyCap - state.todayEarned);
+        state.todayEarned += gain;
+        state.balance += gain;
+        state.goals.forEach(g => { g.current += gain; });
+        state.tokenWall.push(gain);
+        state.ledger.unshift({ id: 'l' + Date.now(), title: rule.name, delta: gain, time: '刚刚', type: 'earn' });
+      } else {
+        const loss = Math.min(rule.value, state.balance);
+        state.balance -= loss;
+        state.todayPenalty += loss;
+        state.goals.forEach(g => { g.current = Math.max(0, g.current - loss); });
+        state.ledger.unshift({ id: 'l' + Date.now(), title: rule.name, delta: -loss, time: '刚刚', type: 'penalty' });
+      }
+      state.todayCounts[ck] = used + 1;
+      renderAll();
+    }
+
+    function renderDoc(screen) {
+      const d = DOCS[screen];
+      document.getElementById('doc-title').textContent = d.title;
+      document.getElementById('doc-body').textContent = d.body;
+      document.getElementById('doc-list').innerHTML = d.list.map(x => `<li>${x}</li>`).join('');
+      document.getElementById('doc-kv').innerHTML = `
+        <div><span>当前样式</span><strong>${STYLES[state.tokenStyle].name}</strong></div>
+        <div><span>日上限</span><strong>${state.dailyCap}</strong></div>
+        <div><span>理论最大</span><strong>${theoreticalMax()}</strong></div>
+        <div><span>余额</span><strong>${state.balance}</strong></div>`;
+    }
+
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-' + name).classList.add('active');
+      document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('active', b.dataset.screen === name));
+      document.getElementById('fab-record').style.display = name === 'home' ? 'block' : 'none';
+      renderDoc(name);
+    }
+
+    function renderAll() {
+      renderHome();
+      renderRecord();
+      renderRules();
+      renderGoals();
+      renderLedger();
+    }
+
+    document.getElementById('nav').addEventListener('click', e => {
+      const btn = e.target.closest('button[data-screen]');
+      if (btn) showScreen(btn.dataset.screen);
+    });
+
+    document.getElementById('fab-record').addEventListener('click', () => showScreen('record'));
+
+    document.querySelectorAll('[data-goto]').forEach(btn => {
+      btn.addEventListener('click', () => showScreen(btn.dataset.goto));
+    });
+
+    document.querySelector('.record-tabs').addEventListener('click', e => {
+      const btn = e.target.closest('button[data-tab]');
+      if (!btn) return;
+      state.recordTab = btn.dataset.tab;
+      document.querySelectorAll('.record-tabs button').forEach(b => b.classList.toggle('active', b === btn));
+      renderRecord();
+    });
+
+    document.getElementById('record-grid').addEventListener('click', e => {
+      const btn = e.target.closest('[data-rule]');
+      if (!btn || btn.disabled) return;
+      recordRule(btn.dataset.rule, btn.dataset.type);
+    });
+
+    document.getElementById('style-grid').addEventListener('click', e => {
+      const btn = e.target.closest('[data-style]');
+      if (!btn) return;
+      state.tokenStyle = btn.dataset.style;
+      renderAll();
+      renderDoc(document.querySelector('#nav button.active').dataset.screen);
+    });
+
+    document.getElementById('daily-cap').addEventListener('input', e => {
+      state.dailyCap = Number(e.target.value);
+      renderRules();
+      renderHome();
+    });
+
+    function bindRuleList(id, type) {
+      document.getElementById(id).addEventListener('input', e => {
+        const row = e.target.closest('.rule-row');
+        if (!row) return;
+        const list = type === 'bonus' ? state.bonusRules : state.penaltyRules;
+        const rule = list.find(r => r.id === row.dataset.id);
+        if (!rule) return;
+        const field = e.target.dataset.field;
+        rule[field] = field === 'name' ? e.target.value : Number(e.target.value) || null;
+        renderRules();
+        renderRecord();
+      });
+      document.getElementById(id).addEventListener('click', e => {
+        if (e.target.dataset.del) {
+          const list = type === 'bonus' ? state.bonusRules : state.penaltyRules;
+          const idx = list.findIndex(r => r.id === e.target.dataset.del);
+          if (idx >= 0) list.splice(idx, 1);
+          renderAll();
+        }
+      });
+    }
+    bindRuleList('bonus-list', 'bonus');
+    bindRuleList('penalty-list', 'penalty');
+
+    document.getElementById('add-bonus').addEventListener('click', () => {
+      state.bonusRules.push({ id: 'b' + Date.now(), name: '新加分项', value: 1, dailyMax: 1 });
+      renderAll();
+    });
+    document.getElementById('add-penalty').addEventListener('click', () => {
+      state.penaltyRules.push({ id: 'p' + Date.now(), name: '新减分项', value: 1, dailyMax: 1 });
+      renderAll();
+    });
+
+    document.getElementById('goals-full').addEventListener('input', e => {
+      const g = state.goals.find(x => x.id === e.target.dataset.goal);
+      if (!g) return;
+      g[e.target.dataset.field] = e.target.dataset.field === 'name' ? e.target.value : Number(e.target.value);
+      renderHome();
+      renderGoals();
+    });
+
+    renderAll();
+    showScreen('home');
+  </script>
+</body>
+</html>

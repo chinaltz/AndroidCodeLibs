@@ -7,7 +7,13 @@
     data-key="{{item.key}}"
     bindtap="onTap"
   >
-    <text class="bc-tabbar__icon">{{item.icon}}</text>
+    <image
+      wx:if="{{item.iconSrc}}"
+      class="bc-tabbar__icon-image"
+      src="{{selected === index && item.activeIconSrc ? item.activeIconSrc : item.iconSrc}}"
+      mode="aspectFit"
+    />
+    <text wx:else class="bc-tabbar__icon">{{item.icon}}</text>
     <text class="bc-tabbar__label">{{item.label}}</text>
   </view>
 </view>

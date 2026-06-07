@@ -5,6 +5,38 @@
       {
         "type": "folder",
         "value": "docs"
+      },
+      {
+        "type": "folder",
+        "value": "materials"
+      },
+      {
+        "type": "folder",
+        "value": "tools"
+      },
+      {
+        "type": "folder",
+        "value": "assets/images/pet"
+      },
+      {
+        "type": "glob",
+        "value": "**/*_ref.png"
+      },
+      {
+        "type": "glob",
+        "value": "**/*_ref.jpg"
+      },
+      {
+        "type": "glob",
+        "value": "data/textbook-characters.full.*"
+      },
+      {
+        "type": "glob",
+        "value": "data/textbook-words*"
+      },
+      {
+        "type": "glob",
+        "value": "data/textbook-dictation.catalog.sample.json"
       }
     ],
     "include": []
@@ -16,7 +48,7 @@
     "minified": true,
     "compileWorklet": false,
     "uglifyFileName": false,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "enhance": false,
     "packNpmManually": false,
     "packNpmRelationList": [],

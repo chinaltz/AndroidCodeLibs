@@ -1,0 +1,18 @@
+.bc-input {
+  width: 100%;
+  min-height: 82rpx;
+  border: 2rpx solid var(--bc-border);
+  border-radius: 22rpx;
+  background: var(--bc-surface);
+  color: var(--bc-text);
+  padding: 0 22rpx;
+  box-sizing: border-box;
+  font-size: 28rpx;
+}
+
+.bc-input--multiline {
+  min-height: 150rpx;
+  padding-top: 18rpx;
+  padding-bottom: 18rpx;
+  line-height: 1.6;
+}

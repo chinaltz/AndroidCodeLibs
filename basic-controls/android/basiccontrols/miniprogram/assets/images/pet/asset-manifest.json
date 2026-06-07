@@ -1,0 +1,425 @@
+{
+  "version": "1.1.0",
+  "updatedAt": "2026-06-06",
+  "license": "./LICENSE.md",
+  "styleGuide": {
+    "palette": {
+      "skyBlue": "#6EC5FF",
+      "mintGreen": "#7EDCB5",
+      "warmOrange": "#FFB86C",
+      "brandPrimary": "#31A8FF",
+      "starYellow": "#FFD166",
+      "teal": "#43CFC7",
+      "ink": "#173A62"
+    },
+    "renderStyle": "2D polished kids app, soft vinyl toy, clean cel-shading, rounded outlines",
+    "backgroundPolicy": "production PNG must be transparent; previews may have white bg"
+  },
+  "previews": [
+    {
+      "id": "pet_star_sprout_sky_idle_ref",
+      "path": "previews/pet_star_sprout_sky_idle_ref.png",
+      "status": "approved_ref",
+      "usage": "主角色晴空蓝待机定稿参考"
+    },
+    {
+      "id": "pet_star_sprout_mint_idle_ref",
+      "path": "previews/pet_star_sprout_mint_idle_ref.png",
+      "status": "approved_ref",
+      "usage": "薄荷绿配色参考"
+    },
+    {
+      "id": "pet_star_sprout_sunset_idle_ref",
+      "path": "previews/pet_star_sprout_sunset_idle_ref.png",
+      "status": "approved_ref",
+      "usage": "暖橙黄配色参考"
+    },
+    {
+      "id": "pet_star_sprout_sky_happy_ref",
+      "path": "previews/pet_star_sprout_sky_happy_ref.png",
+      "status": "superseded",
+      "usage": "旧庆祝动作对照；头部与嫩芽结构漂移，不用于生产"
+    },
+    {
+      "id": "pet_star_sprout_sky_happy_v2_ref",
+      "path": "previews/pet_star_sprout_sky_happy_v2_ref.png",
+      "status": "approved_ref",
+      "usage": "统一待机母版骨架的庆祝/升级动作参考"
+    },
+    {
+      "id": "room_default_ref",
+      "path": "previews/room_default_ref.png",
+      "status": "approved_ref",
+      "usage": "默认小屋背景参考（正式版需压平为 2D 分层或统一 2D 风格）"
+    },
+    {
+      "id": "room_growth_garden_ref",
+      "path": "previews/room_growth_garden_ref.png",
+      "status": "approved_ref",
+      "usage": "10 级成长花园背景参考"
+    },
+    {
+      "id": "food_star_cookie_ref",
+      "path": "previews/food_star_cookie_ref.png",
+      "status": "approved_ref",
+      "usage": "星星饼干道具参考"
+    },
+    {
+      "id": "accessory_head_star_clip_ref",
+      "path": "previews/accessory_head_star_clip_ref.png",
+      "status": "approved_ref",
+      "usage": "星星发卡配饰参考"
+    },
+    {
+      "id": "pet_items_food_toy_set_ref",
+      "path": "previews/pet_items_food_toy_set_ref.png",
+      "status": "approved_ref",
+      "usage": "云朵牛奶/彩虹果杯/弹弹球合板参考，需拆图"
+    },
+    {
+      "id": "planet_pet_v2_ref",
+      "path": "previews/planet_pet_v2_ref.png",
+      "status": "approved_ref",
+      "usage": "地图入口星球图标升级参考"
+    },
+    {
+      "id": "pet_star_sprout_sky_eat_ref",
+      "path": "previews/pet_star_sprout_sky_eat_ref.png",
+      "status": "approved_ref",
+      "usage": "星芽兽进食动作参考"
+    },
+    {
+      "id": "pet_star_sprout_sky_play_ref",
+      "path": "previews/pet_star_sprout_sky_play_ref.png",
+      "status": "approved_ref",
+      "usage": "星芽兽玩球动作参考"
+    },
+    {
+      "id": "pet_star_sprout_sky_sleepy_ref",
+      "path": "previews/pet_star_sprout_sky_sleepy_ref.png",
+      "status": "approved_ref",
+      "usage": "星芽兽困倦动作参考"
+    },
+    {
+      "id": "pet_star_fox_orange_idle_ref",
+      "path": "previews/pet_star_fox_orange_idle_ref.png",
+      "status": "approved_ref",
+      "usage": "新增动物宠物星绒狐待机母版"
+    },
+    {
+      "id": "pet_star_fox_orange_happy_ref",
+      "path": "previews/pet_star_fox_orange_happy_ref.png",
+      "status": "approved_ref",
+      "usage": "星绒狐庆祝动作参考"
+    }
+  ],
+  "production": {
+    "body": {
+      "description": "星芽兽主体 × 3 色 × 7 动作",
+      "items": [
+        {
+          "id": "pet_star_sprout_sky_idle",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_sprout_sky_happy",
+          "frames": 6,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_sprout_sky_eat",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_sprout_sky_play",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_sprout_sky_sleepy",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_sprout_sky_lonely",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_sprout_sky_levelup",
+          "frames": 6,
+          "size": 768,
+          "status": "pending"
+        }
+      ],
+      "colorVariants": [
+        "sky",
+        "mint",
+        "sunset"
+      ]
+    },
+    "accessories": [
+      {
+        "id": "accessory_head_star_clip",
+        "slot": "head",
+        "status": "ready",
+        "path": "accessories/accessory_head_star_clip.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_head_explorer_hat",
+        "slot": "head",
+        "status": "ready",
+        "path": "accessories/accessory_head_explorer_hat.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_head_headphones",
+        "slot": "head",
+        "status": "ready",
+        "path": "accessories/accessory_head_headphones.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_head_cloud_nightcap",
+        "slot": "head",
+        "status": "ready",
+        "path": "accessories/accessory_head_cloud_nightcap.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_neck_mint_bow",
+        "slot": "neck",
+        "status": "ready",
+        "path": "accessories/accessory_neck_mint_bow.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_neck_rainbow_scarf",
+        "slot": "neck",
+        "status": "ready",
+        "path": "accessories/accessory_neck_rainbow_scarf.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_neck_medal",
+        "slot": "neck",
+        "status": "ready",
+        "path": "accessories/accessory_neck_medal.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_back_schoolbag",
+        "slot": "back",
+        "status": "ready",
+        "path": "accessories/accessory_back_schoolbag.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_back_cloud_cape",
+        "slot": "back",
+        "status": "ready",
+        "path": "accessories/accessory_back_cloud_cape.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_back_leaf_wings",
+        "slot": "back",
+        "status": "ready",
+        "path": "accessories/accessory_back_leaf_wings.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_hand_star_pen",
+        "slot": "hand",
+        "status": "ready",
+        "path": "accessories/accessory_hand_star_pen.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_hand_flag",
+        "slot": "hand",
+        "status": "ready",
+        "path": "accessories/accessory_hand_flag.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "accessory_hand_magnifier",
+        "slot": "hand",
+        "status": "ready",
+        "path": "accessories/accessory_hand_magnifier.png",
+        "format": "png-alpha"
+      }
+    ],
+    "food": [
+      {
+        "id": "food_star_cookie",
+        "status": "ready",
+        "path": "food/food_star_cookie.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "food_cloud_milk",
+        "status": "ready",
+        "path": "food/food_cloud_milk.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "food_rainbow_cup",
+        "status": "ready",
+        "path": "food/food_rainbow_cup.png",
+        "format": "png-alpha"
+      }
+    ],
+    "toys": [
+      {
+        "id": "toy_bouncy_ball",
+        "status": "ready",
+        "path": "toys/toy_bouncy_ball.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "toy_puzzle_blocks",
+        "status": "ready",
+        "path": "toys/toy_puzzle_blocks.png",
+        "format": "png-alpha"
+      },
+      {
+        "id": "toy_bubble_wand",
+        "status": "ready",
+        "path": "toys/toy_bubble_wand.png",
+        "format": "png-alpha"
+      }
+    ],
+    "rooms": [
+      {
+        "id": "room_default",
+        "size": "1125x2436",
+        "status": "ref_only"
+      },
+      {
+        "id": "room_growth_garden",
+        "size": "1125x2436",
+        "status": "ref_only"
+      }
+    ],
+    "ui": [
+      {
+        "id": "icon_pet_xp",
+        "path": "ui/icon_pet_xp.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_star_points",
+        "path": "ui/icon_pet_star_points.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_hunger",
+        "path": "ui/icon_pet_hunger.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_mood",
+        "path": "ui/icon_pet_mood.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_energy",
+        "path": "ui/icon_pet_energy.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_feed",
+        "path": "ui/icon_pet_feed.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_play",
+        "path": "ui/icon_pet_play.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_wardrobe",
+        "path": "ui/icon_pet_wardrobe.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_shop",
+        "path": "ui/icon_pet_shop.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_growth",
+        "path": "ui/icon_pet_growth.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_owned",
+        "path": "ui/icon_pet_owned.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_equipped",
+        "path": "ui/icon_pet_equipped.svg",
+        "status": "ready"
+      },
+      {
+        "id": "icon_pet_level_lock",
+        "path": "ui/icon_pet_level_lock.svg",
+        "status": "ready"
+      }
+    ],
+    "animalBody": {
+      "description": "星绒狐动物宠物，暖橙固定配色",
+      "items": [
+        {
+          "id": "pet_star_fox_orange_idle",
+          "frames": 4,
+          "size": 768,
+          "status": "ref_ready"
+        },
+        {
+          "id": "pet_star_fox_orange_happy",
+          "frames": 6,
+          "size": 768,
+          "status": "ref_ready"
+        },
+        {
+          "id": "pet_star_fox_orange_eat",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_fox_orange_play",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_fox_orange_sleepy",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        },
+        {
+          "id": "pet_star_fox_orange_companion",
+          "frames": 4,
+          "size": 768,
+          "status": "pending"
+        }
+      ]
+    }
+  },
+  "thirdParty": [],
+  "contactSheet": "asset-contact-sheet-v2.png"
+}

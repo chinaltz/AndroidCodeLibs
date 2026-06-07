@@ -1,0 +1,102 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="模拟批改验错" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="stats-panel">
+      <view class="panel-title">{{scenarioTitle}}</view>
+      <view class="panel-desc">{{scenarioDesc}}</view>
+      <view class="expect-row">期望错字：{{expectedLabel}}</view>
+      <view class="scenario-row">
+        <view
+          wx:for="{{scenarios}}"
+          wx:key="id"
+          class="scenario-chip {{scenarioId === item.id ? 'is-active' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="onScenarioTap"
+        >{{item.title}}</view>
+      </view>
+      <view class="stats-row">
+        <view class="stat-cell">
+          <view class="stat-num">{{stats.total}}</view>
+          <view class="stat-label">词语</view>
+        </view>
+        <view class="stat-cell">
+          <view class="stat-num stat-correct">{{stats.correct}}</view>
+          <view class="stat-label">正确</view>
+        </view>
+        <view class="stat-cell">
+          <view class="stat-num stat-wrong">{{stats.wrong}}</view>
+          <view class="stat-label">错误</view>
+        </view>
+        <view class="stat-cell">
+          <view class="stat-num stat-pending">{{stats.pending}}</view>
+          <view class="stat-label">待批改</view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{report}}" class="report-panel {{report.statusClass}}">
+      <view class="report-title">{{report.title}}</view>
+      <view class="report-sub">点选 {{report.selectedCount}} 个：{{report.selectedLabel}}</view>
+      <view wx:for="{{report.checks}}" wx:key="id" class="report-item {{item.pass ? 'is-pass' : 'is-fail'}}">
+        <view class="report-label">{{item.label}}</view>
+        <view class="report-detail">{{item.detail}}</view>
+      </view>
+    </view>
+
+    <view class="grade-list">
+      <view
+        wx:for="{{items}}"
+        wx:key="id"
+        class="grade-item {{item.result === 'correct' ? 'is-correct' : ''}} {{item.result === 'wrong' ? 'is-wrong' : ''}}"
+      >
+        <view class="grade-head">
+          <view class="grade-text">{{item.text}}</view>
+          <view class="grade-meta">
+            <view class="grade-pinyin">{{item.pinyin}}</view>
+            <view class="grade-source">{{item.sourceLabel}}</view>
+          </view>
+          <view class="grade-status {{item.result === 'correct' ? 'status-correct' : ''}} {{item.result === 'wrong' ? 'status-wrong' : ''}} {{item.result === 'pending' ? 'status-pending' : ''}}">
+            {{item.result === 'correct' ? '正确' : item.result === 'wrong' ? '错误' : '待批改'}}
+          </view>
+        </view>
+
+        <view class="grade-actions">
+          <view
+            class="grade-btn {{item.result === 'correct' ? 'grade-btn--correct' : ''}}"
+            data-id="{{item.id}}"
+            data-result="correct"
+            bindtap="onGrade"
+          >正确</view>
+          <view
+            class="grade-btn {{item.result === 'wrong' ? 'grade-btn--wrong' : ''}}"
+            data-id="{{item.id}}"
+            data-result="wrong"
+            bindtap="onGrade"
+          >错误</view>
+        </view>
+
+        <view wx:if="{{item.showWrongDetail}}" class="wrong-detail">
+          <view class="wrong-hint">点选实际写错的字，可多选。</view>
+          <view class="wrong-char-row">
+            <view
+              wx:for="{{item.chars}}"
+              wx:key="id"
+              wx:for-item="c"
+              class="wrong-char {{c.active ? 'is-active' : ''}}"
+              data-item-id="{{item.id}}"
+              data-char-id="{{c.id}}"
+              bindtap="onWrongCharTap"
+            >{{c.char}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-panel">
+      <view class="btn-primary {{allGraded ? '' : 'is-disabled'}}" bindtap="onSaveAndVerify">保存并验证错字</view>
+      <view class="btn-secondary" bindtap="onAutoFill">一键填充</view>
+      <view class="btn-secondary" bindtap="onReset">重置</view>
+    </view>
+  </scroll-view>
+</view>

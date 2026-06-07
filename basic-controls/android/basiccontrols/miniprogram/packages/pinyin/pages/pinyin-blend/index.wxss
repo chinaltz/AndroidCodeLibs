@@ -1,0 +1,88 @@
+.blend-stage {
+  min-height: 340rpx;
+  border-radius: 42rpx;
+  padding: 34rpx;
+  box-sizing: border-box;
+  background: linear-gradient(145deg, #EAF6FF, #FFF5CF);
+  text-align: center;
+  box-shadow: 0 20rpx 42rpx rgba(23, 58, 98, 0.12);
+  margin-bottom: 20rpx;
+}
+
+.blend-tag {
+  display: inline-flex;
+  padding: 9rpx 20rpx;
+  border-radius: 16rpx;
+  background: #FFFFFF;
+  color: #0C8F7E;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.blend-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+  margin: 40rpx 0;
+}
+
+.blend-part, .blend-result {
+  min-width: 88rpx;
+  min-height: 88rpx;
+  padding: 12rpx;
+  border-radius: 24rpx;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #173A62;
+  font-size: 46rpx;
+  font-weight: 900;
+}
+
+.blend-result { background: #E8FDF7; color: #0C8F7E; }
+.blend-sign { color: #7895AE; font-size: 36rpx; font-weight: 900; }
+
+.blend-play {
+  min-height: 76rpx;
+  border-radius: 22rpx;
+  background: #0C8F7E;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 27rpx;
+  font-weight: 900;
+}
+
+.selector-title { font-size: 30rpx; font-weight: 900; }
+.selector-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10rpx; margin-top: 18rpx; }
+.selector-cell {
+  min-height: 64rpx;
+  border-radius: 18rpx;
+  background: #EAF6FF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #173A62;
+  font-size: 26rpx;
+  font-weight: 900;
+}
+.selector-cell.is-active { background: #55ADFF; color: #FFFFFF; }
+
+.tone-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10rpx; margin-top: 18rpx; }
+.tone-cell {
+  min-height: 108rpx;
+  border-radius: 22rpx;
+  border: 3rpx solid #C8EAFF;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.tone-cell.is-active { border-color: #43CFC7; background: #E8FDF7; }
+.tone-number { color: #7895AE; font-size: 20rpx; }
+.tone-label { margin-top: 7rpx; color: #173A62; font-size: 32rpx; font-weight: 900; }
+.rule-note { margin-top: 18rpx; padding: 18rpx; border-radius: 20rpx; background: #FFF5CF; color: #8F5300; font-size: 23rpx; line-height: 1.55; }

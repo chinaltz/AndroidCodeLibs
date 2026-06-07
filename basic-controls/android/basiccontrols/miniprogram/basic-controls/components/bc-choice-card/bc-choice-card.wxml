@@ -1,0 +1,7 @@
+<view
+  class="bc-choice-card {{selected ? 'is-selected' : ''}} {{disabled ? 'is-disabled' : ''}}"
+  style="--bc-brand: {{theme.brandPrimary}}; --bc-active: {{theme.activeFill}}; --bc-surface: {{theme.surfaceRaised}}; --bc-border: {{theme.borderDefault}};"
+  bindtap="onTap"
+>
+  <slot></slot>
+</view>

@@ -1,0 +1,46 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="拼音星球" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll pinyin-scroll">
+    <bc-card theme="{{theme}}">
+      <view class="progress-head">
+        <view class="progress-title">拼音进度 {{progressText}}</view>
+        <bc-chip text="{{percentText}}" bg="#FFF0C7" color="#8F5300" />
+      </view>
+      <view class="mt-sm"><bc-progress value="{{progressRatio}}" theme="{{theme}}" /></view>
+      <view class="progress-hint">点击任意拼音立即播放，选中后点击底部开始学习。</view>
+    </bc-card>
+
+    <block wx:for="{{groups}}" wx:key="id">
+      <view class="group-card">
+        <bc-card theme="{{theme}}">
+          <view class="group-head">
+            <view>
+              <view class="group-title">{{item.title}}</view>
+              <view class="group-description">{{item.description}}</view>
+            </view>
+            <bc-chip text="{{item.count}} 关" bg="#FFF0C7" color="#8F5300" />
+          </view>
+          <view class="pinyin-grid">
+            <view
+              wx:for="{{item.items}}"
+              wx:for-item="cell"
+              wx:key="id"
+              class="pinyin-cell {{cell.done ? 'is-done' : ''}} {{cell.active ? 'is-active' : ''}} {{cell.missingAudio ? 'is-missing' : ''}}"
+              data-id="{{cell.id}}"
+              bindtap="onUnitTap"
+            >
+              <view>{{cell.symbol}}</view>
+              <view wx:if="{{cell.done}}" class="cell-mark">✓</view>
+              <view wx:elif="{{cell.missingAudio}}" class="cell-mark">待录</view>
+            </view>
+          </view>
+        </bc-card>
+      </view>
+    </block>
+  </scroll-view>
+
+  <view class="page-action">
+    <bc-button text="开始学习 {{currentSymbol}}" variant="primary" theme="{{theme}}" bind:tap="onStartLearn" />
+  </view>
+</view>

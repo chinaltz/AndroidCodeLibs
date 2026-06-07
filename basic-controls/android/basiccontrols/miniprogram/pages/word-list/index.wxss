@@ -1,65 +1,60 @@
-.search-bar {
+@import '../../styles/words-page.wxss';
+
+.toolbar {
   display: flex;
   align-items: center;
   gap: 14rpx;
   padding: 14rpx 24rpx;
-  background: rgba(255, 255, 255, 0.84);
+  border-bottom: 2rpx solid;
 }
 
-.search-bar input {
+.search-input {
   flex: 1;
-  min-height: 76rpx;
-  border-radius: 22rpx;
-  border: 2rpx solid #C8EAFF;
-  background: #FFFFFF;
-  padding: 0 20rpx;
-  box-sizing: border-box;
-  font-size: 25rpx;
 }
 
-.clear-link {
-  color: #0C8F7E;
-  font-size: 23rpx;
-  font-weight: 900;
+.sort-scroll {
+  width: 100%;
+  border-bottom: 2rpx solid;
+}
+
+.sort-row {
+  display: inline-flex;
+  gap: 12rpx;
+  padding: 12rpx 24rpx 16rpx;
+  white-space: nowrap;
 }
 
 .word-list-scroll {
-  padding-bottom: 150rpx;
+  padding-top: 8rpx;
 }
 
-.week-section {
-  margin-bottom: 22rpx;
+.week-card {
+  margin-top: 0;
 }
 
 .week-head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 14rpx;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.week-head-main {
+  flex: 1;
+  min-width: 0;
 }
 
 .week-title {
-  color: #173A62;
-  font-size: 34rpx;
+  font-size: 32rpx;
   font-weight: 900;
+  line-height: 1.25;
 }
 
 .week-count {
-  margin-top: 4rpx;
-  color: #7895AE;
+  margin-top: 6rpx;
   font-size: 22rpx;
-}
-
-.select-week {
-  height: 52rpx;
-  padding: 0 18rpx;
-  border-radius: 17rpx;
-  background: #E8FDF7;
-  color: #0C8F7E;
-  display: flex;
-  align-items: center;
-  font-size: 23rpx;
-  font-weight: 900;
+  line-height: 1.4;
 }
 
 .week-word-grid {
@@ -69,19 +64,10 @@
 }
 
 .week-word {
-  min-height: 176rpx;
-  border-radius: 26rpx;
-  border: 3rpx solid #D8EEF8;
-  background: rgba(255, 255, 255, 0.94);
+  min-height: 168rpx;
   padding: 18rpx;
   box-sizing: border-box;
   position: relative;
-  box-shadow: 0 12rpx 26rpx rgba(23, 58, 98, 0.08);
-}
-
-.week-word.is-selected {
-  border-color: #43CFC7;
-  background: #E8FDF7;
 }
 
 .word-check {
@@ -103,21 +89,20 @@
 
 .word-text {
   max-width: calc(100% - 42rpx);
-  color: #173A62;
+  padding-top: 8rpx;
   font-size: 40rpx;
   font-weight: 900;
   word-break: break-all;
+  line-height: 1.1;
 }
 
-.word-pinyin {
+.word-meta {
   margin-top: 8rpx;
-  color: #416279;
   font-size: 22rpx;
 }
 
 .word-source {
-  margin-top: 12rpx;
-  color: #7895AE;
+  margin-top: 10rpx;
   font-size: 20rpx;
   line-height: 1.35;
   display: -webkit-box;
@@ -127,69 +112,54 @@
 }
 
 .empty-state {
-  min-height: 420rpx;
-  border-radius: 30rpx;
-  background: rgba(255, 255, 255, 0.82);
+  min-height: 360rpx;
+  border-radius: 28rpx;
+  border: 2rpx dashed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 32rpx 24rpx;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .empty-title {
-  color: #173A62;
-  font-size: 34rpx;
+  font-size: 32rpx;
   font-weight: 900;
 }
 
 .empty-desc {
   margin-top: 10rpx;
-  color: #7895AE;
   font-size: 23rpx;
+  line-height: 1.5;
 }
 
 .dictation-dock {
-  position: fixed;
-  left: 20rpx;
-  right: 20rpx;
-  bottom: calc(env(safe-area-inset-bottom) + 18rpx);
-  min-height: 100rpx;
-  border-radius: 28rpx;
-  background: #FFFFFF;
-  box-shadow: 0 20rpx 48rpx rgba(23, 58, 98, 0.18);
-  display: flex;
-  align-items: center;
-  gap: 18rpx;
-  padding: 14rpx 16rpx 14rpx 22rpx;
-  box-sizing: border-box;
-  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14rpx;
 }
 
-.dictation-dock > view:first-child {
-  flex: 1;
+.dock-actions {
+  display: grid;
+  grid-template-columns: 200rpx 1fr;
+  gap: 14rpx;
+  align-items: center;
+}
+
+.dock-main {
+  min-width: 0;
 }
 
 .dock-count {
-  color: #173A62;
   font-size: 27rpx;
   font-weight: 900;
+  line-height: 1.25;
 }
 
 .dock-desc {
   margin-top: 4rpx;
-  color: #7895AE;
   font-size: 21rpx;
-}
-
-.dock-button {
-  min-width: 210rpx;
-  height: 72rpx;
-  border-radius: 22rpx;
-  background: #0C8F7E;
-  color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 27rpx;
-  font-weight: 900;
+  line-height: 1.35;
 }

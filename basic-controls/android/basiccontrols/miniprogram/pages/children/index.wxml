@@ -1,38 +1,78 @@
-<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="孩子管理" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+<view class="page-shell children-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="{{pageTitle}}" show-back="{{!isFirstChild}}" action-text="{{isFirstChild ? '' : '查看列表'}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" bind:action="goChildList" />
 
-  <scroll-view scroll-y class="page-body page-scroll">
-    <bc-card theme="{{theme}}">
-      <view class="section-title">添加孩子</view>
-      <view class="avatar-row">
-        <view class="avatar-pick {{selectedAvatar === 'boy' ? 'is-selected' : ''}}" data-avatar="boy" bindtap="onPickAvatar">
-          <image src="/assets/images/planets/kid-boy.png" mode="aspectFit" />
-          <view>男孩</view>
-        </view>
-        <view class="avatar-pick {{selectedAvatar === 'girl' ? 'is-selected' : ''}}" data-avatar="girl" bindtap="onPickAvatar">
-          <image src="/assets/images/planets/kid-girl.png" mode="aspectFit" />
-          <view>女孩</view>
+  <view class="page-body children-body">
+    <view
+      class="children-card"
+      style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};"
+    >
+      <view class="form-section">
+        <view class="section-title">性别形象</view>
+        <view class="step-copy" style="color: {{theme.textTertiary}};">仅用于区分头像，不采集真实身份信息。</view>
+        <view class="avatar-row">
+          <view
+            class="avatar-option {{selectedAvatar === 'boy' ? 'is-selected' : ''}}"
+            style="border-color: {{selectedAvatar === 'boy' ? theme.brandPrimary : theme.borderDefault}}; background: {{selectedAvatar === 'boy' ? theme.activeFill : theme.surfaceRaised}};"
+            data-avatar="boy"
+            bindtap="onPickAvatar"
+          >
+            <view class="avatar-pick"><image src="/assets/images/planets/kid-boy.png" mode="aspectFit" /><view>男孩</view></view>
+          </view>
+          <view
+            class="avatar-option {{selectedAvatar === 'girl' ? 'is-selected' : ''}}"
+            style="border-color: {{selectedAvatar === 'girl' ? theme.brandPrimary : theme.borderDefault}}; background: {{selectedAvatar === 'girl' ? theme.activeFill : theme.surfaceRaised}};"
+            data-avatar="girl"
+            bindtap="onPickAvatar"
+          >
+            <view class="avatar-pick"><image src="/assets/images/planets/kid-girl.png" mode="aspectFit" /><view>女孩</view></view>
+          </view>
         </view>
       </view>
-      <input class="name-input" value="{{nickname}}" placeholder="输入孩子昵称" maxlength="12" bindinput="onNicknameInput" />
-      <bc-button text="保存孩子" variant="primary" theme="{{theme}}" bind:tap="onCreateChild" />
-      <view class="privacy" style="color: {{theme.textTertiary}};">昵称只保存在本机，用于区分孩子数据。小程序没有账号，也不会上传孩子信息。</view>
-    </bc-card>
 
-    <view class="section-title list-title">本地孩子</view>
-    <block wx:for="{{children}}" wx:key="id">
-      <view class="child-row" style="background: {{theme.surfaceRaised}}; border-color: {{item.id === currentChildId ? theme.success : theme.borderDefault}};">
-        <image class="child-row-avatar" src="{{item.avatarPath}}" mode="aspectFit" />
-        <view class="child-row-main">
-          <view class="child-row-name" style="color: {{theme.textPrimary}};">{{item.nickname}}</view>
-          <view class="child-row-meta" style="color: {{theme.textTertiary}};">{{item.isCurrent ? '当前孩子' : '本地档案'}}</view>
-        </view>
+      <view class="form-section">
+        <view class="section-title">孩子昵称</view>
+        <view class="step-copy" style="color: {{theme.textTertiary}};">昵称只保存在本机，用于区分学习数据。</view>
         <view
-          class="switch-tag {{item.isCurrent ? 'is-current' : ''}}"
-          data-id="{{item.id}}"
-          bindtap="onSwitchChild"
-        >{{item.switchLabel}}</view>
+          class="nickname-picker"
+          style="color: {{nickname ? theme.textPrimary : theme.textTertiary}}; background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};"
+          bindtap="openNicknameEditor"
+        >
+          <view class="nickname-value">{{nickname || '点击输入孩子昵称'}}</view>
+          <view class="nickname-edit" style="color: {{theme.brandPrimary}};">修改</view>
+        </view>
       </view>
-    </block>
-  </scroll-view>
+
+      <view class="form-section">
+        <view class="section-title">主题颜色</view>
+        <view class="color-grid">
+          <bc-choice-card wx:for="{{colorThemes}}" wx:key="key" option-key="{{item.key}}" selected="{{item.selected}}" theme="{{theme}}" bind:tap="onPickColor">
+            <view class="color-card">
+              <view class="color-swatch" style="background: linear-gradient(135deg, {{item.color}}, {{item.pageStart}});"></view>
+              <view class="color-label" style="color: {{theme.textPrimary}};">{{item.label}}</view>
+            </view>
+          </bc-choice-card>
+        </view>
+      </view>
+
+      <view class="form-section">
+        <view class="section-title">首页学习模块</view>
+        <view class="step-copy" style="color: {{theme.textTertiary}};">选择后，首页入口、学习进度和今日任务只显示这些模块。</view>
+        <view class="module-grid">
+          <bc-choice-card wx:for="{{moduleList}}" wx:key="key" option-key="{{item.key}}" selected="{{item.selected}}" theme="{{theme}}" bind:tap="onToggleModule">
+            <view class="module-card">
+              <image class="module-icon" src="{{item.icon}}" mode="aspectFit" />
+              <view class="module-label">{{item.label}}</view>
+              <view class="module-desc" style="color: {{theme.textTertiary}};">{{item.desc}}</view>
+              <view class="module-check {{item.selected ? 'is-checked' : ''}}">{{item.selected ? '✓' : ''}}</view>
+            </view>
+          </bc-choice-card>
+        </view>
+      </view>
+
+      <view class="save-action">
+        <bc-button text="{{saveText}}" variant="primary" theme="{{theme}}" bind:tap="onSave" />
+      </view>
+      <view class="privacy" style="color: {{theme.textTertiary}};">所有孩子资料和学习进度均保存在本机，不会上传。</view>
+    </view>
+  </view>
 </view>

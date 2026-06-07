@@ -1,0 +1,43 @@
+.pinyin-scroll { padding-bottom: 32rpx; }
+
+.progress-head { display: flex; align-items: center; }
+.progress-title { flex: 1; font-size: 30rpx; font-weight: 900; }
+
+.progress-hint {
+  margin-top: 16rpx;
+  color: #7895AE;
+  font-size: 23rpx;
+  line-height: 1.5;
+}
+
+.group-description {
+  margin-top: 6rpx;
+  color: #7895AE;
+  font-size: 22rpx;
+}
+
+.pinyin-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12rpx;
+  margin-top: 16rpx;
+}
+
+.pinyin-cell {
+  min-height: 92rpx;
+  position: relative;
+  border: 3rpx solid #C8EAFF;
+  border-radius: 24rpx;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #173A62;
+  font-size: 32rpx;
+  font-weight: 900;
+}
+
+.pinyin-cell.is-done { border-color: #43CFC7; background: #E8FDF7; }
+.pinyin-cell.is-active { border-color: #FFB648; background: #FFF5CF; }
+.pinyin-cell.is-missing { border-style: dashed; color: #8A98A5; }
+.cell-mark { position: absolute; right: 8rpx; top: 6rpx; color: #0C8F7E; font-size: 15rpx; }

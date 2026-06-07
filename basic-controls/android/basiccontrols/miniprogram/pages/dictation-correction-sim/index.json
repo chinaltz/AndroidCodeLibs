@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "bc-top-bar": "/basic-controls/components/bc-top-bar/bc-top-bar"
+  }
+}

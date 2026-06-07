@@ -19,7 +19,7 @@ App({
     this.globalData.themeKey = themeKey;
     this.globalData.language = language;
     this.globalData.completed = storage.getCompleted();
-    this.applyTheme(themeKey);
+    this.applyCurrentChildTheme();
     audio.configureOutput();
   },
 
@@ -49,6 +49,16 @@ App({
     this.globalData.themeKey = themeKey;
     this.globalData.theme = getTheme(themeKey);
     storage.setThemeKey(themeKey);
+  },
+
+  applyCurrentChildTheme() {
+    const themeKey = storage.getThemeKey();
+    this.globalData.themeKey = themeKey;
+    this.globalData.theme = getTheme(themeKey);
+  },
+
+  syncThemeAfterChildChange() {
+    this.applyCurrentChildTheme();
   },
 
   setLanguage(code) {

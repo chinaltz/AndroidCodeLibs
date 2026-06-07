@@ -71,6 +71,90 @@ const THEMES = {
     activeFill: '#FFF7D7',
     danger: '#E24C5C',
   },
+  violet: {
+    key: 'violet',
+    dark: false,
+    pageStart: '#ECE6FF',
+    pageEnd: '#FAF8FF',
+    textPrimary: '#35206A',
+    textSecondary: '#5A4294',
+    textTertiary: '#8E7BB8',
+    surfaceRaised: '#FFFFFF',
+    borderDefault: '#D5C7FF',
+    brandPrimary: '#8B5CF6',
+    brandDark: '#6D28D9',
+    success: '#43CFC7',
+    warning: '#FFD166',
+    selectedFill: '#F3EEFF',
+    activeFill: '#FFF7D7',
+    danger: '#FF6B7A',
+  },
+  rose: {
+    key: 'rose',
+    dark: false,
+    pageStart: '#FFE6F0',
+    pageEnd: '#FFF8FB',
+    textPrimary: '#5A1F3A',
+    textSecondary: '#8A4566',
+    textTertiary: '#B07A94',
+    surfaceRaised: '#FFFFFF',
+    borderDefault: '#FFC8DD',
+    brandPrimary: '#FF6B9D',
+    brandDark: '#E03E74',
+    success: '#43CFC7',
+    warning: '#FFD166',
+    selectedFill: '#FFF0F6',
+    activeFill: '#FFF7D7',
+    danger: '#E24C5C',
+  },
+  ocean: {
+    key: 'ocean',
+    dark: false,
+    pageStart: '#D9F2FF',
+    pageEnd: '#F5FCFF',
+    textPrimary: '#10395A',
+    textSecondary: '#2F6287',
+    textTertiary: '#6A8FAA',
+    surfaceRaised: '#FFFFFF',
+    borderDefault: '#B8E4FF',
+    brandPrimary: '#2D9CDB',
+    brandDark: '#1577B0',
+    success: '#43CFC7',
+    warning: '#FFD166',
+    selectedFill: '#E8F7FF',
+    activeFill: '#FFF7D7',
+    danger: '#FF6B7A',
+  },
+  lemon: {
+    key: 'lemon',
+    dark: false,
+    pageStart: '#FFF6CC',
+    pageEnd: '#FFFEF5',
+    textPrimary: '#4A3D00',
+    textSecondary: '#75621A',
+    textTertiary: '#A8944A',
+    surfaceRaised: '#FFFFFF',
+    borderDefault: '#F5E08A',
+    brandPrimary: '#F5C518',
+    brandDark: '#C89B00',
+    success: '#43CFC7',
+    warning: '#FFD166',
+    selectedFill: '#FFFBE6',
+    activeFill: '#FFF7D7',
+    danger: '#FF6B7A',
+  },
+};
+
+const COLOR_THEME_KEYS = ['sky', 'mint', 'sunrise', 'ocean', 'violet', 'rose', 'lemon'];
+
+const COLOR_THEME_LABELS = {
+  sky: '天空蓝',
+  mint: '薄荷绿',
+  sunrise: '暖阳橙',
+  ocean: '海洋蓝',
+  violet: '梦幻紫',
+  rose: '甜心粉',
+  lemon: '柠檬黄',
 };
 
 function getTheme(key) {
@@ -81,4 +165,20 @@ function themeClass(key) {
   return getTheme(key).dark ? 'theme-night' : 'theme-sky';
 }
 
-module.exports = { THEMES, getTheme, themeClass };
+function getColorThemeOptions() {
+  return COLOR_THEME_KEYS.map((key) => ({
+    key,
+    label: COLOR_THEME_LABELS[key] || key,
+    color: THEMES[key].brandPrimary,
+    pageStart: THEMES[key].pageStart,
+  }));
+}
+
+module.exports = {
+  THEMES,
+  COLOR_THEME_KEYS,
+  COLOR_THEME_LABELS,
+  getTheme,
+  themeClass,
+  getColorThemeOptions,
+};

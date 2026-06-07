@@ -1,5 +1,5 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="听写播放" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+  <bc-top-bar title="听写播放" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
 
   <scroll-view scroll-y class="page-body page-scroll">
     <view class="dictation-hero">
@@ -11,32 +11,27 @@
       <image class="hero-planet" src="/assets/images/planets/planet-words.png" mode="aspectFit" />
     </view>
 
-    <view class="control-panel">
+    <view class="content-card-wrap"><bc-card theme="{{theme}}">
       <view class="panel-title">播报设置</view>
       <view class="settings-grid">
         <view class="setting-card">
-          <view class="setting-label">间隔秒数</view>
-          <input class="setting-input" type="number" value="{{intervalSeconds}}" bindinput="onIntervalInput" bindblur="onIntervalBlur" />
+          <view class="setting-label">词间隔秒数</view>
+          <bc-input theme="{{theme}}" type="number" value="{{intervalSeconds}}" bind:input="onIntervalInput" bind:blur="onIntervalBlur" />
         </view>
         <view class="setting-card">
-          <view class="setting-label">重复次数</view>
-          <input class="setting-input" type="number" value="{{repeatCount}}" bindinput="onRepeatInput" bindblur="onRepeatBlur" />
+          <view class="setting-label">每词总播放次数</view>
+          <bc-input theme="{{theme}}" type="number" value="{{repeatCount}}" bind:input="onRepeatInput" bind:blur="onRepeatBlur" />
         </view>
       </view>
-      <view class="tts-state">
-        <view>
-          <view class="state-title">腾讯云 TTS</view>
-          <view class="state-desc">{{hasConfig ? '已使用内置语音配置，直接开始听写' : '内置语音配置尚未填写'}}</view>
-        </view>
-        <view class="state-badge {{hasConfig ? 'is-ready' : ''}}">{{hasConfig ? '就绪' : '未配置'}}</view>
-      </view>
+      <view class="setting-note" style="color: {{theme.textTertiary}};">每次播报一个词后等待词间隔秒数，同一词按设定次数重复播报后再进入下一个词。例如「天地、人们」间隔 8 秒、每词 2 次：天地 → 8 秒 → 天地 → 8 秒 → 人们 → 8 秒 → 人们。</view>
       <view class="primary-row">
-        <bc-button wx:if="{{!playing}}" text="开始听写" variant="primary" theme="{{theme}}" bind:tap="startQueue" />
+        <bc-button wx:if="{{finished}}" text="开始批改" variant="primary" theme="{{theme}}" bind:tap="goCorrection" />
+        <bc-button wx:elif="{{!playing}}" text="开始听写" variant="primary" theme="{{theme}}" bind:tap="startQueue" />
         <bc-button wx:else text="暂停" variant="primary" theme="{{theme}}" bind:tap="stopQueue" />
       </view>
-    </view>
+    </bc-card></view>
 
-    <view class="queue-section">
+    <view class="content-card-wrap"><bc-card theme="{{theme}}">
       <view class="section-title">听写队列</view>
       <block wx:for="{{queue}}" wx:key="id">
         <view class="queue-row {{currentIndex === index ? 'is-current' : ''}}">
@@ -45,10 +40,10 @@
             <view class="queue-text">{{item.text}}</view>
             <view class="queue-source">{{item.sourceLabel}}</view>
           </view>
-          <view class="queue-play" data-index="{{index}}" bindtap="playOne">试听</view>
+          <bc-choice-chip text="试听" theme="{{theme}}" data-index="{{index}}" bind:tap="playOne" />
         </view>
       </block>
-    </view>
+    </bc-card></view>
   </scroll-view>
 
 </view>

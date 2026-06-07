@@ -1,0 +1,144 @@
+.result-banner {
+  border-radius: 30rpx;
+  background: #E8FDF7;
+  border: 2rpx solid #43CFC7;
+  padding: 28rpx 24rpx;
+  box-sizing: border-box;
+  margin-bottom: 18rpx;
+}
+
+.banner-score {
+  font-size: 46rpx;
+  font-weight: 900;
+  color: #0C8F7E;
+  line-height: 1.2;
+}
+
+.banner-hint {
+  margin-top: 10rpx;
+  font-size: 23rpx;
+  color: #3A8A7E;
+  line-height: 1.5;
+}
+
+.changes-panel {
+  border-radius: 30rpx;
+  background: rgba(255, 255, 255, 0.94);
+  border: 2rpx solid #D8EEF8;
+  padding: 24rpx;
+  box-sizing: border-box;
+  box-shadow: 0 14rpx 32rpx rgba(23, 58, 98, 0.09);
+  margin-bottom: 18rpx;
+}
+
+.panel-title {
+  font-size: 32rpx;
+  color: #173A62;
+  font-weight: 900;
+}
+
+.panel-desc {
+  margin-top: 8rpx;
+  font-size: 23rpx;
+  line-height: 1.5;
+  color: #7895AE;
+}
+
+.change-list {
+  margin-top: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.change-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 4rpx;
+  border-bottom: 2rpx solid rgba(200, 220, 234, 0.6);
+}
+
+.change-item:last-child {
+  border-bottom: 0;
+}
+
+.change-char {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  border: 2rpx solid #D6E4E0;
+  background: #F8FEFF;
+  color: #173A62;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.change-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 25rpx;
+  color: #173A62;
+  line-height: 1.4;
+}
+
+.change-tag {
+  height: 44rpx;
+  padding: 0 16rpx;
+  border-radius: 999rpx;
+  display: flex;
+  align-items: center;
+  font-size: 21rpx;
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.tag-correct {
+  background: #E8FDF7;
+  color: #0C8F7E;
+}
+
+.tag-wrong {
+  background: #FFE8EA;
+  color: #A92F3A;
+}
+
+.tag-new {
+  background: #FFF3E4;
+  color: #8F5300;
+}
+
+.action-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.btn-primary {
+  min-height: 82rpx;
+  border-radius: 22rpx;
+  background: #0C8F7E;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.btn-secondary {
+  min-height: 82rpx;
+  border-radius: 22rpx;
+  border: 2rpx solid #D6E4E0;
+  background: #FFFFFF;
+  color: #4A7A72;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  font-weight: 900;
+}

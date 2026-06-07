@@ -1,0 +1,45 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="数据备份" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="mt-card" style="color: {{theme.textTertiary}}; font-size: 24rpx; line-height: 1.6;">
+      学习数据保存在本机。换手机或清缓存前，请先导出备份；需要恢复时粘贴备份文本导入。
+    </view>
+
+    <view class="mt-card">
+      <bc-card theme="{{theme}}">
+        <view class="section-title" style="color: {{theme.textPrimary}};">当前本地数据</view>
+        <view class="summary-row" style="color: {{theme.textSecondary}};">
+          <text>孩子 {{summary.childCount}} 个</text>
+          <text>错字 {{summary.characterCount}} 个</text>
+        </view>
+        <view class="section-desc" style="color: {{theme.textTertiary}};">
+          含孩子档案、模块设置、音标/拼音/字词学习进度与错字库。
+        </view>
+        <view class="action-gap" />
+        <bc-button text="导出并复制到剪贴板" variant="primary" block="{{true}}" theme="{{theme}}" bind:tap="onExport" />
+      </bc-card>
+    </view>
+
+    <view class="mt-card">
+      <bc-card theme="{{theme}}">
+        <view class="section-title" style="color: {{theme.textPrimary}};">导入备份</view>
+        <view class="section-desc" style="color: {{theme.textTertiary}};">
+          粘贴此前导出的 JSON 文本。导入会覆盖当前本地全部学习数据。
+        </view>
+        <view class="import-box">
+          <bc-input
+            theme="{{theme}}"
+            multiline="{{true}}"
+            value="{{importText}}"
+            placeholder="粘贴备份 JSON 到这里"
+            maxlength="200000"
+            bind:input="onImportInput"
+          />
+        </view>
+        <view class="action-gap" />
+        <bc-button text="确认导入" variant="danger" block="{{true}}" disabled="{{!importText}}" theme="{{theme}}" bind:tap="onImport" />
+      </bc-card>
+    </view>
+  </scroll-view>
+</view>

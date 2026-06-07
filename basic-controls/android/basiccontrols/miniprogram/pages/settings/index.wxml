@@ -1,15 +1,15 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="{{title}}" show-back="{{true}}" bg-color="{{theme.pageStart}}" theme="{{theme}}" bind:back="onBack" />
+  <bc-top-bar title="{{title}}" show-back="{{false}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" />
 
-  <scroll-view scroll-y class="page-body page-scroll">
+  <scroll-view scroll-y class="page-body page-scroll settings-page-body">
     <view class="mt-card" style="color: {{theme.textTertiary}}; font-size: 26rpx;">{{subtitle}}</view>
 
     <view class="mt-card">
     <bc-card theme="{{theme}}">
-      <view class="settings-row" bindtap="goTheme">
+      <view class="settings-row" bindtap="goColor">
         <view class="settings-row__main">
-          <view class="settings-row__title">{{entryTheme}}</view>
-          <view class="settings-row__value" style="color: {{theme.textTertiary}};">{{themeLabel}}</view>
+          <view class="settings-row__title">{{entryColor}}</view>
+          <view class="settings-row__value" style="color: {{theme.textTertiary}};">{{colorLabel}}</view>
         </view>
         <view class="settings-row__chev" style="color: {{theme.textTertiary}};">›</view>
       </view>
@@ -18,14 +18,18 @@
 
     <view class="mt-card">
     <bc-card theme="{{theme}}">
-      <view class="settings-row" bindtap="goLanguage">
+      <view class="settings-row" bindtap="goDataBackup">
         <view class="settings-row__main">
-          <view class="settings-row__title">{{entryLanguage}}</view>
-          <view class="settings-row__value" style="color: {{theme.textTertiary}};">{{languageLabel}}</view>
+          <view class="settings-row__title">数据备份与恢复</view>
+          <view class="settings-row__value" style="color: {{theme.textTertiary}};">导出/导入孩子与学习进度</view>
         </view>
         <view class="settings-row__chev" style="color: {{theme.textTertiary}};">›</view>
       </view>
     </bc-card>
     </view>
   </scroll-view>
+
+  <view class="settings-tabbar">
+    <bc-bottom-tab tabs="{{tabs}}" selected="{{1}}" theme="{{theme}}" bind:change="onTabChange" />
+  </view>
 </view>

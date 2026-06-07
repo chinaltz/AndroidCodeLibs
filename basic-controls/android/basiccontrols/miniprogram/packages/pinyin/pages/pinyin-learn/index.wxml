@@ -1,0 +1,42 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="学习 {{unit.symbol}}" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="learn-stage">
+      <view class="learn-kind">{{kindLabel}}</view>
+      <view class="learn-symbol">{{unit.symbol}}</view>
+      <view class="learn-audio-label">{{audioReady ? '点击播放标准示范音' : '标准示范音待补录'}}</view>
+      <view class="play-control"><bc-icon-button icon="▶" disabled="{{!audioReady}}" theme="{{theme}}" bind:tap="playTeaching" /></view>
+    </view>
+
+    <bc-card theme="{{theme}}">
+      <view class="card-head">
+        <view class="card-title">发音小提示</view>
+        <bc-chip text="{{kindLabel}}" bg="#FFF0C7" color="#8F5300" />
+      </view>
+      <view class="tip-box">{{unit.mouthTip}}</view>
+    </bc-card>
+
+    <bc-card wx:if="{{unit.compareSymbols.length}}" theme="{{theme}}">
+      <view class="card-title">易混音比一比</view>
+      <view class="compare-row">
+        <view
+          wx:for="{{compareUnits}}"
+          wx:key="id"
+          class="compare-cell {{item.current ? 'is-current' : ''}} {{item.audioReady ? '' : 'is-disabled'}}"
+        >
+          <view class="compare-symbol">{{item.symbol}}</view>
+          <bc-choice-chip text="▶ 播放" disabled="{{!item.audioReady}}" selected="{{item.current}}" theme="{{theme}}" data-audio="{{item.audioId}}" data-symbol="{{item.symbol}}" bind:tap="playCompare" />
+        </view>
+      </view>
+    </bc-card>
+
+    <view class="section-title">试着拼一拼</view>
+    <view wx:for="{{unit.examples}}" wx:key="syllableId" class="example-row">
+      <view class="example-text">{{item.display}}</view>
+      <bc-choice-chip text="播放" theme="{{theme}}" data-audio="{{item.syllableId}}" bind:tap="playExample" />
+    </view>
+  </scroll-view>
+
+  <bc-sticky-footer theme="{{theme}}"><bc-button text="去过关" variant="primary" theme="{{theme}}" bind:tap="goCheck" /></bc-sticky-footer>
+</view>

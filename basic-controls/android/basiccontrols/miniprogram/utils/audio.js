@@ -32,27 +32,57 @@ function configureOutput() {
   return outputConfigurePromise;
 }
 
+function primeFromUserGesture() {
+  configureOutput();
+}
+
 function play(path, label) {
   return new Promise((resolve, reject) => {
     configureOutput().then(() => {
       if (player) {
         try { player.stop(); } catch (e) { /* noop */ }
-        player.destroy();
+        try { player.destroy(); } catch (e) { /* noop */ }
         player = null;
       }
-      player = wx.createInnerAudioContext();
-      player.src = path;
-      player.onEnded(() => {
-        player.destroy();
-        player = null;
-        resolve();
-      });
-      player.onError((err) => {
-        player.destroy();
-        player = null;
-        reject(err || new Error(label || 'play failed'));
-      });
-      player.play();
+
+      const ctx = wx.createInnerAudioContext();
+      player = ctx;
+      let settled = false;
+      let started = false;
+      let fallbackTimer = null;
+
+      const cleanup = () => {
+        clearTimeout(fallbackTimer);
+        if (ctx === player) player = null;
+        try { ctx.destroy(); } catch (e) { /* noop */ }
+      };
+
+      const finish = (ok, err) => {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        if (ok) resolve();
+        else reject(err || new Error(label || 'play failed'));
+      };
+
+      const tryStart = () => {
+        if (started || settled) return;
+        started = true;
+        clearTimeout(fallbackTimer);
+        try {
+          ctx.play();
+        } catch (err) {
+          finish(false, err);
+        }
+      };
+
+      ctx.onCanplay(tryStart);
+      ctx.onEnded(() => finish(true));
+      ctx.onError((err) => finish(false, err));
+      ctx.src = path;
+
+      // iOS 上偶发不触发 onCanplay，超时后兜底尝试 play
+      fallbackTimer = setTimeout(tryStart, 2000);
     });
   });
 }
@@ -75,6 +105,7 @@ function pinyinSyllablePath(audioId) {
 
 module.exports = {
   configureOutput,
+  primeFromUserGesture,
   play,
   phonemePath,
   wordPath,

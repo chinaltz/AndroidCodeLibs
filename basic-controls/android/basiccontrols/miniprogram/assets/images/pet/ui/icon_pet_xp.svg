@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <circle cx="24" cy="24" r="20" fill="#E8F6FF" stroke="#1479D6" stroke-width="2.5"/>
+  <path d="M24 10 L27 19 L36 19 L29 25 L32 34 L24 28 L16 34 L19 25 L12 19 L21 19 Z" fill="#FFD166" stroke="#E6A800" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="24" y="42" text-anchor="middle" font-family="system-ui,sans-serif" font-size="8" font-weight="800" fill="#1479D6">XP</text>
+</svg>

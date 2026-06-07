@@ -1,0 +1,8 @@
+<view
+  class="bc-choice {{selected ? 'is-selected' : ''}} {{danger ? 'is-danger' : ''}} {{large ? 'is-large' : ''}} {{disabled ? 'is-disabled' : ''}} {{count !== '' && count !== null && count !== undefined ? 'has-count' : ''}}"
+  style="--bc-brand: {{theme.brandPrimary}}; --bc-active: {{theme.activeFill}}; --bc-surface: {{theme.surfaceRaised}}; --bc-text: {{theme.textPrimary}}; --bc-muted: {{theme.textTertiary}}; --bc-border: {{theme.borderDefault}}; --bc-danger: {{theme.danger}};"
+  catchtap="onTap"
+>
+  <text class="bc-choice-text">{{text}}</text>
+  <text wx:if="{{count !== '' && count !== null && count !== undefined}}" class="bc-choice-count">{{count}}</text>
+</view>

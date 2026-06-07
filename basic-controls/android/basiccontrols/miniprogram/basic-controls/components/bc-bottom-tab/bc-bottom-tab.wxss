@@ -26,3 +26,9 @@
   font-size: 34rpx;
   line-height: 1.2;
 }
+
+.bc-tabbar__icon-image {
+  width: 42rpx;
+  height: 42rpx;
+  margin-bottom: 2rpx;
+}

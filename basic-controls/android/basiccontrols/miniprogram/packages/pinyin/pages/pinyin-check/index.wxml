@@ -1,0 +1,60 @@
+<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="拼音过关" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-body page-scroll">
+    <view class="step-track">
+      <view class="step-dot {{step >= 0 ? 'is-active' : ''}}"></view>
+      <view class="step-dot {{step >= 1 ? 'is-active' : ''}}"></view>
+      <view class="step-dot {{step >= 2 ? 'is-active' : ''}}"></view>
+    </view>
+
+    <bc-card wx:if="{{step === 0}}" theme="{{theme}}">
+      <view class="q-label">第 1 题 · 听音辨认</view>
+      <view class="q-title">听一听，哪个是 {{unit.symbol}}？</view>
+      <view class="listen-control"><bc-icon-button icon="▶" theme="{{theme}}" bind:tap="playCorrect" /></view>
+      <view class="option-grid">
+        <bc-choice-chip
+          wx:for="{{options}}"
+          wx:key="id"
+          text="{{item.symbol}}"
+          large="{{true}}"
+          selected="{{selectedId === item.id}}"
+          theme="{{theme}}"
+          data-id="{{item.id}}"
+          bind:tap="pickListen"
+        />
+      </view>
+    </bc-card>
+
+    <bc-card wx:if="{{step === 1}}" theme="{{theme}}">
+      <view class="q-label">第 2 题 · 听音选拼读</view>
+      <view class="q-title">点击播放，选择你听到的拼音组合</view>
+      <view class="listen-control"><bc-icon-button icon="▶" theme="{{theme}}" bind:tap="playQuestionExample" /></view>
+      <bc-choice-chip
+        wx:for="{{exampleOptions}}"
+        wx:key="syllableId"
+        text="{{item.display}}"
+        large="{{true}}"
+        selected="{{selectedExample === item.display}}"
+        theme="{{theme}}"
+        data-value="{{item.display}}"
+        bind:tap="pickExample"
+      />
+    </bc-card>
+
+    <bc-card wx:if="{{step === 2}}" theme="{{theme}}">
+      <view class="q-label">第 3 题 · 跟读对比</view>
+      <view class="q-title">请跟读 {{unit.symbol}}</view>
+      <view class="record-symbol">{{unit.symbol}}</view>
+      <bc-button text="{{isRecording ? '停止录音' : '开始录音'}}" variant="{{isRecording ? 'danger' : 'primary'}}" theme="{{theme}}" bind:tap="toggleRecord" />
+      <view class="audio-actions">
+        <bc-button text="播放我的" variant="default" theme="{{theme}}" bind:tap="playMine" />
+        <bc-button text="播放标准音" variant="default" theme="{{theme}}" bind:tap="playCorrect" />
+      </view>
+    </bc-card>
+
+    <view wx:if="{{feedback}}" class="feedback">{{feedback}}</view>
+  </scroll-view>
+
+  <bc-sticky-footer theme="{{theme}}"><bc-button text="{{actionText}}" variant="primary" theme="{{theme}}" bind:tap="onPrimary" /></bc-sticky-footer>
+</view>

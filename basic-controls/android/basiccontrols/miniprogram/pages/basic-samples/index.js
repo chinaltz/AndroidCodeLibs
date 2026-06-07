@@ -1,4 +1,5 @@
 const { getTheme } = require('../../basic-controls/theme/theme');
+const nav = require('../../utils/nav');
 const share = require('../../utils/share');
 
 Page({
@@ -15,8 +16,11 @@ Page({
   onTap() {
     wx.showToast({ title: 'Basic Controls', icon: 'none' });
   },
+  goCorrectionSim() {
+    nav.navigateTo('/pages/dictation-correction-sim/index');
+  },
   onBack() {
-    wx.navigateBack();
+    nav.navigateBack();
   },
 
   onShareAppMessage() {

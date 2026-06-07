@@ -1,5 +1,6 @@
 const audio = require('../../utils/audio');
 const tts = require('../../utils/tencent-tts');
+const nav = require('../../utils/nav');
 
 const DEFAULT_QUEUE = [
   { id: 'demo_1', text: '时候', sourceLabel: '一年级上 · 第二单元 · 第三课' },
@@ -21,7 +22,7 @@ function normalizeIntervalSeconds(value) {
 }
 
 function normalizeRepeatCount(value) {
-  return Math.max(1, Math.min(3, Number(value) || 2));
+  return Math.max(1, Math.min(5, Number(value) || 2));
 }
 
 Page({
@@ -33,6 +34,7 @@ Page({
     intervalSeconds: 8,
     repeatCount: 2,
     playing: false,
+    finished: false,
     hasConfig: false,
     statusText: '准备听写',
   },
@@ -56,7 +58,7 @@ Page({
   },
 
   onBack() {
-    wx.navigateBack();
+    nav.navigateBack();
   },
 
   onIntervalInput(e) {
@@ -76,11 +78,13 @@ Page({
   },
 
   playOne(e) {
+    audio.primeFromUserGesture();
     const index = Number(e.currentTarget.dataset.index || 0);
     this.playTextAt(index);
   },
 
   playTextAt(index) {
+    audio.primeFromUserGesture();
     const item = this.data.queue[index];
     if (!item) return Promise.resolve();
     this.setData({
@@ -95,6 +99,33 @@ Page({
       wx.showToast({ title: err.message || '播报失败', icon: 'none' });
       this.setData({ statusText: 'TTS 失败，可先手动听写' });
     });
+  },
+
+  prepareAudioAt(index) {
+    const item = this.data.queue[index];
+    if (!item) return Promise.reject(new Error('听写词不存在'));
+    this._audioCache = this._audioCache || {};
+    if (this._audioCache[item.id]) return Promise.resolve(this._audioCache[item.id]);
+    this.setData({
+      currentIndex: index,
+      currentText: item.text,
+      statusText: `正在准备：${item.text}`,
+    });
+    return tts.synthesizeToTempFile(item.text).then((filePath) => {
+      this._audioCache[item.id] = filePath;
+      return filePath;
+    });
+  },
+
+  playPreparedAt(index, filePath, playNo, repeatCount) {
+    const item = this.data.queue[index];
+    if (!item) return Promise.resolve();
+    this.setData({
+      currentIndex: index,
+      currentText: item.text,
+      statusText: `正在播报：${item.text}（${playNo}/${repeatCount}）`,
+    });
+    return audio.play(filePath, item.text);
   },
 
   cancelIntervalWait() {
@@ -130,6 +161,7 @@ Page({
       wx.showToast({ title: 'TTS 内置配置未填写', icon: 'none' });
       return;
     }
+    audio.primeFromUserGesture();
     this.cancelIntervalWait();
     const runId = (this._dictationRunId || 0) + 1;
     const intervalSeconds = normalizeIntervalSeconds(this.data.intervalSeconds);
@@ -139,12 +171,17 @@ Page({
       intervalSeconds,
       repeatCount,
       playing: true,
+      finished: false,
       statusText: '听写开始',
     });
     this.runQueue({ runId, intervalSeconds, repeatCount }).then((completed) => {
       if (!completed || this._dictationRunId !== runId) return;
-      this.setData({ playing: false, statusText: '听写完成' });
+      this.setData({ playing: false, finished: true, statusText: '听写完成，可以开始批改' });
     });
+  },
+
+  goCorrection() {
+    nav.navigateTo('/pages/dictation-correction/index');
   },
 
   stopQueue() {
@@ -156,31 +193,50 @@ Page({
   onUnload() {
     this._dictationRunId = (this._dictationRunId || 0) + 1;
     this.cancelIntervalWait();
+    this._audioCache = {};
   },
 
   runQueue(options) {
     const { runId, intervalSeconds, repeatCount } = options;
-    const next = (index) => {
-      if (!this.data.playing || this._dictationRunId !== runId) return Promise.resolve(false);
-      if (index >= this.data.queue.length) return Promise.resolve(true);
-      let chain = Promise.resolve();
-      for (let i = 0; i < repeatCount; i += 1) {
-        chain = chain.then(() => {
-          if (!this.data.playing || this._dictationRunId !== runId) return null;
-          return this.playTextAt(index);
-        });
+    const queueLength = this.data.queue.length;
+
+    const step = (wordIndex, playNo) => {
+      if (!this.data.playing || this._dictationRunId !== runId) {
+        return Promise.resolve(false);
       }
-      return chain.then(() => {
-        if (!this.data.playing || this._dictationRunId !== runId) return false;
-        if (index >= this.data.queue.length - 1) return true;
-        this.setData({ statusText: `${intervalSeconds} 秒后播报下一词` });
-        return this.waitInterval(intervalSeconds, runId);
-      }).then((shouldContinue) => {
-        if (!shouldContinue) return false;
-        if (index >= this.data.queue.length - 1) return true;
-        return next(index + 1);
-      });
+      if (wordIndex >= queueLength) {
+        return Promise.resolve(true);
+      }
+
+      return this.prepareAudioAt(wordIndex)
+        .then((filePath) => this.playPreparedAt(wordIndex, filePath, playNo, repeatCount))
+        .catch((err) => {
+          wx.showToast({ title: err.message || '播报失败', icon: 'none' });
+          return false;
+        })
+        .then((played) => {
+          if (played === false || !this.data.playing || this._dictationRunId !== runId) {
+            return false;
+          }
+
+          const isLastPlay = wordIndex >= queueLength - 1 && playNo >= repeatCount;
+          const statusText = isLastPlay
+            ? `${intervalSeconds} 秒后可以开始批改`
+            : (playNo >= repeatCount
+              ? `${intervalSeconds} 秒后播报下一个词`
+              : `${intervalSeconds} 秒后再次播报`);
+          this.setData({ statusText });
+
+          return this.waitInterval(intervalSeconds, runId).then((shouldContinue) => {
+            if (!shouldContinue) return false;
+            if (isLastPlay) return true;
+            const nextWordIndex = playNo >= repeatCount ? wordIndex + 1 : wordIndex;
+            const nextPlayNo = playNo >= repeatCount ? 1 : playNo + 1;
+            return step(nextWordIndex, nextPlayNo);
+          });
+        });
     };
-    return next(0);
+
+    return step(0, 1);
   },
 });

@@ -1,4 +1,5 @@
 const { findById } = require('../../data/phonemes');
+const nav = require('../../utils/nav');
 const audio = require('../../utils/audio');
 const quiz = require('../../utils/quiz');
 const share = require('../../utils/share');
@@ -110,7 +111,7 @@ Page({
     if (this.data.step > 0) {
       this.prepareStep(this.data.step - 1);
     } else {
-      wx.navigateBack();
+      nav.navigateBack();
     }
   },
 
@@ -233,7 +234,7 @@ Page({
       if (completed.indexOf(this.phonemeId) < 0) completed.push(this.phonemeId);
       app.setCompleted(completed);
       wx.showToast({ title: app.tf('toast/completed', this.phoneme.symbol), icon: 'success' });
-      setTimeout(() => wx.navigateBack({ delta: 2 }), 800);
+      setTimeout(() => nav.navigateBack({ delta: 2 }), 800);
     }
   },
 

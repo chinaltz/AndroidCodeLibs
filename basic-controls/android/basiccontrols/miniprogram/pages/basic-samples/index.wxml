@@ -41,6 +41,14 @@
       <bc-pin-input value="2468" cellCount="{{6}}" secure="{{false}}" theme="{{theme}}" />
       <view class="sample-title">Progress</view>
       <bc-progress value="{{0.68}}" theme="{{theme}}" />
+
+      <view class="sample-title">听写验错</view>
+      <bc-card theme="{{theme}}">
+        <view class="card-title">模拟批改页面</view>
+        <view class="card-body">预置听写词语，保存后自动核对错字库是否多记、少记。</view>
+        <view class="gap"></view>
+        <bc-button text="打开模拟批改" variant="primary" theme="{{theme}}" bind:tap="goCorrectionSim" />
+      </bc-card>
     </view>
   </scroll-view>
   <bc-sticky-footer theme="{{theme}}">
