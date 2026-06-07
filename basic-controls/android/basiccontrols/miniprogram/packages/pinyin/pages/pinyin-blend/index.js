@@ -49,6 +49,10 @@ Page({
     nav.navigateBack();
   },
 
+  onHide() {
+    audio.stopTeaching();
+  },
+
   selectInitial(e) {
     const selectedInitial = e.currentTarget.dataset.symbol;
     const available = availableBundledFinals(selectedInitial);

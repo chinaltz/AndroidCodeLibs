@@ -61,6 +61,10 @@ Page({
     nav.navigateBack();
   },
 
+  onHide() {
+    audio.stopTeaching();
+  },
+
   onUnitTap(e) {
     const id = e.currentTarget.dataset.id;
     const unit = UNITS.find((item) => item.id === id);

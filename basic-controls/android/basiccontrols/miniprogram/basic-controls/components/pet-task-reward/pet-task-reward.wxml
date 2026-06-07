@@ -1,0 +1,10 @@
+<view class="reward-card">
+  <view class="reward-badge">任务完成</view>
+  <view class="reward-title">{{title}}</view>
+  <view class="reward-points">+{{result.points}} 宠物积分</view>
+  <view class="reward-xp">同时获得 {{result.xp}} 成长经验 · 当前积分 {{result.balance}}</view>
+  <button class="reward-share" open-type="share" data-event-id="{{eventId}}">{{shareText}}</button>
+  <view class="reward-tip">分享奖励每个任务限领 1 次，每日最多 3 次。</view>
+  <view class="reward-link" bindtap="onPet">去看看电子宠物</view>
+  <view class="reward-back" bindtap="onFinish">{{finishText}}</view>
+</view>

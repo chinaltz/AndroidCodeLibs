@@ -38,6 +38,10 @@ Page({
     nav.navigateBack();
   },
 
+  onHide() {
+    audio.stopTeaching();
+  },
+
   onPlaySymbol() {
     audio.play(audio.phonemePath(this.phonemeId)).catch(() => {
       wx.showToast({ title: getApp().tf('toast/play_failed', this.data.phoneme.symbol), icon: 'none' });

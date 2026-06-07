@@ -1,0 +1,68 @@
+.wardrobe-stage {
+  min-height: 480rpx;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 34rpx;
+  background: linear-gradient(180deg, #bde9ff 0 58%, #e8fbdc 58%);
+}
+
+.wardrobe-actor {
+  position: relative;
+  width: 380rpx;
+  height: 430rpx;
+}
+
+.wardrobe-pet {
+  width: 100%;
+  height: 100%;
+}
+
+.wardrobe-layer {
+  position: absolute;
+  width: 140rpx;
+  height: 140rpx;
+  pointer-events: none;
+}
+
+.layer-head { top: 65rpx; left: 50%; transform: translateX(-50%); }
+.layer-neck { top: 240rpx; left: 50%; transform: translateX(-50%); }
+.layer-back { left: 80rpx; top: 210rpx; }
+.layer-hand { right: 40rpx; top: 280rpx; }
+
+.wardrobe-caption {
+  position: absolute;
+  bottom: 18rpx;
+  padding: 12rpx 20rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.94);
+  font-size: 21rpx;
+  font-weight: 800;
+}
+
+.wardrobe-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10rpx;
+  margin: 18rpx 0;
+}
+
+.wardrobe-tabs view {
+  min-height: 66rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18rpx;
+  background: #fff;
+  color: #718da8;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.wardrobe-tabs .active {
+  background: #eaf6ff;
+  color: #1678bd;
+  border: 2rpx solid #31a8ff;
+}

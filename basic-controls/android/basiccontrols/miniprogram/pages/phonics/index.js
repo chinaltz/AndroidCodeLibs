@@ -63,6 +63,10 @@ Page({
     share.enableShareMenu();
   },
 
+  onHide() {
+    audio.stopTeaching();
+  },
+
   onBack() {
     nav.navigateBack();
   },

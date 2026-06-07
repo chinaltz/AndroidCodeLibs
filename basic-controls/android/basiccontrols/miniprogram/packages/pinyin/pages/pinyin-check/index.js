@@ -211,6 +211,7 @@ Page({
   },
 
   onHide() {
+    audio.stopTeaching();
     if (this.data.isRecording && this.recorder) this.recorder.stop();
   },
 

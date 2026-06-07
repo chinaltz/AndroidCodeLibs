@@ -1,0 +1,4 @@
+.adopt-hero { margin-bottom: 18rpx; padding: 30rpx 24rpx; border-radius: 36rpx; text-align: center; background: linear-gradient(145deg,#fff4bd,#c9f7e9 55%,#b9e1ff); }
+.adopt-pet { width: 390rpx; height: 450rpx; margin-top: 10rpx; border-radius: 34rpx; }
+.adopt-title { margin: 12rpx 0 8rpx; font-size: 44rpx; font-weight: 900; }
+.pet-name-input { height: 86rpx; margin-bottom: 14rpx; padding: 0 22rpx; border: 2rpx solid #c9e9ff; border-radius: 22rpx; background: #f9fdff; font-size: 30rpx; font-weight: 800; }

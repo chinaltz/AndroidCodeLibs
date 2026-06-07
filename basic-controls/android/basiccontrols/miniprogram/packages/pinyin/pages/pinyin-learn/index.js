@@ -40,6 +40,10 @@ Page({
     nav.navigateBack();
   },
 
+  onHide() {
+    audio.stopTeaching();
+  },
+
   playTeaching() {
     this.playTeachingAudio(this.data.unit.audioId, this.data.unit.symbol);
   },

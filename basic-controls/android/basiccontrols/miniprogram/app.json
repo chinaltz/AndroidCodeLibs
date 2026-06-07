@@ -47,6 +47,12 @@
     }
   ],
   "preloadRule": {
+    "pages/map/index": {
+      "network": "all",
+      "packages": [
+        "phonics-media"
+      ]
+    },
     "pages/phonics/index": {
       "network": "all",
       "packages": [

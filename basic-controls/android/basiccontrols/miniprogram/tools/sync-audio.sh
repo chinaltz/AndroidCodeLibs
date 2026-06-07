@@ -3,7 +3,7 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC="$ROOT/../phonicsapp/src/main/assets/audio"
-DST="$ROOT/packages/phonics-media/assets/audio"
+DST="$ROOT/packages/phonics-media/assets"
 if [[ ! -d "$SRC/phonemes" ]]; then
   echo "未找到 Android 音频目录: $SRC"
   exit 1

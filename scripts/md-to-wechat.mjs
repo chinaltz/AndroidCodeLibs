@@ -47,6 +47,27 @@ function escapeHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
+function isCenterImage(alt, src) {
+  return /小程序码|二维码|qr/i.test(alt) || /miniprogram-qr|qr\.png/i.test(src);
+}
+
+function imageTag(alt, src) {
+  const clean = src.replace(/^\.\//, '');
+  const frame = `border-radius:26px;border:2px solid ${THEME.orbitBorder};box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);`;
+  const style = isCenterImage(alt, clean)
+    ? `max-width:240px;width:52%;display:block;margin:0 auto;${frame}`
+    : `max-width:100%;display:block;${frame}`;
+  return `<img src="${clean}" alt="${escapeHtml(alt)}" style="${style}" />`;
+}
+
+function imageParagraph(alt, src) {
+  const tag = imageTag(alt, src);
+  const wrap = isCenterImage(alt, src.replace(/^\.\//, ''))
+    ? 'margin:18px 0;text-align:center;'
+    : 'margin:18px 0;';
+  return `<p style="${wrap}">${tag}</p>\n`;
+}
+
 function preprocessAsciiBoxes(md) {
   const lines = md.split('\n');
   const out = [];
@@ -96,10 +117,7 @@ function preprocessAsciiBoxes(md) {
 
 function inlineFormat(text) {
   let s = escapeHtml(text);
-  s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
-    const clean = src.replace(/^\.\//, '');
-    return `<img src="${clean}" alt="${escapeHtml(alt)}" style="max-width:100%;border-radius:24px;display:block;border:2px solid ${THEME.orbitBorder};box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" />`;
-  });
+  s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => imageTag(alt, src));
   s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, `<a href="$2" style="color:${THEME.starBlueDark};text-decoration:none;border-bottom:1px dashed ${THEME.aurora};font-weight:800;">$1</a>`);
   s = s.replace(/\*\*([^*]+)\*\*/g, `<strong style="font-weight:900;color:${THEME.ink};background:linear-gradient(transparent 64%, ${THEME.starSoft} 64%);padding:0 2px;">$1</strong>`);
   s = s.replace(/\*([^*]+)\*/g, `<em style="font-style:italic;color:${THEME.inkLight};">$1</em>`);
@@ -284,10 +302,7 @@ function markdownToHtml(md) {
 
     const imgOnly = line.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
     if (imgOnly) {
-      const src = imgOnly[2].replace(/^\.\//, '');
-      html.push(
-        `<p style="margin:18px 0;"><img src="${src}" alt="${escapeHtml(imgOnly[1])}" style="max-width:100%;border-radius:26px;display:block;border:2px solid ${THEME.orbitBorder};box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>\n`
-      );
+      html.push(imageParagraph(imgOnly[1], imgOnly[2]));
       i++;
       continue;
     }
