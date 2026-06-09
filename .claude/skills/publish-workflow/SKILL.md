@@ -58,9 +58,10 @@ argument-hint: "[文章主题]"
 
 ### ⑥ 配图方案
 调用 /generate-images 的逻辑：
-- 输出可直接嵌入的 ASCII 排版装饰
+- 输出可直接嵌入的 Markdown 引用块、表格、短标签（不用字符边框）
 - 输出 AI 绘图提示词（Midjourney/即梦）
 - 输出封面图方案
+- **若需微信搜一搜/看一看**：按 `generate-images` 规则生成 `social/wechat-search/cards.html`，运行 `python3 scripts/render-wechat-search-cards.py content/posts/[NN-slug]` 导出 5 张 PNG + `UPLOAD.md`
 
 将这些视觉元素直接嵌入文章。
 

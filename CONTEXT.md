@@ -14,7 +14,7 @@
 | 新增专用能力 | 本文件 `CONTEXT.md` | `.claude/skills/<新skill名>/SKILL.md` |
 | 作者手写开篇定稿（「自己写的」→ `---` → 「下面是AI 写的」） | `content/posts/12-word-planet-product-prototype/index.md` | `.claude/skills/author-preface-article/SKILL.md` + `.agents/skills/author-preface-article/SKILL.md` |
 | 文章视觉风格 / 星球风 UI | `scripts/md-to-wechat.mjs`（导出样式） | `.agents/skills/star-article-style/SKILL.md` |
-| 微信搜一搜 / 看一看图文卡 | `scripts/gen-wechat-search-cards.py`（批量生成） | `.agents/skills/generate-images/SKILL.md` |
+| 微信搜一搜 / 看一看图文卡 | `scripts/render-wechat-search-cards.py`（HTML+Chrome 截图）；`scripts/gen-wechat-search-cards.py` 仅批量占位 | `.agents/skills/generate-images/SKILL.md` |
 
 ## 目录结构
 

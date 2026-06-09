@@ -19,36 +19,90 @@ argument-hint: "[粘贴完整文章]"
 
 ## 微信搜一搜 / 看一看图文卡规则
 
-当用户要求输出「搜一搜」「看一看」「微信图文卡」时，默认生成 `content/posts/[slug]/social/wechat-search/` 素材包：
+当用户要求输出「搜一搜」「看一看」「微信图文卡」时，默认生成 `content/posts/[NN-slug]/social/wechat-search/` 素材包。
 
-- `wechat-card-01.png` 到 `wechat-card-05.png`：竖版 1080×1440 图文卡
-- `UPLOAD.md`：标题、摘要、图文正文、关键词、上传顺序
-- 可选 `genimage-*.png`：仅作为无文字背景图，不直接承载中文正文
+### 推荐方案（默认，已验证）
 
-制作规则：
+**HTML/CSS 排版 + Chrome 无头截图**。不要再用 Pillow 手动画字，不要用 AI 生图直接写中文。
 
-1. **文字必须本地精确排版**：中文标题、步骤、对比、命令行一律用 HTML/CSS、Canvas、Pillow 或同类确定性方式渲染。不要依赖 AI 生图直接生成中文文字。
-2. **genimage 只做无字背景**：适合生成科技氛围图、抽象背景、封面插画。提示词必须写明 `no text, no letters, no logos, no watermark`，再把中文标题叠加上去。
-3. **禁止 emoji / 星级符号进卡片正文**：不同字体容易变方框。难度可以写成「难度 3/5」或放在 `UPLOAD.md`，不要在 PNG 卡片里用 `⭐⭐⭐`。
-4. **卡片要少字大字**：每张只讲 1 个观点，标题 48px 以上，正文 28px 以上。不要把整段文章塞进卡片。
-5. **必须抽检图片**：生成后至少查看封面、步骤卡、对比卡；发现文字重叠、截错桌面、中文乱码、符号方框，必须重做，不要交付半成品。
-6. **官方截图可做证据卡**：价格页、公告页、工具文档可以作为卡片中间的缩略截图，但外层要加标题和一句判断，不要只发裸截图。
-7. **默认星球主题背景**：微信搜一搜 / 看一看卡片必须带「技趣星球」视觉母题，例如蓝天渐变、星球、轨道、星点、轻量控制台；不要只用普通圆形色块。
-8. **图片内禁止营销词**：PNG 图片本身不要出现“公众号、关注、回复、搜一搜、看一看、加群、私信、福利、教程见公众号”等引导关注/导流/营销表达；这些只能放在 `UPLOAD.md` 的发布文案里。
-9. **配色阳光和谐**：默认使用浅蓝天、云白、阳光黄、清爽青，深蓝只做小面积文字和按钮；避免大面积深色、刺眼高饱和色和压抑灰黑。
-10. **内容要有层次**：每张卡至少包含「主标题 + 判断/步骤 + 底部行动提示」三层信息；封面可额外加短标签，结尾卡只做知识总结，不写关注口令。
+| 文件 | 说明 |
+|------|------|
+| `cards.html` | 5 张卡片源码（1080×1440，`?card=1`～`5` 切换显示） |
+| `wechat-card-01.png`～`05.png` | 截图成品 |
+| `UPLOAD.md` | 搜一搜标题、摘要、关键词、上传顺序 |
 
-推荐 5 张结构：
+### 生成流程
+
+1. **复制模板**：从标杆文章复制 `cards.html`
+   - 首选：`content/posts/18-google-io-wwdc-2026-ai-duel/social/wechat-search/cards.html`
+   - 备选：`content/posts/11-deepseek-reasonix-codewhale-guide/social/wechat-search/cards.html`
+2. **人工校对文案**：按正文逐句写入 HTML，**禁止**从 `index.md` 自动抽取长段（易错乱、不严谨）
+3. **套用星球风**：视觉遵循 `star-article-style`——蓝天渐变底、云白圆角卡片、天蓝标题 `#1479D6`、正文 `#365D82`、警示 `#FFF7D7`
+4. **封面头图**：用 `../../images/header.png` 嵌入 `.hero` 横幅，**清晰展示**；禁止整屏模糊头图当背景
+5. **截图导出**：
+   ```bash
+   python3 scripts/render-wechat-search-cards.py content/posts/[NN-slug]
+   ```
+6. **目视抽检 5 张**：文字不溢出框、底部不被裁切、英文产品名完整；**PNG 内无任何导流/营销词**
+
+### 5 张结构（固定）
 
 | 序号 | 用途 | 内容 |
 |------|------|------|
-| 01 | 封面 | 大标题 + 一句话卖点 + 品牌 |
-| 02 | 痛点/热点 | 为什么现在值得看 |
-| 03 | 方法/步骤 | 3 个动作或 1 条命令 |
-| 04 | 关键提醒 | 风险、边界、容易踩坑 |
-| 05 | 选择/总结 | 对比表或最后行动 |
+| 01 | 封面 | 品牌 pill + 大标题 + 一句话卖点 + 头图横幅 + 时间线/来源 |
+| 02 | 核心问题 | 「跟我们有什么关系」+ 一句话结论 + 双栏对比要点 |
+| 03 | 事实速览 | 3 个编号要点块（步骤/发布清单/理解方式） |
+| 04 | 边界提醒 | 上线时间、地区语言、订阅限制；「国内怎么用」用浅黄 panel 突出 |
+| 05 | 总结 + CTA | 记住 3 件事（合并 list）+ 蓝色「立刻可做」；**不放关注/导流** |
 
-如果项目里已有 `scripts/gen-wechat-search-cards.py`，优先用脚本批量生成，再人工抽检；不要每篇手工临时拼图。
+### 制作规则
+
+1. **文字必须 HTML/CSS 渲染**：中文标题、步骤、对比、命令行一律写在 `cards.html`，Chrome 截图导出
+2. **genimage 只做无字背景**：若需 AI 氛围图，提示词写 `no text, no letters, no logos, no watermark`，再叠文字
+3. **禁止 emoji / ⭐ 进 PNG**：难度写「难度 3/5」或放 `UPLOAD.md`，卡片里不用星级符号
+4. **少字大字**：每张只讲 1 个观点；标题 48px 以上，正文 26–32px；不要把整段文章塞进一张卡
+5. **固定画布 1080×1440**：`html, body, .card` 均设 `overflow: hidden`；内容必须在框内，用 flex + `margin-top: auto` 控制底部
+6. **必须抽检**：至少查看 01、04、05；发现重叠、截断、乱码、方框符号必须重做
+7. **星球主题背景**：CSS 径向/线性渐变（蓝天 `#F9FDFF`→`#DDF4FF`），可加轻量 brand pill；不要大面积深色或整屏糊图
+8. **PNG 严禁导流/营销词（拒审红线）**：5 张 PNG 内**一律不得出现**以下词或变体——`公众号`、`微信公众号`、`关注`、`回复`、`私信`、`加群`、`福利`、`搜一搜`、`看一看`、`教程见公众号`、账号名+关注组合。品牌 pill 用中性标签（如「事实速览」「核心问题」），不要写 `AI技趣星球` 账号名
+9. **关注引导写哪里**：只写在 `UPLOAD.md` 的「公众号导流（仅长文用）」区块；**不要**写进 PNG、搜一搜图文正文、看一看正文
+10. **内容严谨**：数字、日期、产品名与正文/官方来源一致；热点文优先人工校对后再截图
+11. **第 5 张防溢出**：内容多时合并 panel、缩小 `h2`（见 18 号文 `.card[data-card="5"]` 样式）
+12. **官方截图可做证据卡**：价格页、公告页、工具文档可作为卡片中间缩略图，外层加标题和一句判断
+
+### cards.html 结构要点
+
+```html
+<section class="card" data-card="1">
+  <div class="brand"><span class="brand-dot"></span>发布会速览</div>
+  <h1>大标题</h1>
+  <div class="hero"><img src="../../images/header.png" alt=""></div>
+  <div class="content"><div class="panel">...</div></div>
+</section>
+<script>
+const card = new URLSearchParams(location.search).get("card") || "1";
+for (const el of document.querySelectorAll(".card")) {
+  el.classList.toggle("active", el.dataset.card === card);
+}
+</script>
+```
+
+浏览器预览单张：`file:///.../cards.html?card=3`
+
+### 禁止 / 降级方案
+
+- ❌ **不要默认用** `scripts/gen-wechat-search-cards.py`（Pillow 自动抽 Markdown，易内容错乱、背景过时）
+- ❌ 整屏模糊 `header.png` 当背景
+- ❌ ASCII 框线、`╔═╗`、emoji 装饰进卡片 PNG
+- ⚠️ 若无 Chrome：先交付 `cards.html` + `UPLOAD.md`，提示用户本地截图；不要交付 Pillow 半成品
+
+### UPLOAD.md 必含
+
+- 5 张图上传顺序与每张内容说明
+- 搜一搜标题、看一看短标题、摘要、**无导流的**图文正文、关键词、话题标签
+- 「公众号导流（仅长文用）」单独区块——与 PNG / 搜一搜正文隔离
+- 发布检查清单（含 PNG 禁词抽检）
+- 重新生成命令：`python3 scripts/render-wechat-search-cards.py content/posts/[NN-slug]`
 
 ## 难度评级标准（从普通人视角）
 

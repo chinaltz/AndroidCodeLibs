@@ -15,8 +15,53 @@ argument-hint: "[粘贴完整文章]"
 3. **双轨输出** > 每处配图同时给「ASCII 排版版（零依赖，默认采用）」和「AI 生图版（仅封面 + 最多 1 张信息图）」
 4. **操作难度标注** > 每个方案标注 1-5 星难度（💫），从非 IT 普通人视角评估
 5. **先简后难** > 优先推荐 1-2 星方案，3 星以上标注「可选进阶」
+6. **禁止字符边框** > 不要输出 `╔═╗`、`┌─┐`、长串 `====`、`━━━━` 等 ASCII/Unicode 字符框；公众号、知乎、掘金等平台会因字体差异错位
 
-## 难度评级标准（从普通人视角）
+## 微信搜一搜 / 看一看图文卡规则
+
+当用户要求输出「搜一搜」「看一看」「微信图文卡」时，默认生成 `content/posts/[NN-slug]/social/wechat-search/` 素材包。
+
+### 推荐方案（默认，已验证）
+
+**HTML/CSS 排版 + Chrome 无头截图**。不要再用 Pillow 手动画字，不要用 AI 生图直接写中文。
+
+| 文件 | 说明 |
+|------|------|
+| `cards.html` | 5 张卡片源码（1080×1440，`?card=1`～`5` 切换显示） |
+| `wechat-card-01.png`～`05.png` | 截图成品 |
+| `UPLOAD.md` | 搜一搜标题、摘要、关键词、上传顺序 |
+
+### 生成流程
+
+1. **复制模板**：从标杆文章复制 `cards.html`
+   - 首选：`content/posts/18-google-io-wwdc-2026-ai-duel/social/wechat-search/cards.html`
+   - 备选：`content/posts/11-deepseek-reasonix-codewhale-guide/social/wechat-search/cards.html`
+2. **人工校对文案**：按正文逐句写入 HTML，**禁止**从 `index.md` 自动抽取长段
+3. **套用星球风**：视觉遵循 `star-article-style`——蓝天渐变底、云白圆角卡片、天蓝标题、正文蓝灰
+4. **封面头图**：用 `../../images/header.png` 嵌入 `.hero` 横幅，清晰展示；禁止整屏模糊头图当背景
+5. **截图导出**：`python3 scripts/render-wechat-search-cards.py content/posts/[NN-slug]`
+6. **目视抽检 5 张**：文字不溢出、底部不裁切；**PNG 内无任何导流/营销词**
+
+### 5 张结构（固定）
+
+| 序号 | 用途 | 内容 |
+|------|------|------|
+| 01 | 封面 | 品牌 + 大标题 + 卖点 + 头图横幅 + 时间线/来源 |
+| 02 | 核心问题 | 跟我们有什么关系 + 结论 + 双栏对比 |
+| 03 | 事实速览 | 3 个编号要点块 |
+| 04 | 边界提醒 | 时间/地区/订阅；国内用法浅黄突出 |
+| 05 | 总结 + CTA | 记住 3 件事 + 蓝色立刻可做；**不放关注/导流** |
+
+### 制作规则（摘要）
+
+- 文字必须 HTML/CSS 渲染；禁止 emoji/⭐ 进 PNG
+- 固定画布 1080×1440，`overflow: hidden`
+- **PNG 严禁**：公众号、关注、回复、私信、加群、福利、搜一搜、看一看、账号名导流
+- 关注引导只写 `UPLOAD.md`「公众号导流（仅长文用）」；不进 PNG / 搜一搜正文
+- 禁止默认用 `scripts/gen-wechat-search-cards.py` 自动抽 Markdown
+- 详细规范见 `.agents/skills/generate-images/SKILL.md` 完整版
+
+---
 
 | 星级 | 含义 | 示例 |
 |------|------|------|

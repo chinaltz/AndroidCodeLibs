@@ -16,9 +16,29 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 POSTS = ROOT / "content" / "posts"
-FONT_REG = "/System/Library/Fonts/STHeiti Light.ttc"
-FONT_BOLD = "/System/Library/Fonts/STHeiti Medium.ttc"
-FONT_MONO = "/System/Library/Fonts/Menlo.ttc"
+
+_FONT_CANDIDATES = [
+    (
+        "/System/Library/Fonts/STHeiti Light.ttc",
+        "/System/Library/Fonts/STHeiti Medium.ttc",
+        "/System/Library/Fonts/Menlo.ttc",
+    ),
+    (
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+    ),
+]
+
+
+def _pick_fonts() -> tuple[str, str, str]:
+    for reg, bold, mono in _FONT_CANDIDATES:
+        if Path(reg).exists() and Path(bold).exists() and Path(mono).exists():
+            return reg, bold, mono
+    raise FileNotFoundError("No suitable CJK font bundle found for card generation")
+
+
+FONT_REG, FONT_BOLD, FONT_MONO = _pick_fonts()
 W, H = 1080, 1440
 
 
@@ -371,7 +391,7 @@ def write_upload(meta: dict, out: Path) -> None:
 2. `wechat-card-02.png`：核心问题
 3. `wechat-card-03.png`：照着做步骤
 4. `wechat-card-04.png`：关键提醒
-5. `wechat-card-05.png`：总结和关注引导
+5. `wechat-card-05.png`：总结和行动提示（PNG 内不含关注/导流词）
 
 ## 搜一搜标题
 
@@ -397,7 +417,13 @@ def write_upload(meta: dict, out: Path) -> None:
 {summary[:180]}
 
 建议先看图抓重点，再回到正文照着做。
+```
 
+> PNG 与搜一搜图文正文均不要写关注/回复/公众号等导流词。
+
+## 公众号导流（仅长文用，勿粘贴进搜一搜图文）
+
+```text
 关注微信公众号 AI技趣星球，回复MF 一起用技术创造乐趣。
 ```
 
@@ -415,7 +441,7 @@ def write_upload(meta: dict, out: Path) -> None:
 
 ## 发布检查
 
-- [ ] 5 张图按文件名顺序上传
+- [ ] 5 张 PNG 内无：公众号、关注、回复、私信、加群、福利、搜一搜、看一看
 - [ ] 封面选择 `wechat-card-01.png`
 - [ ] 正文不要公开账号、Key、订阅地址等敏感信息
 - [ ] 发布前抽检第 1、3、5 张是否清晰

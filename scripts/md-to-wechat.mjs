@@ -14,7 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, '..');
 const POSTS_DIR = join(ROOT, 'content', 'posts');
 /** 框线四角/竖线（不含 ─→，避免把流程图误判为框线图） */
-const BOX_CORNER = /[╔╗╚╝┌┐└┘│├┤┬┴┼╠╣╦╩╤╧═]/;
+const BOX_CORNER = /[╔╗╚╝┌┐└┘│║├┤┬┴┼╠╣╦╩╤╧═]/;
 const THEME = {
   starBlue: '#31A8FF',
   starBlueDark: '#1479D6',
@@ -51,6 +51,23 @@ function isCenterImage(alt, src) {
   return /小程序码|二维码|qr/i.test(alt) || /miniprogram-qr|qr\.png/i.test(src);
 }
 
+function isLocalImage(src) {
+  const clean = src.replace(/^\.\//, '').trim();
+  return clean.length > 0 && !/^https?:\/\//i.test(clean);
+}
+
+function imageFileName(src) {
+  const clean = src.replace(/^\.\//, '').split('?')[0];
+  const parts = clean.split('/');
+  return parts[parts.length - 1] || clean;
+}
+
+function imageLabelHtml(src) {
+  if (!isLocalImage(src)) return '';
+  const name = imageFileName(src);
+  return `<p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:${THEME.ink};background:${THEME.starSoft};border:2px dashed ${THEME.starBlue};border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">${escapeHtml(name)}</p>`;
+}
+
 function imageTag(alt, src) {
   const clean = src.replace(/^\.\//, '');
   const frame = `border-radius:26px;border:2px solid ${THEME.orbitBorder};box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);`;
@@ -62,10 +79,14 @@ function imageTag(alt, src) {
 
 function imageParagraph(alt, src) {
   const tag = imageTag(alt, src);
+  const label = imageLabelHtml(src);
   const wrap = isCenterImage(alt, src.replace(/^\.\//, ''))
-    ? 'margin:18px 0;text-align:center;'
-    : 'margin:18px 0;';
-  return `<p style="${wrap}">${tag}</p>\n`;
+    ? 'margin:0;text-align:center;'
+    : 'margin:0;';
+  if (label) {
+    return `<section style="margin:20px 0;">${label}<p style="${wrap}">${tag}</p></section>\n`;
+  }
+  return `<p style="margin:18px 0;${wrap.replace('margin:0;', '')}">${tag}</p>\n`;
 }
 
 function preprocessAsciiBoxes(md) {
@@ -448,7 +469,7 @@ const HTML_SHELL = (title, body, generatedAt) => `<!DOCTYPE html>
 <div class="toolbar">
   <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
   <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
-  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
+  <span class="hint">本地图上方会显示文件名，便于对照上传。富文本复制会保留超链；图片需在公众号里重新上传。</span>
 </div>
 <div id="article">
 ${body}
