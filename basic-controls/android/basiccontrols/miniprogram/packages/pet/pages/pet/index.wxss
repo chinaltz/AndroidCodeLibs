@@ -1,0 +1,28 @@
+.pet-entry {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ddf4ff;
+  color: #173a62;
+  font-size: 28rpx;
+}
+
+.pet-entry__error {
+  padding: 48rpx;
+  text-align: center;
+}
+
+.pet-entry__msg {
+  line-height: 1.6;
+}
+
+.pet-entry__btn {
+  margin-top: 32rpx;
+  padding: 20rpx 48rpx;
+  border-radius: 999rpx;
+  background: #31a8ff;
+  color: #fff;
+  font-weight: 700;
+  display: inline-block;
+}

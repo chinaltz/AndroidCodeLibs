@@ -9,6 +9,7 @@ Page({
     saveText: '保存孩子',
     editingId: '',
     isFirstChild: false,
+    saving: false,
     nickname: '',
   }, onboard.createOnboardState()),
 
@@ -18,6 +19,14 @@ Page({
         isFirstChild: true,
         pageTitle: '添加第一个孩子',
         saveText: '保存并开始',
+      });
+      return;
+    }
+    if (options && options.mode === 'add') {
+      this.setData({
+        editingId: '',
+        pageTitle: '添加孩子',
+        saveText: '保存孩子',
       });
       return;
     }
@@ -109,6 +118,7 @@ Page({
   },
 
   onSave() {
+    if (this._saving || this.data.saving) return;
     const nickname = (this.data.nickname || '').trim();
     if (!nickname) {
       wx.showToast({ title: '请输入孩子昵称', icon: 'none' });
@@ -122,6 +132,8 @@ Page({
       wx.showToast({ title: '至少选择一个学习模块', icon: 'none' });
       return;
     }
+    this._saving = true;
+    this.setData({ saving: true });
     const input = {
       nickname,
       avatar: this.data.selectedAvatar,
@@ -134,6 +146,7 @@ Page({
     getApp().globalData.completed = storage.getCompleted();
     wx.showToast({ title: this.data.editingId ? '已保存' : '已添加', icon: 'success' });
     setTimeout(() => {
+      this._saving = false;
       if (this.data.isFirstChild) {
         wx.reLaunch({ url: '/pages/map/index' });
         return;

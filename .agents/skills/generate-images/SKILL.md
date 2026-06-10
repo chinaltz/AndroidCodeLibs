@@ -47,7 +47,24 @@ argument-hint: "[粘贴完整文章]"
 
 ### 5 张结构（固定）
 
-| 序号 | 用途 | 内容 |
+### cards.json 结构（必用新字段名）
+
+```json
+{
+  "article_summary": { "prepare": "…", "how": "…", "result": "…" },
+  "cover": { "title", "subtitle", "chips", "highlight", "footer" },
+  "prepare": { "heading", "main", "scene", "goal", "footer" },
+  "how": { "heading", "items": [{ "title", "body" }×3], "footer" },
+  "how_tips": { "heading", "items": ["…"×3], "highlight", "footer" },
+  "result": { "heading", "main", "items": [{ "title", "body" }×3], "footer" }
+}
+```
+
+参考模板：`content/posts/12-word-planet-product-prototype/social/wechat-search/cards.json`
+
+### 字数上限（硬约束）
+
+| 字段 | 上限 | 说明 |
 |------|------|------|
 | 01 | 封面 | 品牌 pill + 大标题 + 一句话卖点 + 头图横幅 + 时间线/来源 |
 | 02 | 核心问题 | 「跟我们有什么关系」+ 一句话结论 + 双栏对比要点 |

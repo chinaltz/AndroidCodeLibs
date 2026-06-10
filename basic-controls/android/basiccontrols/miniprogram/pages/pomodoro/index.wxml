@@ -1,0 +1,90 @@
+<view class="page-shell pomo-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="番茄钟" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+
+  <scroll-view scroll-y class="page-scroll pomo-scroll" enhanced show-scrollbar="{{false}}">
+    <view class="pomo-hero">
+      <image class="pomo-hero__mascot {{timerRunning ? 'is-running' : ''}}" src="/assets/pomodoro/mascot-tomato.png" mode="aspectFit" />
+      <view class="pomo-hero__copy">
+        <view class="pomo-hero__title">番茄君陪你专注</view>
+        <view class="pomo-hero__sub">{{timerRunning ? '加油，你正在认真专注！' : compassHint}}</view>
+      </view>
+      <view class="pomo-mute {{timerMuted ? 'is-muted' : ''}}" bindtap="onToggleMute">
+        <image src="/assets/pomodoro/icon-mute.png" mode="aspectFit" />
+      </view>
+    </view>
+
+    <!-- 罗盘表盘 -->
+    <view class="compass-wrap">
+      <view
+        class="compass {{timerRunning ? 'is-running' : ''}} {{compassEnabled ? '' : 'is-locked'}} {{compassDragging ? 'is-dragging' : ''}}"
+        catchtouchstart="onCompassStart"
+        catchtouchmove="onCompassMove"
+        catchtouchend="onCompassEnd"
+        catchtouchcancel="onCompassEnd"
+      >
+        <image class="compass-pointer" src="/assets/pomodoro/compass-pointer.png" mode="aspectFit" />
+
+        <view class="compass-progress" style="{{timerProgressStyle}}"></view>
+
+        <view class="compass-ring" style="transform: rotate({{ringRotate}}deg);">
+          <image class="compass-ring__img" src="/assets/pomodoro/compass-ring.png" mode="aspectFit" />
+          <image class="compass-knob" src="/assets/pomodoro/compass-knob.png" mode="aspectFit" />
+        </view>
+
+        <view class="compass-center">
+          <image class="compass-center__face" src="/assets/pomodoro/compass-face.png" mode="aspectFit" />
+          <view class="compass-center__time">{{timerDisplay}}</view>
+          <view class="compass-center__set">{{customMinutes}} 分钟</view>
+          <view class="compass-week">
+            <text wx:for="{{weekLetters}}" wx:key="*this" class="compass-week__item {{weekActive === index ? 'is-active' : ''}}">{{item}}</text>
+          </view>
+          <view class="compass-date">{{dateText}}</view>
+        </view>
+      </view>
+      <view class="compass-tip">{{compassEnabled ? '↻ 手指旋转外圈，指针位置即为时长' : '计时进行中'}}</view>
+    </view>
+
+    <view class="pomo-presets">
+      <view
+        wx:for="{{presetOptions}}"
+        wx:key="minutes"
+        class="pomo-preset {{activePreset === item.minutes ? 'is-active' : ''}}"
+        data-minutes="{{item.minutes}}"
+        bindtap="onPresetTap"
+      >
+        <view class="pomo-preset__time">{{item.hint}}</view>
+        <view class="pomo-preset__label">{{item.label}}</view>
+        <view wx:if="{{activePreset === item.minutes}}" class="pomo-preset__star">★</view>
+      </view>
+    </view>
+
+    <view class="pomo-mode" bindtap="onToggleTimerMode">
+      <view class="pomo-mode__pill {{timerMode === 'countdown' ? 'is-left' : 'is-right'}}"></view>
+      <text class="pomo-mode__item {{timerMode === 'countdown' ? 'is-active' : ''}}">倒计时</text>
+      <text class="pomo-mode__item {{timerMode === 'countup' ? 'is-active' : ''}}">正计时</text>
+    </view>
+
+    <view class="pomo-actions">
+      <view class="pomo-btn pomo-btn--ghost" bindtap="onResetTimer">清零</view>
+      <view class="pomo-btn pomo-btn--primary" bindtap="onToggleTimerRun">
+        {{timerRunning ? '暂停一下' : '开始专注'}}
+      </view>
+    </view>
+
+    <view class="pomo-tip">💡 离开页面会自动暂停哦</view>
+    <view class="page-safe"></view>
+  </scroll-view>
+
+  <view wx:if="{{alarmActive}}" class="pomo-alarm-mask">
+    <view class="pomo-alarm">
+      <image class="pomo-alarm__icon" src="/assets/pomodoro/icon-alarm.png" mode="aspectFit" />
+      <view class="pomo-alarm__title">时间到啦！</view>
+      <view class="pomo-alarm__copy">休息一下吧～</view>
+      <view class="pomo-alarm__time">{{timerDisplay}}</view>
+      <view class="pomo-alarm__actions">
+        <view class="pomo-btn pomo-btn--ghost pomo-btn--alarm" bindtap="onToggleMute">{{timerMuted ? '开声音' : '静音'}}</view>
+        <view class="pomo-btn pomo-btn--primary pomo-btn--alarm" bindtap="onDismissAlarm">知道啦</view>
+      </view>
+    </view>
+  </view>
+</view>

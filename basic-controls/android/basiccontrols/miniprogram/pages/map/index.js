@@ -2,6 +2,7 @@ const nav = require('../../utils/nav');
 const share = require('../../utils/share');
 const storage = require('../../utils/storage');
 const petService = require('../../utils/pet-service');
+const petRoutes = require('../../utils/pet-routes');
 
 function measureHeader() {
   const info = wx.getSystemInfoSync();
@@ -84,15 +85,31 @@ Page({
       { key: 'words', title: '字词听写', desc: `${wordStats.pendingCount} 个错字待练`, image: '/assets/icons/module-words.png', path: '/pages/word-planet/index' },
     ].filter((quest) => childModules.indexOf(quest.key) >= 0);
     const petState = petService.state();
-    const todayQuests = learningQuests.concat({
-      key: 'pet',
-      title: '电子宠物',
-      desc: petState.adopted
-        ? `${petState.profile.name} Lv.${petState.level} · ${petState.points} 积分`
-        : '领养一位蓝色学习伙伴',
-      image: '/assets/icons/module-pet.png',
-      path: petState.adopted ? '/pages/pet-home/index' : '/pages/pet-adopt/index',
-    });
+    const todayQuests = learningQuests.concat([
+      {
+        key: 'daily-todo',
+        title: '每日任务',
+        desc: '今天的小目标 · 打勾打卡',
+        image: '/assets/icons/module-daily-todo.png',
+        path: '/pages/daily-todo/index',
+      },
+      {
+        key: 'pomodoro',
+        title: '番茄钟',
+        desc: '番茄君陪你 · 专注一会儿',
+        image: '/assets/icons/module-pomodoro.png',
+        path: '/pages/pomodoro/index',
+      },
+      {
+        key: 'pet',
+        title: '电子宠物',
+        desc: petState.adopted
+          ? `${petState.profile.name} Lv.${petState.level} · ${petState.points} 积分`
+          : '领养一位蓝色学习伙伴',
+        image: '/assets/icons/module-pet.png',
+        path: petState.adopted ? petRoutes.home : petRoutes.adopt,
+      },
+    ]);
     app.globalData.completed = completed;
     this.setData(Object.assign({
       theme,

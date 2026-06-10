@@ -1,5 +1,6 @@
 const storage = require('./storage');
 const catalog = require('../config/pet-catalog');
+const petRoutes = require('./pet-routes');
 
 const KEY = 'pet_reward_state_v1';
 const TASK_POINTS = {
@@ -170,7 +171,7 @@ function shareMessage(eventId) {
   const taskTitle = event ? event.title : '学习任务';
   return {
     title: `我完成了${taskTitle}，快来看看我的电子宠物！`,
-    path: `/pages/pet/index?sharedEventId=${encodeURIComponent(eventId || '')}`,
+    path: `${petRoutes.entry}?sharedEventId=${encodeURIComponent(eventId || '')}`,
   };
 }
 

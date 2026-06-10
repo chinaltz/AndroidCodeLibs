@@ -4,6 +4,10 @@
     "ignore": [
       {
         "type": "folder",
+        "value": "assets/branding"
+      },
+      {
+        "type": "folder",
         "value": "docs"
       },
       {
@@ -73,6 +77,18 @@
       {
         "type": "glob",
         "value": "packages/pinyin/assets/audio/audio-manifest.json"
+      },
+      {
+        "type": "glob",
+        "value": "**/.!*"
+      },
+      {
+        "type": "glob",
+        "value": "**/._*"
+      },
+      {
+        "type": "glob",
+        "value": "**/.DS_Store"
       }
     ],
     "include": []

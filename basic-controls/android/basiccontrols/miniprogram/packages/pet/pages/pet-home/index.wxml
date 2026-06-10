@@ -1,0 +1,71 @@
+<view class="pet-page">
+  <bc-top-bar title="宠物小屋" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+  <scroll-view scroll-y class="pet-scroll">
+    <view class="pet-stage">
+      <view class="stage-sky"></view>
+      <view class="stage-cloud stage-cloud--a"></view>
+      <view class="stage-cloud stage-cloud--b"></view>
+      <view class="stage-cloud stage-cloud--c"></view>
+      <view class="stage-star stage-star--a"></view>
+      <view class="stage-star stage-star--b"></view>
+      <view class="stage-star stage-star--c"></view>
+      <view class="stage-sun"></view>
+      <view class="stage-hill stage-hill--back"></view>
+      <view class="stage-hill stage-hill--front"></view>
+      <view class="stage-grass">
+        <view class="grass-blade grass-blade--1"></view>
+        <view class="grass-blade grass-blade--2"></view>
+        <view class="grass-blade grass-blade--3"></view>
+        <view class="grass-blade grass-blade--4"></view>
+      </view>
+      <view class="stage-shelf"></view>
+      <view class="stage-actions">
+        <view class="stage-action" data-path="/packages/pet/pages/pet-wardrobe/index" bindtap="go">
+          <image src="/packages/pet/assets/runtime/ui/icon_pet_wardrobe.svg" mode="aspectFit" />
+          <text>装扮</text>
+        </view>
+        <view class="stage-action" data-path="/packages/pet/pages/pet-shop/index" bindtap="go">
+          <image src="/packages/pet/assets/runtime/ui/icon_pet_shop.svg" mode="aspectFit" />
+          <text>商店</text>
+        </view>
+      </view>
+      <view class="pet-actor">
+        <view class="pet-shadow {{bodyAnimClass}}"></view>
+        <view class="pet-body {{bodyAnimClass}}" bindtap="react">
+          <image class="home-pet" src="{{petImage}}" mode="aspectFit" />
+          <image wx:for="{{state.equippedImages}}" wx:key="id" class="equipped-layer equipped-{{item.slot}}" src="{{item.image}}" mode="aspectFit" />
+        </view>
+        <view
+          wx:for="{{floaters}}"
+          wx:key="id"
+          class="pet-floater pet-floater--{{item.kind}}"
+          style="left: {{item.left}}%; animation-delay: {{item.delay}}ms;"
+        >{{item.emoji}}</view>
+      </view>
+      <view class="pet-caption {{captionPop ? 'is-pop' : ''}}">{{reaction}}</view>
+    </view>
+    <view class="level-card">
+      <view class="level-badge">Lv.{{state.level}}</view>
+      <view class="level-main">
+        <view class="level-copy"><text>{{state.profile.name}} · {{state.stageTitle}}</text><text>{{state.xp}} XP</text></view>
+        <view class="pet-progress"><view class="pet-progress__fill" style="{{state.progressStyle}}"></view></view>
+      </view>
+      <view class="points-pill">★ {{state.points}}</view>
+    </view>
+    <view class="status-grid">
+      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_hunger.svg" /><strong>{{state.status.hunger}}</strong><text>饱腹</text></view>
+      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_mood.svg" /><strong>{{state.status.mood}}</strong><text>心情</text></view>
+      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_energy.svg" /><strong>{{state.status.energy}}</strong><text>活力</text></view>
+    </view>
+    <view class="quick-grid">
+      <view class="quick-action {{canFeed ? '' : 'is-disabled'}} {{guideFeed ? 'is-guide' : ''}}" bindtap="feed"><image src="/packages/pet/assets/runtime/ui/icon_pet_feed.svg" /><text>喂养</text></view>
+      <view class="quick-action {{canPlay ? '' : 'is-disabled'}}" bindtap="play"><image src="/packages/pet/assets/runtime/ui/icon_pet_play.svg" /><text>玩耍</text></view>
+      <view class="quick-action {{canSleep ? '' : 'is-disabled'}}" bindtap="sleep"><image src="/packages/pet/assets/runtime/ui/icon_pet_sleep.svg" /><text>睡觉</text></view>
+    </view>
+    <view class="module-grid">
+      <view class="module-card" data-path="/packages/pet/pages/pet-tasks/index" bindtap="go"><strong>今日任务</strong><text>查看学习进度</text></view>
+      <view class="module-card" data-path="/packages/pet/pages/pet-rewards/index" bindtap="go"><strong>学习奖励</strong><text>积分记录与分享</text></view>
+      <view class="module-card" data-path="/packages/pet/pages/pet-growth/index" bindtap="go"><strong>成长手册</strong><text>{{state.nextText}}</text></view>
+    </view>
+  </scroll-view>
+</view>

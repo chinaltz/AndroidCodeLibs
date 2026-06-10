@@ -1,0 +1,77 @@
+{
+  "title": "Claude Fable 5 来了：AI 从帮你干活升级成替你扛事",
+  "subtitle": "Anthropic 新模型普通人解读",
+  "conclusion": "分清 Fable 5 与 Claude Code，6/22 前免费试，从小任务开始。",
+  "keywords": "Claude Fable 5, Claude Code, AI工具, 大模型, Anthropic, 技趣星球",
+  "article_summary": {
+    "prepare": "Claude 又发新模型，名字绕晕人：不是 Code 5，而是 Fable 5。",
+    "how": "捋清三个名字 → 看懂强在哪 → 切换 /model fable 试长任务。",
+    "result": "知道 AI 能自主扛事，拿到 3 个提示词，今晚就能试。"
+  },
+  "cover": {
+    "label": "Claude Fable 5",
+    "title": "AI 从帮你干活\n升级成替你扛事",
+    "subtitle": "5 张图：准备 → 如何做 → 结果",
+    "chips": ["准备做什么", "如何做", "最终结果"],
+    "highlight": "不是 Claude Code 5，新模型叫 Fable 5。",
+    "footer": "5 张图：准备 → 如何做 → 结果"
+  },
+  "prepare": {
+    "label": "① 准备做什么",
+    "heading": "被 Claude 新模型刷屏，但名字对不上",
+    "main": "很多人搜 Claude Code 5，官方并没有这个产品。新模型叫 Fable 5，Claude Code 只是接入它的工具。",
+    "scene": "朋友圈刷屏，想判断要不要跟进。",
+    "goal": "用大白话搞懂这次到底变了什么。",
+    "footer": "先对齐名字，再往下看。"
+  },
+  "how": {
+    "label": "② 如何做",
+    "heading": "看懂并试起来 3 步",
+    "items": [
+      {
+        "title": "捋清三个名字",
+        "body": "Fable 5 公开版，Mythos 5 高权限版，Code 是终端工具。"
+      },
+      {
+        "title": "切换新模型",
+        "body": "Claude Code 终端选 fable 模型，任务写详细些。"
+      },
+      {
+        "title": "从小任务试起",
+        "body": "6/22 前 Pro 用户免费，别一上来就重构整个项目。"
+      }
+    ],
+    "footer": "一步一步来，别跳步。"
+  },
+  "how_tips": {
+    "label": "② 如何做 · 要点",
+    "heading": "试的时候记住这 3 点",
+    "items": [
+      "强模型适合长任务：给目标，走开几小时再回来看。",
+      "6 月 23 日起可能要额外买 credits，现在试最划算。",
+      "敏感话题会降档到 Opus 4.8，收到通知属正常。"
+    ],
+    "highlight": "把 AI 当能加班的同事，别只当聊天机器人。",
+    "footer": "要点比步骤更重要。"
+  },
+  "result": {
+    "label": "③ 最终结果",
+    "heading": "读完你会得到",
+    "main": "搞懂 Fable 5 为何重要，以及今晚就能试的提示词。",
+    "items": [
+      {
+        "title": "认知",
+        "body": "AI 从回答问题，变成能独自扛住整块工作。"
+      },
+      {
+        "title": "能力",
+        "body": "会切换模型、写长任务提示词、判断要不要花钱。"
+      },
+      {
+        "title": "下一步",
+        "body": "打开正文，复制 /model fable 提示词今晚试一条。"
+      }
+    ],
+    "footer": "结果导向：试一条比看完更重要。"
+  }
+}

@@ -1,14 +1,6 @@
 {
   "pages": [
     "pages/map/index",
-    "pages/pet/index",
-    "pages/pet-adopt/index",
-    "pages/pet-home/index",
-    "pages/pet-tasks/index",
-    "pages/pet-rewards/index",
-    "pages/pet-wardrobe/index",
-    "pages/pet-shop/index",
-    "pages/pet-growth/index",
     "pages/phonics/index",
     "pages/learn/index",
     "pages/check/index",
@@ -25,7 +17,9 @@
     "pages/dictation-result/index",
     "pages/settings/index",
     "pages/settings-data/index",
-    "pages/settings-theme/index"
+    "pages/settings-theme/index",
+    "pages/daily-todo/index",
+    "pages/pomodoro/index"
   ],
   "subpackages": [
     {
@@ -44,13 +38,28 @@
       "pages": [
         "pages/stub/index"
       ]
+    },
+    {
+      "root": "packages/pet",
+      "name": "pet",
+      "pages": [
+        "pages/pet/index",
+        "pages/pet-adopt/index",
+        "pages/pet-home/index",
+        "pages/pet-tasks/index",
+        "pages/pet-rewards/index",
+        "pages/pet-wardrobe/index",
+        "pages/pet-shop/index",
+        "pages/pet-growth/index"
+      ]
     }
   ],
   "preloadRule": {
     "pages/map/index": {
       "network": "all",
       "packages": [
-        "phonics-media"
+        "phonics-media",
+        "pet"
       ]
     },
     "pages/phonics/index": {

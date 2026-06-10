@@ -1,0 +1,343 @@
+.todo-scroll {
+  padding: 0 24rpx 16rpx;
+  box-sizing: border-box;
+}
+
+.page-safe {
+  height: 24rpx;
+}
+
+/* ── 英雄区 ── */
+.todo-hero {
+  margin-top: 8rpx;
+  padding: 32rpx 28rpx;
+  border-radius: 36rpx;
+  background: linear-gradient(135deg, #fff 0%, #fff7d7 55%, #eaf6ff 100%);
+  border: 2rpx solid #c8eaff;
+  box-shadow: 0 12rpx 32rpx rgba(49, 168, 255, 0.12);
+}
+
+.todo-hero__badge {
+  font-size: 30rpx;
+  font-weight: 900;
+  color: #173a62;
+}
+
+.todo-hero__progress {
+  margin-top: 10rpx;
+  font-size: 36rpx;
+  font-weight: 900;
+  color: #1479d6;
+}
+
+.todo-stars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 16rpx;
+}
+
+.todo-star {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.todo-hero__note {
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  color: #7a9bb8;
+}
+
+/* ── 任务卡片 ── */
+.todo-card {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-top: 16rpx;
+  padding: 22rpx 20rpx;
+  border-radius: 28rpx;
+  background: #fff;
+  border: 2rpx solid #e4f5ff;
+  box-shadow: 0 8rpx 24rpx rgba(22, 120, 189, 0.08);
+  transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todo-card.is-done {
+  background: linear-gradient(180deg, #f0fffc 0%, #fff 100%);
+  border-color: #b8f0e8;
+}
+
+.todo-card.is-dragging {
+  opacity: 0.75;
+  transform: scale(1.02);
+  box-shadow: 0 16rpx 40rpx rgba(49, 168, 255, 0.2);
+}
+
+.todo-card.is-over {
+  border-color: #31a8ff;
+  background: #f6fbff;
+}
+
+.todo-card__drag {
+  width: 44rpx;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.todo-card__drag-icon {
+  width: 28rpx;
+  height: 28rpx;
+  opacity: 0.4;
+}
+
+.todo-card__badge {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #eaf6ff 0%, #d9efff 100%);
+  color: #1479d6;
+  font-size: 26rpx;
+  font-weight: 900;
+  line-height: 52rpx;
+  text-align: center;
+  flex: 0 0 auto;
+}
+
+.todo-card__badge.is-done {
+  background: linear-gradient(180deg, #43cfc7 0%, #2bb8aa 100%);
+  color: #fff;
+}
+
+.todo-card__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-card__title {
+  font-size: 30rpx;
+  font-weight: 800;
+  color: #173a62;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.todo-card.is-done .todo-card__title {
+  color: #087f74;
+}
+
+.todo-card__meta {
+  display: inline-block;
+  margin-top: 6rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  background: #f6fbff;
+  font-size: 20rpx;
+  color: #7a9bb8;
+}
+
+.todo-card__slider {
+  flex: 0 0 auto;
+}
+
+.todo-slider__track {
+  position: relative;
+  width: 180rpx;
+  height: 64rpx;
+  border-radius: 999rpx;
+  background: #f3f7fa;
+  box-shadow: inset 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.todo-slider__done,
+.todo-slider__fail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.todo-slider__done {
+  left: 0;
+  background: rgba(67, 207, 199, 0.2);
+}
+
+.todo-slider__fail {
+  right: 0;
+  background: rgba(255, 107, 122, 0.16);
+}
+
+.todo-slider__done.is-visible,
+.todo-slider__fail.is-visible {
+  opacity: 1;
+}
+
+.todo-slider__done image,
+.todo-slider__fail image {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.todo-slider__knob {
+  position: absolute;
+  top: 4rpx;
+  width: 56rpx;
+  height: 56rpx;
+  transition: left 0.22s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.todo-slider__knob.is-left {
+  left: 4rpx;
+}
+
+.todo-slider__knob.is-right {
+  left: 120rpx;
+}
+
+.todo-slider__knob image {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.todo-card__delete {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: #fff5f6;
+  color: #ff6b7a;
+  font-size: 28rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-weight: 700;
+  flex: 0 0 auto;
+  opacity: 0.7;
+}
+
+/* ── 空状态 ── */
+.todo-empty {
+  margin-top: 48rpx;
+  padding: 48rpx 24rpx;
+  text-align: center;
+}
+
+.todo-empty__emoji {
+  font-size: 64rpx;
+}
+
+.todo-empty__title {
+  margin-top: 16rpx;
+  font-size: 32rpx;
+  font-weight: 900;
+  color: #173a62;
+}
+
+.todo-empty__copy {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  color: #7a9bb8;
+}
+
+.todo-tip {
+  margin-top: 24rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #7a9bb8;
+}
+
+/* ── 底部添加 ── */
+.todo-footer {
+  padding-top: 8rpx;
+  background: linear-gradient(180deg, rgba(221, 244, 255, 0) 0%, rgba(221, 244, 255, 0.96) 36%);
+}
+
+.todo-add-btn {
+  height: 96rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(180deg, #4db8ff 0%, #31a8ff 100%);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 900;
+  line-height: 96rpx;
+  text-align: center;
+  box-shadow: 0 12rpx 28rpx rgba(49, 168, 255, 0.32);
+}
+
+/* ── 弹层 ── */
+.sheet-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 58, 98, 0.42);
+  z-index: 40;
+}
+
+.todo-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  padding: 24rpx 28rpx calc(28rpx + env(safe-area-inset-bottom));
+  background: #fff;
+  border-radius: 32rpx 32rpx 0 0;
+  transform: translateY(110%);
+  transition: transform 0.25s ease;
+}
+
+.todo-sheet.is-open {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 72rpx;
+  height: 8rpx;
+  border-radius: 999rpx;
+  background: #d9efff;
+  margin: 0 auto 20rpx;
+}
+
+.sheet-title {
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #173a62;
+  margin-bottom: 20rpx;
+}
+
+.sheet-input {
+  width: 100%;
+  height: 96rpx;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+  border-radius: 24rpx;
+  background: #f6fbff;
+  border: 2rpx solid #d9efff;
+  font-size: 30rpx;
+}
+
+.sheet-picker {
+  margin-top: 20rpx;
+  padding: 28rpx;
+  border-radius: 24rpx;
+  background: #f6fbff;
+  color: #365d82;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.sheet-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 28rpx;
+}
+
+.sheet-actions bc-button {
+  flex: 1;
+}

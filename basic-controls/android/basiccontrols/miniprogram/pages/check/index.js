@@ -1,4 +1,5 @@
 const { findById } = require('../../data/phonemes');
+const petRoutes = require('../../utils/pet-routes');
 const nav = require('../../utils/nav');
 const audio = require('../../utils/audio');
 const quiz = require('../../utils/quiz');
@@ -249,7 +250,7 @@ Page({
   },
 
   goPet() {
-    nav.navigateTo('/pages/pet/index');
+    nav.navigateTo(petRoutes.entry);
   },
 
   finishAndBack() {

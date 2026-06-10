@@ -1,4 +1,4 @@
-const BASE = '/assets/images/pet-runtime/';
+const BASE = '/packages/pet/assets/runtime/';
 
 const LEVELS = [
   { level: 1, totalXp: 0, rewardPoints: 0, title: '幼芽' },

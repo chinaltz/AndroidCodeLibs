@@ -70,7 +70,7 @@
       </view>
 
       <view class="save-action">
-        <bc-button text="{{saveText}}" variant="primary" theme="{{theme}}" bind:tap="onSave" />
+        <bc-button text="{{saveText}}" variant="primary" theme="{{theme}}" disabled="{{saving}}" bind:tap="onSave" />
       </view>
       <view class="privacy" style="color: {{theme.textTertiary}};">所有孩子资料和学习进度均保存在本机，不会上传。</view>
     </view>

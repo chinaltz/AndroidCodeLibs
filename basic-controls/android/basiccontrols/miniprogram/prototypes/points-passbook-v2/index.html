@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>心愿存折 · 交互原型 V2</title>
+  <style>
+    :root {
+      --pb-pink-50: #fff0f5;
+      --pb-pink-100: #f8c8dc;
+      --pb-pink-200: #ffb6c1;
+      --pb-lavender: #e8d5ff;
+      --pb-mint: #c8f0e0;
+      --pb-yellow: #ffd166;
+      --pb-sky: #a8d8ff;
+      --pb-label: #d4567a;
+      --pb-body: #5c3d4a;
+      --pb-title-stroke: #7eb8ff;
+      --shadow: 0 8px 32px rgba(212, 86, 122, 0.18);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "PingFang SC", "Helvetica Neue", sans-serif;
+      background: linear-gradient(160deg, #fce4ec 0%, #e8d5ff 50%, #ddf4ff 100%);
+      color: var(--pb-body);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+
+    .proto-shell {
+      width: min(390px, 100%);
+    }
+
+    .proto-badge {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .phone {
+      background: #fff;
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(92, 61, 74, 0.25);
+      border: 8px solid #222;
+      min-height: 780px;
+      position: relative;
+    }
+
+    .screen {
+      display: none;
+      min-height: 764px;
+      flex-direction: column;
+      animation: fadeIn 0.35s ease;
+    }
+
+    .screen.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* ── Cover ── */
+    .cover {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.5) 2px, transparent 3px),
+        radial-gradient(circle at 80% 60%, rgba(255,255,255,0.4) 2px, transparent 3px),
+        linear-gradient(180deg, #ffc8dd 0%, #ffb3c6 40%, #f8a5c2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-deco {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0.9;
+      animation: float 3s ease-in-out infinite;
+    }
+    .cover-deco.d1 { top: 60px; left: 24px; animation-delay: 0s; }
+    .cover-deco.d2 { top: 48px; right: 32px; animation-delay: 0.5s; }
+    .cover-deco.d3 { top: 120px; right: 60px; font-size: 36px; animation-delay: 1s; }
+    .cover-deco.d4 { bottom: 180px; left: 40px; font-size: 22px; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .cover-nav {
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #fff;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-nav button {
+      background: rgba(255,255,255,0.25);
+      border: none;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .cover-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px 40px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .cover-title {
+      font-size: 42px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow:
+        3px 3px 0 var(--pb-title-stroke),
+        -1px -1px 0 var(--pb-title-stroke),
+        1px -1px 0 var(--pb-title-stroke),
+        -1px 1px 0 var(--pb-title-stroke),
+        0 4px 12px rgba(212, 86, 122, 0.4);
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .cover-sub {
+      color: #fff;
+      font-size: 14px;
+      margin-bottom: 28px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    }
+
+    .cover-balance {
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(8px);
+      border-radius: 999px;
+      padding: 10px 24px;
+      font-size: 18px;
+      color: #fff;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .cover-cta {
+      background: linear-gradient(180deg, #fff 0%, #ffe8ef 100%);
+      color: var(--pb-label);
+      border: none;
+      padding: 16px 48px;
+      border-radius: 999px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(212, 86, 122, 0.35);
+    }
+
+    .cover-cta:active { transform: scale(0.97); }
+
+    .cover-hills {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      overflow: hidden;
+    }
+
+    .hill {
+      position: absolute;
+      bottom: -20px;
+      border-radius: 50%;
+    }
+    .hill1 { width: 200px; height: 100px; background: var(--pb-lavender); left: -40px; }
+    .hill2 { width: 180px; height: 90px; background: var(--pb-mint); left: 80px; bottom: -10px; }
+    .hill3 { width: 160px; height: 80px; background: var(--pb-yellow); right: 20px; }
+    .hill4 { width: 140px; height: 70px; background: var(--pb-sky); right: -30px; bottom: 10px; }
+
+    .unicorn {
+      font-size: 72px;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+    }
+
+    /* ── Common header ── */
+    .topbar {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--pb-pink-50);
+      border-bottom: 1px solid rgba(212, 86, 122, 0.12);
+    }
+
+    .topbar button {
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px;
+    }
+
+    .topbar-title {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--pb-label);
+    }
+
+    .topbar-action {
+      font-size: 13px;
+      color: var(--pb-label);
+      background: rgba(212, 86, 122, 0.1);
+      border: none;
+      padding: 6px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .scroll-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px 80px;
+      background: var(--pb-pink-50);
+    }
+
+    /* ── Ledger ── */
+    .summary-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .summary-chip {
+      flex: 1;
+      background: #fff;
+      border-radius: 16px;
+      padding: 10px 12px;
+      box-shadow: var(--shadow);
+      font-size: 12px;
+    }
+
+    .summary-chip strong {
+      display: block;
+      font-size: 18px;
+      color: var(--pb-label);
+      margin-top: 2px;
+    }
+
+    .record-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #ff8eae, #d4567a);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 14px;
+      box-shadow: 0 6px 20px rgba(212, 86, 122, 0.35);
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .profile-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--pb-label);
+    }
+
+    .profile-body {
+      display: none;
+      margin-top: 12px;
+      border-top: 1px dashed var(--pb-pink-100);
+      padding-top: 12px;
+    }
+
+    .profile-body.open { display: block; }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .profile-photo {
+      width: 72px;
+      height: 88px;
+      background: var(--pb-pink-100);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      grid-row: span 4;
+    }
+
+    .profile-row {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .profile-row .label {
+      background: var(--pb-pink-100);
+      color: var(--pb-label);
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .profile-row .value {
+      background: #fafafa;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #eee;
+    }
+
+    .notice {
+      margin-top: 10px;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #888;
+      font-family: "Songti SC", serif;
+    }
+
+    .notice-title {
+      text-align: center;
+      background: var(--pb-pink-100);
+      color: var(--pb-label);
+      border-radius: 999px;
+      padding: 4px 12px;
+      display: inline-block;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+
+    /* ── Stamp wall ── */
+    .stamp-card {
+      background: linear-gradient(180deg, #fce4ec 0%, #f8c8dc 100%);
+      border-radius: 20px;
+      padding: 14px 10px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .stamp-card::before {
+      content: "🎀";
+      position: absolute;
+      font-size: 10px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    .stamp-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+
+    .stamp-cell {
+      aspect-ratio: 1;
+      background: #fff;
+      border-radius: 50%;
+      border: 2px dashed rgba(212, 86, 122, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .stamp-cell.filled {
+      border-style: solid;
+      border-color: rgba(212, 86, 122, 0.3);
+      animation: popIn 0.4s ease;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .wish-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .wish-label {
+      font-size: 13px;
+      color: var(--pb-label);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .wish-text {
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .wish-target {
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .progress-track {
+      height: 10px;
+      background: var(--pb-pink-100);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ff8eae, #d4567a);
+      border-radius: 999px;
+      transition: width 0.4s ease;
+    }
+
+    .goal-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+    }
+
+    .goal-card .meta { color: #999; font-size: 11px; margin-top: 4px; }
+
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      background: #fff;
+      border-top: 1px solid #eee;
+      padding: 8px 4px 12px;
+    }
+
+    .bottom-nav button {
+      flex: 1;
+      background: none;
+      border: none;
+      font-size: 11px;
+      color: #999;
+      cursor: pointer;
+      padding: 6px 2px;
+    }
+
+    .bottom-nav button.active { color: var(--pb-label); font-weight: 700; }
+    .bottom-nav button span { display: block; font-size: 20px; margin-bottom: 2px; }
+
+    /* ── Record ── */
+    .tabs {
+      display: flex;
+      background: #fff;
+      border-radius: 999px;
+      padding: 4px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+
+    .tabs button {
+      flex: 1;
+      border: none;
+      background: none;
+      padding: 10px;
+      border-radius: 999px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .tabs button.active {
+      background: var(--pb-label);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .cap-hint {
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .rule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .rule-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px 12px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .rule-card:active { transform: scale(0.97); }
+    .rule-card.disabled { opacity: 0.45; pointer-events: none; }
+
+    .rule-card .token {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .rule-card .delta {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--pb-label);
+    }
+
+    .rule-card.penalty .delta { color: #e67e22; }
+
+    .rule-card .name {
+      font-size: 13px;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
+    /* ── Rules edit ── */
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--pb-label);
+      margin: 14px 0 8px;
+    }
+
+    .style-picker {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .style-option {
+      background: #fff;
+      border: 2px solid #eee;
+      border-radius: 14px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .style-option.selected {
+      border-color: var(--pb-label);
+      background: var(--pb-pink-50);
+    }
+
+    .style-option .icon { font-size: 26px; display: block; margin-bottom: 4px; }
+
+    .stepper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .stepper-row button {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: var(--pb-pink-100);
+      color: var(--pb-label);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .stepper-row .val { font-size: 22px; font-weight: 800; color: var(--pb-label); }
+
+    .rule-list-item {
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rule-list-item .info { flex: 1; }
+    .rule-list-item .title { font-size: 14px; font-weight: 600; }
+    .rule-list-item .meta { font-size: 11px; color: #999; margin-top: 2px; }
+
+    .health-panel {
+      background: linear-gradient(135deg, #fff6d3, #ffe8ef);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .health-panel .status {
+      font-weight: 700;
+      color: var(--pb-label);
+      margin-bottom: 6px;
+    }
+
+    .add-btn {
+      width: 100%;
+      border: 2px dashed var(--pb-pink-200);
+      background: none;
+      color: var(--pb-label);
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 6px;
+    }
+
+    /* ── Toast & overlay ── */
+    .toast {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(92, 61, 74, 0.92);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .stamp-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 998;
+    }
+
+    .stamp-overlay.show { display: flex; }
+
+    .stamp-anim {
+      font-size: 120px;
+      animation: stampPress 0.5s ease;
+    }
+
+    @keyframes stampPress {
+      0% { transform: scale(2) rotate(-15deg); opacity: 0; }
+      50% { transform: scale(0.85) rotate(0deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); opacity: 0; }
+    }
+
+    .confirm-dialog {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 997;
+      padding: 24px;
+    }
+
+    .confirm-dialog.show { display: flex; }
+
+    .confirm-box {
+      background: #fff;
+      border-radius: 20px;
+      padding: 24px;
+      width: min(320px, 100%);
+      text-align: center;
+    }
+
+    .confirm-box h3 { font-size: 16px; margin-bottom: 8px; color: var(--pb-label); }
+    .confirm-box p { font-size: 13px; color: #666; margin-bottom: 20px; }
+
+    .confirm-actions { display: flex; gap: 10px; }
+
+    .confirm-actions button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .confirm-actions .cancel { background: #f0f0f0; color: #666; }
+    .confirm-actions .ok { background: var(--pb-label); color: #fff; }
+
+    /* ── Ledger list ── */
+    .ledger-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+    }
+
+    .ledger-item .delta-pos { color: #27ae60; font-weight: 700; }
+    .ledger-item .delta-neg { color: #e67e22; font-weight: 700; }
+    .ledger-item .time { font-size: 11px; color: #aaa; margin-left: auto; }
+  </style>
+</head>
+<body>
+  <div class="proto-shell">
+    <div class="proto-badge">心愿存折 V2 · 原生 HTML 交互原型 · 390×780</div>
+    <div class="phone">
+
+      <!-- 封面 -->
+      <div class="screen cover active" id="screen-cover">
+        <div class="cover-deco d1">✈️</div>
+        <div class="cover-deco d2">🎈</div>
+        <div class="cover-deco d3">🎈</div>
+        <div class="cover-deco d4">⭐</div>
+        <div class="cover-nav">
+          <button type="button" onclick="showScreen('screen-rules')">⚙️ 规则</button>
+          <span id="cover-child-name">小明的心愿存折</span>
+          <button type="button" onclick="showScreen('screen-ledger')">跳过 ›</button>
+        </div>
+        <div class="cover-main">
+          <div class="unicorn">🦄</div>
+          <div class="cover-title">心愿存折</div>
+          <div class="cover-sub">激励孩子养成好习惯</div>
+          <div class="cover-balance"><span id="cover-token">🌸</span> <span id="cover-balance">8</span></div>
+          <button class="cover-cta" type="button" onclick="openPassbook()">打开我的存折</button>
+        </div>
+        <div class="cover-hills">
+          <div class="hill hill1"></div>
+          <div class="hill hill2"></div>
+          <div class="hill hill3"></div>
+          <div class="hill hill4"></div>
+        </div>
+      </div>
+
+      <!-- 内页 -->
+      <div class="screen" id="screen-ledger">
+        <div class="topbar">
+          <button type="button" onclick="showScreen('screen-cover')">‹</button>
+          <div class="topbar-title">存折内页</div>
+          <button class="topbar-action" type="button" onclick="showScreen('screen-record')">记一笔</button>
+        </div>
+        <div class="scroll-body">
+          <div class="summary-bar">
+            <div class="summary-chip">今日已获得<strong id="today-earned">5</strong><span>/ <span id="daily-cap">12</span></span></div>
+            <div class="summary-chip">今日已扣<strong id="today-penalty" style="color:#e67e22">1</strong></div>
+            <div class="summary-chip">余额<strong id="ledger-balance">8</strong></div>
+          </div>
+
+          <div class="profile-card">
+            <div class="profile-toggle" onclick="toggleProfile()">
+              <span>📋 开户信息</span>
+              <span id="profile-arrow">▼</span>
+            </div>
+            <div class="profile-body" id="profile-body">
+              <div class="profile-grid">
+                <div class="profile-photo">👦</div>
+                <div class="profile-row"><span class="label">编号</span><span class="value">PB-042816</span></div>
+                <div class="profile-row"><span class="label">姓名</span><span class="value">小明</span></div>
+                <div class="profile-row"><span class="label">性别</span><span class="value">男</span></div>
+                <div class="profile-row"><span class="label">开户</span><span class="value">2026-06-08</span></div>
+              </div>
+              <div class="notice">
+                <div class="notice-title">注意事项</div>
+                <p>1. 本存折为荣誉记录本，请妥善保管，不得转让或故意损坏。</p>
+                <p>2. 如有遗失，请及时告知家长办理挂失。</p>
+                <p style="margin-top:8px;text-align:right">开户人签名：小明 👋</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="stamp-card">
+            <div class="stamp-grid" id="stamp-grid"></div>
+          </div>
+
+          <div class="wish-card">
+            <div class="wish-label">💝 我的心愿</div>
+            <div class="wish-text" id="wish-text">周末去动物园</div>
+            <div class="wish-target">还需 <strong id="wish-need">12</strong> 个<span id="wish-token-label">🌸</span> 可兑换</div>
+            <div class="progress-track"><div class="progress-fill" id="wish-progress" style="width:40%"></div></div>
+          </div>
+
+          <div class="goal-card">
+            <div>🏆 本周目标 · 自律小达人</div>
+            <div class="meta"><span id="goal-progress-text">8 / 35</span> · 剩余 3 天</div>
+            <div class="progress-track" style="margin-top:8px"><div class="progress-fill" id="goal-progress" style="width:23%"></div></div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <button class="active" type="button"><span>📖</span>内页</button>
+          <button type="button" onclick="showScreen('screen-record')"><span>✏️</span>记一笔</button>
+          <button type="button" onclick="showScreen('screen-flow')"><span>📜</span>流水</button>
+          <button type="button" onclick="showScreen('screen-rules')"><span>⚙️</span>规则</button>
+        </div>
+      </div>
+
+      <!-- 记一笔 -->
+      <div class="screen" id="screen-record">
+        <div class="topbar">
+          <button type="button" onclick="showScreen('screen-ledger')">‹</button>
+          <div class="topbar-title">记一笔</div>
+        </div>
+        <div class="scroll-body">
+          <div class="tabs">
+            <button class="active" id="tab-bonus" type="button" onclick="switchTab('bonus')">加分</button>
+            <button id="tab-penalty" type="button" onclick="switchTab('penalty')">减分</button>
+          </div>
+          <div class="cap-hint" id="cap-hint">今日还可获得 <strong id="cap-left">7</strong> 分</div>
+          <div class="rule-grid" id="rule-grid"></div>
+        </div>
+      </div>
+
+      <!-- 流水 -->
+      <div class="screen" id="screen-flow">
+        <div class="topbar">
+          <button type="button" onclick="showScreen('screen-ledger')">‹</button>
+          <div class="topbar-title">积分流水</div>
+        </div>
+        <div class="scroll-body" id="flow-list"></div>
+      </div>
+
+      <!-- 规则管理 -->
+      <div class="screen" id="screen-rules">
+        <div class="topbar">
+          <button type="button" onclick="showScreen('screen-cover')">‹</button>
+          <div class="topbar-title">规则管理</div>
+        </div>
+        <div class="scroll-body">
+          <div class="section-title">标记样式（四选一）</div>
+          <div class="style-picker" id="style-picker"></div>
+
+          <div class="section-title">日上限</div>
+          <div class="stepper-row">
+            <button type="button" onclick="changeCap(-1)">−</button>
+            <span class="val" id="cap-display">12</span>
+            <button type="button" onclick="changeCap(1)">+</button>
+          </div>
+
+          <div class="section-title">加分项 <button class="add-btn" style="margin:0;padding:4px 10px;width:auto;font-size:12px" type="button" onclick="alert('小程序版支持自定义新增')">+ 新增</button></div>
+          <div id="bonus-list"></div>
+
+          <div class="section-title">减分项</div>
+          <div id="penalty-list"></div>
+
+          <div class="health-panel">
+            <div class="status" id="health-status">⚖️ 规则健康度：略宽松</div>
+            <div id="health-detail">理论最大日获得 18 分，日上限 12 分。建议将「八点半前完成学习」从 +3 调整为 +2。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div class="stamp-overlay" id="stamp-overlay"><div class="stamp-anim" id="stamp-anim">🌸</div></div>
+  <div class="confirm-dialog" id="confirm-dialog">
+    <div class="confirm-box">
+      <h3 id="confirm-title">确认减分？</h3>
+      <p id="confirm-msg"></p>
+      <div class="confirm-actions">
+        <button class="cancel" type="button" onclick="closeConfirm()">取消</button>
+        <button class="ok" type="button" id="confirm-ok">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TOKEN_STYLES = {
+      flower: { label: '小红花', icon: '🌸' },
+      stamp:  { label: '小印章', icon: '🔖' },
+      star:   { label: '小星星', icon: '⭐' },
+      heart:  { label: '小心心', icon: '❤️' },
+    };
+
+    const BONUS_RULES = [
+      { id: 'b1', name: '八点半前完成学习', value: 3, dailyMax: 1 },
+      { id: 'b2', name: '学校任务完成', value: 2, dailyMax: 1 },
+      { id: 'b3', name: '托管任务完成', value: 2, dailyMax: 1 },
+      { id: 'b4', name: '主动阅读20分钟', value: 1, dailyMax: 1 },
+      { id: 'b5', name: '自己整理书包', value: 1, dailyMax: 1 },
+      { id: 'b6', name: '礼貌沟通', value: 1, dailyMax: 2 },
+    ];
+
+    const PENALTY_RULES = [
+      { id: 'p1', name: '拖延睡觉', value: 1, dailyMax: 1 },
+      { id: 'p2', name: '顶嘴不礼貌', value: 1, dailyMax: 1 },
+      { id: 'p3', name: '作业未完成', value: 2, dailyMax: 1 },
+      { id: 'p4', name: '乱扔不整理', value: 1, dailyMax: 1 },
+    ];
+
+    const state = {
+      tokenStyle: 'flower',
+      dailyCap: 12,
+      balance: 8,
+      wishTarget: 20,
+      wishText: '周末去动物园',
+      goalTarget: 35,
+      goalProgress: 8,
+      todayEarned: 5,
+      todayPenalty: 1,
+      stamps: Array(8).fill(true).concat(Array(20).fill(false)),
+      counts: { b1: 1, b2: 1, b4: 1, b5: 1, b6: 1, p1: 1 },
+      ledger: [
+        { name: '八点半前完成学习', delta: 3, type: 'earn', time: '18:20' },
+        { name: '学校任务完成', delta: 2, type: 'earn', time: '17:05' },
+        { name: '拖延睡觉', delta: -1, type: 'penalty', time: '22:40' },
+        { name: '主动阅读20分钟', delta: 1, type: 'earn', time: '16:30' },
+      ],
+      tab: 'bonus',
+      pendingPenalty: null,
+    };
+
+    function tokenIcon() { return TOKEN_STYLES[state.tokenStyle].icon; }
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if (id === 'screen-ledger') renderLedger();
+      if (id === 'screen-record') renderRecord();
+      if (id === 'screen-flow') renderFlow();
+      if (id === 'screen-rules') renderRules();
+      if (id === 'screen-cover') renderCover();
+    }
+
+    function openPassbook() {
+      showScreen('screen-ledger');
+    }
+
+    function toggleProfile() {
+      const body = document.getElementById('profile-body');
+      const arrow = document.getElementById('profile-arrow');
+      body.classList.toggle('open');
+      arrow.textContent = body.classList.contains('open') ? '▲' : '▼';
+    }
+
+    function renderCover() {
+      document.getElementById('cover-token').textContent = tokenIcon();
+      document.getElementById('cover-balance').textContent = state.balance;
+    }
+
+    function renderLedger() {
+      const icon = tokenIcon();
+      document.getElementById('ledger-balance').textContent = state.balance;
+      document.getElementById('today-earned').textContent = state.todayEarned;
+      document.getElementById('today-penalty').textContent = state.todayPenalty;
+      document.getElementById('daily-cap').textContent = state.dailyCap;
+      document.getElementById('wish-token-label').textContent = icon;
+
+      const need = Math.max(0, state.wishTarget - state.balance);
+      document.getElementById('wish-need').textContent = need;
+      document.getElementById('wish-progress').style.width = Math.min(100, (state.balance / state.wishTarget) * 100) + '%';
+      document.getElementById('goal-progress-text').textContent = state.goalProgress + ' / ' + state.goalTarget;
+      document.getElementById('goal-progress').style.width = Math.min(100, (state.goalProgress / state.goalTarget) * 100) + '%';
+
+      const grid = document.getElementById('stamp-grid');
+      grid.innerHTML = '';
+      for (let i = 0; i < 28; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'stamp-cell' + (state.stamps[i] ? ' filled' : '');
+        cell.textContent = state.stamps[i] ? icon : '';
+        grid.appendChild(cell);
+      }
+    }
+
+    function switchTab(tab) {
+      state.tab = tab;
+      document.getElementById('tab-bonus').classList.toggle('active', tab === 'bonus');
+      document.getElementById('tab-penalty').classList.toggle('active', tab === 'penalty');
+      renderRecord();
+    }
+
+    function renderRecord() {
+      const left = Math.max(0, state.dailyCap - state.todayEarned);
+      document.getElementById('cap-left').textContent = left;
+      document.getElementById('cap-hint').style.display = state.tab === 'bonus' ? 'block' : 'none';
+
+      const rules = state.tab === 'bonus' ? BONUS_RULES : PENALTY_RULES;
+      const grid = document.getElementById('rule-grid');
+      grid.innerHTML = '';
+
+      rules.forEach(rule => {
+        const count = state.counts[rule.id] || 0;
+        const disabled = state.tab === 'bonus'
+          ? (left <= 0 || count >= rule.dailyMax)
+          : (state.balance <= 0 || count >= rule.dailyMax);
+
+        const card = document.createElement('div');
+        card.className = 'rule-card' + (state.tab === 'penalty' ? ' penalty' : '') + (disabled ? ' disabled' : '');
+        const sign = state.tab === 'bonus' ? '+' : '−';
+        card.innerHTML = '<div class="token">' + tokenIcon() + '</div><div class="delta">' + sign + rule.value + '</div><div class="name">' + rule.name + '</div>';
+        if (!disabled) {
+          card.onclick = () => onRecord(rule, state.tab);
+        }
+        grid.appendChild(card);
+      });
+    }
+
+    function onRecord(rule, type) {
+      if (type === 'penalty') {
+        state.pendingPenalty = rule;
+        document.getElementById('confirm-title').textContent = '确认减分？';
+        document.getElementById('confirm-msg').textContent = '「' + rule.name + '」将扣除 ' + rule.value + ' 分（不会撕掉已贴标记）';
+        document.getElementById('confirm-dialog').classList.add('show');
+        document.getElementById('confirm-ok').onclick = () => { closeConfirm(); applyRecord(rule, type); };
+        return;
+      }
+      applyRecord(rule, type);
+    }
+
+    function closeConfirm() {
+      document.getElementById('confirm-dialog').classList.remove('show');
+      state.pendingPenalty = null;
+    }
+
+    function applyRecord(rule, type) {
+      const icon = tokenIcon();
+      const overlay = document.getElementById('stamp-overlay');
+      const anim = document.getElementById('stamp-anim');
+
+      if (type === 'bonus') {
+        const left = state.dailyCap - state.todayEarned;
+        const delta = Math.min(rule.value, left);
+        if (delta <= 0) { toast('今日已达上限'); return; }
+
+        anim.textContent = icon;
+        overlay.classList.add('show');
+        setTimeout(() => overlay.classList.remove('show'), 500);
+
+        state.todayEarned += delta;
+        state.balance += delta;
+        state.goalProgress += delta;
+        state.counts[rule.id] = (state.counts[rule.id] || 0) + 1;
+
+        const idx = state.stamps.indexOf(false);
+        if (idx >= 0) state.stamps[idx] = true;
+
+        state.ledger.unshift({ name: rule.name, delta: delta, type: 'earn', time: nowTime() });
+        toast('+' + delta + ' ' + rule.name);
+      } else {
+        const delta = Math.min(rule.value, state.balance);
+        if (delta <= 0) { toast('余额不足'); return; }
+        state.balance -= delta;
+        state.goalProgress = Math.max(0, state.goalProgress - delta);
+        state.todayPenalty += delta;
+        state.counts[rule.id] = (state.counts[rule.id] || 0) + 1;
+        state.ledger.unshift({ name: rule.name, delta: -delta, type: 'penalty', time: nowTime() });
+        toast('−' + delta + ' ' + rule.name);
+      }
+      renderCover();
+      if (document.getElementById('screen-ledger').classList.contains('active')) renderLedger();
+      if (document.getElementById('screen-record').classList.contains('active')) renderRecord();
+    }
+
+    function renderFlow() {
+      const list = document.getElementById('flow-list');
+      list.innerHTML = state.ledger.map(item => {
+        const cls = item.delta > 0 ? 'delta-pos' : 'delta-neg';
+        const sign = item.delta > 0 ? '+' + item.delta : item.delta;
+        return '<div class="ledger-item"><span>' + tokenIcon() + '</span><span>' + item.name + '</span><span class="' + cls + '">' + sign + '</span><span class="time">' + item.time + '</span></div>';
+      }).join('') || '<p style="text-align:center;color:#999;padding:40px">暂无流水</p>';
+    }
+
+    function renderRules() {
+      const picker = document.getElementById('style-picker');
+      picker.innerHTML = '';
+      Object.entries(TOKEN_STYLES).forEach(([id, s]) => {
+        const el = document.createElement('div');
+        el.className = 'style-option' + (state.tokenStyle === id ? ' selected' : '');
+        el.innerHTML = '<span class="icon">' + s.icon + '</span>' + s.label;
+        el.onclick = () => { state.tokenStyle = id; renderRules(); renderCover(); renderLedger(); };
+        picker.appendChild(el);
+      });
+
+      document.getElementById('cap-display').textContent = state.dailyCap;
+
+      document.getElementById('bonus-list').innerHTML = BONUS_RULES.map(r =>
+        '<div class="rule-list-item"><span style="font-size:24px">' + tokenIcon() + '</span><div class="info"><div class="title">' + r.name + '</div><div class="meta">+' + r.value + ' · 每日' + r.dailyMax + '次</div></div></div>'
+      ).join('');
+
+      document.getElementById('penalty-list').innerHTML = PENALTY_RULES.map(r =>
+        '<div class="rule-list-item"><span style="font-size:24px">⚠️</span><div class="info"><div class="title">' + r.name + '</div><div class="meta">−' + r.value + ' · 每日' + r.dailyMax + '次</div></div></div>'
+      ).join('');
+
+      const theoretical = BONUS_RULES.reduce((s, r) => s + r.value * r.dailyMax, 0);
+      const ratio = theoretical / state.dailyCap;
+      let status = '合理';
+      if (ratio > 1.3) status = '略宽松';
+      else if (ratio < 0.5) status = '偏严格';
+      document.getElementById('health-status').textContent = '⚖️ 规则健康度：' + status;
+      document.getElementById('health-detail').textContent =
+        '理论最大日获得 ' + theoretical + ' 分，日上限 ' + state.dailyCap + ' 分。' +
+        (status === '略宽松' ? '建议调低最高分值项或收紧日上限。' : status === '偏严格' ? '建议增加加分项或提高分值。' : '规则与日上限匹配，继续保持。');
+    }
+
+    function changeCap(d) {
+      state.dailyCap = Math.max(3, Math.min(30, state.dailyCap + d));
+      renderRules();
+    }
+
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 2000);
+    }
+
+    function nowTime() {
+      const d = new Date();
+      return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }
+
+    renderCover();
+    renderLedger();
+  </script>
+</body>
+</html>

@@ -4,6 +4,7 @@ const pinyin = require('../../utils/pinyin');
 const dictationQueue = require('../../utils/dictation-queue');
 const share = require('../../utils/share');
 const petReward = require('../../utils/pet-reward');
+const petRoutes = require('../../utils/pet-routes');
 
 Page({
   data: {
@@ -91,7 +92,7 @@ Page({
   },
 
   goPet() {
-    nav.navigateTo('/pages/pet/index');
+    nav.navigateTo(petRoutes.entry);
   },
 
   onShareAppMessage(options) {

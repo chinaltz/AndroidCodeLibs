@@ -487,7 +487,7 @@ page {
 }
 
 .quest-card {
-  min-height: 176rpx;
+  min-height: 200rpx;
   border-radius: 28rpx;
   background: #FFFFFF;
   border: 2rpx solid #D8EEF8;
@@ -496,6 +496,8 @@ page {
   position: relative;
   overflow: hidden;
   box-shadow: 0 14rpx 30rpx rgba(23, 58, 98, 0.09);
+  display: flex;
+  flex-direction: column;
 }
 
 .quest-image {
@@ -504,32 +506,41 @@ page {
   top: 16rpx;
   width: 80rpx;
   height: 80rpx;
+  z-index: 1;
 }
 
 .quest-main {
   position: relative;
   z-index: 2;
-  width: 70%;
+  flex: 1;
+  min-width: 0;
+  padding-right: 88rpx;
 }
 
 .quest-title {
   font-size: 30rpx;
   color: #173A62;
   font-weight: 900;
+  line-height: 1.3;
 }
 
 .quest-desc {
   margin-top: 8rpx;
   font-size: 22rpx;
-  line-height: 1.4;
+  line-height: 1.45;
   color: #7895AE;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
 }
 
 .quest-play {
-  position: absolute;
-  left: 18rpx;
-  bottom: 16rpx;
+  position: relative;
   z-index: 3;
+  flex: 0 0 auto;
+  margin-top: 14rpx;
+  align-self: flex-start;
 }
 
 .sheet-mask {

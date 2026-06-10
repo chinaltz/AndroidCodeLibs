@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>63 个拼音不能直接铺满屏幕：我用 AI 重做了拼音学习原型</title>
+<title>拼音星球 + 电子宠物使用说明：学完一关，回去喂芽芽</title>
 <style>
   * { box-sizing: border-box; }
   body {
@@ -76,123 +76,100 @@
   <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
 </div>
 <div id="article">
-<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">63 个拼音不能直接铺满屏幕：我用 AI 重做了拼音学习原型</h1>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">打开一张完整拼音表，大人会觉得内容很全。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">但对刚开始学拼音的孩子来说，几十个字母和音节同时出现，更像一面不知道从哪里爬的墙。</p>
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">拼音星球 + 电子宠物使用说明：学完一关，回去喂芽芽</h1>
+<p style="margin:18px 0;"><img src="images/header.png" alt="头图：拼音星球与电子宠物使用说明" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:18px 0;text-align:center;"><img src="images/miniprogram-qr.png" alt="学习星球小程序码" style="max-width:240px;width:52%;display:block;margin:0 auto;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
 <blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，回复MF 一起用技术创造乐趣。</p></blockquote>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">一句话结论：拼音产品不能只是把课本内容搬进手机，而要把“认识、听音、拼读、过关”拆成孩子能一步步完成的路线。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>第一版最重要的决定：不做完整语文课</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">拼音能扩展出的功能太多了。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">儿歌、动画、识字、跟读评分、拍照作业、家长报告，每一个都能继续做。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果一开始全放进去，产品会立刻失控。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以拼音星球 V1 只保留一条闭环：</p>
-<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">认识拼音 -&gt; 听示范音 -&gt; 看发音提示
--&gt; 练声韵拼读 -&gt; 完成三题过关</code></pre>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">内容范围也明确下来：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">23 个声母</li>
-<li style="margin:4px 0;">24 个韵母</li>
-<li style="margin:4px 0;">16 个整体认读音节</li>
-<li style="margin:4px 0;">四个声调</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">首版不做机器自动评分。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子可以录音、回放，再和标准音对比，但系统不假装自己能准确判断发音。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这一点很重要。AI 很容易给出“增加智能评分”的漂亮建议，可如果没有可靠的识别能力，产品只会让孩子困惑。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">我用下面的提示词让 AI 帮忙收范围：</p>
-<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我要设计一个给 5-8 岁孩子使用的拼音学习模块。
-
-第一版必须离线可用，不做语音自动评分，
-不做长视频，也不做完整语文课程。
-
-请把产品压缩成一条 5-10 分钟可以完成的学习闭环，
-并列出 V1 必做、后续再做、明确不做的内容。</code></pre>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">先做减法，后面的原型才有可能清楚。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>为什么把 63 项内容拆成 8 个学习区域</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果首页直接放 63 张拼音卡片，开发很省事。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子却会觉得任务永远做不完。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以我们按发音位置和学习难点，把内容拆成 8 个区域：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">声调花园</li>
-<li style="margin:4px 0;">嘴唇小队</li>
-<li style="margin:4px 0;">舌尖车站</li>
-<li style="margin:4px 0;">舌根山谷</li>
-<li style="margin:4px 0;">微笑海湾</li>
-<li style="margin:4px 0;">翘舌森林</li>
-<li style="margin:4px 0;">平舌沙地</li>
-<li style="margin:4px 0;">拼读城堡</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这像把一座大商场拆成清楚的楼层。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子知道自己现在在哪，也知道下一站去哪。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">首页仍然保留声母、韵母和整体认读的分类入口，方便家长直接查找。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子的主路线和家长的快捷入口，可以同时存在，但不能互相干扰。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>拼音学习页不能只有一个播放按钮</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">会播放音频，只解决了“听到”的问题。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">真正容易混淆的是：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">b</code> 和 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">p</code> 的送气区别</li>
-<li style="margin:4px 0;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">n</code> 和 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">l</code> 的舌尖位置</li>
-<li style="margin:4px 0;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">z</code> 和 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">zh</code> 的平翘舌</li>
-<li style="margin:4px 0;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">an</code> 和 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">ang</code> 的前后鼻音</li>
-<li style="margin:4px 0;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">j/q/x</code> 遇到 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">ü</code> 的拼写规则</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以单项学习页最终包含：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">大号拼音字母</li>
-<li style="margin:4px 0;">标准示范音</li>
-<li style="margin:4px 0;">简短口型提示</li>
-<li style="margin:4px 0;">易混音对比</li>
-<li style="margin:4px 0;">两到三个拼读示例</li>
-<li style="margin:4px 0;">去过关按钮</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">提示文字必须短。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">孩子不是来读一段语言学教材的。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">例如不要写“舌尖抵住上齿龈形成阻塞”。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">可以先写成“舌尖轻轻顶住上面，再放开”。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">让 AI 改写教学提示时，我会给它明确限制：</p>
-<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请把下面的拼音发音说明改写给一年级孩子看。
-
-要求：
-- 每条不超过 25 个字
-- 先说嘴巴或舌头怎么动
-- 不使用语言学术语
-- 不把不确定内容写成绝对结论
-- 同时给家长一条更准确的补充说明</code></pre>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 很适合做第一轮翻译，但发音内容仍要人工复核。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>自由拼读为什么必须有“合法组合表”</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">自由拼读看起来像一个小游戏。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">左边选声母，右边选韵母，中间合成音节。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">但不能让任意两个字母都组合。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果直接用字符串拼接，会出现不存在或不规范的拼音。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">因此产品层先确定：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">不合法组合直接置灰</li>
-<li style="margin:4px 0;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">j/q/x + ü</code> 显示规范写法</li>
-<li style="margin:4px 0;">零声母要转换成 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">yi、wu、yu</code></li>
-<li style="margin:4px 0;">切换一二三四声后显示正确声调</li>
-<li style="margin:4px 0;">只有内置音频存在时才允许播放</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这部分不是 UI 细节，而是内容正确性的底线。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>视觉方向：像学习伙伴，不像考试系统</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">拼音星球沿用学习星球的电子宠物风格。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">主色使用暖黄色和天空蓝，与音标和字词模块区分。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">完成状态用绿色，当前待学项用黄色。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">错误记录只用于后续推荐，不给孩子展示“你错了多少次”的负面排名。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">底部按钮、卡片、选择项都复用现有基础组件。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">这样不仅风格统一，也能保证主题切换、按压状态和 iPad 布局一致。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">UI 好看只是结果。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">更重要的是孩子每次都知道下一步该点哪里。</p>
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">今天只需要记住 3 件事：</p>
-<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">教育产品先确定学习闭环，再决定页面数量</li>
-<li style="margin:4px 0;">大内容要拆成可完成的小区域</li>
-<li style="margin:4px 0;">AI 可以整理和改写，但内容正确性必须人工负责</li></ul>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以用这个提示词开始自己的学习产品原型：</p>
-<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我要把[一整套知识]做成儿童移动端学习工具。
-
-请不要直接生成首页。
-先按以下顺序输出：
-1. 一次 10 分钟内能完成的最小学习闭环
-2. 内容如何拆成 6-8 个区域
-3. 每个页面只保留一个主操作
-4. 哪些内容必须人工审核
-5. 三个最容易误导孩子的交互</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一句话结论：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">拼音过关赚积分 → 宠物小屋喂养玩耍 → 商店买装扮</strong>。下面按实际操作顺序写，分段动图在 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">./images/demo-*.gif</code>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>怎么进入</h2>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">打开小程序，到 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">学习星球</strong> 首页（地图页）</li>
+<li style="margin:6px 0;padding-left:2px;">右上角 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">切换孩子</strong>（宠物、拼音进度、积分都跟着当前孩子走）</li>
+<li style="margin:6px 0;padding-left:2px;">第一次用：进 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">孩子列表</strong> 建档案，勾选要用的模块（拼音、音标、字词、宠物）</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">中间模块区两个入口：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">入口</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">点进去</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">拼音拼读</strong></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">拼音地图</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">电子宠物</strong></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">未领养 → 领养页；已领养 → 宠物小屋</td></tr></tbody></table></section>
+<p style="margin:18px 0;"><img src="images/demo-01-setup.gif" alt="添加孩子档案，进入学习星球首页" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>拼音星球（5 步）</h2>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">地图选一项 → 单项学习 → 自由拼读 → 三题过关 → 回地图</code></pre>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">点 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">拼音拼读</strong>，在地图选一个未完成项（黄色 = 待学）</li>
+<li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">单项学习</strong>：听示范音，看口型提示和易混对比，点 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">去过关</strong></li>
+<li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">自由拼读</strong>：选声母、韵母、声调；不能拼的组合会变灰</li>
+<li style="margin:6px 0;padding-left:2px;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">三题过关</strong>：听音选字母 → 选拼读示例 → 录音回放（录完即算完成）</li>
+<li style="margin:6px 0;padding-left:2px;">过关后该项变绿；弹出 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">学习奖励</strong> 卡片，积分和经验自动入账</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">分类入口（声母 / 韵母 / 整体认读）在地图页，想直接找某个字母可以从那里进。</p>
+<p style="margin:18px 0;"><img src="images/demo-02-pinyin.gif" alt="拼音星球：地图 → 学习 → 过关 → 奖励入账" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>电子宠物</h2>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>领养</h3>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">首页点 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">电子宠物</strong></li>
+<li style="margin:6px 0;padding-left:2px;">输入名字（1～8 字，默认「芽芽」）</li>
+<li style="margin:6px 0;padding-left:2px;">点 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">确认领养 · 获得 30 星星积分</strong> → 进入宠物小屋</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">每个孩子单独一只；换孩子后，已领养的会直接进小屋，未领养的重新走领养。</p>
+<p style="margin:18px 0;"><img src="images/demo-03-adopt.gif" alt="领养星芽兽" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>宠物小屋</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">看状态</strong></p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">数值</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">作用</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">饱腹</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">低了要喂</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">心情</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">玩耍、喂养会涨</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">活力</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">玩耍会消耗，不够要先睡</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">三个按钮</strong></p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">喂养</strong> — 饱腹低于 90 才能点；每天第一次星星饼干免费</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">玩耍</strong> — 需要足够活力（默认有弹弹球）</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">睡觉</strong> — 活力低时可用，睡完活力回升</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">点宠物本身：随机小动作，不加积分。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">右上角：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">装扮</strong>、<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">商店</strong>。下方：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">今日任务</strong>、<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">学习奖励</strong>、<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">成长手册</strong>。</p>
+<p style="margin:18px 0;"><img src="images/demo-04-pet-home.gif" alt="宠物小屋：喂养、玩耍、睡觉" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>积分和经验从哪来</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">完成学习后<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">自动入账</strong>，不用手动领：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">操作</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">大约得到</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">音标过关 1 项</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+8 ★ · +12 XP</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">拼音过关 1 项</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">+8 ★ · +12 XP</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">字词听写批改保存</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+6～20 ★ · +10～30 XP（看词数）</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">升级</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">额外 ★（见成长手册）</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">分享某次学习成果</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+5 ★（同一任务限 1 次，每天最多 3 次）</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">过关页 / 听写结果页的奖励卡片：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">去看看宠物</strong> → 宠物小屋</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">继续学习</strong> → 回到刚才模块</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">学习奖励</strong> 页（小屋下方入口）：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">看当前 ★ 余额</li>
+<li style="margin:4px 0;">对「待分享」项点 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">分享</strong> 领 +5 ★</li>
+<li style="margin:4px 0;">看最近入账记录</li></ul>
+<p style="margin:18px 0;"><img src="images/demo-05-rewards.gif" alt="学习奖励与分享" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>今日任务</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">小屋 → <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">今日任务</strong>，每天 3 条：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">完成 1 个音标或拼音关卡</li>
+<li style="margin:6px 0;padding-left:2px;">完成 1 组字词听写（批改保存后算完成）</li>
+<li style="margin:6px 0;padding-left:2px;">今天学满 2 个不同模块（如拼音 + 听写）</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">进度显示「完成 X / 3」。点<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">未完成</strong>的行会跳到对应模块；已完成的不能再点。</p>
+<p style="margin:18px 0;"><img src="images/demo-06-tasks.gif" alt="今日任务" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>星星商店</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">小屋右上角 → <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">商店</strong> → 选分类（全部 / 食物 / 玩具 / 配饰）→ 点购买。</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">类型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">买了之后</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">食物</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">进库存，喂养时优先消耗</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">玩具</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">永久拥有，玩耍时用</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">配饰</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">永久拥有，到装扮间穿戴；部分需达到指定等级才能买</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">积分不够会提示还差多少；够了直接买。</p>
+<p style="margin:18px 0;"><img src="images/demo-07-shop.gif" alt="星星商店" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>装扮间</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">小屋右上角 → <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">装扮</strong> → 选部位（头 / 颈 / 背 / 手）→ 点 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">穿戴</strong>。</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">卸下</strong>：摘掉当前部位</li>
+<li style="margin:4px 0;">未拥有的：点 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">去购买</strong> 跳商店</li></ul>
+<p style="margin:18px 0;"><img src="images/demo-08-wardrobe.gif" alt="装扮间" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>成长手册</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">小屋 → <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">成长手册</strong>：看等级、称号、累计 XP、距下一级还差多少，以及各级里程碑。</p>
+<p style="margin:18px 0;"><img src="images/demo-09-growth.gif" alt="成长手册" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>一次走通（示例）</h2>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">选孩子 → 拼音过关 1 项 → 奖励卡片点「去看看宠物」→ 喂养 → 玩耍 → 今日任务看进度</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">有字词模块的话，再加一步听写批改，任务更容易凑满 3/3。</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>常见问题</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">换了孩子，宠物不见了？</strong>   切回那个孩子；每个孩子独立，未领养的重新领养。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">积分不够买吃的？</strong>   继续学拼音 / 音标 / 听写；每天还有一次免费星星饼干可喂。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">玩耍点不了？</strong>   活力不够 → 先 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">睡觉</strong> 再玩。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">喂养提示「已经吃得很饱啦」？</strong>   饱腹 ≥ 90，等第二天或先去玩耍。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">分享没加积分？</strong>   该任务可能已领过，或今天 3 次分享用完了 → 去 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">学习奖励</strong> 页查记录。</p>
 <blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，回复MF 一起用技术创造乐趣。</p></blockquote>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
-<p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">阅读更多：下一篇《拼音星球代码实战》</em> <em style="font-style:italic;color:#7895AE;">有问题？评论区告诉我</em></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><em style="font-style:italic;color:#7895AE;">有问题？评论区告诉我</em></p>
 
 </div>
-<p class="meta">由 md-to-wechat 自动生成 · 2026/6/6 22:34:51</p>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/9 07:22:17</p>
 <script>
 function selectArticle() {
   const el = document.getElementById('article');

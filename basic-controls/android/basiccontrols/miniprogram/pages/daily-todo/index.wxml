@@ -1,0 +1,108 @@
+<view class="page-shell todo-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="每日任务" show-back="{{true}}" action-text="全部重来" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" bind:action="onResetTasks" />
+
+  <scroll-view scroll-y class="page-scroll todo-scroll" enhanced show-scrollbar="{{false}}">
+    <!-- 今日英雄区 -->
+    <view class="todo-hero">
+      <view class="todo-hero__badge">🌟 今日小任务</view>
+      <view class="todo-hero__progress">已完成 {{doneCount}} / {{totalCount}}</view>
+      <view class="todo-stars">
+        <image
+          wx:for="{{stars}}"
+          wx:key="index"
+          class="todo-star"
+          src="{{item.filled ? '/assets/kids-ui/star-filled.png' : '/assets/kids-ui/star-empty.png'}}"
+          mode="aspectFit"
+        />
+      </view>
+      <view class="todo-hero__note">明天还会看到同样的任务哦</view>
+    </view>
+
+    <!-- 任务卡片 -->
+    <view
+      wx:for="{{items}}"
+      wx:key="id"
+      class="todo-card {{item.done ? 'is-done' : ''}} {{dragIndex === index ? 'is-dragging' : ''}} {{dragOverIndex === index && dragIndex !== index ? 'is-over' : ''}}"
+    >
+      <view
+        class="todo-card__drag"
+        data-index="{{index}}"
+        catchtouchstart="onDragStart"
+        catchtouchmove="onDragMove"
+        catchtouchend="onDragEnd"
+        catchtouchcancel="onDragEnd"
+      >
+        <image class="todo-card__drag-icon" src="/assets/daily-todo/icon-drag.png" mode="aspectFit" />
+      </view>
+
+      <view class="todo-card__badge {{item.done ? 'is-done' : ''}}">
+        {{item.done ? '✓' : item.indexLabel}}
+      </view>
+
+      <view class="todo-card__main" data-id="{{item.id}}" bindtap="openEdit">
+        <view class="todo-card__title">{{item.title}}</view>
+        <view wx:if="{{item.presetMinutes}}" class="todo-card__meta">大概 {{item.presetMinutes}} 分钟</view>
+      </view>
+
+      <view class="todo-card__slider" data-id="{{item.id}}" bindtap="onToggleTask">
+        <view class="todo-slider__track">
+          <view class="todo-slider__done {{item.done ? 'is-visible' : ''}}">
+            <image src="/assets/daily-todo/icon-check.png" mode="aspectFit" />
+          </view>
+          <view class="todo-slider__fail {{item.done ? '' : 'is-visible'}}">
+            <image src="/assets/daily-todo/icon-x.png" mode="aspectFit" />
+          </view>
+          <view class="todo-slider__knob {{item.done ? 'is-left' : 'is-right'}}">
+            <image src="/assets/daily-todo/slider-knob.png" mode="aspectFit" />
+          </view>
+        </view>
+      </view>
+
+      <view class="todo-card__delete" data-id="{{item.id}}" catchtap="onDeleteItem">×</view>
+    </view>
+
+    <view wx:if="{{!items.length}}" class="todo-empty">
+      <view class="todo-empty__emoji">📝</view>
+      <view class="todo-empty__title">还没有任务呢</view>
+      <view class="todo-empty__copy">点下面按钮，加一个吧～</view>
+    </view>
+
+    <view class="todo-tip">💡 按住左边点点，可以换顺序</view>
+    <view class="page-safe"></view>
+  </scroll-view>
+
+  <!-- 底部大按钮 -->
+  <view class="page-action todo-footer">
+    <view class="todo-add-btn" bindtap="openAddSheet">＋ 加一个任务</view>
+  </view>
+
+  <!-- 添加 -->
+  <view wx:if="{{showAddSheet}}" class="sheet-mask" bindtap="closeAddSheet"></view>
+  <view wx:if="{{showAddSheet}}" class="todo-sheet is-open">
+    <view class="sheet-handle"></view>
+    <view class="sheet-title">加一个任务</view>
+    <input class="sheet-input" placeholder="比如：英语打卡" value="{{newTitle}}" bindinput="onNewTitleInput" />
+    <picker mode="selector" range="{{presetMinutes}}" value="{{presetMinutes.indexOf(newMinutes)}}" bindchange="onNewMinutesChange">
+      <view class="sheet-picker">大概要做：{{newMinutes}} 分钟</view>
+    </picker>
+    <view class="sheet-actions">
+      <bc-button text="取消" variant="default" theme="{{theme}}" catch:tap="closeAddSheet" />
+      <bc-button text="保存" variant="primary" theme="{{theme}}" catch:tap="confirmAdd" />
+    </view>
+  </view>
+
+  <!-- 编辑 -->
+  <view wx:if="{{editingId}}" class="sheet-mask" bindtap="closeEdit"></view>
+  <view wx:if="{{editingId}}" class="todo-sheet is-open">
+    <view class="sheet-handle"></view>
+    <view class="sheet-title">改一下任务</view>
+    <input class="sheet-input" value="{{editTitle}}" bindinput="onEditTitleInput" />
+    <picker mode="selector" range="{{presetMinutes}}" value="{{presetMinutes.indexOf(editMinutes)}}" bindchange="onEditMinutesChange">
+      <view class="sheet-picker">大概要做：{{editMinutes}} 分钟</view>
+    </picker>
+    <view class="sheet-actions">
+      <bc-button text="取消" variant="default" theme="{{theme}}" catch:tap="closeEdit" />
+      <bc-button text="保存" variant="primary" theme="{{theme}}" catch:tap="confirmEdit" />
+    </view>
+  </view>
+</view>

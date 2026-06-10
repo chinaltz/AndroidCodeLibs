@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Fable 5 来了：AI 从「帮你干活」升级成「替你扛事」</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">Claude Fable 5 来了：AI 从「帮你干活」升级成「替你扛事」</h1>
+<p style="margin:18px 0;"><img src="images/header.png" alt="头图：Claude Fable 5 与 Claude Code 升级解读" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">写作时间：2026 年 6 月 10 日。模型名称、价格和开放策略可能调整，动手前以 <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Anthropic 官方公告</a> 为准。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">昨天，你的朋友圈可能被一条消息刷屏：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">「Claude 又发新模型了。」</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但名字有点绕——不是 Claude Code 5，也不是简单的 Opus 4.9。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">官方叫 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Claude Fable 5</strong>，属于全新的 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Mythos 级</strong>模型。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一句话结论：Claude Fable 5 让 AI 从「回答问题」变成「独自扛住整块工作」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你只把它理解成「又强了一点」，可能会错过这次更新的真正变化：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI 不再只是回答你的问题，而是能独自扛住一整块工作。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐   有 Claude 付费账号就能试；没账号也能读懂这波变化，判断要不要跟进。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>名字先捋清：Fable 5、Mythos 5、Claude Code，各是什么？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">很多人搜「Claude Code 5」，其实官方并没有这个产品名。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">6 月 9 日 Anthropic 同时发了两个模型，底层是同一套「大脑」，安全策略不同：</p>
+<pre style="font-family:Menlo,Consolas,'PingFang SC',monospace;background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;text-align:left;font-size:12px;line-height:1.45;margin:16px 0;overflow-x:auto;white-space:pre;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);">╔══════════════════════════════════════════════════════╗
+║  Claude Fable 5  vs  Claude Mythos 5                 ║
+╠══════════════════════════════════════════════════════╣
+║  Fable 5   → 加了安全护栏，普通人可用                 ║
+║  Mythos 5  → 部分护栏解除，只给政府合作方等          ║
+║  关系      → 同一模型，不同「门禁等级」               ║
+╚══════════════════════════════════════════════════════╝</pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Claude Code</strong> 是终端里的 AI 编程助手，不是新模型本身。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但它第一时间接入了 Fable 5——你在命令行里输入 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">/model fable</code>，就能切换到这颗新大脑。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以这样记：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你听到的词</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">实际是什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Claude Fable 5</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">新模型，Mythos 级，公开可用</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Claude Mythos 5</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">同模型，高权限版，普通人碰不到</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Claude Code</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">装在你电脑上的 AI 干活工具</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Dynamic Workflows</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Claude Code 的「百级 Agent 编排」功能</td></tr></tbody></table></section>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>像雇了个能加班的资深同事，不是更聪明的聊天机器人</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">以前用 AI，像在微信上问朋友：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">「这段代码怎么改？」</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">朋友回你建议，复制、粘贴、调试，还是你的事。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Fable 5 更像公司刚招来的资深同事。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Stripe 在官方测试里说：Fable 5 把<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">原本团队两个月才能做完的代码库迁移</strong>，在<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一天内</strong>跑完了——面对的是 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">5000 万行</strong> Ruby 代码。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这不是「回得快」，是「能自己干完」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">头部博主 Dan Shipper（Every 创始人，也参与 Claude Code 桌面端）说得更直白：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">我们正在从「给 AI 派任务」，走向「给 AI 派责任」。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">他团队内部的 Senior Engineer 基准测试里，Fable 5 拿了 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">91 分</strong>，Opus 4.8 是 63，GPT-5.5 是 62。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">前 Tesla AI 总监 Andrej Karpathy 的评价更狠：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">这是一次「值得升大版本号」的跃迁。  <br/>用法变了——给它任务，然后走开，让它跑 3～4 小时，甚至通宵。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">他把 Fable 5 比作星际穿越里的<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">曲速引擎</strong>：你输入坐标，它自己算路线、自己飞，你不用全程盯着。</p>
+<p style="margin:18px 0;"><img src="images/scene1-before-after.png" alt="场景图：AI 从聊天建议到自主扛事" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">对普通人意味着什么？</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你不写代码，也可能受益——整理年报、做调研、把一堆表格变成可视化报告，这类「又臭又长」的活，正是 Fable 5 的强项。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>数字背后：这次强在哪？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">权威来源主要是 <a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Anthropic 官方公告</a> 和 <a href="https://platform.claude.com/docs/en/release-notes/overview" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Claude API 发布说明</a>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">几个普通人也看得懂的亮点：</p>
+<section style="background:linear-gradient(135deg,#E5F6FF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;padding:18px 14px;margin:16px 0;text-align:center;box-shadow:0 6px 0 rgba(200,234,255,0.76),0 14px 28px rgba(49,168,255,0.08);"><p style="margin:0;padding:0;color:#173A62;font-size:15px;line-height:1.9;font-weight:900;letter-spacing:0;">  ① 上下文 100 万 token  →  能「读完」整本书再回答</p><p style="margin:10px 0 0;padding:0;color:#365D82;font-size:14px;line-height:1.9;">         ↓</p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">外媒 The Decoder 引用的 Cognition FrontierCode 测试：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">高难度编程任务通过率</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Claude Fable 5</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">29.3%</strong></td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Claude Opus 4.8</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">13.4%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">GPT-5.5</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">5.7%</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">还有一个好玩的数据点：Fable 5 用<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">纯看游戏画面</strong>的方式，独自打通了《宝可梦 火红》。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">以前的模型需要额外「外挂」才能玩，这次只靠截图就通关了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">说明它的「看图理解 + 长期规划」确实上了一个台阶。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Claude Code 用户：现在就能试的三件事</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你已经在用 Claude Code（装法见《Claude Code 怎么用？普通人也能上手的 AI 编程助手》），Fable 5 不是远在天边的新闻。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第一件：切换模型</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">确保 Claude Code 版本 ≥ 2.1.170，在终端里输入：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">/model fable</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第二件：把任务描述写「长」一点</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Fable 5 擅长长任务。别只说「修这个 bug」，试试：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请阅读整个项目的 README 和 src 目录结构，
+找出所有硬编码的中文字符串，
+统一抽到 i18n 配置文件里，
+改完后跑测试，把失败项列成表格给我。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">第三件：配合 Dynamic Workflows 处理大工程</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">5 月底 Claude Code 还上线了 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Dynamic Workflows</strong>（动态工作流）：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">Claude 自己写编排脚本</li>
+<li style="margin:4px 0;">后台最多 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">16 个并发 Agent</strong>，单次上限 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">1000 个</strong></li>
+<li style="margin:4px 0;">中间结果存在脚本变量里，不占你的对话窗口</li>
+<li style="margin:4px 0;">中断后可在同一会话续跑</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">博主 yeekal 的评价很实在：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">目标用户是企业级大规模重构。普通开发者，子 Agent 已经够用了。  <br/>但如果你要审计整个代码库、批量改几千个文件，值得一试。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">触发方式：提示词里带上 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">workflow</code> 或 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">ultracode</code>，或设置 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">/effort ultracode</code>。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>普通人最关心的：要钱吗？有什么坑？</h2>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>限时免费窗口</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Anthropic 官方时间表：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">时间段</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">Pro / Max / Team 用户</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">6 月 9 日～6 月 22 日</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Fable 5 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">包含在订阅里，不加价</strong></td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">6 月 23 日起</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">需额外购买 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">usage credits</strong> 才能继续用</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">之后（容量够时）</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">计划重新纳入常规订阅</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">现在试，成本最低。</strong></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>价格档位</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">API 定价：输入 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">$10/百万 token</strong>，输出 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">$50/百万 token</strong>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比上一版 Mythos Preview 便宜一半以上，但仍是 Opus 4.8 的 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">2 倍</strong>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Dan Shipper 也提醒过：强模型 + 长任务 = 账单可能让你意外。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">建议从小任务开始，别一上来就「重构整个项目」。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>安全护栏：偶尔会「降档」</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Fable 5 带了新的安全分类器。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">碰到网络安全、生物化学等敏感话题，会自动改用 Opus 4.8 回答。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">官方说这类情况平均不到 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">5%</strong> 的会话，但偶尔会误伤正常提问。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你会收到通知，知道当前不是 Fable 5 在答。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>三个场景：不写代码也能用</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">场景一：职场人做季度复盘</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">把销售表、会议纪要、客户反馈丢给 Claude，让它交叉分析，输出一页纸结论。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Fable 5 在 Hebbia 金融基准和 IMC 交易分析测试里都拿了高分——读表、找根因是它的强项。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">场景二：自媒体创作者做选题调研</strong></p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">提示：若模型不能实时联网，请自行粘贴近期热门帖文或截图，再让 AI 归纳。</p></blockquote>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我是做亲子教育内容的博主，目标读者是 3-8 岁孩子的家长。
+请根据我粘贴的近期热门帖文/截图，归纳热度最高的 10 个亲子话题，
+每个话题给出：痛点、已有内容缺口、我可以做的差异化角度。
+输出成 Markdown 表格。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">场景三：小老板做竞品速览</strong></p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我公司做儿童拼音学习 App。请根据我上传的三份竞品截图，
+对比它们的：首页信息架构、激励机制、家长端功能。
+最后给出我们产品下周可以优先改的 3 个点，按投入产出排序。</code></pre>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>读完后带走这 3 点</h2>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Claude Fable 5</strong> 是 Mythos 级新模型，不是「Claude Code 5」；Claude Code 只是接入它的工具之一</li>
+<li style="margin:4px 0;">核心变化是 AI 能<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">长时间自主干活</strong>，从「问答」变成「扛责任」</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">6 月 22 日前</strong>，付费用户可免费体验；之后注意用量和账单</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你已经有 Claude Code，今晚就可以试这一条：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">/model fable
+
+请用 30 分钟阅读我当前项目，
+列出 3 个最影响用户体验的问题，
+并给出每个问题的修复步骤（先易后难）。
+不要直接改代码，先给我方案让我确认。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">把 AI 当实习生用，它只会回答。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">把 AI 当能加班的同事用，它才会真正帮你省时间。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>信息来源</h2>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">来源</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">内容</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><a href="https://www.anthropic.com/news/claude-fable-5-mythos-5" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Anthropic 官方公告</a></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Fable 5 / Mythos 5 发布、基准、定价、开放策略</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><a href="https://platform.claude.com/docs/en/release-notes/overview" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Claude API Release Notes</a></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">API 与 Claude Code 版本更新</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Dan Shipper（Every / X）</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Senior Engineer 基准 91 分、「任务→责任」观点</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Andrej Karpathy（X）</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">「大版本号级跃迁」、长任务自主执行</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">yeekal.com</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Dynamic Workflows 实测与适用场景</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">The Decoder</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">FrontierCode 等第三方基准数据</td></tr></tbody></table></section>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/10 12:45:13</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function buildClipboardPayload() {
+  const el = document.getElementById('article');
+  const clone = el.cloneNode(true);
+
+  clone.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    try {
+      a.href = new URL(href, window.location.href).href;
+    } catch (_) {
+      a.setAttribute('href', href);
+    }
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  clone.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    try {
+      img.src = new URL(src, window.location.href).href;
+    } catch (_) {
+      img.setAttribute('src', src);
+    }
+  });
+
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+  const text = Array.from(clone.childNodes)
+    .map((node) => node.innerText || node.textContent || '')
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n');
+
+  const links = Array.from(clone.querySelectorAll('a[href]'))
+    .map((a) => {
+      const label = (a.innerText || a.textContent || '').trim();
+      const href = a.getAttribute('href');
+      return label && href ? label + '：' + href : href;
+    })
+    .filter(Boolean)
+    .join('\n');
+  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+
+  return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+  const holder = document.createElement('div');
+  holder.setAttribute('contenteditable', 'true');
+  holder.style.position = 'fixed';
+  holder.style.left = '-99999px';
+  holder.style.top = '0';
+  holder.innerHTML = html;
+  document.body.appendChild(holder);
+
+  const range = document.createRange();
+  range.selectNodeContents(holder);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  const ok = document.execCommand('copy');
+  sel.removeAllRanges();
+  document.body.removeChild(holder);
+  return ok;
+}
+
+async function copyArticle() {
+  try {
+    const { html, text } = buildClipboardPayload();
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      copyViaSelection(html);
+    }
+    alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+  } catch (e) {
+    try {
+      const { html } = buildClipboardPayload();
+      copyViaSelection(html);
+      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

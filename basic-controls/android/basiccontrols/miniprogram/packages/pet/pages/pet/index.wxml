@@ -1,0 +1,7 @@
+<view class="pet-entry">
+  <view wx:if="{{loading}}" class="pet-entry__loading">正在进入宠物星球…</view>
+  <view wx:else class="pet-entry__error">
+    <view class="pet-entry__msg">{{error}}</view>
+    <view class="pet-entry__btn" bindtap="onBack">返回首页</view>
+  </view>
+</view>

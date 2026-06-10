@@ -9,8 +9,10 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from pathlib import Path
+from typing import Any
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -74,6 +76,85 @@ def wrap(s: str, max_chars: float) -> list[str]:
     return normalized
 
 
+def line_width(draw: ImageDraw.ImageDraw, line: str, font: ImageFont.FreeTypeFont) -> float:
+    return draw.textlength(line, font=font)
+
+
+def wrap_by_width(
+    draw: ImageDraw.ImageDraw,
+    s: str,
+    font: ImageFont.FreeTypeFont,
+    max_width: int,
+) -> list[str]:
+    s = strip_emoji(clean_inline(s))
+    if not s:
+        return []
+    tokens = re.findall(r"[A-Za-z0-9_./+-]+|[\u4e00-\u9fff]|[^\s]", s)
+    lines: list[str] = []
+    line = ""
+    for token in tokens:
+        candidate = line + token
+        if line and line_width(draw, candidate, font) > max_width:
+            lines.append(line)
+            line = token
+        else:
+            line = candidate
+    if line:
+        lines.append(line)
+    bad_line_start = "，。！？：；、）】》”’"
+    normalized: list[str] = []
+    for current in lines:
+        while current and current[0] in bad_line_start and normalized:
+            normalized[-1] += current[0]
+            current = current[1:]
+        if current:
+            normalized.append(current)
+    return normalized
+
+
+def block_height(size: int, line_count: int, line_height: float = 1.28) -> int:
+    return int(size * line_height * line_count)
+
+
+def fit_font_size(
+    draw: ImageDraw.ImageDraw,
+    s: str,
+    *,
+    bold: bool = False,
+    max_width: int,
+    max_lines: int,
+    start_size: int,
+    min_size: int = 24,
+    max_height: int | None = None,
+    line_height: float = 1.28,
+) -> tuple[int, list[str]]:
+    for size in range(start_size, min_size - 1, -2):
+        font = f(size, bold)
+        lines = wrap_by_width(draw, s, font, max_width)
+        if len(lines) > max_lines:
+            continue
+        if max_height is not None and block_height(size, len(lines), line_height) > max_height:
+            continue
+        return size, lines
+    font = f(min_size, bold)
+    lines = wrap_by_width(draw, s, font, max_width)[:max_lines]
+    while max_height is not None and lines and block_height(min_size, len(lines), line_height) > max_height:
+        lines = lines[:-1]
+    return min_size, lines
+
+
+def truncate_chars(s: str, max_chars: int) -> str:
+    s = clean_inline(s)
+    if display_len(s) <= max_chars:
+        return s
+    out = ""
+    for ch in s:
+        if display_len(out + ch) > max_chars - 1:
+            break
+        out += ch
+    return out.rstrip("，。！？：；、 ") + "…"
+
+
 def clean_inline(s: str) -> str:
     s = re.sub(r"!\[[^\]]*\]\([^)]+\)", "", s)
     s = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", s)
@@ -127,10 +208,37 @@ def text_block(
     bold: bool = False,
     line_height: float = 1.28,
     max_lines: int | None = None,
+    max_width: int | None = None,
+    max_height: int | None = None,
+    auto_fit: bool = False,
 ) -> int:
-    lines = wrap(strip_emoji(clean_inline(s)), max_chars)
-    if max_lines is not None:
-        lines = lines[:max_lines]
+    text = strip_emoji(clean_inline(s))
+    if not text:
+        return y
+    if max_width is not None:
+        if auto_fit and max_lines is not None:
+            size, lines = fit_font_size(
+                draw,
+                text,
+                bold=bold,
+                max_width=max_width,
+                max_lines=max_lines,
+                start_size=size,
+                max_height=max_height,
+                line_height=line_height,
+            )
+        else:
+            font = f(size, bold)
+            lines = wrap_by_width(draw, text, font, max_width)
+            if max_lines is not None:
+                lines = lines[:max_lines]
+            if max_height is not None:
+                while lines and block_height(size, len(lines), line_height) > max_height:
+                    lines = lines[:-1]
+    else:
+        lines = wrap(text, max_chars)
+        if max_lines is not None:
+            lines = lines[:max_lines]
     font = f(size, bold)
     for line in lines:
         draw.text((x, y), line, font=font, fill=fill)
@@ -201,7 +309,19 @@ def label(draw: ImageDraw.ImageDraw, text: str, x=72, y=70) -> None:
 
 
 def footer(draw: ImageDraw.ImageDraw, no: int, cta: str) -> None:
-    text_block(draw, cta, 72, 1304, 28, (28, 61, 100), 27, bold=True, max_lines=2)
+    text_block(
+        draw,
+        cta,
+        72,
+        1304,
+        28,
+        (28, 61, 100),
+        27,
+        bold=True,
+        max_lines=2,
+        max_width=780,
+        auto_fit=True,
+    )
     draw.ellipse((930, 1272, 1002, 1344), fill=(18, 58, 100))
     draw.text((966, 1317), f"{no:02d}", font=f(27, True), fill="white", anchor="mm")
 
@@ -217,8 +337,32 @@ def chip(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, fill=(18, 58, 100
 def info_row(draw: ImageDraw.ImageDraw, no: int, title: str, body: str, y: int) -> int:
     rounded(draw, (112, y, 174, y + 62), 20, (49, 168, 255))
     draw.text((143, y + 31), f"{no:02d}", font=f(23, True), fill="white", anchor="mm")
-    text_block(draw, title, 204, y - 2, 31, (20, 121, 214), 20, bold=True, max_lines=1)
-    text_block(draw, body, 204, y + 40, 26, (28, 61, 100), 27, bold=True, max_lines=2)
+    text_block(
+        draw,
+        title,
+        204,
+        y - 2,
+        31,
+        (20, 121, 214),
+        20,
+        bold=True,
+        max_lines=1,
+        max_width=760,
+        auto_fit=True,
+    )
+    text_block(
+        draw,
+        body,
+        204,
+        y + 40,
+        26,
+        (28, 61, 100),
+        27,
+        bold=True,
+        max_lines=2,
+        max_width=760,
+        auto_fit=True,
+    )
     return y + 120
 
 
@@ -230,51 +374,185 @@ def codebox(draw: ImageDraw.ImageDraw, box, code: str) -> None:
     draw.text((box[0] + 28, box[1] + 25), code[:38], font=f(32, True, True), fill=(218, 244, 255))
 
 
+CARD_LIMITS: dict[str, int] = {
+    "title": 28,
+    "subtitle": 32,
+    "conclusion": 56,
+    "article_summary.prepare": 40,
+    "article_summary.how": 40,
+    "article_summary.result": 40,
+    "cover.highlight": 48,
+    "prepare.heading": 18,
+    "prepare.main": 56,
+    "prepare.scene": 22,
+    "prepare.goal": 22,
+    "how.heading": 16,
+    "how.item_title": 12,
+    "how.item_body": 32,
+    "how_tips.heading": 16,
+    "how_tips.item": 36,
+    "how_tips.highlight": 40,
+    "result.heading": 16,
+    "result.main": 52,
+    "result.item_body": 30,
+    "footer": 22,
+    "chip": 10,
+    # legacy aliases
+    "problem.heading": 18,
+    "problem.main": 56,
+    "steps.heading": 16,
+    "steps.item_body": 32,
+    "warning.item": 36,
+    "summary.row_body": 30,
+}
+
+SECTION_ALIASES: dict[str, list[str]] = {
+    "prepare": ["prepare", "problem"],
+    "how": ["how", "steps"],
+    "how_tips": ["how_tips", "warning"],
+    "result": ["result", "summary"],
+}
+
+
+def card_block(meta: dict, section: str) -> dict[str, Any]:
+    cards = meta.get("cards") or {}
+    for key in SECTION_ALIASES.get(section, [section]):
+        block = cards.get(key)
+        if isinstance(block, dict) and block:
+            return block
+    return {}
+
+
+def card_pick(meta: dict, section: str, key: str, default: Any = "") -> Any:
+    block = card_block(meta, section)
+    summary = meta.get("cards", {}).get("article_summary") or {}
+    summary_fallback = {
+        "prepare.main": summary.get("prepare"),
+        "prepare.goal": summary.get("prepare"),
+        "how.heading": summary.get("how"),
+        "how.highlight": summary.get("how"),
+        "result.main": summary.get("result"),
+        "result.highlight": summary.get("result"),
+        "cover.highlight": summary.get("result"),
+    }
+    lookup = f"{section}.{key}"
+    value = block.get(key) if key in block and block[key] else summary_fallback.get(lookup, meta.get(key, default))
+    limit_key = lookup if lookup in CARD_LIMITS else key
+    if isinstance(value, str) and limit_key in CARD_LIMITS:
+        return truncate_chars(value, CARD_LIMITS[limit_key])
+    return value
+
+
+def ai_body(md: str) -> str:
+    """Skip author preface; card copy should come from the AI/main article body."""
+    if "下面是AI 写的" in md:
+        return md.split("下面是AI 写的", 1)[1]
+    if re.search(r"^自己写的：", md, re.M):
+        parts = re.split(r"^---\s*$", md, maxsplit=1, flags=re.M)
+        if len(parts) == 2:
+            return parts[1]
+    return md
+
+
+def first_paragraph_after_heading(md: str, heading_prefix: str = "") -> str:
+    body = ai_body(md)
+    sections = re.split(r"^##\s+", body, flags=re.M)
+    for section in sections[1:]:
+        heading, _, rest = section.partition("\n")
+        heading = clean_inline(heading)
+        if heading_prefix and not heading.startswith(heading_prefix):
+            continue
+        for block in re.split(r"\n\s*\n", rest):
+            text = clean_inline(block)
+            if text and not text.startswith("-") and not text.startswith(">") and len(text) > 12:
+                return text
+    return ""
+
+
 def get_meta(post: Path) -> dict:
     md = (post / "index.md").read_text(encoding="utf-8")
-    title = clean_inline(re.search(r"^#\s+(.+)$", md, re.M).group(1))
+    body = ai_body(md)
+    title_match = re.search(r"^#\s+(.+)$", body, re.M)
+    title = clean_inline(title_match.group(1) if title_match else post.name)
     subtitle = ""
-    for line in md.splitlines():
+    for line in body.splitlines():
         if line.startswith(">") and "关注" not in line and line.strip() != ">":
-            subtitle = clean_inline(line)
+            subtitle = clean_inline(line.lstrip("> "))
             break
     conclusion = ""
-    m = re.search(r"\*\*一句话结论[:：](.+?)\*\*", md, re.S)
+    m = re.search(r"\*\*一句话结论[:：](.+?)\*\*", body, re.S)
     if m:
         conclusion = clean_inline(m.group(1))
     if not conclusion:
+        m = re.search(r"一句话结论[:：](.+)", body)
+        if m:
+            conclusion = clean_inline(m.group(1).split("\n")[0])
+    if not conclusion:
+        conclusion = first_paragraph_after_heading(md) or first_paragraph_after_heading(md, "最后")
+    if not conclusion:
         paras = [
             clean_inline(x)
-            for x in re.split(r"\n\s*\n", md)
+            for x in re.split(r"\n\s*\n", body)
             if clean_inline(x) and not x.startswith("#") and not is_boilerplate(clean_inline(x))
         ]
-        conclusion = next((p for p in paras if len(p) > 22), title)
-    headings = [re.sub(r"^\d+[.、]\s*", "", clean_inline(h)) for h in re.findall(r"^##\s+(.+)$", md, re.M)]
+        conclusion = next((p for p in paras if 18 < len(p) < 120), paras[0] if paras else title)
+    conclusion = truncate_chars(conclusion, CARD_LIMITS["conclusion"])
+    headings = [re.sub(r"^\d+[.、]\s*", "", clean_inline(h)) for h in re.findall(r"^##\s+(.+)$", body, re.M)]
     headings = [h for h in headings if not h.startswith("今天") and not h.startswith("最后")][:6]
-    quotes = [clean_inline(q) for q in re.findall(r"^>\s+(.+)$", md, re.M)]
+    quotes = [clean_inline(q) for q in re.findall(r"^>\s+(.+)$", body, re.M)]
     quotes = [q for q in quotes if q and "关注" not in q and len(q) > 8][:4]
     paras = [
         clean_inline(x)
-        for x in re.split(r"\n\s*\n", md)
+        for x in re.split(r"\n\s*\n", body)
         if clean_inline(x) and not x.startswith("#") and not is_boilerplate(clean_inline(x))
     ]
-    bullets = [clean_inline(x) for x in re.findall(r"^\s*[-*]\s+(.+)$", md, re.M)]
+    paras = [truncate_chars(p, 80) for p in paras[:6]]
+    bullets = [clean_inline(x) for x in re.findall(r"^\s*[-*]\s+(.+)$", body, re.M)]
     bullets = [b for b in bullets if b and not is_boilerplate(b)][:6]
     code = ""
-    cm = re.search(r"```(?:bash|text|powershell|json)?\n(.+?)```", md, re.S)
+    cm = re.search(r"```(?:bash|text|powershell|json)?\n(.+?)```", body, re.S)
     if cm:
         code = clean_inline(cm.group(1).splitlines()[0])
+    pain = ""
+    if bullets:
+        pain = truncate_chars(bullets[0], CARD_LIMITS["prepare.main"])
+    elif headings:
+        pain = truncate_chars(headings[0], CARD_LIMITS["prepare.main"])
+    else:
+        pain = conclusion
     return {
         "slug": post.name,
         "title": title,
         "subtitle": subtitle or "技趣星球图文版",
         "conclusion": conclusion,
+        "pain": pain,
         "headings": headings,
         "quotes": quotes,
-        "paras": paras[:6],
+        "paras": paras,
         "bullets": bullets,
         "code": code,
     }
+
+
+CONTENT_W = 896  # 1008 - 112 padding
+
+
+
+def load_cards_config(post: Path) -> dict[str, Any]:
+    path = post / "social" / "wechat-search" / "cards.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def merge_meta(post: Path) -> dict:
+    meta = get_meta(post)
+    cards = load_cards_config(post)
+    meta["cards"] = cards
+    for key in ("title", "subtitle", "conclusion", "keywords"):
+        if cards.get(key):
+            meta[key] = cards[key]
+    return meta
 
 
 def save_card(img: Image.Image, out: Path, idx: int) -> None:
@@ -283,101 +561,316 @@ def save_card(img: Image.Image, out: Path, idx: int) -> None:
 
 def draw_cover(meta: dict) -> Image.Image:
     img, draw = base()
-    label(draw, "实用AI卡片")
-    text_block(draw, meta["subtitle"], 72, 210, 32, (43, 96, 145), 26, bold=True, max_lines=2)
-    text_block(draw, meta["title"], 72, 326, 66, (14, 42, 78), 11.5, bold=True, line_height=1.08, max_lines=4)
+    label(draw, card_pick(meta, "cover", "label", "实用AI卡片"))
+    text_block(
+        draw,
+        card_pick(meta, "cover", "subtitle", meta["subtitle"]),
+        72,
+        210,
+        32,
+        (43, 96, 145),
+        26,
+        bold=True,
+        max_lines=2,
+        max_width=CONTENT_W,
+        auto_fit=True,
+    )
+    text_block(
+        draw,
+        card_pick(meta, "cover", "title", meta["title"]),
+        72,
+        310,
+        64,
+        (14, 42, 78),
+        11.5,
+        bold=True,
+        line_height=1.1,
+        max_lines=3,
+        max_width=CONTENT_W,
+        auto_fit=True,
+    )
+    chips = card_pick(meta, "cover", "chips", ["准备做什么", "如何做", "最终结果"])
+    colors = [(20, 121, 214), (67, 207, 199), (255, 185, 82)]
+    fgs = [(238, 249, 255), (238, 249, 255), (60, 49, 24)]
     x = 72
-    x = chip(draw, "5张图速览", x, 790, (20, 121, 214))
-    x = chip(draw, "适合收藏", x, 790, (67, 207, 199))
-    chip(draw, "步骤清楚", x, 790, (255, 185, 82), (60, 49, 24))
+    for chip_text, fill, fg in zip(chips[:3], colors, fgs):
+        x = chip(draw, chip_text, x, 790, fill, fg)
     shadow_card(img, (72, 990, 1008, 1230), radius=34, fill=(24, 102, 170, 232), outline=(146, 212, 255, 255))
     draw = ImageDraw.Draw(img)
-    text_block(draw, "先抓重点，再看步骤。把复杂工具拆成普通人能照着做的小动作。", 112, 1050, 34, (238, 249, 255), 23, bold=True, max_lines=3)
-    footer(draw, 1, "先看重点，再做第一步。")
+    text_block(
+        draw,
+        card_pick(meta, "cover", "highlight", meta["conclusion"]),
+        112,
+        1050,
+        34,
+        (238, 249, 255),
+        23,
+        bold=True,
+        max_lines=3,
+        max_width=784,
+        auto_fit=True,
+    )
+    footer(draw, 1, card_pick(meta, "cover", "footer", "5 张图：准备 → 如何做 → 结果"))
     return img
 
 
-def draw_problem(meta: dict) -> Image.Image:
+def draw_prepare(meta: dict) -> Image.Image:
     img, draw = base()
-    label(draw, "这篇解决什么")
-    text_block(draw, "先抓住一个核心问题", 72, 185, 58, (14, 42, 78), 13, bold=True, max_lines=2)
-    shadow_card(img, (72, 365, 1008, 760), radius=34)
+    label(draw, card_pick(meta, "prepare", "label", "① 准备做什么"))
+    text_block(
+        draw,
+        card_pick(meta, "prepare", "heading", "先想清楚：你要解决什么问题"),
+        72,
+        185,
+        56,
+        (14, 42, 78),
+        14,
+        bold=True,
+        max_lines=2,
+        max_width=CONTENT_W,
+        max_height=130,
+        auto_fit=True,
+    )
+    shadow_card(img, (72, 340, 1008, 780), radius=34)
     draw = ImageDraw.Draw(img)
-    text_block(draw, meta["conclusion"], 112, 435, 36, (28, 61, 100), 24, bold=True, line_height=1.42, max_lines=5)
-    shadow_card(img, (72, 820, 490, 1110), radius=30, fill=(255, 255, 255, 238), outline=(200, 234, 255, 255))
-    shadow_card(img, (526, 820, 1008, 1110), radius=30, fill=(255, 247, 215, 244), outline=(255, 226, 138, 255))
+    text_block(
+        draw,
+        card_pick(meta, "prepare", "main", meta.get("pain") or meta["conclusion"]),
+        112,
+        420,
+        40,
+        (28, 61, 100),
+        22,
+        bold=True,
+        line_height=1.4,
+        max_lines=5,
+        max_width=784,
+        max_height=320,
+        auto_fit=True,
+    )
+    shadow_card(img, (72, 840, 490, 1060), radius=30, fill=(255, 255, 255, 238), outline=(200, 234, 255, 255))
+    shadow_card(img, (526, 840, 1008, 1060), radius=30, fill=(255, 247, 215, 244), outline=(255, 226, 138, 255))
     draw = ImageDraw.Draw(img)
-    text_block(draw, "为什么值得看", 112, 875, 34, (20, 121, 214), 12, bold=True, max_lines=1)
-    text_block(draw, "少绕路，先知道这件事能不能帮你落地。", 112, 940, 29, (28, 61, 100), 14, bold=True, max_lines=3)
-    text_block(draw, "判断标准", 570, 875, 34, (116, 86, 16), 12, bold=True, max_lines=1)
-    text_block(draw, "读完能不能立刻做一个小动作，而不是只收藏。", 570, 940, 29, (116, 86, 16), 15, bold=True, max_lines=3)
-    footer(draw, 2, "不要只收藏，先完成一个小动作。")
+    text_block(draw, "你的场景", 112, 868, 28, (20, 121, 214), 8, bold=True, max_lines=1, max_width=350)
+    text_block(
+        draw,
+        card_pick(meta, "prepare", "scene", meta.get("subtitle") or "有一个具体场景，想照着文章做一遍。"),
+        112,
+        918,
+        28,
+        (28, 61, 100),
+        13,
+        bold=True,
+        max_lines=3,
+        max_width=350,
+        max_height=120,
+        auto_fit=True,
+    )
+    text_block(draw, "本文目标", 570, 868, 28, (116, 86, 16), 8, bold=True, max_lines=1, max_width=350)
+    text_block(
+        draw,
+        card_pick(meta, "prepare", "goal", "读完后知道第一步该准备什么。"),
+        570,
+        918,
+        28,
+        (116, 86, 16),
+        13,
+        bold=True,
+        max_lines=3,
+        max_width=350,
+        max_height=120,
+        auto_fit=True,
+    )
+    footer(draw, 2, card_pick(meta, "prepare", "footer", "先对齐场景和目标，再往下看。"))
     return img
 
 
-def draw_steps(meta: dict) -> Image.Image:
+def draw_how(meta: dict) -> Image.Image:
     img, draw = base()
-    label(draw, "照着做")
-    text_block(draw, "把文章拆成 3 步", 72, 185, 60, (14, 42, 78), 13, bold=True)
-    shadow_card(img, (72, 360, 1008, 890), radius=34)
+    label(draw, card_pick(meta, "how", "label", "② 如何做"))
+    text_block(
+        draw,
+        card_pick(meta, "how", "heading", "按这 3 步做"),
+        72,
+        185,
+        56,
+        (14, 42, 78),
+        12,
+        bold=True,
+        max_lines=2,
+        max_width=CONTENT_W,
+        auto_fit=True,
+    )
+    shadow_card(img, (72, 340, 1008, 980), radius=34)
     draw = ImageDraw.Draw(img)
-    steps = (meta["headings"] or ["先明确目标", "再让 AI 给方案", "最后做一个小版本"])[:3]
-    details = (meta["paras"] or ["先照着文章跑一遍，不要一开始追求完整。"])[:3]
-    y = 430
-    for i, step in enumerate(steps, 1):
-        body = details[i - 1] if i - 1 < len(details) else "按正文步骤操作，先跑通最小版本。"
-        y = info_row(draw, i, step, body, y)
-    shadow_card(img, (72, 965, 1008, 1165), radius=34, fill=(35, 139, 214, 232), outline=(146, 212, 255, 255))
-    draw = ImageDraw.Draw(img)
-    text_block(draw, "这张卡保留行动路径：先跑通，再优化，最后复用到自己的场景。", 112, 1025, 34, (238, 249, 255), 23, bold=True, max_lines=3)
-    footer(draw, 3, "先跑通小版本，再慢慢加功能。")
+    custom_steps = card_pick(meta, "how", "items", None)
+    if custom_steps:
+        steps = custom_steps[:3]
+    else:
+        steps = [
+            {"title": h, "body": meta["paras"][i] if i < len(meta["paras"]) else ""}
+            for i, h in enumerate((meta["headings"] or ["明确目标", "拆成步骤", "做出小版本"])[:3])
+        ]
+    y = 400
+    for i, step in enumerate(steps[:3], 1):
+        title = step["title"] if isinstance(step, dict) else step
+        body = step.get("body", "") if isinstance(step, dict) else ""
+        if not body and i - 1 < len(meta.get("paras", [])):
+            body = meta["paras"][i - 1]
+        if not body:
+            body = "按正文操作，先跑通最小版本。"
+        y = info_row(draw, i, title, body, y)
+    footer(draw, 3, card_pick(meta, "how", "footer", "一步一步来，别跳步。"))
     return img
 
 
-def draw_warning(meta: dict) -> Image.Image:
+def draw_how_tips(meta: dict) -> Image.Image:
     img, draw = base()
-    label(draw, "关键提醒")
-    text_block(draw, "最容易忽略的地方", 72, 185, 60, (14, 42, 78), 13, bold=True)
-    shadow_card(img, (72, 355, 1008, 1085), radius=34)
+    label(draw, card_pick(meta, "how_tips", "label", "② 如何做 · 要点"))
+    text_block(
+        draw,
+        card_pick(meta, "how_tips", "heading", "做的时候记住这 3 点"),
+        72,
+        185,
+        56,
+        (14, 42, 78),
+        14,
+        bold=True,
+        max_lines=2,
+        max_width=CONTENT_W,
+        auto_fit=True,
+    )
+    shadow_card(img, (72, 340, 1008, 900), radius=34)
     draw = ImageDraw.Draw(img)
-    notes = (meta["quotes"] or meta["bullets"] or ["不要一上来做太大，先做一个能验证的小版本。", "涉及账号、隐私、费用，先确认再操作。", "AI 能帮你省力，但不能替你负责。"])[:4]
-    y = 430
-    for i, note in enumerate(notes[:4], 1):
+    notes = card_pick(
+        meta,
+        "how_tips",
+        "items",
+        (meta["quotes"] or meta["bullets"] or ["不要一上来做太大，先做一个能验证的小版本。"])[:3],
+    )
+    y = 400
+    for i, note in enumerate(notes[:3], 1):
         rounded(draw, (112, y - 8, 166, y + 46), 18, (255, 209, 102))
         draw.text((139, y + 20), str(i), font=f(24, True), fill=(83, 57, 8), anchor="mm")
-        text_block(draw, note, 190, y, 30, (28, 61, 100), 24, bold=True, max_lines=2)
-        y += 142
-    shadow_card(img, (72, 1120, 1008, 1230), radius=28, fill=(255, 247, 215, 244), outline=(255, 226, 138, 255))
+        text_block(
+            draw,
+            note,
+            190,
+            y,
+            32,
+            (28, 61, 100),
+            22,
+            bold=True,
+            max_lines=2,
+            max_width=760,
+            auto_fit=True,
+        )
+        y += 155
+    shadow_card(img, (72, 960, 1008, 1100), radius=28, fill=(255, 247, 215, 244), outline=(255, 226, 138, 255))
     draw = ImageDraw.Draw(img)
-    text_block(draw, "先确认：账号、费用、隐私、能否回退。", 112, 1154, 32, (116, 86, 16), 24, bold=True, max_lines=2)
-    footer(draw, 4, "边界清楚，操作才稳。")
+    text_block(
+        draw,
+        card_pick(meta, "how_tips", "highlight", "关键一步做对了，后面会省很多时间。"),
+        112,
+        1000,
+        32,
+        (116, 86, 16),
+        22,
+        bold=True,
+        max_lines=2,
+        max_width=784,
+        auto_fit=True,
+    )
+    footer(draw, 4, card_pick(meta, "how_tips", "footer", "要点比步骤更重要。"))
     return img
 
 
-def draw_summary(meta: dict) -> Image.Image:
+def draw_result(meta: dict) -> Image.Image:
     img, draw = base()
-    label(draw, "最后带走")
-    text_block(draw, "这篇文章怎么用", 72, 185, 60, (14, 42, 78), 13, bold=True)
-    shadow_card(img, (72, 350, 1008, 570), radius=34)
-    shadow_card(img, (72, 625, 1008, 845), radius=34)
-    shadow_card(img, (72, 900, 1008, 1120), radius=34)
-    shadow_card(img, (72, 1168, 1008, 1268), radius=30, fill=(35, 139, 214, 232), outline=(146, 212, 255, 255))
+    label(draw, card_pick(meta, "result", "label", "③ 最终结果"))
+    text_block(
+        draw,
+        card_pick(meta, "result", "heading", "做完你会得到"),
+        72,
+        185,
+        56,
+        (14, 42, 78),
+        12,
+        bold=True,
+        max_lines=2,
+        max_width=CONTENT_W,
+        auto_fit=True,
+    )
+    shadow_card(img, (72, 330, 1008, 560), radius=34, fill=(35, 139, 214, 232), outline=(146, 212, 255, 255))
     draw = ImageDraw.Draw(img)
-    text_block(draw, "适合谁", 112, 395, 38, (20, 121, 214), bold=True, max_chars=10)
-    text_block(draw, "想用 AI 做点真实东西，但不想先啃一堆术语的人。", 112, 460, 31, (28, 61, 100), 24, bold=True, max_lines=2)
-    text_block(draw, "先做什么", 112, 670, 38, (20, 121, 214), bold=True, max_chars=10)
-    text_block(draw, "从一个小场景开始，照着正文跑通，再改成自己的版本。", 112, 735, 31, (28, 61, 100), 25, bold=True, max_lines=2)
-    text_block(draw, "带走什么", 112, 945, 38, (20, 121, 214), bold=True, max_chars=10)
-    text_block(draw, "一套可复用的判断方法：先看成本，再看步骤，最后看边界。", 112, 1010, 31, (28, 61, 100), 25, bold=True, max_lines=2)
-    text_block(draw, "看完这 5 张，再选一个最小场景动手试。", 112, 1198, 31, (238, 249, 255), 27, bold=True, max_lines=2)
-    footer(draw, 5, "把一个小场景做出来。")
+    text_block(
+        draw,
+        card_pick(meta, "result", "main", meta["conclusion"]),
+        112,
+        390,
+        38,
+        (238, 249, 255),
+        20,
+        bold=True,
+        line_height=1.35,
+        max_lines=4,
+        max_width=784,
+        max_height=140,
+        auto_fit=True,
+    )
+    shadow_card(img, (72, 610, 1008, 1100), radius=34)
+    draw = ImageDraw.Draw(img)
+    rows = card_pick(
+        meta,
+        "result",
+        "items",
+        card_pick(
+            meta,
+            "result",
+            "rows",
+            [
+                {"title": "产出", "body": "一份能照着做的小方案或清单。"},
+                {"title": "能力", "body": "知道同类问题下次怎么拆。"},
+                {"title": "下一步", "body": "选一个最小场景，今天就开始试。"},
+            ],
+        ),
+    )
+    y = 660
+    for i, row in enumerate(rows[:3], 1):
+        title = row["title"] if isinstance(row, dict) else f"要点{i}"
+        body = row.get("body", "") if isinstance(row, dict) else str(row)
+        rounded(draw, (112, y - 6, 166, y + 48), 18, (49, 168, 255))
+        draw.text((139, y + 22), str(i), font=f(23, True), fill="white", anchor="mm")
+        text_block(draw, title, 190, y - 4, 34, (20, 121, 214), 8, bold=True, max_lines=1, max_width=760)
+        text_block(
+            draw,
+            body,
+            190,
+            y + 42,
+            28,
+            (28, 61, 100),
+            22,
+            bold=True,
+            max_lines=2,
+            max_width=760,
+            auto_fit=True,
+        )
+        y += 145
+    footer(draw, 5, card_pick(meta, "result", "footer", "结果导向：做完比看完更重要。"))
     return img
+
+
+# legacy names for generate()
+draw_problem = draw_prepare
+draw_steps = draw_how
+draw_warning = draw_how_tips
+draw_summary = draw_result
 
 
 def write_upload(meta: dict, out: Path) -> None:
     title = meta["title"]
     summary = meta["conclusion"]
-    keywords = "AI工具, 普通人学AI, AI教程, 技趣星球"
+    keywords = meta.get("keywords") or "AI工具, 普通人学AI, AI教程, 技趣星球"
     (out / "UPLOAD.md").write_text(
         f"""# 微信搜一搜 / 看一看图文发布包
 
@@ -451,9 +944,11 @@ def write_upload(meta: dict, out: Path) -> None:
 
 
 def generate(post: Path) -> None:
-    meta = get_meta(post)
+    meta = merge_meta(post)
     out = post / "social" / "wechat-search"
     out.mkdir(parents=True, exist_ok=True)
+    if not (out / "cards.json").exists():
+        print(f"warn: {post.name} missing cards.json — using auto-extracted copy; review before publish")
     for idx, maker in enumerate([draw_cover, draw_problem, draw_steps, draw_warning, draw_summary], 1):
         save_card(maker(meta), out, idx)
     write_upload(meta, out)

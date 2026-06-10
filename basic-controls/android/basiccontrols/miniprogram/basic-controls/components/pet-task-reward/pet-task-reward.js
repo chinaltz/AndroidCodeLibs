@@ -10,7 +10,7 @@ Component({
     },
     petPath: {
       type: String,
-      value: '/pages/pet/index',
+      value: '/packages/pet/pages/pet/index',
     },
     finishPath: String,
   },
