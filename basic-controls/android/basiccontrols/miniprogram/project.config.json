@@ -20,6 +20,22 @@
       },
       {
         "type": "folder",
+        "value": "prototypes"
+      },
+      {
+        "type": "glob",
+        "value": "assets/daily-todo/ui-mockup-full.png"
+      },
+      {
+        "type": "glob",
+        "value": "assets/daily-todo/ui-clock-face.png"
+      },
+      {
+        "type": "glob",
+        "value": "assets/daily-todo/README.md"
+      },
+      {
+        "type": "folder",
         "value": "assets/images/pet"
       },
       {

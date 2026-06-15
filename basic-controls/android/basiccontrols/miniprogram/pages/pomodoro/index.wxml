@@ -8,8 +8,9 @@
         <view class="pomo-hero__title">番茄君陪你专注</view>
         <view class="pomo-hero__sub">{{timerRunning ? '加油，你正在认真专注！' : compassHint}}</view>
       </view>
-      <view class="pomo-mute {{timerMuted ? 'is-muted' : ''}}" bindtap="onToggleMute">
+      <view class="pomo-mute {{timerMuted ? 'is-muted' : ''}}" hover-class="is-pressed" bindtap="onToggleMute">
         <image src="/assets/pomodoro/icon-mute.png" mode="aspectFit" />
+        <view wx:if="{{timerMuted}}" class="pomo-mute__slash"></view>
       </view>
     </view>
 
@@ -49,6 +50,7 @@
         wx:for="{{presetOptions}}"
         wx:key="minutes"
         class="pomo-preset {{activePreset === item.minutes ? 'is-active' : ''}}"
+        hover-class="is-pressed"
         data-minutes="{{item.minutes}}"
         bindtap="onPresetTap"
       >
@@ -65,8 +67,8 @@
     </view>
 
     <view class="pomo-actions">
-      <view class="pomo-btn pomo-btn--ghost" bindtap="onResetTimer">清零</view>
-      <view class="pomo-btn pomo-btn--primary" bindtap="onToggleTimerRun">
+      <view class="pomo-btn pomo-btn--ghost" hover-class="is-pressed" bindtap="onResetTimer">清零</view>
+      <view class="pomo-btn pomo-btn--primary" hover-class="is-pressed" bindtap="onToggleTimerRun">
         {{timerRunning ? '暂停一下' : '开始专注'}}
       </view>
     </view>

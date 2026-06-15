@@ -8,7 +8,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "content/posts/19-dingtalk-feishu-cli-openclaw-hermes/images"
+OUT = ROOT / "content/posts/17-dingtalk-feishu-cli-openclaw-hermes/images"
 
 FONT_REG = "/System/Library/Fonts/STHeiti Light.ttc"
 FONT_BOLD = "/System/Library/Fonts/STHeiti Medium.ttc"

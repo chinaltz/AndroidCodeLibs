@@ -33,7 +33,7 @@
         <view class="pet-shadow {{bodyAnimClass}}"></view>
         <view class="pet-body {{bodyAnimClass}}" bindtap="react">
           <image class="home-pet" src="{{petImage}}" mode="aspectFit" />
-          <image wx:for="{{state.equippedImages}}" wx:key="id" class="equipped-layer equipped-{{item.slot}}" src="{{item.image}}" mode="aspectFit" />
+          <image wx:for="{{state.equippedImages}}" wx:key="id" class="equipped-layer equipped-{{item.slot}}" src="{{item.image}}" mode="aspectFit" lazy-load />
         </view>
         <view
           wx:for="{{floaters}}"

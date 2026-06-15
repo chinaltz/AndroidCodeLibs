@@ -197,12 +197,14 @@ function startPlayback(ctx, src, gen, getGeneration, onDone, options) {
   ctx.onError(session.handlers.onError);
   ctx.onStop(session.handlers.onStop);
 
-  try { ctx.stop(); } catch (e) { /* noop */ }
   ctx.src = src;
-
-  const android = isAndroid();
-  session.timers.push(setTimeout(tryStart, android ? 100 : 300));
-  if (android) session.timers.push(setTimeout(tryStart, 700));
+  if (options && options.startImmediately) {
+    tryStart();
+  } else {
+    const android = isAndroid();
+    session.timers.push(setTimeout(tryStart, android ? 100 : 300));
+    if (android) session.timers.push(setTimeout(tryStart, 700));
+  }
 
   return session;
 }
@@ -218,7 +220,8 @@ function playOnChannel(channel, path, label) {
     const gen = localPlayGeneration;
     localPlayer = createPlayer();
 
-    return configureOutput().then(() => new Promise((resolve, reject) => {
+    configureOutput();
+    return new Promise((resolve, reject) => {
       if (gen !== localPlayGeneration) {
         resolve();
         return;
@@ -242,9 +245,9 @@ function playOnChannel(channel, path, label) {
           const errMsg = err && (err.errMsg || err.message);
           reject(new Error(errMsg || (label ? `${label} 播放失败` : '播放失败')));
         },
-        { destroyOnFinish: true },
+        { destroyOnFinish: true, startImmediately: true },
       );
-    }));
+    });
   }
 
   stopDictationPlayback(true);

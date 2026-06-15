@@ -2,7 +2,7 @@
 """Render WeChat Search cards from social/wechat-search/cards.html via headless Chrome.
 
 Usage:
-  python3 scripts/render-wechat-search-cards.py content/posts/18-google-io-wwdc-2026-ai-duel
+  python3 scripts/render-wechat-search-cards.py content/posts/16-google-io-wwdc-2026-ai-duel
 """
 
 from __future__ import annotations
@@ -60,7 +60,7 @@ def screenshot(html: Path, out_dir: Path, card: int, chrome: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Render WeChat Search card PNGs from cards.html")
-    parser.add_argument("post", help="文章目录，如 content/posts/18-google-io-wwdc-2026-ai-duel")
+    parser.add_argument("post", help="文章目录，如 content/posts/16-google-io-wwdc-2026-ai-duel")
     args = parser.parse_args()
 
     post = Path(args.post).resolve()

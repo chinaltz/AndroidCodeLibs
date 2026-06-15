@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>打地鼠 Pro - MiMo 2.5 编码测试</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #0a0a1a;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+canvas#bg { position: fixed; top: 0; left: 0; z-index: 0; }
+.container { position: relative; z-index: 1; text-align: center; }
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 5px;
+  background: linear-gradient(135deg, #ffd700, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 20px rgba(255,200,0,0.3));
+}
+.subtitle { font-size: 0.75rem; color: #555; margin-bottom: 15px; letter-spacing: 2px; }
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+.stat {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 8px 16px;
+  backdrop-filter: blur(10px);
+}
+.stat-label { font-size: 0.65rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+.stat-value { font-size: 1.4rem; font-weight: bold; color: #ffd700; }
+.stat-value.time-warn { color: #ff4444; animation: pulse 0.5s infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.5; } }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 360px;
+  margin: 0 auto 15px;
+  padding: 18px;
+  background: radial-gradient(ellipse at center, rgba(34,85,51,0.4) 0%, rgba(10,10,26,0.8) 70%);
+  border-radius: 20px;
+  border: 2px solid rgba(34,139,34,0.3);
+}
+.hole {
+  aspect-ratio: 1;
+  max-width: 105px;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.08s;
+  margin: 0 auto;
+  width: 100%;
+}
+.hole:active { transform: scale(0.92); }
+.hole-bg {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 60%, #1a3d0a 0%, #0d1f05 50%, transparent 72%);
+  box-shadow: inset 0 -8px 20px rgba(0,0,0,0.6), 0 4px 15px rgba(0,0,0,0.4);
+}
+.hole-rim {
+  position: absolute;
+  inset: 5%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, transparent 40%, rgba(20,60,10,0.5) 100%);
+  border: 2px solid rgba(34,139,34,0.2);
+}
+.ground {
+  position: absolute;
+  bottom: -5px;
+  left: 10%;
+  right: 10%;
+  height: 15px;
+  background: linear-gradient(180deg, #2d5a1e 0%, #1a3d0a 100%);
+  border-radius: 50%;
+  z-index: 1;
+}
+.mole-wrap {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  left: 12.5%;
+  top: 10%;
+  transform: translateY(70%) scale(0.6);
+  opacity: 0;
+  transition: all 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 2;
+  pointer-events: none;
+}
+.mole-wrap.show {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.mole-wrap.hit {
+  transform: translateY(-20%) scale(1.15) rotate(12deg) !important;
+  opacity: 0.3;
+  transition: all 0.1s ease-out !important;
+}
+.mole-wrap.golden { filter: drop-shadow(0 0 18px gold); }
+
+/* Q萌动物 SVG 样式 */
+.mole-svg { width: 100%; height: 100%; }
+
+.hit-fx {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  font-size: 2.2rem;
+  font-weight: 900;
+  animation: hitFx 0.6s ease-out forwards;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+@keyframes hitFx {
+  0% { opacity: 1; transform: translateY(0) scale(0.5); }
+  30% { transform: translateY(-20px) scale(1.3); }
+  100% { opacity: 0; transform: translateY(-60px) scale(0.8); }
+}
+
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 20;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: particleFly 0.5s ease-out forwards;
+}
+@keyframes particleFly {
+  0% { opacity: 1; transform: translate(0,0) scale(1); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0); }
+}
+
+.combo-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  font-weight: 900;
+  z-index: 100;
+  pointer-events: none;
+  animation: comboBanner 0.8s ease-out forwards;
+  text-shadow: 0 0 30px currentColor, 0 4px 15px rgba(0,0,0,0.5);
+}
+@keyframes comboBanner {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); }
+  30% { opacity: 1; transform: translate(-50%, -50%) scale(1.2) rotate(3deg); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8) translateY(-40px); }
+}
+
+.btn {
+  padding: 14px 50px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #1a1a2e;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(255,215,0,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+}
+.btn:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 6px 25px rgba(255,215,0,0.5); }
+.btn:active { transform: translateY(1px) scale(0.98); }
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  backdrop-filter: blur(8px);
+}
+.overlay h2 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #ffd700, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.overlay .final-score { font-size: 5rem; font-weight: 900; color: #ffd700; margin: 10px 0; }
+.overlay .comment { font-size: 1.1rem; color: #aaa; margin-bottom: 25px; }
+.overlay .stats-row { display: flex; gap: 30px; margin-bottom: 25px; }
+.overlay .stats-row div { text-align: center; }
+.overlay .stats-row .val { font-size: 1.8rem; font-weight: bold; color: #ffd700; }
+.overlay .stats-row .lbl { font-size: 0.75rem; color: #666; }
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="container">
+  <h1>🔨 打地鼠 Pro</h1>
+  <p class="subtitle">MiMo 2.5 Coding Test</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-label">得分</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">时间</div>
+      <div class="stat-value" id="time">30</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">连击</div>
+      <div class="stat-value" id="combo">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">最高</div>
+      <div class="stat-value" id="best">0</div>
+    </div>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <button class="btn" id="startBtn">开始游戏</button>
+</div>
+
+<div class="overlay hidden" id="gameOver">
+  <h2>🎉 游戏结束</h2>
+  <div class="final-score" id="finalScore">0</div>
+  <div class="stats-row">
+    <div><div class="val" id="statHits">0</div><div class="lbl">命中</div></div>
+    <div><div class="val" id="statMiss">0</div><div class="lbl">漏掉</div></div>
+    <div><div class="val" id="statCombo">0</div><div class="lbl">最大连击</div></div>
+  </div>
+  <div class="comment" id="comment"></div>
+  <button class="btn" onclick="startGame()">再来一局</button>
+</div>
+
+<script>
+// === Q萌动物 SVG 模板 ===
+const MOLE_SVGS = {
+  hamster: (hit) => `<svg viewBox="0 0 100 100" class="mole-svg">
+    <ellipse cx="50" cy="58" rx="32" ry="30" fill="#F5C6A0"/>
+    <circle cx="30" cy="35" r="14" fill="#F5C6A0"/>
+    <circle cx="70" cy="35" r="14" fill="#F5C6A0"/>
+    <circle cx="30" cy="35" r="9" fill="#FFB5C5"/>
+    <circle cx="70" cy="35" r="9" fill="#FFB5C5"/>
+    <circle cx="50" cy="52" r="24" fill="#FFECD2"/>
+    <ellipse cx="50" cy="56" rx="18" ry="14" fill="#FFECD2"/>
+    <circle cx="40" cy="48" r="${hit?5:4}" fill="#3D2B1F"/>
+    <circle cx="60" cy="48" r="${hit?5:4}" fill="#3D2B1F"/>
+    <circle cx="41.5" cy="46.5" r="1.5" fill="#fff"/>
+    <circle cx="61.5" cy="46.5" r="1.5" fill="#fff"/>
+    <ellipse cx="50" cy="56" rx="3.5" ry="2.5" fill="#FF8FAA"/>
+    ${hit?'<path d="M42 62 Q50 68 58 62" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>':'<ellipse cx="44" cy="60" rx="4" ry="2.5" fill="#FFB5C5" opacity="0.6"/><ellipse cx="56" cy="60" rx="4" ry="2.5" fill="#FFB5C5" opacity="0.6"/>'}
+    <circle cx="38" cy="40" r="2" fill="#FF8FAA" opacity="0.5"/>
+    <circle cx="62" cy="40" r="2" fill="#FF8FAA" opacity="0.5"/>
+  </svg>`,
+
+  bunny: (hit) => `<svg viewBox="0 0 100 100" class="mole-svg">
+    <ellipse cx="38" cy="20" rx="10" ry="22" fill="#fff"/>
+    <ellipse cx="62" cy="20" rx="10" ry="22" fill="#fff"/>
+    <ellipse cx="38" cy="20" rx="6" ry="16" fill="#FFD4E5"/>
+    <ellipse cx="62" cy="20" rx="6" ry="16" fill="#FFD4E5"/>
+    <circle cx="50" cy="60" r="28" fill="#fff"/>
+    <circle cx="40" cy="54" r="${hit?5:4}" fill="#3D2B1F"/>
+    <circle cx="60" cy="54" r="${hit?5:4}" fill="#3D2B1F"/>
+    <circle cx="41.5" cy="52.5" r="1.5" fill="#fff"/>
+    <circle cx="61.5" cy="52.5" r="1.5" fill="#fff"/>
+    <ellipse cx="50" cy="62" rx="3" ry="2" fill="#FFB5C5"/>
+    <path d="M47 65 Q50 69 53 65" stroke="#3D2B1F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    ${hit?'<line x1="32" y1="58" x2="42" y2="60" stroke="#ccc" stroke-width="1"/><line x1="68" y1="58" x2="58" y2="60" stroke="#ccc" stroke-width="1"/>':''}
+    <circle cx="36" cy="62" r="5" fill="#FFD4E5" opacity="0.5"/>
+    <circle cx="64" cy="62" r="5" fill="#FFD4E5" opacity="0.5"/>
+  </svg>`,
+
+  chick: (hit) => `<svg viewBox="0 0 100 100" class="mole-svg">
+    <circle cx="50" cy="55" r="28" fill="#FFE066"/>
+    <ellipse cx="35" cy="30" rx="8" ry="6" fill="#FFE066" transform="rotate(-20,35,30)"/>
+    <ellipse cx="65" cy="30" rx="8" ry="6" fill="#FFE066" transform="rotate(20,65,30)"/>
+    <circle cx="40" cy="50" r="${hit?5:3.5}" fill="#3D2B1F"/>
+    <circle cx="60" cy="50" r="${hit?5:3.5}" fill="#3D2B1F"/>
+    <circle cx="41" cy="48.5" r="1.2" fill="#fff"/>
+    <circle cx="61" cy="48.5" r="1.2" fill="#fff"/>
+    <polygon points="46,58 54,58 50,65" fill="#FF8C00"/>
+    ${hit?'<path d="M44 68 Q50 73 56 68" stroke="#3D2B1F" stroke-width="1.5" fill="none"/>':'<circle cx="38" cy="58" r="4" fill="#FFAA55" opacity="0.4"/><circle cx="62" cy="58" r="4" fill="#FFAA55" opacity="0.4"/>'}
+    <ellipse cx="50" cy="85" rx="12" ry="4" fill="#FF8C00"/>
+  </svg>`,
+
+  squirrel: (hit) => `<svg viewBox="0 0 100 100" class="mole-svg">
+    <circle cx="50" cy="55" r="26" fill="#C68642"/>
+    <circle cx="35" cy="32" r="10" fill="#C68642"/>
+    <circle cx="65" cy="32" r="10" fill="#C68642"/>
+    <circle cx="35" cy="32" r="6" fill="#DEB887"/>
+    <circle cx="65" cy="32" r="6" fill="#DEB887"/>
+    <ellipse cx="50" cy="58" rx="16" ry="14" fill="#DEB887"/>
+    <circle cx="42" cy="50" r="${hit?4.5:3.5}" fill="#3D2B1F"/>
+    <circle cx="58" cy="50" r="${hit?4.5:3.5}" fill="#3D2B1F"/>
+    <circle cx="43" cy="48.5" r="1.2" fill="#fff"/>
+    <circle cx="59" cy="48.5" r="1.2" fill="#fff"/>
+    <ellipse cx="50" cy="57" rx="3" ry="2.5" fill="#3D2B1F"/>
+    ${hit?'<path d="M44 64 Q50 69 56 64" stroke="#3D2B1F" stroke-width="1.5" fill="none"/>':'<path d="M46 62 Q50 65 54 62" stroke="#3D2B1F" stroke-width="1" fill="none"/>'}
+    <ellipse cx="75" cy="30" rx="10" ry="6" fill="#C68642" transform="rotate(30,75,30)"/>
+  </svg>`,
+
+  bear: (hit) => `<svg viewBox="0 0 100 100" class="mole-svg">
+    <circle cx="30" cy="30" r="14" fill="#8B6914"/>
+    <circle cx="70" cy="30" r="14" fill="#8B6914"/>
+    <circle cx="30" cy="30" r="8" fill="#C49A3C"/>
+    <circle cx="70" cy="30" r="8" fill="#C49A3C"/>
+    <circle cx="50" cy="58" r="30" fill="#8B6914"/>
+    <ellipse cx="50" cy="62" rx="16" ry="12" fill="#C49A3C"/>
+    <circle cx="40" cy="50" r="${hit?5:4}" fill="#3D2B1F"/>
+    <circle cx="60" cy="50" r="${hit?5:4}" fill="#3D2B1F"/>
+    <circle cx="41.5" cy="48.5" r="1.5" fill="#fff"/>
+    <circle cx="61.5" cy="48.5" r="1.5" fill="#fff"/>
+    <ellipse cx="50" cy="58" rx="4" ry="3" fill="#3D2B1F"/>
+    ${hit?'<path d="M42 66 Q50 72 58 66" stroke="#3D2B1F" stroke-width="2" fill="none" stroke-linecap="round"/>':'<ellipse cx="44" cy="62" rx="4" ry="2.5" fill="#C49A3C" opacity="0.5"/><ellipse cx="56" cy="62" rx="4" ry="2.5" fill="#C49A3C" opacity="0.5"/>'}
+  </svg>`,
+
+  cat: (hit) => `<svg viewBox="0 0 100 100" class="mole-svg">
+    <polygon points="25,40 35,12 45,38" fill="#FF9944"/>
+    <polygon points="55,38 65,12 75,40" fill="#FF9944"/>
+    <polygon points="29,38 35,18 41,36" fill="#FFD4E5"/>
+    <polygon points="59,36 65,18 71,38" fill="#FFD4E5"/>
+    <circle cx="50" cy="58" r="28" fill="#FF9944"/>
+    <circle cx="50" cy="60" rx="18" ry="14" fill="#FFE4CC"/>
+    <circle cx="40" cy="52" r="${hit?5:4}" fill="#4A7C3F"/>
+    <circle cx="60" cy="52" r="${hit?5:4}" fill="#4A7C3F"/>
+    <circle cx="40" cy="52" r="2" fill="#1a1a1a"/>
+    <circle cx="60" cy="52" r="2" fill="#1a1a1a"/>
+    <circle cx="41" cy="50.5" r="1" fill="#fff"/>
+    <circle cx="61" cy="50.5" r="1" fill="#fff"/>
+    <ellipse cx="50" cy="58" rx="2.5" ry="2" fill="#FF8FAA"/>
+    <path d="M46 62 Q50 66 54 62" stroke="#3D2B1F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <line x1="28" y1="52" x2="40" y2="55" stroke="#FFD4AA" stroke-width="1"/>
+    <line x1="28" y1="58" x2="40" y2="58" stroke="#FFD4AA" stroke-width="1"/>
+    <line x1="60" y1="55" x2="72" y2="52" stroke="#FFD4AA" stroke-width="1"/>
+    <line x1="60" y1="58" x2="72" y2="58" stroke="#FFD4AA" stroke-width="1"/>
+  </svg>`
+};
+
+const MOLE_KEYS = Object.keys(MOLE_SVGS);
+const GOLDEN_KEY = 'hamster';
+
+// === Audio ===
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx;
+function ensureAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
+function playHit(combo) {
+  ensureAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'sine';
+  o.frequency.setValueAtTime(600 + combo * 80, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(1200 + combo * 100, audioCtx.currentTime + 0.08);
+  g.gain.setValueAtTime(0.15, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+  o.start(); o.stop(audioCtx.currentTime + 0.15);
+}
+function playMiss() {
+  ensureAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'sawtooth';
+  o.frequency.setValueAtTime(200, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.2);
+  g.gain.setValueAtTime(0.08, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+  o.start(); o.stop(audioCtx.currentTime + 0.2);
+}
+function playComboBanner(n) {
+  ensureAudio();
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.connect(g); g.connect(audioCtx.destination);
+  o.type = 'triangle';
+  o.frequency.setValueAtTime(800, audioCtx.currentTime);
+  o.frequency.exponentialRampToValueAtTime(1600, audioCtx.currentTime + 0.15);
+  g.gain.setValueAtTime(0.12, audioCtx.currentTime);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
+  o.start(); o.stop(audioCtx.currentTime + 0.3);
+}
+function playGameOver() {
+  ensureAudio();
+  [0, 0.12, 0.24].forEach((d, i) => {
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.connect(g); g.connect(audioCtx.destination);
+    o.type = 'sine';
+    o.frequency.value = [523, 440, 349][i];
+    g.gain.setValueAtTime(0.1, audioCtx.currentTime + d);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + d + 0.3);
+    o.start(audioCtx.currentTime + d); o.stop(audioCtx.currentTime + d + 0.3);
+  });
+}
+
+// === Background Particles ===
+const bgCanvas = document.getElementById('bg');
+const bgCtx = bgCanvas.getContext('2d');
+let stars = [];
+function resizeBg() {
+  bgCanvas.width = window.innerWidth;
+  bgCanvas.height = window.innerHeight;
+  stars = Array.from({length: 60}, () => ({
+    x: Math.random() * bgCanvas.width,
+    y: Math.random() * bgCanvas.height,
+    r: Math.random() * 1.5 + 0.5,
+    speed: Math.random() * 0.3 + 0.1,
+    alpha: Math.random() * 0.5 + 0.2
+  }));
+}
+function drawBg() {
+  bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+  stars.forEach(s => {
+    s.y += s.speed;
+    if (s.y > bgCanvas.height) { s.y = 0; s.x = Math.random() * bgCanvas.width; }
+    bgCtx.beginPath();
+    bgCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    bgCtx.fillStyle = `rgba(255,255,255,${s.alpha})`;
+    bgCtx.fill();
+  });
+  requestAnimationFrame(drawBg);
+}
+resizeBg(); drawBg();
+window.addEventListener('resize', resizeBg);
+
+// === Particles on Hit ===
+function spawnParticles(x, y, color, count = 8) {
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const angle = (Math.PI * 2 / count) * i + Math.random() * 0.5;
+    const dist = 30 + Math.random() * 40;
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    p.style.background = color;
+    p.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+    p.style.setProperty('--dy', Math.sin(angle) * dist + 'px');
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 500);
+  }
+}
+
+// === Game ===
+const board = document.getElementById('board');
+const scoreEl = document.getElementById('score');
+const timeEl = document.getElementById('time');
+const comboEl = document.getElementById('combo');
+const bestEl = document.getElementById('best');
+const startBtn = document.getElementById('startBtn');
+const gameOverEl = document.getElementById('gameOver');
+
+let score = 0, combo = 0, maxCombo = 0, hits = 0, misses = 0;
+let timeLeft = 30, gameRunning = false, bestScore = 0;
+let moleState = Array(9).fill(null);
+
+function createBoard() {
+  board.innerHTML = '';
+  for (let i = 0; i < 9; i++) {
+    const hole = document.createElement('div');
+    hole.className = 'hole';
+    hole.innerHTML = `<div class="hole-bg"></div><div class="hole-rim"></div><div class="mole-wrap" id="mole${i}"></div><div class="ground"></div>`;
+    hole.addEventListener('pointerdown', (e) => { e.preventDefault(); whack(i, e); });
+    board.appendChild(hole);
+  }
+}
+
+function showMole(i) {
+  if (!gameRunning || moleState[i]) return;
+  const mole = document.getElementById(`mole${i}`);
+  const isGolden = Math.random() < 0.08;
+  const key = isGolden ? GOLDEN_KEY : MOLE_KEYS[Math.floor(Math.random() * MOLE_KEYS.length)];
+  mole.innerHTML = MOLE_SVGS[key](false);
+  mole.className = 'mole-wrap' + (isGolden ? ' golden show' : ' show');
+  const stayTime = isGolden ? 800 : Math.max(400, 1000 - score * 4);
+  moleState[i] = { golden: isGolden, key, timer: setTimeout(() => {
+    if (moleState[i]) {
+      hideMole(i);
+      if (!isGolden) { misses++; combo = 0; comboEl.textContent = 0; }
+    }
+  }, stayTime) };
+}
+
+function hideMole(i) {
+  const mole = document.getElementById(`mole${i}`);
+  mole.classList.remove('show', 'golden');
+  mole.innerHTML = '';
+  moleState[i] = null;
+}
+
+function whack(i, e) {
+  if (!gameRunning || !moleState[i]) return;
+  const s = moleState[i];
+  clearTimeout(s.timer);
+  const mole = document.getElementById(`mole${i}`);
+  mole.innerHTML = MOLE_SVGS[s.key](true);
+  mole.classList.remove('show');
+  mole.classList.add('hit');
+  setTimeout(() => { mole.classList.remove('hit'); }, 120);
+
+  combo++;
+  hits++;
+  if (combo > maxCombo) maxCombo = combo;
+  const base = s.golden ? 10 : 1;
+  const mult = combo >= 10 ? 5 : combo >= 7 ? 4 : combo >= 5 ? 3 : combo >= 3 ? 2 : 1;
+  const pts = base * mult;
+  score += pts;
+  scoreEl.textContent = score;
+  comboEl.textContent = combo;
+
+  const rect = mole.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  spawnParticles(cx, cy, s.golden ? '#ffd700' : '#ff6b35', s.golden ? 16 : 8);
+  showHitFx(cx, cy, pts, s.golden);
+  if (combo === 5 || combo === 10 || combo === 15) showComboBanner(combo);
+  playHit(combo);
+  hideMole(i);
+  moleState[i] = null;
+}
+
+function showHitFx(x, y, pts, golden) {
+  const el = document.createElement('div');
+  el.className = 'hit-fx';
+  el.textContent = (golden ? '👑+' : '+') + pts;
+  el.style.left = x - 25 + 'px';
+  el.style.top = y - 20 + 'px';
+  el.style.color = golden ? '#ffd700' : '#fff';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 600);
+}
+
+function showComboBanner(n) {
+  playComboBanner(n);
+  const el = document.createElement('div');
+  el.className = 'combo-banner';
+  el.style.color = n >= 10 ? '#ff4444' : '#ffd700';
+  el.textContent = n >= 10 ? `🔥 ${n} 连击！超神！` : n >= 7 ? `⚡ ${n} 连击！` : `🔥 ${n} 连击！`;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 800);
+}
+
+let spawnTimer;
+function spawnLoop() {
+  if (!gameRunning) return;
+  const empty = [];
+  for (let i = 0; i < 9; i++) if (!moleState[i]) empty.push(i);
+  if (empty.length > 0) {
+    const count = score > 30 ? 2 : 1;
+    for (let c = 0; c < count && empty.length > 0; c++) {
+      const idx = empty.splice(Math.floor(Math.random() * empty.length), 1)[0];
+      showMole(idx);
+    }
+  }
+  const interval = Math.max(250, 700 - score * 2);
+  spawnTimer = setTimeout(spawnLoop, interval);
+}
+
+function startGame() {
+  ensureAudio();
+  score = 0; combo = 0; maxCombo = 0; hits = 0; misses = 0; timeLeft = 30; gameRunning = true;
+  scoreEl.textContent = 0; timeEl.textContent = 30; timeEl.classList.remove('time-warn');
+  comboEl.textContent = 0; bestEl.textContent = bestScore;
+  gameOverEl.classList.add('hidden');
+  startBtn.classList.add('hidden');
+  moleState.forEach((s, i) => { if (s) { clearTimeout(s.timer); moleState[i] = null; } });
+  for (let i = 0; i < 9; i++) { const m = document.getElementById(`mole${i}`); m.className = 'mole-wrap'; m.innerHTML = ''; }
+
+  spawnLoop();
+  const timer = setInterval(() => {
+    timeLeft--;
+    timeEl.textContent = timeLeft;
+    if (timeLeft <= 5) timeEl.classList.add('time-warn');
+    if (timeLeft <= 0) { clearInterval(timer); endGame(); }
+  }, 1000);
+}
+
+function endGame() {
+  gameRunning = false;
+  clearTimeout(spawnTimer);
+  moleState.forEach((s, i) => { if (s) { clearTimeout(s.timer); moleState[i] = null; } });
+  for (let i = 0; i < 9; i++) { const m = document.getElementById(`mole${i}`); m.className = 'mole-wrap'; m.innerHTML = ''; }
+
+  if (score > bestScore) bestScore = score;
+  bestEl.textContent = bestScore;
+
+  document.getElementById('finalScore').textContent = score;
+  document.getElementById('statHits').textContent = hits;
+  document.getElementById('statMiss').textContent = misses;
+  document.getElementById('statCombo').textContent = maxCombo;
+
+  let comment;
+  if (score >= 80) comment = '🏆 地鼠灭霸！MiMo 编程实力炸裂！';
+  else if (score >= 50) comment = '⚡ 手速惊人！代码运行丝滑无 bug~';
+  else if (score >= 30) comment = '👍 表现不错，游戏逻辑完整！';
+  else if (score >= 10) comment = '😊 基本功能正常，再练练手速';
+  else comment = '🤔 地鼠都笑了，再来一次？';
+  document.getElementById('comment').textContent = comment;
+
+  playGameOver();
+  gameOverEl.classList.remove('hidden');
+  startBtn.classList.remove('hidden');
+  startBtn.textContent = '再来一局';
+}
+
+createBoard();
+startBtn.onclick = startGame;
+</script>
+</body>
+</html>

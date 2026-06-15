@@ -3,7 +3,7 @@
   <scroll-view scroll-y class="pet-scroll">
     <view class="adopt-hero">
       <view class="pet-chip pet-chip--yellow">默认伙伴 · 晴空蓝</view>
-      <image class="adopt-pet" src="{{petImage}}" mode="aspectFit" />
+      <image class="adopt-pet" src="{{petImage}}" mode="aspectFit" lazy-load />
       <view class="adopt-title">领养一只星芽兽</view>
       <view class="pet-muted">完成音标、拼音和听写任务，它会和你一起升级、玩耍和收集装扮。</view>
     </view>

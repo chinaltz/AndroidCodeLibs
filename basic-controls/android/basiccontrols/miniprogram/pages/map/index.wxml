@@ -16,14 +16,14 @@
           <image class="hero-deco hero-deco--pet" src="/assets/icons/module-pet.png" mode="aspectFit" />
         </view>
         <view class="hero-top">
-          <view class="child-chip" bindtap="goChildren">
+          <view class="child-chip" hover-class="is-pressed" bindtap="goChildren">
             <image class="child-avatar" src="{{childAvatarPath}}" mode="aspectFit" />
             <view class="child-copy">
               <view class="child-name">{{child.nickname}}</view>
               <view class="child-meta">{{childrenCount}} 个本地档案</view>
             </view>
           </view>
-          <view class="child-switch" bindtap="openSwitchSheet">切换</view>
+          <view class="child-switch" hover-class="is-pressed" bindtap="openSwitchSheet">切换</view>
         </view>
         <view class="hero-copy">
           <view class="hero-eyebrow">今日冒险</view>
@@ -51,8 +51,8 @@
         <view class="section-title" style="color: {{theme.textPrimary}};">当前任务</view>
       </view>
       <view class="quest-grid quest-grid--last">
-        <view wx:for="{{todayQuests}}" wx:key="key" class="quest-card" data-path="{{item.path}}" bindtap="onQuestTap">
-          <image class="quest-image" src="{{item.image}}" mode="aspectFit" />
+        <view wx:for="{{todayQuests}}" wx:key="key" class="quest-card" hover-class="is-pressed" data-path="{{item.path}}" bindtap="onQuestTap">
+          <image class="quest-image" src="{{item.image}}" mode="aspectFit" lazy-load />
           <view class="quest-main">
             <view class="quest-title">{{item.title}}</view>
             <view class="quest-desc">{{item.desc}}</view>
@@ -88,7 +88,7 @@
         data-id="{{item.id}}"
         bindtap="onSheetSwitchChild"
       >
-        <image class="sheet-avatar" src="{{item.avatarPath}}" mode="aspectFit" />
+        <image class="sheet-avatar" src="{{item.avatarPath}}" mode="aspectFit" lazy-load />
         <view class="sheet-name">{{item.nickname}}</view>
         <view class="sheet-tag">{{item.isCurrent ? '当前' : '切换'}}</view>
       </view>

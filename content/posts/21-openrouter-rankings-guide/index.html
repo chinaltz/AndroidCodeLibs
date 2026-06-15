@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenRouter 排行榜：热门模型和工具怎么选</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">本地图上方会显示文件名，便于对照上传。富文本复制会保留超链；图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">OpenRouter 排行榜：热门模型和工具怎么选</h1>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">header.png</p><p style="margin:0;"><img src="images/header.png" alt="OpenRouter AI 模型排行榜" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">不知道该用哪个 AI？先看真实使用量，再按任务挑模型</p><p style="margin:4px 0;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，回复MF 一起用技术创造乐趣。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">现在的 AI 模型实在太多了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">DeepSeek、Claude、MiniMax、MiMo、Gemini……名字越看越熟，真到选择时，还是容易犯难。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">OpenRouter 的排行榜提供了另一个观察角度：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">不只看厂商怎么宣传，还看大量真实请求最后流向了哪些模型和工具。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我在 2026 年 6 月 15 日打开了 <a href="https://openrouter.ai/rankings" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">OpenRouter 排行榜</a>，把当前模型榜、工具调用榜和应用榜截了下来。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先提醒一句：榜单变化很快。本文记录的是截图当天的数据，后续请以官网实时页面为准。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>OpenRouter 像一个「AI 模型总插座」</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">平时使用 AI，往往要分别注册不同平台。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">换模型时，又要重新处理账号、余额和接口配置。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">OpenRouter 做的事情，可以理解成一个「AI 模型总插座」：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">一个网站里查看和试用不同厂商的模型</li>
+<li style="margin:4px 0;">用一套接口切换多个模型</li>
+<li style="margin:4px 0;">比较模型价格、上下文长度和能力</li>
+<li style="margin:4px 0;">把同一个模型请求交给不同服务商处理</li>
+<li style="margin:4px 0;">为聊天工具、编程工具和 AI 助手提供模型通道</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它本身不是一个新的大模型，更像模型与工具之间的中转站。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">普通人可以直接使用它的 Chat 页面。开发者则可以把 OpenRouter 接到编程工具、聊天前端或自己的 App 中。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">难度：⭐⭐</strong></p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>排行榜到底在排什么</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">OpenRouter 页面最上方的彩色柱状图，展示各模型每周处理的 Token 数量。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把 Token 理解成 AI 读写的「文字小颗粒」。数量越大，说明这个模型通过 OpenRouter 处理的内容越多。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但要注意：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">使用量高，不等于模型质量绝对第一。</strong></p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">排名还会受到价格、免费活动、响应速度、工具接入量和新模型热度影响。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以这份榜单更像「真实使用热度榜」，不是考试分数榜。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>本周热门模型：国产模型占了四个前排</h2>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">model-leaderboard.png</p><p style="margin:0;"><img src="images/model-leaderboard.png" alt="OpenRouter 本周模型排行榜" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">截至 2026 年 6 月 15 日，页面选择的是 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">This Week</code>。模型使用量前十如下：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">排名</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">本周用量</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">环比变化</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">1</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">DeepSeek V4 Flash</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">4.41T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+20%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">2</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">MiniMax M3</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">4.32T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">+73%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">3</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">腾讯 Hy3 preview</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">4.14T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+41%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">4</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">小米 MiMo-V2.5</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">3.59T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">+64%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">5</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">OpenRouter Owl Alpha</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">2.47T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+27%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">6</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Claude Opus 4.7</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">2.34T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">+62%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">7</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Claude Sonnet 4.6</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">2.13T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+21%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">8</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">DeepSeek V4 Pro</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">1.96T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">+15%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">9</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Claude Opus 4.8</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">1.25T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">+8%</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">10</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">DeepSeek V3.2</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">1.15T Tokens</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">-2%</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这份排名里有三个明显信号。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>1. 价格和速度正在影响真实选择</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">DeepSeek V4 Flash 排在第一。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">MiniMax M3、Hy3 preview 和 MiMo-V2.5 紧随其后，而且周增长都很快。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这说明大量调用并没有只流向最贵的模型。对批量写作、编程代理和自动化任务来说，<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">够用、便宜、速度快</strong>往往比单次测试分数更重要。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>2. Claude 仍是工具和复杂任务的重要选择</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Claude Opus 4.7、Claude Sonnet 4.6 和 Claude Opus 4.8 都进入前十。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它们的总量不是最高，但同时出现在模型榜、工具调用榜和 Claude Code 等应用里。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这类模型更适合复杂代码修改、长文档处理和多步骤任务。是否值得用，要看任务难度，而不是只看总排名。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>3. 新模型的短期涨幅值得观察</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">MiniMax M3 一周增长 73%，MiMo-V2.5 增长 64%，Claude Opus 4.7 增长 62%。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">涨幅高说明它们正在被更多工具接入，或者正处于发布推广期。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">但短期上涨不代表长期稳定。选择长期使用的模型，还要看价格是否变化、服务是否稳定，以及自己的任务结果。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>工具调用榜，更接近 AI 助手的真实表现</h2>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">tool-calls.png</p><p style="margin:0;"><img src="images/tool-calls.png" alt="OpenRouter 工具调用排行榜" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">普通聊天只需要模型回答文字。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 助手要真正做事，还需要调用搜索、文件、终端、浏览器或其他工具。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这就是排行榜里的 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Tool Calls</strong>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">当前截图中，MiniMax M3 以 384 万次工具调用排在第一，DeepSeek V4 Flash 以 363 万次排在第二，腾讯 Hy3 preview 以 290 万次排在第三。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Claude Opus 4.7、Owl Alpha 和 Gemini 3 Flash Preview 也进入前列。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这份榜比总使用量更适合下面这些场景：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">给 Cursor、Claude Code 等编程工具选模型</li>
+<li style="margin:4px 0;">让 AI 搜索网页、读取文件或执行命令</li>
+<li style="margin:4px 0;">搭建可以连续完成多步任务的 AI 助手</li>
+<li style="margin:4px 0;">判断模型是否经常被用于自动化工作</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不过，调用次数多仍不代表每次调用都成功。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">真要给工具选模型，建议至少测试三件事：</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">会不会正确选择工具</li>
+<li style="margin:6px 0;padding-left:2px;">工具执行失败后会不会调整</li>
+<li style="margin:6px 0;padding-left:2px;">会不会在没确认时执行危险操作</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以用这段任务测试不同模型：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">请先阅读当前项目结构，不要修改文件。
+
+然后告诉我：
+1. 项目使用了什么技术
+2. 启动命令是什么
+3. 最可能出现问题的三个位置
+4. 你准备调用哪些工具，以及每个工具的用途
+
+在我确认前，不要执行修改和删除操作。</code></pre>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>热门 AI 工具：Agent 和编程工具最活跃</h2>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">top-apps.png</p><p style="margin:0;"><img src="images/top-apps.png" alt="OpenRouter 热门应用排行榜" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">OpenRouter 还统计了主动开启用量追踪的 Apps 和 Agents。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这里比较的是工具消耗的 Token 数量，不是安装人数或活跃用户数。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">截图当天选择的是 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">Today</code>。前十名是：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">排名</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">工具</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">主要用途</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">1</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Hermes Agent</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">带记忆、搜索、浏览器和定时任务的开源 AI 助手</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">2</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Kilo Code</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">支持 VS Code、JetBrains 和命令行的编程助手</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">3</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">OpenClaw</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">可连接消息应用并操作文件、浏览器和命令的开源助手</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">4</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Claude Code</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">能读取代码库、改文件、运行测试的编程工具</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">5</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Descript</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">视频和播客编辑</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">6</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">pi</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">可定制的编程 Agent</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">7</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Pioneer</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">根据流量改进效果的推理接口</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">8</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Lemonade</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Roblox 游戏制作工具</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">9</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">ISEKAI ZERO</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">AI 互动冒险</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">10</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Janitor AI</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">角色聊天和故事创作</td></tr></tbody></table></section>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>前四名，代表了三种热门工具路线</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Hermes Agent：长期运行的通用助手</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Hermes Agent 以 826B Tokens 排在第一，领先幅度很大。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它不只是回答一次问题。它会保留记忆、搜索网页、操作浏览器、调用子任务，还能定时执行工作。一次任务可能连续运行很多步，因此 Token 消耗会明显高于普通聊天。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Kilo Code 和 Claude Code：让 AI 直接进入代码库</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Kilo Code 排在第二，Claude Code 排在第四。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这类工具会阅读多个文件、分析依赖、修改代码、运行测试，再根据报错继续调整。你只发了一句话，工具背后可能已经和模型往返了几十次。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Kilo Code 更偏多编辑器和多模型选择。Claude Code 则和 Claude 模型、命令行开发流程结合得更紧。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">OpenClaw：从聊天窗口走向实际操作</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">OpenClaw 排在第三。它可以连接消息应用，让 AI 操作文件、浏览网页、执行命令或处理日常任务。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">这代表另一种趋势：AI 不再只待在独立聊天网页里，而是进入我们平时使用的消息入口和电脑工具。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>为什么 Agent 特别消耗 Token</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一个普通聊天问题，通常是「你问一次，AI 回一次」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Agent 的工作方式更像一个不断汇报进度的实习生：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">读任务 → 查资料 → 选择工具 → 执行 → 查看结果 → 调整方案 → 再执行</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">每一步都可能产生新的模型请求。任务越长、读取的文件越多、失败重试越多，Token 消耗就越高。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以 Top Apps 排名靠前，可能意味着工具使用频繁，也可能意味着单次任务很重。<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">不能只凭 Token 数判断哪个工具更好。</strong></p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>普通人可以从这个榜单看什么</h3>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你想做的事</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">可以重点了解</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">找一个长期运行、会用多种工具的助手</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Hermes Agent</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">在 VS Code、JetBrains 或命令行里写代码</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Kilo Code</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">从消息应用安排 AI 做事</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">OpenClaw</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">让 AI 深度阅读和修改代码库</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Claude Code</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">用说话和文字方式剪视频、播客</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Descript</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">榜单可以帮你发现工具，但不能替你做最终选择。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">安装前还要查看权限范围、数据会发给谁、使用什么模型，以及费用如何计算。涉及文件、终端、邮件或账号操作时，先用测试项目和非重要账号验证。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">也要注意，这只是<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">主动向 OpenRouter 提交用量信息的应用排名</strong>，不能代表全球所有 AI 工具的完整市场份额。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>OpenRouter 确实有不少免费模型</h2>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">free-models.png</p><p style="margin:0;"><img src="images/free-models.png" alt="OpenRouter 免费模型集合" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">OpenRouter 单独提供了一个 <a href="https://openrouter.ai/collections/free-models" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">免费模型集合</a>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">截图当天可以看到这些模型：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">Owl Alpha</li>
+<li style="margin:4px 0;">NVIDIA Nemotron 3 Ultra</li>
+<li style="margin:4px 0;">Poolside Laguna M.1</li>
+<li style="margin:4px 0;">Nex AGI Nex-N2-Pro</li>
+<li style="margin:4px 0;">NVIDIA Nemotron 3 Super</li>
+<li style="margin:4px 0;">OpenAI gpt-oss-120b</li>
+<li style="margin:4px 0;">Poolside Laguna XS.2</li>
+<li style="margin:4px 0;">OpenAI gpt-oss-20b</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">免费模型的输入和输出价格会显示为 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">$0/M Tokens</code>。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果不想自己挑，还可以使用 <a href="https://openrouter.ai/openrouter/free" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">openrouter/free</code></a>。它会根据任务要求，从当前可用的免费模型中自动选择。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>免费模型适合做什么</h3>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">第一次体验 OpenRouter</li>
+<li style="margin:4px 0;">测试提示词和简单聊天</li>
+<li style="margin:4px 0;">学习如何给工具配置模型</li>
+<li style="margin:4px 0;">做不涉及隐私的小型演示</li>
+<li style="margin:4px 0;">比较不同模型的回答风格</li></ul>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>免费不等于没有限制</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">免费模型可能有请求次数和速度限制，也可能因为服务商调整而上下线。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">部分免费模型还会注明：服务商可能记录输入和输出，用于改进模型。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">所以不要把身份证、公司资料、未公开代码、客户信息等敏感内容直接交给免费模型。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">正式工作也不要只依赖一个免费模型。更稳妥的做法是先用免费模型试流程，确认有价值后，再选择稳定的付费模型或服务商。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">另外，页面访问、账号注册和具体模型是否可用，还会受到地区、网络状态和平台策略影响。遇到不可用时，以 OpenRouter 页面提示为准。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>普通人怎么根据榜单选</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不需要永远追着第一名跑。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">先看自己的任务，再看对应榜单。</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你的任务</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">优先看什么</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">建议</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">日常聊天、写作</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">总使用量 + 价格</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">从热门快速模型开始</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">编程和自动执行</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Tool Calls + 编程分类</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">测试工具选择和错误恢复</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">长文档分析</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">上下文长度 + 价格</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">先拿非敏感文档试一遍</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">图片理解</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Images 分类</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">检查是否支持图片输入</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">AI 工具选型</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Top Apps</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">看工具用途，不只看 Token 数</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">零成本体验</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Free Models</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">先试流程，不放敏感数据</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你也可以把需求交给 AI，让它帮你列测试方案：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我要在 OpenRouter 里选择一个模型。
+
+我的任务是：【写作 / 编程 / 长文档 / 工具调用】
+每月预算：【填写金额】
+是否涉及敏感资料：【是 / 否】
+我更看重：【速度 / 质量 / 价格 / 稳定性】
+
+请给我三个候选模型，并设计同一组测试任务。
+不要只按排行榜推荐，要说明每个选择的取舍。</code></pre>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>这份榜单最值得记住的事</h2>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">OpenRouter 是连接多个模型与 AI 工具的中转站</li>
+<li style="margin:4px 0;">模型榜主要反映真实使用热度，不是绝对能力排名</li>
+<li style="margin:4px 0;">Tool Calls 榜更适合观察编程助手和 Agent 使用的模型</li>
+<li style="margin:4px 0;">Top Apps 显示 AI 编程工具和自动化助手正在消耗大量模型用量</li>
+<li style="margin:4px 0;">免费模型适合体验和测试，但有额度、稳定性和隐私方面的限制</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">现在可以先打开 <a href="https://openrouter.ai/collections/free-models" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">OpenRouter 免费模型集合</a>，选一个不涉及隐私的小任务试试。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">同一个任务换两个模型各做一次。你很快就会发现，适合自己的模型，比排行榜第一名更重要。</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">关注微信公众号 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI技趣星球</strong>，回复MF 一起用技术创造乐趣。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">数据来源：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><a href="https://openrouter.ai/rankings" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">OpenRouter AI Model Rankings</a></li>
+<li style="margin:4px 0;"><a href="https://openrouter.ai/collections/free-models" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">OpenRouter Free Models</a></li>
+<li style="margin:4px 0;"><a href="https://openrouter.ai/docs/quickstart" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">OpenRouter Quickstart</a></li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">榜单截图与数据记录时间：2026 年 6 月 15 日。</p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/15 20:55:43</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function buildClipboardPayload() {
+  const el = document.getElementById('article');
+  const clone = el.cloneNode(true);
+
+  clone.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    try {
+      a.href = new URL(href, window.location.href).href;
+    } catch (_) {
+      a.setAttribute('href', href);
+    }
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  clone.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    try {
+      img.src = new URL(src, window.location.href).href;
+    } catch (_) {
+      img.setAttribute('src', src);
+    }
+  });
+
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+  const text = Array.from(clone.childNodes)
+    .map((node) => node.innerText || node.textContent || '')
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n');
+
+  const links = Array.from(clone.querySelectorAll('a[href]'))
+    .map((a) => {
+      const label = (a.innerText || a.textContent || '').trim();
+      const href = a.getAttribute('href');
+      return label && href ? label + '：' + href : href;
+    })
+    .filter(Boolean)
+    .join('\n');
+  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+
+  return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+  const holder = document.createElement('div');
+  holder.setAttribute('contenteditable', 'true');
+  holder.style.position = 'fixed';
+  holder.style.left = '-99999px';
+  holder.style.top = '0';
+  holder.innerHTML = html;
+  document.body.appendChild(holder);
+
+  const range = document.createRange();
+  range.selectNodeContents(holder);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  const ok = document.execCommand('copy');
+  sel.removeAllRanges();
+  document.body.removeChild(holder);
+  return ok;
+}
+
+async function copyArticle() {
+  try {
+    const { html, text } = buildClipboardPayload();
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      copyViaSelection(html);
+    }
+    alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+  } catch (e) {
+    try {
+      const { html } = buildClipboardPayload();
+      copyViaSelection(html);
+      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

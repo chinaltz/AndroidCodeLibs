@@ -11,7 +11,7 @@
     <view wx:for="{{children}}" wx:key="id" class="child-card-wrap">
       <bc-card theme="{{theme}}">
         <view class="child-row">
-          <image class="child-avatar" src="{{item.avatarPath}}" mode="aspectFit" />
+          <image class="child-avatar" src="{{item.avatarPath}}" mode="aspectFit" lazy-load />
           <view class="child-main">
             <view class="child-name">{{item.nickname}}</view>
             <view class="child-meta" style="color: {{theme.textTertiary}};">{{item.moduleLabel || '未选择模块'}}</view>

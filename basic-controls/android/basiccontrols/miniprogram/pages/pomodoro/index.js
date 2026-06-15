@@ -11,6 +11,13 @@ const PRESET_OPTIONS = [
 
 const WEEK_CN = ['日', '一', '二', '三', '四', '五', '六'];
 
+function touchPoint(touch) {
+  return {
+    x: touch.clientX != null ? touch.clientX : touch.pageX,
+    y: touch.clientY != null ? touch.clientY : touch.pageY,
+  };
+}
+
 Page({
   data: {
     theme: {},
@@ -36,7 +43,8 @@ Page({
   timerHandle: null,
   vibrateHandle: null,
   _compassCenter: null,
-  _dragStartAngle: 0,
+  _dragLastAngle: 0,
+  _dragAccumulatedAngle: 0,
   _dragStartMinutes: 25,
   _dragging: false,
   _lastSnapMinutes: 25,
@@ -207,9 +215,11 @@ Page({
     if (!this._compassCenter) this.measureCompass();
     const touch = e.touches[0];
     if (!touch || !this._compassCenter) return;
+    const point = touchPoint(touch);
     this._dragging = true;
     this._dragStartMinutes = this.data.customMinutes;
-    this._dragStartAngle = compass.touchAngle(touch.pageX, touch.pageY, this._compassCenter.x, this._compassCenter.y);
+    this._dragLastAngle = compass.touchAngle(point.x, point.y, this._compassCenter.x, this._compassCenter.y);
+    this._dragAccumulatedAngle = 0;
     this.setData({ compassDragging: true });
   },
 
@@ -217,9 +227,12 @@ Page({
     if (!this._dragging || !this._compassCenter || this.data.timerRunning) return;
     const touch = e.touches[0];
     if (!touch) return;
-    const angle = compass.touchAngle(touch.pageX, touch.pageY, this._compassCenter.x, this._compassCenter.y);
-    const delta = compass.normalizeDelta(angle - this._dragStartAngle);
-    const customMinutes = compass.dragDeltaToMinutes(this._dragStartMinutes, delta);
+    const point = touchPoint(touch);
+    const angle = compass.touchAngle(point.x, point.y, this._compassCenter.x, this._compassCenter.y);
+    const frameDelta = compass.normalizeDelta(angle - this._dragLastAngle);
+    this._dragLastAngle = angle;
+    this._dragAccumulatedAngle += frameDelta;
+    const customMinutes = compass.dragDeltaToMinutes(this._dragStartMinutes, this._dragAccumulatedAngle);
     const ringRotate = compass.minutesToRotate(customMinutes);
     if (customMinutes === this.data.customMinutes && ringRotate === this.data.ringRotate) return;
     const matchedPreset = PRESET_OPTIONS.some((item) => item.minutes === customMinutes)

@@ -69,18 +69,27 @@ Page({
     const id = e.currentTarget.dataset.id;
     const unit = UNITS.find((item) => item.id === id);
     if (!unit) return;
+    if (!unit.audioId) {
+      wx.showToast({ title: `${unit.symbol} 的标准音待补录`, icon: 'none' });
+      return;
+    }
+
+    const path = audio.pinyinTeachingPath(unit.audioId);
+    audio.play(path, unit.symbol).catch((err) => {
+      console.error('pinyin list audio failed', {
+        unitId: unit.id,
+        audioId: unit.audioId,
+        path,
+        error: err,
+      });
+      wx.showToast({ title: `${unit.symbol} 播放失败`, icon: 'none' });
+    });
+
     storage.setPinyinLastUnit(id);
     this.setData({
       currentId: id,
       currentSymbol: unit.symbol,
       groups: decorateGroups(this.data.completed, id),
-    });
-    if (!unit.audioId) {
-      wx.showToast({ title: `${unit.symbol} 的标准音待补录`, icon: 'none' });
-      return;
-    }
-    audio.play(audio.pinyinTeachingPath(unit.audioId), unit.symbol).catch(() => {
-      wx.showToast({ title: `${unit.symbol} 播放失败`, icon: 'none' });
     });
   },
 

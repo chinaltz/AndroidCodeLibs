@@ -1,6 +1,6 @@
 <view class="pet-page"><bc-top-bar title="学习奖励" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
 <scroll-view scroll-y class="pet-scroll">
-  <view class="reward-hero"><image src="{{petImage}}" mode="aspectFit" /><view><view class="reward-big">当前 {{points}} ★</view><view class="pet-muted">学习奖励自动入账，不需要手动领取。</view></view></view>
+  <view class="reward-hero"><image src="{{petImage}}" mode="aspectFit" lazy-load /><view><view class="reward-big">当前 {{points}} ★</view><view class="pet-muted">学习奖励自动入账，不需要手动领取。</view></view></view>
   <view class="pet-card"><view class="pet-section-head"><view class="pet-section-title">分享学习成果</view><view class="pet-chip">今日 {{dailyText}}</view></view><view wx:if="{{!pendingShares.length}}" class="pet-empty">当前没有待分享的学习成果。</view><view wx:for="{{pendingShares}}" wx:key="eventId" class="pet-item-row"><view class="pet-item-main"><view class="pet-item-title">{{item.title}}</view><view class="pet-item-meta">每个任务最多领取一次分享奖励</view></view><button class="share-button" open-type="share" data-event-id="{{item.eventId}}">{{item.buttonText}}</button></view><view class="share-rule">微信无法核验最终发送到哪个群，奖励按发起分享结算，每日最多 3 次。</view></view>
   <view class="pet-card"><view class="pet-section-title">最近奖励记录</view><view wx:for="{{ledger}}" wx:key="eventId" class="pet-item-row"><view class="pet-item-main"><view class="pet-item-title">{{item.title}}</view><view class="pet-item-meta">{{item.timeText}}</view></view><view class="ledger-delta">{{item.deltaText}}</view></view></view>
 </scroll-view></view>

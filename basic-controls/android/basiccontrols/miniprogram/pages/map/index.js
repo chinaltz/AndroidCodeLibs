@@ -80,7 +80,7 @@ Page({
       return result;
     }, {});
     const learningQuests = [
-      { key: 'phonics', title: '音标闯关', desc: `已完成 ${completed.length}/48`, image: '/assets/icons/module-phonics.png', path: '/pages/phonics/index' },
+      { key: 'phonics', title: '音标闯关', desc: `已完成 ${completed.length}/48`, image: '/assets/icons/module-phonics.png', path: '/packages/phonics-media/pages/phonics/index' },
       { key: 'pinyin', title: '拼音拼读', desc: `已完成 ${pinyinCompleted.length}/63`, image: '/assets/icons/module-pinyin.png', path: '/packages/pinyin/pages/index' },
       { key: 'words', title: '字词听写', desc: `${wordStats.pendingCount} 个错字待练`, image: '/assets/icons/module-words.png', path: '/pages/word-planet/index' },
     ].filter((quest) => childModules.indexOf(quest.key) >= 0);

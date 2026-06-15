@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agnes 无限期免费：普通人接入实测</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #365D82;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+    background:
+      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+      linear-gradient(180deg, #DDF4FF, #F9FDFF);
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,255,255,0.90);
+    backdrop-filter: blur(8px);
+    border-bottom: 2px solid #C8EAFF;
+    padding: 12px 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.55);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 800;
+    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+  }
+  .toolbar button:hover { background: #1479D6; }
+  .toolbar button.secondary {
+    background: #FFFFFF;
+    color: #173A62;
+    border: 2px solid #C8EAFF;
+    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+  }
+  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+  #article {
+    background:
+      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+      rgba(255,255,255,0.97);
+    border: 2px solid #C8EAFF;
+    border-radius: 32px;
+    padding: 18px;
+    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+  }
+  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+  <span class="hint">本地图上方会显示文件名，便于对照上传。富文本复制会保留超链；图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">Agnes 无限期免费：普通人接入实测</h1>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">header.png</p><p style="margin:0;"><img src="images/header.png" alt="头图：Agnes AI 官网——前沿模型免费畅用" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">零成本接入 · 跟着步骤就能用</p><p style="margin:4px 0;">技趣星球 · 用技术创造乐趣</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">打开 <a href="https://agnes-ai.com/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">agnes-ai.com</a>，首页写着「前沿模型，免费畅用」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">底下三张对比图更直白：文本模型在 ClawEval 榜单里能跟 Claude、GPT 同台；生图、视频模型在 Artificial Analysis 盲评里也有名次。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">对普通人来说，这句话的意思很简单——不用每月掏订阅，也能接一套还不错的多模态模型：能聊天问答、能生图、也能生成视频。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我按官网指引接进 Agent 工具，实测了一圈。问答和生图都顺利；视频提交了任务，一直在排队，最后没出片。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">下面是我的接入过程和真实结果，你可以照着做。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐   注册拿 Key + Agent 配一次模型，大概 10 分钟。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Agnes 是什么？普通人用得上的地方</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><a href="https://agnes-ai.com/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Agnes AI</a> 背后公司是新加坡的 Sapiens AI，主打「让世界级 AI 属于每一个人」。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">目前对个人免费开放三条能力线：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">能力</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">我实测感受</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">文本问答</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">agnes-2.0-flash</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">接好后能正常聊天、写提示词、改文案</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">图片生成</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">agnes-image-2.1-flash</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">15～20 秒出图，四格漫画效果不错</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">视频生成</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">agnes-video-v2.0</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">提交后一直 queued，5 分钟没出片</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">官网 slogan 是「全栈多模态 AI——文本、图像与视频，行业顶尖水准」。我体验下来，前两样对普通人已经够用；视频先放低预期。</p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">agnes-homepage-brand.png</p><p style="margin:0;"><img src="images/agnes-homepage-brand.png" alt="Agnes AI 品牌页：让世界级 AI 属于每一个人" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">价格和开放政策可能调整，使用前以 <a href="https://platform.agnes-ai.com" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">platform.agnes-ai.com</a> 页面为准。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>哪些 Agent 工具能接？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Agnes 走 OpenAI 兼容接口，理论上支持自定义模型的 Agent 都能接。我试过的结果：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">工具</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">能否接入</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">说明</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Trae CN</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">✅ 可以</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">设置里加自定义模型，再让 Agent 打包生图/视频 Skill</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">WorkBuddy</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">✅ 可以</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">对话区「Auto」→「配置自定义模型」，填 Key 和接口地址即可</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Qoder</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">❌ 不行</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">目前不支持自定义 OpenAI 兼容接口，接不了</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你手头有 Trae 或 WorkBuddy，直接往下走。只有 Qoder 的话，可以先用文末的 curl 命令测，或换上面两个工具之一。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>接入教程</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">核心就三步：拿 Key → 配文本模型 → 打包生图/视频 Skill。下面以 Trae 为例演示，WorkBuddy 配置项一样，只是入口位置不同。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第一步：拿 API Key</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐</p>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">打开 <a href="https://platform.agnes-ai.com" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">platform.agnes-ai.com</a>，注册登录</li>
+<li style="margin:6px 0;padding-left:2px;">左侧进入「设置 → API 密钥」，点「创建新的密钥」，复制保存</li></ol>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不花钱，不用绑信用卡。页面上写着三步：创建密钥 → 接入 Agnes 多模态免费模型 → 开始探索。</p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">agnes-api-key.png</p><p style="margin:0;"><img src="images/agnes-api-key.png" alt="Agnes 控制台 API 密钥页面" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第二步：配文本问答模型</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">三个配置项各家工具都一样：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">配置项</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">填什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">接口地址</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">https://apihub.agnes-ai.com/v1</code></td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">API Key</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">刚才复制的 Key</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">模型名称</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">agnes-2.0-flash</code></td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Trae CN</strong>：进入「设置 → 模型」，点「添加模型」，选「自定义配置」标签，API 格式选 OpenAI Chat Completions，填入上表三项：</p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">trae-model-config.png</p><p style="margin:0;"><img src="images/trae-model-config.png" alt="Trae 添加 Agnes 自定义模型" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">WorkBuddy</strong>：对话区点「Auto」→「配置自定义模型」，同样填入上表，保存后选中 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">agnes-2.0-flash</code>。官方有详细图文教程，见文档「WorkBuddy 接入方法」：</p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">workbuddy-agnes-doc.png</p><p style="margin:0;"><img src="images/workbuddy-agnes-doc.png" alt="WorkBuddy 接入 Agnes 官方操作手册" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">接好后，日常问答、写提示词、整理需求都可以走 Agnes，不占用工具自带额度。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第三步：生图 Skill</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">生图不走普通对话接口，需要打包成 Skill。在 Agent 对话框里发：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想使用 Agnes Image 2.1 Flash 模型生图。
+请阅读 API 文档 https://agnes-ai.com/doc/agnes-image-21-flash，
+帮我打包成一份 Skill，命名为 agnes-image-gen。
+我的 API Key 是：（粘贴你的 Key）</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">完成后在 Skills 面板能看到 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">agnes-image-gen</code>。</p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">trae-skill-panel.png</p><p style="margin:0;"><img src="images/trae-skill-panel.png" alt="Trae Skills 面板中的 agnes-image-gen" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">安全提醒：Key 写进本地配置或环境变量，别发到公开群。Skill 建好后可改成 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">$AGNES_API_KEY</code> 占位。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第四步：视频 Skill（可选）</h3>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">我想使用 Agnes Video v2.0 模型生成视频。
+请阅读 API 文档 https://agnes-ai.com/doc/agnes-video-v2-0，
+帮我打包成一份 Skill，命名为 agnes-video-gen。
+我的 API Key 是：（粘贴你的 Key）</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">视频是异步任务：提交 → 排队 → 生成 → 完成才有下载链接。我卡在排队阶段，下文单独说。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>文本问答：接进去就能聊</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">文本模型配好后，在 Agent 对话区直接问就行。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我试了让它帮忙改四格漫画剧情、把中文需求翻成英文提示词，回答速度正常，长上下文也扛得住。官网提到支持 1M 超长上下文，对整理长文档、总结资料这类活比较友好。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不想用 Agent 工具，curl 也能测：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">curl -s https://apihub.agnes-ai.com/v1/chat/completions \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer 你的API_Key&quot; \
+  -d '{
+    &quot;model&quot;: &quot;agnes-2.0-flash&quot;,
+    &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;你好，帮我写一段四格漫画剧情&quot;}]
+  }'</code></pre>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>生图实测：多风格出图 + 三张四格漫画</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">生图是我测得最顺的一块。写实、动漫、3D、四格漫画都试过，横版 1536x1024 大约 15～20 秒出一张，0 元。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不想走 Skill，终端一条 curl 也能出图：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">curl -s https://apihub.agnes-ai.com/v1/images/generations \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Authorization: Bearer 你的API_Key&quot; \
+  -d '{
+    &quot;model&quot;: &quot;agnes-image-2.1-flash&quot;,
+    &quot;prompt&quot;: &quot;你的图片描述&quot;,
+    &quot;n&quot;: 1,
+    &quot;size&quot;: &quot;1536x1024&quot;
+  }'</code></pre>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>多风格试画：写实、动漫、3D 都行</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">不只做漫画，换几种风格也试了，效果都不错。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">写实摄影——橘猫窗台</strong></p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">style-01-photo-cat.png</p><p style="margin:0;"><img src="images/style-01-photo-cat.png" alt="写实摄影：橘猫窗台" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">光影自然，毛发质感在线，没有明显 AI 塑料感。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">日系动漫——樱花少女</strong></p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">style-02-anime-girl.png</p><p style="margin:0;"><img src="images/style-02-anime-girl.png" alt="日系动漫：樱花少女" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">色调柔和，线条干净，适合做头像或插画草图。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">3D 渲染——低多边形星球</strong></p>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">style-03-3d-planet.png</p><p style="margin:0;"><img src="images/style-03-3d-planet.png" alt="3D 渲染：低多边形星球" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">等距视角、低多边形风格，拿来做 PPT 配图或 App 占位图都够用。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>实测一：无字四格，先锁画风</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">四格漫画，Q萌桂宝风格（圆脸蛋、粗线条、搞笑夸张，类似《桂宝》漫画），校园搞笑小故事：
+第1格，圆脸小胖男孩背着书包兴奋出门；
+第2格，他背着沉重书包在楼梯上挣扎；
+第3格，绊了一跤，书本满天飞；
+第4格，坐在地上哈哈大笑，朋友围过来。
+粗线条、明亮色彩、夸张表情，幽默温馨。</code></pre>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">comic-01-campus-no-text.png</p><p style="margin:0;"><img src="images/comic-01-campus-no-text.png" alt="无字四格：上学囧途" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">四格边界清楚，人物前后一致。建议先无字跑通画风，再加气泡。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>实测二：带中文气泡，考试前夜</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">四格漫画，Q萌桂宝风格，带中文对话气泡，教室背景：
+第1格，小胖男孩坐课桌前满头大汗，气泡写「明天考试！」；
+第2格，闭眼对着课本祈祷，气泡写「书神保佑！」；
+第3格，趴在桌上睡着，课本盖头上，气泡写「Zzz」；
+第4格，老师拿试卷站旁边，气泡写「同学，考试开始了」。
+粗线条、明亮色彩、夸张表情。</code></pre>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">comic-02-exam-night.png</p><p style="margin:0;"><img src="images/comic-02-exam-night.png" alt="带字四格：考试前夜" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">中文气泡大部分能对上，台词越短越稳。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>实测三：五格奇幻，魔法糖故事</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">难度：⭐⭐</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">五格漫画，Q萌奇幻风格：
+第1格，长发戴发箍女孩收到黑乌鸦送来的信，气泡「神秘来信」；
+第2格，她站在「第九号魔法商店」门前，乌鸦在旁飞翔；
+第3格，乌鸦递给她礼物盒；
+第4格，她打开盒子，彩色糖罐标签写「魔法糖」；
+第5格，她用魔法糖把植物变成小怪物，和同桌斗智斗勇。
+鲜艳配色，可爱角色，奇幻校园感。</code></pre>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">comic-03-magic-candy.png</p><p style="margin:0;"><img src="images/comic-03-magic-candy.png" alt="五格漫画：魔法糖" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">五格塞进一张图，后面几格会略小，但故事能读懂。验证脑洞够用，出版级建议一格一图再拼版。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>视频实测：进了排队，没出片</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">生图很顺，我顺手测了 agnes-video-v2.0。官网宣传原生音画同出，不用单独配音，听起来很香。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">提示词：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">一杯热咖啡缓缓倒入白色陶瓷杯，液面泛起细腻泡沫，升起袅袅热气，
+柔和晨光背景，慢镜头，ASMR 风格轻柔配乐。</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">通过 agnes-video-gen Skill 提交，接口返回：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">{
+  &quot;status&quot;: &quot;queued&quot;,
+  &quot;seconds&quot;: &quot;5.0&quot;,
+  &quot;size&quot;: &quot;1280x704&quot;
+}</code></pre>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">状态一直是 queued。每隔 30 秒轮询，等了约 5 分钟，没变成 processing 或 completed。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">可能原因（个人推测）：免费视频调用量大、高峰排队久、或需要更长等待时间。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">结论：问答和生图可以放心免费试；视频目前别急着等——提交了先放着，晚点再查。非高峰时段或把轮询延长到 15～20 分钟，也许有机会。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">手动查任务状态：</p>
+<pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">curl -s &quot;https://apihub.agnes-ai.com/v1/video/generations/你的task_id&quot; \
+  -H &quot;Authorization: Bearer 你的API_Key&quot;</code></pre>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>适合谁、不适合谁</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">适合：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">想零成本试一套多模态 API 的普通人</li>
+<li style="margin:4px 0;">用 Trae、WorkBuddy 做 Agent 工作流，想省 Token 账单</li>
+<li style="margin:4px 0;">需要配图、漫画草图、课件插画的老师或自媒体</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">暂时别指望：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">视频即提交即出片（我这次排队失败）</li>
+<li style="margin:4px 0;">生图气泡文字 100% 正确</li>
+<li style="margin:4px 0;">Qoder 等不支持自定义接口的工具直接接入</li>
+<li style="margin:4px 0;">完全替代付费顶级模型的所有场景</li></ul>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">实测下来，普通人免费接入 Agnes，目前最稳的是这两样：</p>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">文本问答：配好 agnes-2.0-flash，日常聊天和写提示词够用</li>
+<li style="margin:4px 0;">图片生成：四格漫画按「画风 → 无字分镜 → 加气泡」三步走，出图快、质量不差</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">视频能力在官网和文档里都有，但我这次没跑通，建议低预期。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">官网：<a href="https://agnes-ai.com/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">agnes-ai.com</a>   文档：<a href="https://agnes-ai.com/doc" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">agnes-ai.com/doc</a>   控制台：<a href="https://platform.agnes-ai.com" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">platform.agnes-ai.com</a></p>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/13 21:30:28</p>
+<script>
+function selectArticle() {
+  const el = document.getElementById('article');
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+
+function buildClipboardPayload() {
+  const el = document.getElementById('article');
+  const clone = el.cloneNode(true);
+
+  clone.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href') || '';
+    try {
+      a.href = new URL(href, window.location.href).href;
+    } catch (_) {
+      a.setAttribute('href', href);
+    }
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+
+  clone.querySelectorAll('img[src]').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    try {
+      img.src = new URL(src, window.location.href).href;
+    } catch (_) {
+      img.setAttribute('src', src);
+    }
+  });
+
+  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+  const text = Array.from(clone.childNodes)
+    .map((node) => node.innerText || node.textContent || '')
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n');
+
+  const links = Array.from(clone.querySelectorAll('a[href]'))
+    .map((a) => {
+      const label = (a.innerText || a.textContent || '').trim();
+      const href = a.getAttribute('href');
+      return label && href ? label + '：' + href : href;
+    })
+    .filter(Boolean)
+    .join('\n');
+  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+
+  return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+  const holder = document.createElement('div');
+  holder.setAttribute('contenteditable', 'true');
+  holder.style.position = 'fixed';
+  holder.style.left = '-99999px';
+  holder.style.top = '0';
+  holder.innerHTML = html;
+  document.body.appendChild(holder);
+
+  const range = document.createRange();
+  range.selectNodeContents(holder);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  const ok = document.execCommand('copy');
+  sel.removeAllRanges();
+  document.body.removeChild(holder);
+  return ok;
+}
+
+async function copyArticle() {
+  try {
+    const { html, text } = buildClipboardPayload();
+    if (navigator.clipboard && window.ClipboardItem) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([html], { type: 'text/html' }),
+          'text/plain': new Blob([text], { type: 'text/plain' })
+        })
+      ]);
+    } else {
+      copyViaSelection(html);
+    }
+    alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+  } catch (e) {
+    try {
+      const { html } = buildClipboardPayload();
+      copyViaSelection(html);
+      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+    } catch (e2) {
+      alert('复制失败：请点「选中正文」后手动 Cmd+C');
+    }
+  }
+}
+</script>
+</body>
+</html>

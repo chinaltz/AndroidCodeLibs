@@ -13,6 +13,7 @@
           class="todo-star"
           src="{{item.filled ? '/assets/kids-ui/star-filled.png' : '/assets/kids-ui/star-empty.png'}}"
           mode="aspectFit"
+          lazy-load
         />
       </view>
       <view class="todo-hero__note">明天还会看到同样的任务哦</view>
@@ -73,7 +74,7 @@
 
   <!-- 底部大按钮 -->
   <view class="page-action todo-footer">
-    <view class="todo-add-btn" bindtap="openAddSheet">＋ 加一个任务</view>
+    <view class="todo-add-btn" hover-class="is-pressed" bindtap="openAddSheet">＋ 加一个任务</view>
   </view>
 
   <!-- 添加 -->

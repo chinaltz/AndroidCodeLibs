@@ -1,9 +1,6 @@
 {
   "pages": [
     "pages/map/index",
-    "pages/phonics/index",
-    "pages/learn/index",
-    "pages/check/index",
     "pages/children/index",
     "pages/child-list/index",
     "pages/word-planet/index",
@@ -36,7 +33,9 @@
       "root": "packages/phonics-media",
       "name": "phonics-media",
       "pages": [
-        "pages/stub/index"
+        "pages/phonics/index",
+        "pages/learn/index",
+        "pages/check/index"
       ]
     },
     {
@@ -61,18 +60,6 @@
         "phonics-media",
         "pet"
       ]
-    },
-    "pages/phonics/index": {
-      "network": "all",
-      "packages": [
-        "phonics-media"
-      ]
-    },
-    "pages/learn/index": {
-      "network": "all",
-      "packages": [
-        "phonics-media"
-      ]
     }
   },
   "window": {
@@ -86,5 +73,6 @@
     }
   },
   "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
   "sitemapLocation": "sitemap.json"
 }

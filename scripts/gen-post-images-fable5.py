@@ -2,7 +2,7 @@
 """DEPRECATED: draft-quality Pillow placeholders only.
 
 Commercial images live in:
-  content/posts/16-claude-fable-5-claude-code/images/
+  content/posts/15-claude-fable-5-claude-code/images/
 See images/IMAGES.md for 即梦 prompts to regenerate.
 """
 
@@ -13,7 +13,7 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "content/posts/16-claude-fable-5-claude-code/images"
+OUT = ROOT / "content/posts/15-claude-fable-5-claude-code/images"
 
 FONT_REG = "/System/Library/Fonts/STHeiti Light.ttc"
 FONT_BOLD = "/System/Library/Fonts/STHeiti Medium.ttc"

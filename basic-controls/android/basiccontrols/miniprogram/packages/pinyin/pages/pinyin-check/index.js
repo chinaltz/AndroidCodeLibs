@@ -82,7 +82,14 @@ Page({
       wx.showToast({ title: `${this.unit.symbol} 标准音待补录`, icon: 'none' });
       return;
     }
-    audio.play(audio.pinyinTeachingPath(this.unit.audioId), this.unit.symbol).catch(() => {
+    const path = audio.pinyinTeachingPath(this.unit.audioId);
+    audio.play(path, this.unit.symbol).catch((err) => {
+      console.error('pinyin check teaching audio failed', {
+        unitId: this.unit.id,
+        audioId: this.unit.audioId,
+        path,
+        error: err,
+      });
       wx.showToast({ title: '标准音播放失败', icon: 'none' });
     });
   },
@@ -117,7 +124,14 @@ Page({
 
   playQuestionExample() {
     const audioId = this.data.questionExampleAudioId;
-    audio.play(audio.pinyinSyllablePath(audioId), audioId).catch(() => {
+    const path = audio.pinyinSyllablePath(audioId);
+    audio.play(path, audioId).catch((err) => {
+      console.error('pinyin check syllable audio failed', {
+        unitId: this.unit.id,
+        audioId,
+        path,
+        error: err,
+      });
       wx.showToast({ title: '拼读音频播放失败', icon: 'none' });
     });
   },

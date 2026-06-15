@@ -3,11 +3,11 @@
   <view class="wardrobe-stage">
     <view class="wardrobe-actor">
       <image class="wardrobe-pet" src="{{petImage}}" mode="aspectFit" />
-      <image wx:for="{{equippedImages}}" wx:key="id" class="wardrobe-layer layer-{{item.slot}}" src="{{item.image}}" mode="aspectFit" />
+      <image wx:for="{{equippedImages}}" wx:key="id" class="wardrobe-layer layer-{{item.slot}}" src="{{item.image}}" mode="aspectFit" lazy-load />
     </view>
     <view class="wardrobe-caption">已拥有的配饰可以随时更换</view>
   </view>
   <view class="wardrobe-tabs"><view class="{{slot === 'head' ? 'active' : ''}}" data-slot="head" bindtap="setSlot">头部</view><view class="{{slot === 'neck' ? 'active' : ''}}" data-slot="neck" bindtap="setSlot">颈部</view><view class="{{slot === 'back' ? 'active' : ''}}" data-slot="back" bindtap="setSlot">背部</view><view class="{{slot === 'hand' ? 'active' : ''}}" data-slot="hand" bindtap="setSlot">手持</view></view>
   <view class="pet-card"><view class="pet-item-row"><view class="pet-item-main"><view class="pet-item-title">不穿戴</view><view class="pet-item-meta">卸下当前分类配饰</view></view><view class="pet-small-button" bindtap="unequip">卸下</view></view>
-  <view wx:for="{{items}}" wx:key="id" class="pet-item-row"><image class="pet-item-image" src="{{item.image}}" mode="aspectFit" /><view class="pet-item-main"><view class="pet-item-title">{{item.title}}</view><view class="pet-item-meta">{{item.equipped ? '当前穿戴' : (item.owned ? '已拥有' : (item.locked ? item.minLevel + ' 级解锁' : item.price + ' 星星积分'))}}</view></view><view wx:if="{{item.owned}}" class="pet-small-button {{item.equipped ? 'pet-small-button--disabled' : ''}}" data-id="{{item.id}}" bindtap="equip">{{item.equipped ? '已穿戴' : '穿戴'}}</view><view wx:else class="pet-small-button pet-small-button--disabled" bindtap="goShop">{{item.locked ? '未解锁' : '去购买'}}</view></view></view>
+  <view wx:for="{{items}}" wx:key="id" class="pet-item-row"><image class="pet-item-image" src="{{item.image}}" mode="aspectFit" lazy-load /><view class="pet-item-main"><view class="pet-item-title">{{item.title}}</view><view class="pet-item-meta">{{item.equipped ? '当前穿戴' : (item.owned ? '已拥有' : (item.locked ? item.minLevel + ' 级解锁' : item.price + ' 星星积分'))}}</view></view><view wx:if="{{item.owned}}" class="pet-small-button {{item.equipped ? 'pet-small-button--disabled' : ''}}" data-id="{{item.id}}" bindtap="equip">{{item.equipped ? '已穿戴' : '穿戴'}}</view><view wx:else class="pet-small-button pet-small-button--disabled" bindtap="goShop">{{item.locked ? '未解锁' : '去购买'}}</view></view></view>
 </scroll-view></view>

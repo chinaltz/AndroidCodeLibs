@@ -60,7 +60,7 @@
         <view class="module-grid">
           <bc-choice-card wx:for="{{moduleList}}" wx:key="key" option-key="{{item.key}}" selected="{{item.selected}}" theme="{{theme}}" bind:tap="onToggleModule">
             <view class="module-card">
-              <image class="module-icon" src="{{item.icon}}" mode="aspectFit" />
+              <image class="module-icon" src="{{item.icon}}" mode="aspectFit" lazy-load />
               <view class="module-label">{{item.label}}</view>
               <view class="module-desc" style="color: {{theme.textTertiary}};">{{item.desc}}</view>
               <view class="module-check {{item.selected ? 'is-checked' : ''}}">{{item.selected ? '✓' : ''}}</view>
