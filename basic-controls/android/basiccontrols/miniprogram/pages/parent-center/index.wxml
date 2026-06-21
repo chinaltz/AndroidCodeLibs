@@ -1,0 +1,39 @@
+<view class="page-shell parent-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="家长管理" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+  <scroll-view scroll-y class="parent-scroll">
+    <view class="parent-hero">
+      <view class="parent-hero__title">{{childName}}的学习管理</view>
+      <view class="parent-hero__desc">计划设置、内容维护和学习统计集中在这里</view>
+    </view>
+
+    <view class="parent-section-title">听写安排</view>
+    <view class="parent-entry" bindtap="goChinesePlan">
+      <view class="parent-icon is-chinese">字</view><view class="parent-main"><view class="parent-title">中文听写计划</view><view class="parent-desc">今日 {{dictationCount}} 个 · 设置重复次数和间隔</view></view><view class="parent-arrow">›</view>
+    </view>
+    <view class="parent-entry" bindtap="goVocabularyPlan">
+      <view class="parent-icon is-english">Aa</view><view class="parent-main"><view class="parent-title">单词听写计划</view><view class="parent-desc">今日 {{vocabularyPlanCount}} 个 · 选择听写单词</view></view><view class="parent-arrow">›</view>
+    </view>
+
+    <view class="parent-section-title">学习内容</view>
+    <view class="parent-entry" bindtap="goWrongWords">
+      <view class="parent-icon is-wrong">错</view><view class="parent-main"><view class="parent-title">错字管理</view><view class="parent-desc">{{wrongPendingCount}} 个待巩固 · 累计 {{wrongTotalCount}} 个</view></view><view class="parent-arrow">›</view>
+    </view>
+    <view class="parent-entry" bindtap="goVocabularyBook">
+      <view class="parent-icon is-book">ABC</view><view class="parent-main"><view class="parent-title">单词本</view><view class="parent-desc">已收录 {{vocabularyWordCount}} 个 · 增加、修改或删除</view></view><view class="parent-arrow">›</view>
+    </view>
+    <view class="parent-entry" bindtap="goCalendar">
+      <view class="parent-icon is-calendar">历</view><view class="parent-main"><view class="parent-title">打卡日历与假期日志</view><view class="parent-desc">查看完成记录，补充每天的假期日志</view></view><view class="parent-arrow">›</view>
+    </view>
+
+    <view class="parent-section-title">学习统计</view>
+    <view class="parent-stats">
+      <view><view class="stat-value">{{phonicsDone}} / 48</view><view class="stat-label">音标完成</view></view>
+      <view><view class="stat-value">{{pinyinDone}} / 63</view><view class="stat-label">拼音完成</view></view>
+      <view><view class="stat-value">{{wrongPendingCount}}</view><view class="stat-label">错字待练</view></view>
+    </view>
+    <view class="parent-entry parent-test-entry" bindtap="goPetTest">
+      <view class="parent-icon is-test">测</view><view class="parent-main"><view class="parent-title">宠物功能测试</view><view class="parent-desc">自动验证互动、状态、商店、奖励和打卡联动</view></view><view class="parent-arrow">›</view>
+    </view>
+    <view class="parent-safe"></view>
+  </scroll-view>
+</view>

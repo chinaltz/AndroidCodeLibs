@@ -7,9 +7,9 @@
 | `compass-ring.png` | 640×640 | 罗盘外环（刻度圈） |
 | `compass-face.png` | 420×420 | 中心表盘底 |
 | `compass-pointer.png` | 120×160 | 顶部固定指针 |
-| `compass-knob.png` | 128×128 | 外圈旋转抓手 |
 | `mascot-tomato.png` | 512×512 | 番茄君 mascot（3D 可爱风） |
 | `icon-mute.png` | 128×128 | 静音 |
+| `icon-sound.png` | 128×128 | 开启提醒 |
 | `icon-timer.png` | 128×128 | 计时 |
 | `icon-alarm.png` | 320×320 | 闹钟弹层 |
 

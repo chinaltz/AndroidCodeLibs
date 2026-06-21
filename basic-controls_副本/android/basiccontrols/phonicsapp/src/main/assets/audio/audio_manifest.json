@@ -1,9 +1,0 @@
-{
-  "source": "user_provided_basic_phoneme_mp3_mp4_zip",
-  "mode": "bundled_assets",
-  "network": false,
-  "phonemes_primary": "User-provided /Users/litingzhe/Downloads/基础音标_mp3_mp4.zip; extracted numbered NN.mp3 files and compressed to mono 32 kbps MP3",
-  "phonemes_gaps": "None in current bundle; all 48 phoneme MP3 files replaced from 基础音标_mp3_mp4.zip. Authorization/license record must be retained separately before public distribution.",
-  "words": "Piper en_GB-alan-medium (MIT)",
-  "notice": "src/main/assets/audio/THIRD_PARTY_NOTICE.md"
-}

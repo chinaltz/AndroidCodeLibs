@@ -1,0 +1,21 @@
+.plan-page { height: 100vh; }
+.plan-summary { margin: 20rpx 24rpx 6rpx; padding: 22rpx; border-radius: 22rpx; background: #fff; color: #365d82; font-size: 26rpx; text-align: center; }
+.plan-summary text { color: #1479d6; font-size: 34rpx; font-weight: 900; }
+.plan-settings { margin: 14rpx 24rpx; padding: 0 20rpx; border-radius: 24rpx; background: #fff; border: 2rpx solid #d8eef8; }
+.setting-row { min-height: 96rpx; border-bottom: 2rpx solid #edf4f8; display: flex; align-items: center; justify-content: space-between; gap: 16rpx; }
+.setting-row:last-child { border-bottom: 0; }
+.setting-label { color: #173a62; font-size: 24rpx; font-weight: 900; }
+.setting-desc { margin-top: 4rpx; color: #7895ae; font-size: 20rpx; }
+.setting-value { min-width: 124rpx; height: 60rpx; padding: 0 14rpx; border-radius: 18rpx; background: #eef8ff; color: #1479d6; font-size: 23rpx; font-weight: 900; line-height: 60rpx; text-align: center; box-sizing: border-box; }
+.plan-list { height: calc(100vh - 540rpx); min-height: 280rpx; padding: 0 24rpx; box-sizing: border-box; }
+.plan-item { min-height: 112rpx; margin-top: 14rpx; padding: 18rpx 20rpx; border-radius: 24rpx; background: #fff; border: 2rpx solid #d8eef8; display: flex; align-items: center; box-sizing: border-box; }
+.plan-item.is-selected { border-color: #43cfc7; background: #effefa; }
+.plan-check { width: 58rpx; height: 58rpx; border-radius: 18rpx; background: #eaf6ff; color: #0c8f80; font-size: 32rpx; font-weight: 900; line-height: 58rpx; text-align: center; }
+.plan-copy { margin-left: 18rpx; }
+.plan-word { color: #173a62; font-size: 31rpx; font-weight: 900; }
+.plan-meaning { margin-top: 4rpx; color: #7895ae; font-size: 23rpx; }
+.plan-empty { margin-top: 60rpx; color: #7895ae; font-size: 26rpx; text-align: center; }
+.plan-book-link { width: 240rpx; height: 70rpx; margin: 24rpx auto; border-radius: 20rpx; background: #1479d6; color: #fff; line-height: 70rpx; font-weight: 900; }
+.plan-footer { position: fixed; left: 0; right: 0; bottom: 0; padding: 18rpx 24rpx calc(18rpx + env(safe-area-inset-bottom)); background: rgba(255,255,255,.96); }
+.plan-save { height: 88rpx; border-radius: 24rpx; background: #1479d6; color: #fff; font-size: 30rpx; font-weight: 900; line-height: 88rpx; text-align: center; }
+.plan-safe { height: 30rpx; }

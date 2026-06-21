@@ -84,7 +84,7 @@ Page({
   retryWrong() {
     if (!this.data.wrongItems.length) return;
     dictationQueue.setQueue(this.data.wrongItems);
-    nav.navigateTo('/pages/dictation-list/index');
+    nav.navigateTo('/pages/dictation-player/index');
   },
 
   goWordPlanet() {

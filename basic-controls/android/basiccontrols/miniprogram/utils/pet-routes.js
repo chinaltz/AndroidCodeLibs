@@ -9,4 +9,6 @@ module.exports = {
   wardrobe: `${PET_ROOT}/pet-wardrobe/index`,
   shop: `${PET_ROOT}/pet-shop/index`,
   growth: `${PET_ROOT}/pet-growth/index`,
+  test: `${PET_ROOT}/pet-test/index`,
+  accessoryTest: `${PET_ROOT}/pet-accessory-test/index`,
 };

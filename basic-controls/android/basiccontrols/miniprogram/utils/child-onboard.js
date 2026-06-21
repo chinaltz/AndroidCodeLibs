@@ -14,13 +14,14 @@ const MODULES = [
   { key: 'phonics', label: '音标星球', desc: '48 音标闯关', icon: '/assets/icons/module-phonics.png' },
   { key: 'pinyin', label: '拼音星球', desc: '拼音认读拼读', icon: '/assets/icons/module-pinyin.png' },
   { key: 'words', label: '字词星球', desc: '听写错字管理', icon: '/assets/icons/module-words.png' },
+  { key: 'vocabulary', label: '单词星球', desc: '英语单词本与听写', icon: '/assets/icons/module-vocabulary.png' },
 ];
 
 function createOnboardState() {
   return {
     selectedAvatar: 'boy',
     selectedThemeKey: 'sky',
-    selectedModules: ['phonics', 'pinyin', 'words'],
+    selectedModules: ['phonics', 'pinyin', 'words', 'vocabulary'],
     nickname: DEFAULT_NICKNAMES.boy,
     colorThemes: buildColorThemes('sky'),
     moduleList: MODULES.map((m) => Object.assign({}, m, { selected: true })),

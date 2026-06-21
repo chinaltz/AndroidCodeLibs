@@ -1,0 +1,16 @@
+.test-page { min-height: 100vh; background: linear-gradient(180deg, #ddf4ff, #f7fcff); }
+.test-scroll { height: calc(100vh - 110rpx); padding: 20rpx 24rpx 0; box-sizing: border-box; }
+.test-state { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10rpx; }
+.test-state view { padding: 15rpx 8rpx; border-radius: 16rpx; background: #fff; color: #365d82; font-size: 21rpx; font-weight: 900; text-align: center; }
+.growth-preview { display: flex; align-items: center; gap: 18rpx; margin-top: 12rpx; padding: 14rpx 18rpx; border-radius: 20rpx; background: #fff; border: 2rpx solid #d8eef8; }.growth-preview image { width: 120rpx; height: 130rpx; }.growth-preview strong,.growth-preview text { display: block; }.growth-preview strong { color: #173a62; font-size: 25rpx; }.growth-preview text { margin-top: 6rpx; color: #7895ae; font-size: 20rpx; }
+.test-run { height: 88rpx; margin-top: 18rpx; border-radius: 22rpx; background: #1479d6; color: #fff; font-size: 28rpx; font-weight: 900; line-height: 88rpx; text-align: center; }
+.accessory-test-link { height: 82rpx; margin-top: 12rpx; border-radius: 22rpx; background: #fff4bd; border: 2rpx solid #ffd76a; color: #8f5300; font-size: 26rpx; font-weight: 900; line-height: 82rpx; text-align: center; }
+.test-summary { margin-top: 16rpx; color: #173a62; font-size: 25rpx; font-weight: 900; }
+.test-result { margin-top: 10rpx; padding: 16rpx; border-radius: 18rpx; background: #fff; border: 2rpx solid #d8eef8; display: flex; gap: 14rpx; }
+.test-result.is-pass { border-color: #9fe5d7; }.test-result.is-fail { border-color: #ffb6be; }
+.result-mark { width: 42rpx; height: 42rpx; border-radius: 50%; background: #e9fbf6; color: #0c8f80; line-height: 42rpx; text-align: center; font-weight: 900; }.is-fail .result-mark { background: #fff1f3; color: #c74757; }
+.result-name { color: #173a62; font-size: 23rpx; font-weight: 900; }.result-detail { margin-top: 3rpx; color: #7895ae; font-size: 19rpx; }
+.test-title { margin: 26rpx 2rpx 10rpx; color: #365d82; font-size: 24rpx; font-weight: 900; }
+.test-actions, .test-links, .level-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10rpx; }
+.level-actions { margin-bottom: 10rpx; }.test-actions view, .test-links view, .level-actions view { min-height: 66rpx; padding: 10rpx; border-radius: 16rpx; background: #fff; border: 2rpx solid #d8eef8; color: #1479d6; font-size: 21rpx; font-weight: 900; display: flex; align-items: center; justify-content: center; text-align: center; box-sizing: border-box; }
+.test-note { margin-top: 20rpx; color: #7895ae; font-size: 20rpx; line-height: 1.5; }.test-safe { height: calc(34rpx + env(safe-area-inset-bottom)); }

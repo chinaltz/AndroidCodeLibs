@@ -1,0 +1,15 @@
+<view class="test-page"><bc-top-bar title="宠物功能测试" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+<scroll-view scroll-y class="test-scroll">
+  <view class="test-state"><view>Lv.{{state.level}}</view><view>★ {{state.points}}</view><view>XP {{state.xp}}</view><view>饱腹 {{state.status.hunger}}</view><view>心情 {{state.status.mood}}</view><view>活力 {{state.status.energy}}</view></view>
+  <view class="growth-preview"><image src="{{state.petImage}}" mode="aspectFit" /><view><strong>{{state.stageTitle}}</strong><text>{{state.growthStage.desc}}</text></view></view>
+  <view class="test-run" bindtap="runAll">运行全部自动测试</view>
+  <view class="accessory-test-link" data-path="{{routes.accessoryTest}}" bindtap="go">检查全部配饰最终效果</view>
+  <view wx:if="{{results.length}}" class="test-summary">通过 {{passedCount}} · 失败 {{failedCount}}</view>
+  <view wx:for="{{results}}" wx:key="name" class="test-result {{item.passed ? 'is-pass' : 'is-fail'}}"><view class="result-mark">{{item.passed ? '✓' : '×'}}</view><view><view class="result-name">{{item.name}}</view><view class="result-detail">{{item.detail}}</view></view></view>
+  <view class="test-title">真实存档手动验证</view>
+  <view class="level-actions"><view data-level="1" bindtap="setLevel">1级</view><view data-level="10" bindtap="setLevel">10级</view><view data-level="25" bindtap="setLevel">25级</view><view data-level="50" bindtap="setLevel">50级</view><view data-level="100" bindtap="setLevel">100级</view><view data-level="125" bindtap="setLevel">125级</view></view>
+  <view class="test-actions"><view bindtap="pet">摸摸</view><view bindtap="feed">喂养</view><view bindtap="play">玩耍</view><view bindtap="sleep">睡觉</view><view bindtap="setLowEnergy">设为低活力</view><view bindtap="grantReward">增加奖励</view></view>
+  <view class="test-title">页面流程验证</view>
+  <view class="test-links"><view data-path="{{routes.home}}" bindtap="go">宠物小屋</view><view data-path="{{routes.shop}}" bindtap="go">商店</view><view data-path="{{routes.wardrobe}}" bindtap="go">装扮</view><view data-path="{{routes.tasks}}" bindtap="go">任务</view><view data-path="{{routes.rewards}}" bindtap="go">奖励</view><view data-path="{{routes.growth}}" bindtap="go">成长</view><view data-path="/pages/checkin-calendar/index" bindtap="go">打卡日历</view></view>
+  <view class="test-note">自动测试会临时创建测试状态，结束后恢复原存档。手动验证会修改当前宠物真实数据。</view><view class="test-safe"></view>
+</scroll-view></view>

@@ -3,6 +3,68 @@
   box-sizing: border-box;
 }
 
+.todo-topbar {
+  position: relative;
+  z-index: 30;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+}
+
+.todo-topbar__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.todo-topbar__back {
+  position: relative;
+  z-index: 2;
+  width: 108rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 52rpx;
+  line-height: 1;
+  color: #173a62;
+}
+
+.todo-topbar__title {
+  position: absolute;
+  left: 128rpx;
+  right: 128rpx;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  font-size: 34rpx;
+  font-weight: 900;
+  color: #173a62;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.todo-topbar__action {
+  position: relative;
+  z-index: 2;
+  margin-left: auto;
+  min-width: 88rpx;
+  height: 56rpx;
+  padding: 0 18rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.82);
+  color: #1479d6;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 56rpx;
+  text-align: center;
+}
+
 .page-safe {
   height: 24rpx;
 }
@@ -18,16 +80,51 @@
 }
 
 .todo-hero__badge {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
   font-size: 30rpx;
   font-weight: 900;
   color: #173a62;
 }
 
-.todo-hero__progress {
+.todo-hero__badge-icon {
+  flex: 0 0 auto;
+  width: 34rpx;
+  height: 34rpx;
+}
+
+.todo-hero__progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12rpx;
   margin-top: 10rpx;
+}
+
+.todo-hero__progress {
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: 36rpx;
   font-weight: 900;
   color: #1479d6;
+}
+
+.todo-hero__reset {
+  flex: 0 0 auto;
+  width: 164rpx;
+  height: 58rpx;
+  padding: 0 12rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2rpx solid #ffd3d8;
+  color: #d84f5c;
+  font-size: 22rpx;
+  font-weight: 900;
+  line-height: 56rpx;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .todo-stars {
@@ -40,6 +137,11 @@
 .todo-star {
   width: 44rpx;
   height: 44rpx;
+}
+
+.todo-add-btn.is-pressed {
+  opacity: 0.86;
+  transform: scale(0.98);
 }
 
 .todo-hero__note {
@@ -62,6 +164,11 @@
   transition: transform 0.15s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
+.todo-card.is-editing {
+  border-color: #c8eaff;
+  box-shadow: 0 12rpx 28rpx rgba(49, 168, 255, 0.12);
+}
+
 .todo-card.is-done {
   background: linear-gradient(180deg, #f0fffc 0%, #fff 100%);
   border-color: #b8f0e8;
@@ -79,18 +186,34 @@
 }
 
 .todo-card__drag {
-  width: 44rpx;
-  height: 72rpx;
+  width: 72rpx;
+  min-height: 72rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
 }
 
-.todo-card__drag-icon {
-  width: 28rpx;
-  height: 28rpx;
-  opacity: 0.4;
+.todo-order {
+  display: grid;
+  grid-template-rows: repeat(2, 44rpx);
+  gap: 6rpx;
+}
+
+.todo-order__btn {
+  width: 72rpx;
+  height: 44rpx;
+  border-radius: 14rpx;
+  background: #eef8ff;
+  color: #1479d6;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 44rpx;
+  text-align: center;
+}
+
+.todo-order__btn.is-disabled {
+  opacity: 0.32;
 }
 
 .todo-card__badge {
@@ -209,17 +332,52 @@
 }
 
 .todo-card__delete {
-  width: 40rpx;
-  height: 40rpx;
+  width: 72rpx;
+  height: 72rpx;
   border-radius: 50%;
   background: #fff5f6;
   color: #ff6b7a;
-  font-size: 28rpx;
-  line-height: 40rpx;
+  font-size: 34rpx;
+  line-height: 72rpx;
   text-align: center;
   font-weight: 700;
   flex: 0 0 auto;
   opacity: 0.7;
+}
+
+.todo-card__edit {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 16rpx;
+  background: #eef8ff;
+  color: #1479d6;
+  font-size: 22rpx;
+  line-height: 72rpx;
+  text-align: center;
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.todo-complete-btn {
+  flex: 0 0 auto;
+  min-width: 112rpx;
+  height: 72rpx;
+  padding: 0 18rpx;
+  border-radius: 22rpx;
+  background: #eef8ff;
+  border: 2rpx solid #c8eaff;
+  color: #1479d6;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 72rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.todo-complete-btn.is-done {
+  background: #e8fdf7;
+  border-color: #43cfc7;
+  color: #087f74;
 }
 
 /* ── 空状态 ── */
@@ -269,6 +427,7 @@
   line-height: 96rpx;
   text-align: center;
   box-shadow: 0 12rpx 28rpx rgba(49, 168, 255, 0.32);
+  transition: transform 0.12s ease, opacity 0.12s ease;
 }
 
 /* ── 弹层 ── */

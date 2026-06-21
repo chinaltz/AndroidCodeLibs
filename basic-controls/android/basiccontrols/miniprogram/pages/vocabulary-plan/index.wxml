@@ -1,0 +1,19 @@
+<view class="page-shell plan-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="今日单词听写计划" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+  <view class="plan-summary">已选择 <text>{{selectedCount}}</text> 个单词</view>
+  <view class="plan-settings">
+    <view class="setting-row"><view><view class="setting-label">每个单词重复</view><view class="setting-desc">结束后停下，等待孩子操作</view></view><picker mode="selector" range="{{repeatOptions}}" value="{{repeatOptions.indexOf(repeatCount)}}" bindchange="onRepeatChange"><view class="setting-value">{{repeatCount}} 次 ›</view></picker></view>
+    <view class="setting-row"><view><view class="setting-label">重复间隔</view><view class="setting-desc">两次播放之间等待多久</view></view><picker mode="selector" range="{{intervalOptions}}" value="{{intervalOptions.indexOf(intervalSeconds)}}" bindchange="onIntervalChange"><view class="setting-value">{{intervalSeconds}} 秒 ›</view></picker></view>
+  </view>
+  <scroll-view scroll-y class="plan-list">
+    <view wx:if="{{!words.length}}" class="plan-empty">
+      <view>单词本还是空的</view><view class="plan-book-link" bindtap="goBook">先去添加单词</view>
+    </view>
+    <view wx:for="{{words}}" wx:key="id" class="plan-item {{item.selected ? 'is-selected' : ''}}" data-id="{{item.id}}" bindtap="toggleWord">
+      <view class="plan-check">{{item.selected ? '✓' : ''}}</view>
+      <view class="plan-copy"><view class="plan-word">{{item.word}}</view><view class="plan-meaning">{{item.meaning || '未填写释义'}}</view></view>
+    </view>
+    <view class="plan-safe"></view>
+  </scroll-view>
+  <view class="plan-footer"><view class="plan-save" bindtap="savePlan">完成设置</view></view>
+</view>

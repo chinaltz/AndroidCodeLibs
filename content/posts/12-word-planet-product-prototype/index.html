@@ -5,75 +5,75 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>我用 AI 反复改了十几版，才把「字词星球」原型理顺</title>
 <style>
-  * { box-sizing: border-box; }
-  body {
-    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #365D82;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 20px;
-    background:
-      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
-      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
-      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
-      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
-      linear-gradient(180deg, #DDF4FF, #F9FDFF);
-  }
-  .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255,255,255,0.90);
-    backdrop-filter: blur(8px);
-    border-bottom: 2px solid #C8EAFF;
-    padding: 12px 20px;
-    margin: -20px -20px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .toolbar button {
-    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
-    color: #fff;
-    border: 2px solid rgba(255,255,255,0.55);
-    padding: 8px 16px;
-    border-radius: 999px;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 800;
-    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
-  }
-  .toolbar button:hover { background: #1479D6; }
-  .toolbar button.secondary {
-    background: #FFFFFF;
-    color: #173A62;
-    border: 2px solid #C8EAFF;
-    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
-  }
-  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
-  #article {
-    background:
-      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
-      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
-      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
-      rgba(255,255,255,0.97);
-    border: 2px solid #C8EAFF;
-    border-radius: 32px;
-    padding: 18px;
-    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
-  }
-  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+ * { box-sizing: border-box; }
+ body {
+ font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+ font-size: 16px;
+ line-height: 1.8;
+ color: #365D82;
+ max-width: 680px;
+ margin: 0 auto;
+ padding: 20px;
+ background:
+ radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+ radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+ radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+ radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+ linear-gradient(180deg, #DDF4FF, #F9FDFF);
+ }
+ .toolbar {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background: rgba(255,255,255,0.90);
+ backdrop-filter: blur(8px);
+ border-bottom: 2px solid #C8EAFF;
+ padding: 12px 20px;
+ margin: -20px -20px 20px;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ flex-wrap: wrap;
+ }
+ .toolbar button {
+ background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+ color: #fff;
+ border: 2px solid rgba(255,255,255,0.55);
+ padding: 8px 16px;
+ border-radius: 999px;
+ font-size: 14px;
+ cursor: pointer;
+ font-family: inherit;
+ font-weight: 800;
+ box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+ }
+ .toolbar button:hover { background: #1479D6; }
+ .toolbar button.secondary {
+ background: #FFFFFF;
+ color: #173A62;
+ border: 2px solid #C8EAFF;
+ box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+ }
+ .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+ #article {
+ background:
+ radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+ radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+ radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+ rgba(255,255,255,0.97);
+ border: 2px solid #C8EAFF;
+ border-radius: 32px;
+ padding: 18px;
+ box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+ }
+ .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
 </style>
 </head>
 <body>
 <div class="toolbar">
-  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
-  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
-  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
+ <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+ <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+ <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
 </div>
 <div id="article">
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">自己写的：</p>
@@ -81,7 +81,7 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">既然音标的做了，那把听写也加上吧。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">AI做产品的能力一般，如果你有完整的设计文档和需求文档他去编码还行。给他 一个实用场景让他发挥完善功能。做的很差，经常无法准确的达到你的要求。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">而且上下文和 Token都有限，有时候有些工作就要从头开始。</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">目前我的方案是  先不让他进行编码阶段，就进行 原型 需求的review，和需求文档 和设计文档的输出。人工审核后再进入编码。按照文档进行编码是AI的强项</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">目前我的方案是 先不让他进行编码阶段，就进行 原型 需求的review，和需求文档 和设计文档的输出。人工审核后再进入编码。按照文档进行编码是AI的强项</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">他不需要发散思维，只需要在边界内实现</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">下面是AI 写的</p>
@@ -196,17 +196,17 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">好处是隐私清楚，不用先搭服务器；代价是清缓存或换设备可能丢数据。所以后面优先做「导出本地数据和恢复」，而不是马上上账号系统。</p>
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>这轮原型最终定下了什么</h2>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">从课本、错字库或手动录入选择完整词语
-  ↓
+ ↓
 加入统一听写列表
-  ↓
+ ↓
 开始前增删并确认顺序
-  ↓
+ ↓
 按播放次数和词语间隔播报
-  ↓
+ ↓
 逐词标记正确或错误
-  ↓
+ ↓
 错误词继续选择具体错字
-  ↓
+ ↓
 更新错误次数和复习时间</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">这条主流程不是 AI 第一次就给的，是把真实使用中的问题一次次讲清楚，再让 AI 修改、检查、重出原型后慢慢收敛出来的。</p>
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天的小结</h2>
@@ -234,100 +234,100 @@
 <p class="meta">由 md-to-wechat 自动生成 · 2026/6/7 17:30:13</p>
 <script>
 function selectArticle() {
-  const el = document.getElementById('article');
-  const range = document.createRange();
-  range.selectNodeContents(el);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
+ const el = document.getElementById('article');
+ const range = document.createRange();
+ range.selectNodeContents(el);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
 }
 
 function buildClipboardPayload() {
-  const el = document.getElementById('article');
-  const clone = el.cloneNode(true);
+ const el = document.getElementById('article');
+ const clone = el.cloneNode(true);
 
-  clone.querySelectorAll('a[href]').forEach((a) => {
-    const href = a.getAttribute('href') || '';
-    try {
-      a.href = new URL(href, window.location.href).href;
-    } catch (_) {
-      a.setAttribute('href', href);
-    }
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
-  });
+ clone.querySelectorAll('a[href]').forEach((a) => {
+ const href = a.getAttribute('href') || '';
+ try {
+ a.href = new URL(href, window.location.href).href;
+ } catch (_) {
+ a.setAttribute('href', href);
+ }
+ a.setAttribute('target', '_blank');
+ a.setAttribute('rel', 'noopener noreferrer');
+ });
 
-  clone.querySelectorAll('img[src]').forEach((img) => {
-    const src = img.getAttribute('src') || '';
-    try {
-      img.src = new URL(src, window.location.href).href;
-    } catch (_) {
-      img.setAttribute('src', src);
-    }
-  });
+ clone.querySelectorAll('img[src]').forEach((img) => {
+ const src = img.getAttribute('src') || '';
+ try {
+ img.src = new URL(src, window.location.href).href;
+ } catch (_) {
+ img.setAttribute('src', src);
+ }
+ });
 
-  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
-  const text = Array.from(clone.childNodes)
-    .map((node) => node.innerText || node.textContent || '')
-    .join('\n')
-    .replace(/\n{3,}/g, '\n\n');
+ const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+ const text = Array.from(clone.childNodes)
+ .map((node) => node.innerText || node.textContent || '')
+ .join('\n')
+ .replace(/\n{3,}/g, '\n\n');
 
-  const links = Array.from(clone.querySelectorAll('a[href]'))
-    .map((a) => {
-      const label = (a.innerText || a.textContent || '').trim();
-      const href = a.getAttribute('href');
-      return label && href ? label + '：' + href : href;
-    })
-    .filter(Boolean)
-    .join('\n');
-  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+ const links = Array.from(clone.querySelectorAll('a[href]'))
+ .map((a) => {
+ const label = (a.innerText || a.textContent || '').trim();
+ const href = a.getAttribute('href');
+ return label && href ? label + '：' + href : href;
+ })
+ .filter(Boolean)
+ .join('\n');
+ const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
 
-  return { html, text: textWithLinks.trim() };
+ return { html, text: textWithLinks.trim() };
 }
 
 function copyViaSelection(html) {
-  const holder = document.createElement('div');
-  holder.setAttribute('contenteditable', 'true');
-  holder.style.position = 'fixed';
-  holder.style.left = '-99999px';
-  holder.style.top = '0';
-  holder.innerHTML = html;
-  document.body.appendChild(holder);
+ const holder = document.createElement('div');
+ holder.setAttribute('contenteditable', 'true');
+ holder.style.position = 'fixed';
+ holder.style.left = '-99999px';
+ holder.style.top = '0';
+ holder.innerHTML = html;
+ document.body.appendChild(holder);
 
-  const range = document.createRange();
-  range.selectNodeContents(holder);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-  const ok = document.execCommand('copy');
-  sel.removeAllRanges();
-  document.body.removeChild(holder);
-  return ok;
+ const range = document.createRange();
+ range.selectNodeContents(holder);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
+ const ok = document.execCommand('copy');
+ sel.removeAllRanges();
+ document.body.removeChild(holder);
+ return ok;
 }
 
 async function copyArticle() {
-  try {
-    const { html, text } = buildClipboardPayload();
-    if (navigator.clipboard && window.ClipboardItem) {
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          'text/html': new Blob([html], { type: 'text/html' }),
-          'text/plain': new Blob([text], { type: 'text/plain' })
-        })
-      ]);
-    } else {
-      copyViaSelection(html);
-    }
-    alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
-  } catch (e) {
-    try {
-      const { html } = buildClipboardPayload();
-      copyViaSelection(html);
-      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
-    } catch (e2) {
-      alert('复制失败：请点「选中正文」后手动 Cmd+C');
-    }
-  }
+ try {
+ const { html, text } = buildClipboardPayload();
+ if (navigator.clipboard && window.ClipboardItem) {
+ await navigator.clipboard.write([
+ new ClipboardItem({
+ 'text/html': new Blob([html], { type: 'text/html' }),
+ 'text/plain': new Blob([text], { type: 'text/plain' })
+ })
+ ]);
+ } else {
+ copyViaSelection(html);
+ }
+ alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+ } catch (e) {
+ try {
+ const { html } = buildClipboardPayload();
+ copyViaSelection(html);
+ alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+ } catch (e2) {
+ alert('复制失败：请点「选中正文」后手动 Cmd+C');
+ }
+ }
 }
 </script>
 </body>

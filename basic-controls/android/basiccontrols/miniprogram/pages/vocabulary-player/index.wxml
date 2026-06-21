@@ -1,0 +1,19 @@
+<view class="page-shell dictation-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="单词听写" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+  <view class="dictation-stage">
+    <view class="vocabulary-mark">ABC</view>
+    <view class="dictation-progress__label">{{progressText}}</view>
+    <view class="dictation-progress"><view class="dictation-progress__fill" style="width: {{progressPercent}}%;"></view></view>
+    <view class="dictation-status {{playing ? 'is-playing' : ''}}"><view class="dictation-status__icon">{{playing ? '▶' : '✎'}}</view><view class="dictation-status__text">{{statusText}}</view></view>
+    <view wx:if="{{configHint}}" class="dictation-error">{{configHint}}</view>
+    <view wx:if="{{!sessionStarted}}" class="dictation-start" bindtap="startQueue">开始单词听写</view>
+    <block wx:else>
+      <view class="dictation-controls">
+        <view class="dictation-control {{currentIndex <= 0 ? 'is-disabled' : ''}}" bindtap="previousItem"><view class="dictation-control__icon">‹</view><view class="dictation-control__text">上一个</view></view>
+        <view class="dictation-control" bindtap="replayCurrent"><view class="dictation-control__icon">↻</view><view class="dictation-control__text">再听一次</view></view>
+        <view class="dictation-control {{finished ? 'is-disabled' : ''}}" bindtap="nextItem"><view class="dictation-control__icon">›</view><view class="dictation-control__text">下一个</view></view>
+      </view>
+      <view wx:if="{{finished}}" class="dictation-finish" bindtap="finishSession">我写完了</view>
+    </block>
+  </view>
+</view>

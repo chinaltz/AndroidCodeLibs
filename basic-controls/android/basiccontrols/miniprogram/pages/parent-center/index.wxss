@@ -1,0 +1,21 @@
+.parent-page { height: 100vh; }
+.parent-scroll { height: calc(100vh - 120rpx); padding: 22rpx 24rpx 0; box-sizing: border-box; }
+.parent-hero { padding: 28rpx; border-radius: 28rpx; background: linear-gradient(135deg, #fff7d7, #eaf8ff); border: 2rpx solid #c8eaff; }
+.parent-hero__title { color: #173a62; font-size: 34rpx; font-weight: 900; }
+.parent-hero__desc { margin-top: 8rpx; color: #7895ae; font-size: 23rpx; }
+.parent-section-title { margin: 28rpx 4rpx 12rpx; color: #365d82; font-size: 25rpx; font-weight: 900; }
+.parent-entry { min-height: 124rpx; margin-top: 12rpx; padding: 18rpx 20rpx; border-radius: 24rpx; background: #fff; border: 2rpx solid #d8eef8; display: flex; align-items: center; box-sizing: border-box; }
+.parent-icon { width: 76rpx; height: 76rpx; border-radius: 20rpx; background: #eaf6ff; color: #1479d6; font-size: 30rpx; font-weight: 900; line-height: 76rpx; text-align: center; }
+.parent-icon.is-english, .parent-icon.is-book { background: #e9fbf6; color: #0c8f80; font-size: 24rpx; }
+.parent-icon.is-wrong { background: #fff1f3; color: #c74757; }
+.parent-icon.is-test { background: #fff4bd; color: #8f5300; }
+.parent-icon.is-calendar { background: #f1ecff; color: #6f52b5; }
+.parent-test-entry { margin-top: 16rpx; }
+.parent-main { flex: 1; min-width: 0; margin-left: 18rpx; }
+.parent-title { color: #173a62; font-size: 28rpx; font-weight: 900; }
+.parent-desc { margin-top: 5rpx; color: #7895ae; font-size: 21rpx; line-height: 1.4; }
+.parent-arrow { color: #7895ae; font-size: 46rpx; }
+.parent-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12rpx; padding: 22rpx 12rpx; border-radius: 24rpx; background: #fff; border: 2rpx solid #d8eef8; text-align: center; }
+.stat-value { color: #1479d6; font-size: 28rpx; font-weight: 900; }
+.stat-label { margin-top: 7rpx; color: #7895ae; font-size: 20rpx; }
+.parent-safe { height: calc(40rpx + env(safe-area-inset-bottom)); }

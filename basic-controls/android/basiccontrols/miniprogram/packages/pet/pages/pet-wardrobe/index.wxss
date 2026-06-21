@@ -18,19 +18,14 @@
 .wardrobe-pet {
   width: 100%;
   height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .wardrobe-layer {
   position: absolute;
-  width: 140rpx;
-  height: 140rpx;
   pointer-events: none;
 }
-
-.layer-head { top: 65rpx; left: 50%; transform: translateX(-50%); }
-.layer-neck { top: 240rpx; left: 50%; transform: translateX(-50%); }
-.layer-back { left: 80rpx; top: 210rpx; }
-.layer-hand { right: 40rpx; top: 280rpx; }
 
 .wardrobe-caption {
   position: absolute;
@@ -44,7 +39,7 @@
 
 .wardrobe-tabs {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10rpx;
   margin: 18rpx 0;
 }

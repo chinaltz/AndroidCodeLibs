@@ -7,7 +7,7 @@
     </view>
   </view>
 
-  <view class="map-body map-body--tab">
+  <view class="map-body map-body--tab" style="padding-top: {{headerHeight}}px;">
     <block wx:if="{{child}}">
       <view class="adventure-hero">
         <view class="hero-background hero-background--css">
@@ -17,7 +17,7 @@
         </view>
         <view class="hero-top">
           <view class="child-chip" hover-class="is-pressed" bindtap="goChildren">
-            <image class="child-avatar" src="{{childAvatarPath}}" mode="aspectFit" />
+            <image class="child-avatar" src="{{childAvatarPath}}" mode="aspectFit" lazy-load />
             <view class="child-copy">
               <view class="child-name">{{child.nickname}}</view>
               <view class="child-meta">{{childrenCount}} 个本地档案</view>
@@ -45,6 +45,10 @@
           <view class="metric-value">{{pinyinText}}</view>
           <view class="metric-label">拼音进度</view>
         </view>
+        <view wx:if="{{enabledModules.vocabulary}}" class="metric-card">
+          <view class="metric-value">{{vocabularyPlanCount}}</view>
+          <view class="metric-label">今日单词</view>
+        </view>
       </view>
 
       <view class="section-line">
@@ -52,21 +56,14 @@
       </view>
       <view class="quest-grid quest-grid--last">
         <view wx:for="{{todayQuests}}" wx:key="key" class="quest-card" hover-class="is-pressed" data-path="{{item.path}}" bindtap="onQuestTap">
-          <image class="quest-image" src="{{item.image}}" mode="aspectFit" lazy-load />
+          <view class="quest-art">
+            <image class="quest-image" src="{{item.image}}" mode="aspectFit" lazy-load />
+          </view>
           <view class="quest-main">
             <view class="quest-title">{{item.title}}</view>
             <view class="quest-desc">{{item.desc}}</view>
           </view>
-          <view class="quest-play">
-            <bc-button
-              text="开始"
-              size="compact"
-              variant="primary"
-              theme="{{theme}}"
-              data-path="{{item.path}}"
-              catch:tap="onQuestTap"
-            />
-          </view>
+          <view class="quest-play {{item.actionClass || ''}}">{{item.actionText || '开始'}}</view>
         </view>
       </view>
     </block>

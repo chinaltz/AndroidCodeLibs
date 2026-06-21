@@ -81,28 +81,28 @@ argument-hint: "[文章主题]"
 - 按需生成第二梯队适配提示：简书/头条/百家号/思否/博客园/小红书/网易号/抖音/快手
 - 将最终文章写入 `content/posts/[NN-slug]/index.md`
 - **目录命名规则**：新文章目录默认加两位序号前缀，例如 `01-ai-for-ordinary-people`、`02-ai-terms-plain-language`、`03-ai-one-person-company-reality`。序号按内容计划/发布时间顺序递增；历史文章未编号时，不主动重命名旧目录，除非用户明确要求。
-- **发布就绪**：配图齐、审完后执行 `npm run publish:post -- content/posts/[NN-slug]`（上传图 → `index.published.md` → HTML/DOCX）
-- **多平台同步**：推荐使用 Wechatsync 插件（见下方「多平台发布方案」）
+- **发布就绪**：配图齐、审完后执行 `npm run convert -- content/posts/[NN-slug]`（生成 `index.html` + `.docx`，本地 `./images/` 嵌图）
+- **多平台同步**：推荐使用 Wechatsync 插件（见下方「多平台发布方案」）；图片在公众号后台或各平台编辑器内手动上传
 
-### ⑧⁺ 图片上传 + 一键导出
+### ⑧⁺ 公网图链（可选，当前默认流程不含）
 
-本地 `index.md` 用 `./images/`；多平台需 **HTTPS 图链** → `index.published.md`。
+> 项目**暂未配置图床**，日常发布**不跑** `publish:post`。将来若配置 `image-upload.config.json`，可额外生成 `index.published.md`（HTTPS 图链），见 `docs/图片上传与多平台发布.md`。
 
 ```bash
-cp image-upload.config.example.json image-upload.config.json
-npm run upload:images -- content/posts/[NN-slug] --dry-run   # 预览替换结果
-npm run publish:post -- content/posts/[NN-slug]              # 正式上传并导出
+# 默认发布导出（当前标准流程）
+npm run convert -- content/posts/[NN-slug]
+
+# 以下为可选：配置图床后，多平台 Markdown 需公网 URL 时再跑
+# cp image-upload.config.example.json image-upload.config.json
+# npm run publish:post -- content/posts/[NN-slug]
 ```
 
 | 产出 | 用途 |
 |------|------|
-| `index.published.md` | 知乎/掘金/CSDN 等导入 Markdown（公网图） |
-| `index.html`（`--published`） | 公众号一键复制，img 为公网 URL |
-| `<标题>.docx` | Word 嵌入本地图，存档用 |
-| `images/upload-manifest.json` | 本地↔远程映射，避免重复上传 |
+| `index.html` + `<标题>.docx` | **默认**：公众号一键复制、Word 存档（本地嵌图） |
+| `index.published.md` | 可选：图床就绪后，知乎/掘金等导入 Markdown（公网图） |
+| `images/upload-manifest.json` | 可选：图床上传映射 |
 
-仅本地预览：`npm run convert -- content/posts/[NN-slug]`  
-方案对比：`docs/图片上传与多平台发布.md`  
 少图省时：`docs/少图多平台发布策略.md`（公众号正文可无图，仅传封面）
 
 ## 输出格式
@@ -123,6 +123,7 @@ npm run publish:post -- content/posts/[NN-slug]              # 正式上传并�
 2. 点击顶部 **「一键复制正文」**
 3. 到微信公众号后台 → 正文编辑区 → 粘贴
 4. **图片需在公众号后台逐张上传**（本地路径公众号无法读取）
+5. 每张本地图上方会显示**纯文字文件名**（如 `header.png`），便于对照上传；上传完成后**整行删除**即可，不要带虚线框/底色（见 `star-article-style` · 本地图文件名标识）
 
 ### 方案 B：Wechatsync 浏览器插件（多平台同步首选）
 

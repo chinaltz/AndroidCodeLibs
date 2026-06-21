@@ -1,9 +1,9 @@
-# 微信搜一搜 / 看一看图片审查报告
+# 搜一搜 / 看一看图片审查报告
 
 - 文章数：11
 - 图片数：55
 - UPLOAD.md 数：11
-- 图片内禁用：公众号、关注、回复、私信、加群、福利、搜一搜、看一看等营销/导流词
+- 图片内禁用：公众号、关注、回复、留言、进社群、资料、搜一搜、看一看等营销/导流词
 - 图片风格：蓝天星球、云白卡片、阳光黄、清爽青，整体明亮和谐
 - 联系表：`content/posts/_wechat-search-review/all-wechat-search-cards-contact-sheet.png`
 - 分页联系表：`content/posts/_wechat-search-review/contact-sheet-01.png`、`content/posts/_wechat-search-review/contact-sheet-02.png`

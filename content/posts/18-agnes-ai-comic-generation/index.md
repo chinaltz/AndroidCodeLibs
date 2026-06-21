@@ -16,7 +16,7 @@
 
 下面是我的接入过程和真实结果，你可以照着做。
 
-难度：⭐⭐  
+难度：⭐⭐ 
 注册拿 Key + Agent 配一次模型，大概 10 分钟。
 
 ---
@@ -136,12 +136,12 @@ Agnes 走 OpenAI 兼容接口，理论上支持自定义模型的 Agent 都能�
 
 ```bash
 curl -s https://apihub.agnes-ai.com/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer 你的API_Key" \
-  -d '{
-    "model": "agnes-2.0-flash",
-    "messages": [{"role": "user", "content": "你好，帮我写一段四格漫画剧情"}]
-  }'
+ -H "Content-Type: application/json" \
+ -H "Authorization: Bearer 你的API_Key" \
+ -d '{
+ "model": "agnes-2.0-flash",
+ "messages": [{"role": "user", "content": "你好，帮我写一段四格漫画剧情"}]
+ }'
 ```
 
 ---
@@ -154,14 +154,14 @@ curl -s https://apihub.agnes-ai.com/v1/chat/completions \
 
 ```bash
 curl -s https://apihub.agnes-ai.com/v1/images/generations \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer 你的API_Key" \
-  -d '{
-    "model": "agnes-image-2.1-flash",
-    "prompt": "你的图片描述",
-    "n": 1,
-    "size": "1536x1024"
-  }'
+ -H "Content-Type: application/json" \
+ -H "Authorization: Bearer 你的API_Key" \
+ -d '{
+ "model": "agnes-image-2.1-flash",
+ "prompt": "你的图片描述",
+ "n": 1,
+ "size": "1536x1024"
+ }'
 ```
 
 ### 多风格试画：写实、动漫、3D 都行
@@ -257,9 +257,9 @@ curl -s https://apihub.agnes-ai.com/v1/images/generations \
 
 ```json
 {
-  "status": "queued",
-  "seconds": "5.0",
-  "size": "1280x704"
+ "status": "queued",
+ "seconds": "5.0",
+ "size": "1280x704"
 }
 ```
 
@@ -273,7 +273,7 @@ curl -s https://apihub.agnes-ai.com/v1/images/generations \
 
 ```bash
 curl -s "https://apihub.agnes-ai.com/v1/video/generations/你的task_id" \
-  -H "Authorization: Bearer 你的API_Key"
+ -H "Authorization: Bearer 你的API_Key"
 ```
 
 ---
@@ -304,6 +304,6 @@ curl -s "https://apihub.agnes-ai.com/v1/video/generations/你的task_id" \
 
 视频能力在官网和文档里都有，但我这次没跑通，建议低预期。
 
-官网：[agnes-ai.com](https://agnes-ai.com/)  
-文档：[agnes-ai.com/doc](https://agnes-ai.com/doc)  
+官网：[agnes-ai.com](https://agnes-ai.com/) 
+文档：[agnes-ai.com/doc](https://agnes-ai.com/doc) 
 控制台：[platform.agnes-ai.com](https://platform.agnes-ai.com)

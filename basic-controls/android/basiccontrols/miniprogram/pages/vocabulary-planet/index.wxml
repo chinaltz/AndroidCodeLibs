@@ -1,0 +1,16 @@
+<view class="page-shell vocabulary-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="单词星球" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+  <view class="vocabulary-body">
+    <view class="vocabulary-summary">
+      <view><text class="summary-number">{{wordCount}}</text><text class="summary-label">单词本</text></view>
+      <view><text class="summary-number">{{planCount}}</text><text class="summary-label">今日待听写</text></view>
+    </view>
+    <view class="vocabulary-entry" bindtap="goBook">
+      <view class="entry-icon is-book">Aa</view><view class="entry-main"><view class="entry-title">单词本</view><view class="entry-desc">查看、添加和删除英语单词</view></view><view class="entry-arrow">›</view>
+    </view>
+    <view class="vocabulary-entry" bindtap="goPlan">
+      <view class="entry-icon is-plan">✓</view><view class="entry-main"><view class="entry-title">听写计划</view><view class="entry-desc">家长选择今天要听写的内容</view></view><view class="entry-arrow">›</view>
+    </view>
+    <view class="vocabulary-start" bindtap="startDictation">{{planCount ? '开始单词听写 · ' + planCount + ' 个' : '先设置今日听写计划'}}</view>
+  </view>
+</view>

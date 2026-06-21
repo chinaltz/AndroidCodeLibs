@@ -1,0 +1,14 @@
+.vocabulary-page { min-height: 100vh; }
+.vocabulary-body { padding: 28rpx 24rpx calc(40rpx + env(safe-area-inset-bottom)); }
+.vocabulary-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18rpx; padding: 28rpx; border-radius: 28rpx; background: #fff; border: 2rpx solid #d8eef8; text-align: center; }
+.vocabulary-summary > view { display: flex; flex-direction: column; }
+.summary-number { color: #1479d6; font-size: 48rpx; font-weight: 900; }
+.summary-label { margin-top: 6rpx; color: #7895ae; font-size: 24rpx; }
+.vocabulary-entry { min-height: 138rpx; margin-top: 18rpx; padding: 20rpx 24rpx; border-radius: 28rpx; background: #fff; border: 2rpx solid #d8eef8; display: flex; align-items: center; box-sizing: border-box; }
+.entry-icon { width: 82rpx; height: 82rpx; border-radius: 22rpx; color: #1479d6; background: #eaf6ff; font-size: 28rpx; font-weight: 900; line-height: 82rpx; text-align: center; }
+.entry-icon.is-plan { color: #0c8f80; background: #e9fbf6; font-size: 42rpx; }
+.entry-main { flex: 1; min-width: 0; margin-left: 20rpx; }
+.entry-title { color: #173a62; font-size: 30rpx; font-weight: 900; }
+.entry-desc { margin-top: 6rpx; color: #7895ae; font-size: 23rpx; }
+.entry-arrow { color: #7895ae; font-size: 48rpx; }
+.vocabulary-start { height: 96rpx; margin-top: 28rpx; border-radius: 26rpx; color: #fff; background: linear-gradient(180deg, #43cfc7, #0c9e8d); font-size: 30rpx; font-weight: 900; line-height: 96rpx; text-align: center; }

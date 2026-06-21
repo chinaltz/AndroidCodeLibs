@@ -42,13 +42,17 @@ content/posts/
 
 文章内图片引用路径：`./images/xxx.png`
 
-## 发布前图片上传
+## 文章导出与发布（定稿后）
 
-定稿后执行 `npm run publish:post -- content/posts/[NN-slug]`，生成 `index.published.md`（公网图链）。  
-配置：`image-upload.config.json`（见 `image-upload.config.example.json`）。  
-文档：`docs/图片上传与多平台发布.md`
+**默认流程**（当前无图床，推荐）：
 
-## 文章导出（定稿后一键生成 HTML + Word）
+```bash
+npm run convert content/posts/[NN-slug]
+```
+
+输出 `index.html`（公众号一键复制）+ `<标题>.docx`（Word 本地嵌图）。图片在公众号后台或各平台编辑器内手动上传。
+
+**可选**（将来配置图床 `image-upload.config.json` 后）：`npm run publish:post` 生成公网图链版 `index.published.md`。见 `docs/图片上传与多平台发布.md`。
 
 | 命令 | 输出 | 说明 |
 |------|------|------|

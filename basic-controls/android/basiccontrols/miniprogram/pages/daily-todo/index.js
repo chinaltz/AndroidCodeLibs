@@ -3,6 +3,30 @@ const dailyTodo = require('../../utils/daily-todo-service');
 
 const PRESET_MINUTES = [5, 10, 15, 20, 25, 30, 45, 59, 60, 90];
 
+function measureHeader() {
+  const info = wx.getSystemInfoSync();
+  const statusBarHeight = info.statusBarHeight || 20;
+  const windowWidth = info.windowWidth || 375;
+  let navBarHeight = 44;
+  let capsulePaddingRight = 0;
+
+  try {
+    if (wx.getMenuButtonBoundingClientRect) {
+      const rect = wx.getMenuButtonBoundingClientRect();
+      if (rect && rect.height && rect.top) {
+        navBarHeight = rect.height + Math.max(0, rect.top - statusBarHeight) * 2;
+      }
+      if (rect && rect.left > 0) {
+        capsulePaddingRight = Math.max(0, windowWidth - rect.left + 8);
+      }
+    }
+  } catch (err) {
+    // DevTools and iPad can return incomplete capsule metrics.
+  }
+
+  return { statusBarHeight, navBarHeight, capsulePaddingRight };
+}
+
 function buildStars(total, done) {
   const count = Math.max(total, 1);
   const stars = [];
@@ -27,13 +51,19 @@ Page({
     editingId: '',
     editTitle: '',
     editMinutes: 15,
-    dragIndex: -1,
-    dragOverIndex: -1,
+    editMode: false,
+    statusBarHeight: 20,
+    navBarHeight: 44,
+    capsulePaddingRight: 0,
+  },
+
+  onLoad() {
+    this.setData(measureHeader());
   },
 
   onShow() {
     const app = getApp();
-    this.setData({ theme: app.globalData.theme });
+    this.setData(Object.assign({ theme: app.globalData.theme }, measureHeader()));
     this.refresh();
     wx.setNavigationBarColor({
       frontColor: app.globalData.theme.dark ? '#ffffff' : '#000000',
@@ -72,12 +102,16 @@ Page({
 
   onToggleTask(e) {
     const id = e.currentTarget.dataset.id;
-    this.refreshFrom(dailyTodo.toggleItem(id));
+    const snapshot = dailyTodo.toggleItem(id);
+    this.refreshFrom(snapshot);
+    if (snapshot.checkinResult && snapshot.checkinResult.recorded) {
+      wx.showToast({ title: '今日打卡成功，宠物获得奖励', icon: 'success' });
+    }
   },
 
   onResetTasks() {
     wx.showModal({
-      title: '全部重来？',
+      title: '全部重置？',
       content: '任务还在，只是滑块回到「还没做」哦。',
       confirmText: '好的',
       cancelText: '取消',
@@ -95,6 +129,15 @@ Page({
     this.setData({ showAddSheet: false });
   },
 
+  toggleEditMode() {
+    const next = !this.data.editMode;
+    this.setData({
+      editMode: next,
+      editingId: '',
+      showAddSheet: false,
+    });
+  },
+
   onNewTitleInput(e) {
     this.setData({ newTitle: e.detail.value });
   },
@@ -109,6 +152,7 @@ Page({
   },
 
   openEdit(e) {
+    if (!this.data.editMode) return;
     const id = e.currentTarget.dataset.id;
     const item = this.data.items.find((row) => row.id === id);
     if (!item) return;
@@ -153,38 +197,11 @@ Page({
     });
   },
 
-  onDragStart(e) {
+  onMoveItem(e) {
     const index = Number(e.currentTarget.dataset.index);
-    this.setData({ dragIndex: index, dragOverIndex: index });
-  },
-
-  onDragMove(e) {
-    if (this.data.dragIndex < 0) return;
-    const now = Date.now();
-    if (this._lastDragAt && now - this._lastDragAt < 80) return;
-    this._lastDragAt = now;
-    const touch = e.touches[0];
-    if (!touch) return;
-    const query = wx.createSelectorQuery().in(this);
-    query.selectAll('.todo-card').boundingClientRect();
-    query.exec((res) => {
-      const rects = res && res[0];
-      if (!rects || !rects.length) return;
-      let over = this.data.dragIndex;
-      rects.forEach((rect, index) => {
-        if (touch.clientY >= rect.top && touch.clientY <= rect.bottom) over = index;
-      });
-      if (over !== this.data.dragOverIndex) {
-        this.setData({ dragOverIndex: over });
-      }
-    });
-  },
-
-  onDragEnd() {
-    const { dragIndex, dragOverIndex } = this.data;
-    this.setData({ dragIndex: -1, dragOverIndex: -1 });
-    if (dragIndex >= 0 && dragOverIndex >= 0 && dragIndex !== dragOverIndex) {
-      this.refreshFrom(dailyTodo.reorderItems(dragIndex, dragOverIndex));
-    }
+    const dir = Number(e.currentTarget.dataset.dir);
+    const toIndex = index + dir;
+    if (toIndex < 0 || toIndex >= this.data.items.length) return;
+    this.refreshFrom(dailyTodo.reorderItems(index, toIndex));
   },
 });

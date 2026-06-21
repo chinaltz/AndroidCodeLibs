@@ -5,80 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>办公 AI 不只会聊天：盯日程、写周报都能自动做</title>
 <style>
-  * { box-sizing: border-box; }
-  body {
-    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #365D82;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 20px;
-    background:
-      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
-      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
-      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
-      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
-      linear-gradient(180deg, #DDF4FF, #F9FDFF);
-  }
-  .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255,255,255,0.90);
-    backdrop-filter: blur(8px);
-    border-bottom: 2px solid #C8EAFF;
-    padding: 12px 20px;
-    margin: -20px -20px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .toolbar button {
-    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
-    color: #fff;
-    border: 2px solid rgba(255,255,255,0.55);
-    padding: 8px 16px;
-    border-radius: 999px;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 800;
-    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
-  }
-  .toolbar button:hover { background: #1479D6; }
-  .toolbar button.secondary {
-    background: #FFFFFF;
-    color: #173A62;
-    border: 2px solid #C8EAFF;
-    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
-  }
-  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
-  #article {
-    background:
-      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
-      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
-      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
-      rgba(255,255,255,0.97);
-    border: 2px solid #C8EAFF;
-    border-radius: 32px;
-    padding: 18px;
-    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
-  }
-  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+ * { box-sizing: border-box; }
+ body {
+ font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+ font-size: 16px;
+ line-height: 1.8;
+ color: #365D82;
+ max-width: 680px;
+ margin: 0 auto;
+ padding: 20px;
+ background:
+ radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+ radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+ radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+ radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+ linear-gradient(180deg, #DDF4FF, #F9FDFF);
+ }
+ .toolbar {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background: rgba(255,255,255,0.90);
+ backdrop-filter: blur(8px);
+ border-bottom: 2px solid #C8EAFF;
+ padding: 12px 20px;
+ margin: -20px -20px 20px;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ flex-wrap: wrap;
+ }
+ .toolbar button {
+ background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+ color: #fff;
+ border: 2px solid rgba(255,255,255,0.55);
+ padding: 8px 16px;
+ border-radius: 999px;
+ font-size: 14px;
+ cursor: pointer;
+ font-family: inherit;
+ font-weight: 800;
+ box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+ }
+ .toolbar button:hover { background: #1479D6; }
+ .toolbar button.secondary {
+ background: #FFFFFF;
+ color: #173A62;
+ border: 2px solid #C8EAFF;
+ box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+ }
+ .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+ #article {
+ background:
+ radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+ radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+ radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+ rgba(255,255,255,0.97);
+ border: 2px solid #C8EAFF;
+ border-radius: 32px;
+ padding: 18px;
+ box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+ }
+ .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
 </style>
 </head>
 <body>
 <div class="toolbar">
-  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
-  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
-  <span class="hint">本地图上方会显示文件名，便于对照上传。富文本复制会保留超链；图片需在公众号里重新上传。</span>
+ <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+ <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+ <span class="hint">本地图上方会显示文件名，便于对照上传。富文本复制会保留超链；图片需在公众号里重新上传。</span>
 </div>
 <div id="article">
 <h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">办公 AI 不只会聊天：盯日程、写周报都能自动做</h1>
 <section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">header-v2.png</p><p style="margin:0;"><img src="images/header-v2.png" alt="头图：办公 AI 自动盯日程、写周报、整理群消息" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
-<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">写作时间：2026 年 6 月 12 日。新闻进展与工具能力可能继续变化，请以官方公告和 GitHub 仓库为准。</p><p style="margin:4px 0;">难度：⭐⭐  <br/>看懂不用写代码；真正上手，需要安装 Node.js、CLI，并完成企业授权。</p></blockquote>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">写作时间：2026 年 6 月 12 日。新闻进展与工具能力可能继续变化，请以官方公告和 GitHub 仓库为准。</p><p style="margin:4px 0;">难度：⭐⭐ <br/>看懂不用写代码；真正上手，需要安装 Node.js、CLI，并完成企业授权。</p></blockquote>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">最近几天，钉钉站在了舆论中心。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">一篇约 7.5 万字的长文《置身钉内》从阿里内网流出。作者复盘了钉钉 AI 项目 ONE 从立项、冲高到收缩的过程，也写到了高压管理、频繁汇报和无意义加班等问题。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">6 月 10 日，阿里巴巴合伙人委员会回应称，文中提到的管理方式“不是阿里文化该有的样子”。</p>
@@ -87,9 +87,9 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">但从产品角度看，《置身钉内》还留下了另一个问题：</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">办公软件到底应该怎样做 AI？</strong></p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">是继续在首页塞一个聊天框，还是让 AI 真正进入消息、日程、文档、待办和审批，把事情做完？</p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">最近，钉钉、飞书、企业微信几乎同时给出了一个相似答案：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">最近，钉钉、飞书、企业办公工具几乎同时给出了一个相似答案：</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">把办公能力做成开源 CLI，让 AI Agent 可以直接调用。</strong></p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">关注微信公众号 AI技趣星球，回复MF 一起用技术创造乐趣。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">技趣星球 · 用技术创造乐趣。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>CLI 是什么？它像 AI 的遥控器</h2>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">CLI 的全称是 Command Line Interface，中文叫“命令行界面”。</p>
@@ -111,15 +111,15 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">目前三家的官方项目分别是：</p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">平台</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">开源 CLI</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">主要技术</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">开源协议</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">重点能力</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">钉钉</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">dws</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Go</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Apache 2.0</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">审批、考勤、待办、日历、通讯录、智能表格</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">飞书</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">lark-cli</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Go</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">MIT</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">文档、消息、多维表格、邮箱、日历、会议</td></tr>
-<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">企业微信</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">wecom-cli</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Rust</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">MIT</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">消息、文档、智能表格、会议、待办、日程、通讯录</td></tr></tbody></table></section>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">企业办公工具</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">wecom-cli</code></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Rust</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">MIT</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">消息、文档、智能表格、会议、待办、日程、通讯录</td></tr></tbody></table></section>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">项目地址：</p>
 <ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><a href="https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">钉钉 dws</a></li>
 <li style="margin:4px 0;"><a href="https://github.com/larksuite/cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">飞书 lark-cli</a></li>
-<li style="margin:4px 0;"><a href="https://github.com/WecomTeam/wecom-cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">企业微信 wecom-cli</a></li></ul>
+<li style="margin:4px 0;"><a href="https://github.com/WecomTeam/wecom-cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">企业办公工具 wecom-cli</a></li></ul>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它们不是三个普通的开发工具。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">三个项目都明确提到了 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI Agent</strong>，并提供了 Agent Skill、结构化输出或面向 AI 的命令设计。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">这说明办公软件正在发生一个变化：</p>
-<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">以前，软件只给人设计按钮。  <br/>现在，软件还要给 AI 准备可以调用的工具。</p></blockquote>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">以前，软件只给人设计按钮。 <br/>现在，软件还要给 AI 准备可以调用的工具。</p></blockquote>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>钉钉 dws：更像一套企业办事工具箱</h2>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">钉钉的项目叫 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">DingTalk Workspace CLI</strong>，命令是 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">dws</code>。</p>
@@ -173,8 +173,8 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">适合谁：</strong></p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">重度使用飞书文档、多维表格、日历和会议纪要的知识型团队。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
-<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>企业微信 wecom-cli：聊天、客户和办公入口更近</h2>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">企业微信的开源项目叫 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">wecom-cli</strong>。</p>
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>企业办公工具 wecom-cli：聊天、客户和办公入口更近</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">企业办公工具的开源项目叫 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">wecom-cli</strong>。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它覆盖七类核心能力：</p>
 <ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">消息</li>
 <li style="margin:4px 0;">通讯录</li>
@@ -190,12 +190,12 @@ wecom-cli init</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">配置完成后，AI 可以查询消息、搜索同事、创建待办、安排会议、读写文档。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它很适合这样的场景：</p>
 <blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">汇总今天项目群里的重要消息，找出需要我处理的事项，生成待办草稿。先不要发送，也不要修改任何数据。</p></blockquote>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">企业微信官方仓库对使用范围有明确说明：</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">企业办公工具官方仓库对使用范围有明确说明：</p>
 <ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;">10 人及以下的小团队，可使用消息、文档、日程、会议、待办等能力</li>
 <li style="margin:4px 0;">10 人以上的企业，API 模式智能机器人目前重点提供文档相关 CLI 能力</li></ul>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">所以，它不是“所有企业装完都能用全部功能”。实际能力取决于企业规模、机器人模式和管理员授权。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">适合谁：</strong></p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">日常沟通主要在企业微信，希望从群聊、会议和待办开始尝试 AI 自动化的小团队。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">日常沟通主要在企业办公工具，希望从群聊、会议和待办开始尝试 AI 自动化的小团队。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>三家都能做什么？先看这 6 个实际场景</h2>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">CLI 本身不是目的。</p>
@@ -204,7 +204,7 @@ wecom-cli init</code></pre>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">读取我今天有权限查看的项目群消息，
 只整理和我有关的任务、截止时间和风险。
 不要发送消息，不要创建任务。</code></pre>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">适合：钉钉、飞书、企业微信。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">适合：钉钉、飞书、企业办公工具。</p>
 <h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>场景二：找时间并创建会议</h3>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">查看我和张三明天下午的空闲时间，
 推荐两个 30 分钟时段。
@@ -235,7 +235,7 @@ wecom-cli init</code></pre>
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>有了 OpenClaw 和 Hermes，到底能自动到什么程度？</h2>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">先别把它想成一个可以独立上班的“数字员工”。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">更准确的理解是：</p>
-<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">它像一个住在电脑或服务器里的助理。  <br/>能定时醒来、收消息、查资料、调用办公 CLI、整理结果，再把报告发回来。</p></blockquote>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">它像一个住在电脑或服务器里的助理。 <br/>能定时醒来、收消息、查资料、调用办公 CLI、整理结果，再把报告发回来。</p></blockquote>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">自动化大致可以分成四级：</p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">程度</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">Agent 能做什么</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">建议</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">1. 自动读取</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">查日历、待办、群消息、文档</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">可以先放开</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">2. 自动整理</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">生成摘要、周报、会议纪要、提醒文案</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">适合全自动</td></tr>
@@ -331,7 +331,7 @@ wecom-cli init</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">一句话区分：</p>
 <ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">OpenClaw</strong>：先解决“AI 在哪里接单、什么时候自动干活”</li>
 <li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">Hermes</strong>：进一步解决“AI 能不能记住我的习惯，并把流程越做越顺”</li>
-<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">办公 CLI</strong>：解决“AI 用什么方式进入钉钉、飞书或企业微信执行操作”</li></ul>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">办公 CLI</strong>：解决“AI 用什么方式进入钉钉、飞书或企业办公工具执行操作”</li></ul>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它们组合起来，才能形成一条完整链路：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">收到消息或到达时间
 → Agent 理解任务
@@ -347,7 +347,7 @@ wecom-cli init</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">先看你所在的团队平时用什么：</p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">你的情况</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">建议先试</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">公司审批、考勤、日报都在钉钉</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">dws</code></td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">文档、知识库、多维表格用得最多</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">lark-cli</code></td></tr>
-<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">沟通主要在企业微信，团队规模较小</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">wecom-cli</code></td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">沟通主要在企业办公工具，团队规模较小</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">wecom-cli</code></td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">只想体验，不想影响真实数据</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">从查询日历、通讯录等只读操作开始</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">想从聊天窗口接单、定时自动执行</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">CLI + OpenClaw</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">想长期记住个人习惯、沉淀办事流程</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">CLI + Hermes</td></tr></tbody></table></section>
@@ -388,14 +388,14 @@ wecom-cli init</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">不是再造一个会聊天的入口，而是让 AI 有权限、有边界地完成具体工作。</strong></p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">今天记住一句话：</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">CLI 是 AI 的手，但权限开不开、让它做到哪一步，决定权应该一直在人手里。</strong></p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">关注微信公众号 AI技趣星球，回复MF 一起用技术创造乐趣。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">技趣星球 · 用技术创造乐趣。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>参考资料</h2>
 <ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><a href="https://wap.eastmoney.com/a/202606103766475437.html" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">阿里回应《置身钉内》：不是阿里文化该有的样子</a></li>
 <li style="margin:4px 0;"><a href="https://www.stcn.com/article/detail/3955254.html" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">钉钉换帅：陈宇森接任 CEO</a></li>
 <li style="margin:4px 0;"><a href="https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">钉钉 dws 官方仓库</a></li>
 <li style="margin:4px 0;"><a href="https://github.com/larksuite/cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">飞书 lark-cli 官方仓库</a></li>
-<li style="margin:4px 0;"><a href="https://github.com/WecomTeam/wecom-cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">企业微信 wecom-cli 官方仓库</a></li>
+<li style="margin:4px 0;"><a href="https://github.com/WecomTeam/wecom-cli" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">企业办公工具 wecom-cli 官方仓库</a></li>
 <li style="margin:4px 0;"><a href="https://docs.openclaw.ai/" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">OpenClaw 官方文档</a></li>
 <li style="margin:4px 0;"><a href="https://github.com/nousresearch/hermes-agent" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">Hermes Agent 官方仓库</a></li></ul>
 
@@ -403,100 +403,100 @@ wecom-cli init</code></pre>
 <p class="meta">由 md-to-wechat 自动生成 · 2026/6/12 07:45:40</p>
 <script>
 function selectArticle() {
-  const el = document.getElementById('article');
-  const range = document.createRange();
-  range.selectNodeContents(el);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
+ const el = document.getElementById('article');
+ const range = document.createRange();
+ range.selectNodeContents(el);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
 }
 
 function buildClipboardPayload() {
-  const el = document.getElementById('article');
-  const clone = el.cloneNode(true);
+ const el = document.getElementById('article');
+ const clone = el.cloneNode(true);
 
-  clone.querySelectorAll('a[href]').forEach((a) => {
-    const href = a.getAttribute('href') || '';
-    try {
-      a.href = new URL(href, window.location.href).href;
-    } catch (_) {
-      a.setAttribute('href', href);
-    }
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
-  });
+ clone.querySelectorAll('a[href]').forEach((a) => {
+ const href = a.getAttribute('href') || '';
+ try {
+ a.href = new URL(href, window.location.href).href;
+ } catch (_) {
+ a.setAttribute('href', href);
+ }
+ a.setAttribute('target', '_blank');
+ a.setAttribute('rel', 'noopener noreferrer');
+ });
 
-  clone.querySelectorAll('img[src]').forEach((img) => {
-    const src = img.getAttribute('src') || '';
-    try {
-      img.src = new URL(src, window.location.href).href;
-    } catch (_) {
-      img.setAttribute('src', src);
-    }
-  });
+ clone.querySelectorAll('img[src]').forEach((img) => {
+ const src = img.getAttribute('src') || '';
+ try {
+ img.src = new URL(src, window.location.href).href;
+ } catch (_) {
+ img.setAttribute('src', src);
+ }
+ });
 
-  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
-  const text = Array.from(clone.childNodes)
-    .map((node) => node.innerText || node.textContent || '')
-    .join('\n')
-    .replace(/\n{3,}/g, '\n\n');
+ const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+ const text = Array.from(clone.childNodes)
+ .map((node) => node.innerText || node.textContent || '')
+ .join('\n')
+ .replace(/\n{3,}/g, '\n\n');
 
-  const links = Array.from(clone.querySelectorAll('a[href]'))
-    .map((a) => {
-      const label = (a.innerText || a.textContent || '').trim();
-      const href = a.getAttribute('href');
-      return label && href ? label + '：' + href : href;
-    })
-    .filter(Boolean)
-    .join('\n');
-  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+ const links = Array.from(clone.querySelectorAll('a[href]'))
+ .map((a) => {
+ const label = (a.innerText || a.textContent || '').trim();
+ const href = a.getAttribute('href');
+ return label && href ? label + '：' + href : href;
+ })
+ .filter(Boolean)
+ .join('\n');
+ const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
 
-  return { html, text: textWithLinks.trim() };
+ return { html, text: textWithLinks.trim() };
 }
 
 function copyViaSelection(html) {
-  const holder = document.createElement('div');
-  holder.setAttribute('contenteditable', 'true');
-  holder.style.position = 'fixed';
-  holder.style.left = '-99999px';
-  holder.style.top = '0';
-  holder.innerHTML = html;
-  document.body.appendChild(holder);
+ const holder = document.createElement('div');
+ holder.setAttribute('contenteditable', 'true');
+ holder.style.position = 'fixed';
+ holder.style.left = '-99999px';
+ holder.style.top = '0';
+ holder.innerHTML = html;
+ document.body.appendChild(holder);
 
-  const range = document.createRange();
-  range.selectNodeContents(holder);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-  const ok = document.execCommand('copy');
-  sel.removeAllRanges();
-  document.body.removeChild(holder);
-  return ok;
+ const range = document.createRange();
+ range.selectNodeContents(holder);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
+ const ok = document.execCommand('copy');
+ sel.removeAllRanges();
+ document.body.removeChild(holder);
+ return ok;
 }
 
 async function copyArticle() {
-  try {
-    const { html, text } = buildClipboardPayload();
-    if (navigator.clipboard && window.ClipboardItem) {
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          'text/html': new Blob([html], { type: 'text/html' }),
-          'text/plain': new Blob([text], { type: 'text/plain' })
-        })
-      ]);
-    } else {
-      copyViaSelection(html);
-    }
-    alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
-  } catch (e) {
-    try {
-      const { html } = buildClipboardPayload();
-      copyViaSelection(html);
-      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
-    } catch (e2) {
-      alert('复制失败：请点「选中正文」后手动 Cmd+C');
-    }
-  }
+ try {
+ const { html, text } = buildClipboardPayload();
+ if (navigator.clipboard && window.ClipboardItem) {
+ await navigator.clipboard.write([
+ new ClipboardItem({
+ 'text/html': new Blob([html], { type: 'text/html' }),
+ 'text/plain': new Blob([text], { type: 'text/plain' })
+ })
+ ]);
+ } else {
+ copyViaSelection(html);
+ }
+ alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+ } catch (e) {
+ try {
+ const { html } = buildClipboardPayload();
+ copyViaSelection(html);
+ alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+ } catch (e2) {
+ alert('复制失败：请点「选中正文」后手动 Cmd+C');
+ }
+ }
 }
 </script>
 </body>

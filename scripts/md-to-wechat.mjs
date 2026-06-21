@@ -15,6 +15,7 @@ const ROOT = resolve(__dirname, '..');
 const POSTS_DIR = join(ROOT, 'content', 'posts');
 /** 框线四角/竖线（不含 ─→，避免把流程图误判为框线图） */
 const BOX_CORNER = /[╔╗╚╝┌┐└┘│║├┤┬┴┼╠╣╦╩╤╧═]/;
+const TREE_LINE = /[├└│]/;
 const THEME = {
   starBlue: '#31A8FF',
   starBlueDark: '#1479D6',
@@ -65,7 +66,8 @@ function imageFileName(src) {
 function imageLabelHtml(src) {
   if (!isLocalImage(src)) return '';
   const name = imageFileName(src);
-  return `<p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:${THEME.ink};background:${THEME.starSoft};border:2px dashed ${THEME.starBlue};border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">${escapeHtml(name)}</p>`;
+  // 纯文字文件名：复制到公众号后整行选中删除即可，不要边框/底色/圆角卡片
+  return `<p style="margin:0 0 8px;text-align:center;font-size:20px;font-weight:700;line-height:1.4;color:${THEME.ink};user-select:all;-webkit-user-select:all;">${escapeHtml(name)}</p>`;
 }
 
 function imageTag(alt, src) {
@@ -87,6 +89,54 @@ function imageParagraph(alt, src) {
     return `<section style="margin:20px 0;">${label}<p style="${wrap}">${tag}</p></section>\n`;
   }
   return `<p style="margin:18px 0;${wrap.replace('margin:0;', '')}">${tag}</p>\n`;
+}
+
+/** 将代码块内的 ├── 目录树转为 Markdown 嵌套列表，避免公众号/Word 乱码 */
+function preprocessDirectoryTrees(md) {
+  const lines = md.split('\n');
+  const out = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim().startsWith('```')) {
+      out.push(line);
+      i++;
+      continue;
+    }
+    const open = line;
+    i++;
+    const body = [];
+    while (i < lines.length && !lines[i].startsWith('```')) {
+      body.push(lines[i]);
+      i++;
+    }
+    const close = i < lines.length ? lines[i] : '```';
+    const bodyText = body.join('\n');
+    if (!TREE_LINE.test(bodyText)) {
+      out.push(open, ...body, close);
+      i++;
+      continue;
+    }
+    for (const raw of body) {
+      const trimmed = raw.trim();
+      if (!trimmed) continue;
+      const text = trimmed
+        .replace(/^[\s│├└─]+/, '')
+        .replace(/\s*←\s*/, ' — ')
+        .trim();
+      if (!text) continue;
+      const indent = raw.match(/^\s*/)[0].length;
+      const level = indent >= 4 ? 2 : /^[├└]/.test(trimmed) || indent > 0 ? 1 : 0;
+      const pathPart = text.split(' — ')[0].trim();
+      const note = text.includes(' — ') ? ' — ' + text.split(' — ').slice(1).join(' — ') : '';
+      const looksLikePath = /[/\\]|\.md$/.test(pathPart);
+      const bulletText = looksLikePath ? `\`${pathPart}\`${note}` : text;
+      out.push(`${'  '.repeat(level)}- ${bulletText}`);
+    }
+    out.push('');
+    i++;
+  }
+  return out.join('\n');
 }
 
 function preprocessAsciiBoxes(md) {
@@ -469,7 +519,7 @@ const HTML_SHELL = (title, body, generatedAt) => `<!DOCTYPE html>
 <div class="toolbar">
   <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
   <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
-  <span class="hint">本地图上方会显示文件名，便于对照上传。富文本复制会保留超链；图片需在公众号里重新上传。</span>
+  <span class="hint">本地图上方为文件名（纯文字，无装饰）。复制后粘贴到公众号，上传图片后可整行删掉文件名。外链图不显示文件名。</span>
 </div>
 <div id="article">
 ${body}
@@ -599,7 +649,7 @@ function convertPost(postDir, options = {}) {
   }
 
   const mdRaw = readFileSync(mdPath, 'utf-8');
-  const md = preprocessAsciiBoxes(mdRaw);
+  const md = preprocessAsciiBoxes(preprocessDirectoryTrees(mdRaw));
   const title = extractTitle(mdRaw);
   const body = markdownToHtml(md);
   const html = HTML_SHELL(

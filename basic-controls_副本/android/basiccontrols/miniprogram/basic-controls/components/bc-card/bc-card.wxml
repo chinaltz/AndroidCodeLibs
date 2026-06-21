@@ -1,3 +1,0 @@
-<view class="bc-card" style="--bc-surface: {{theme.surfaceRaised}}; --bc-border: {{theme.borderDefault}};">
-  <slot></slot>
-</view>

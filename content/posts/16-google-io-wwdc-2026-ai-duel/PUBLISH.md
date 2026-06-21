@@ -27,12 +27,12 @@
 | 公众号 HTML | `index.html` | ✅（本地图，未上传公网） |
 | Word | `*.docx` | ✅ |
 | 公网图链版 | `index.published.md` | ⬜ 需配置 `image-upload.config.json` |
-| 微信搜一搜 5 图 | `social/wechat-search/wechat-card-*.png` | ✅ |
+| 搜一搜 5 图 | `social/wechat-search/wechat-card-*.png` | ✅ |
 | 搜一搜发布说明 | `social/wechat-search/UPLOAD.md` | ✅ |
 
 ### 发布前待办
 
 - [ ] 公众号后台上传封面（可用 `images/header.png` 或 `wechat-card-01.png`）
 - [ ] 打开 `index.html` → 一键复制正文 → 粘贴公众号（图片需在后台逐张上传）
-- [ ] 微信搜一搜：按 `social/wechat-search/UPLOAD.md` 上传 5 张图文卡
+- [ ] 搜一搜：按 `social/wechat-search/UPLOAD.md` 上传 5 张图文卡
 - [ ] （可选）配置图床后执行 `npm run publish:post -- content/posts/16-google-io-wwdc-2026-ai-duel`

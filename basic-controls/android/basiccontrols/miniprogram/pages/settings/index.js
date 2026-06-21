@@ -45,6 +45,10 @@ Page({
     nav.navigateTo('/pages/settings-data/index');
   },
 
+  goPetTest() {
+    nav.navigateTo('/packages/pet/pages/pet-test/index');
+  },
+
   onTabChange(e) {
     if (e.detail.key === 'home') {
       wx.redirectTo({

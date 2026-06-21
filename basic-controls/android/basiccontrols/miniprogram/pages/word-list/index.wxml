@@ -1,5 +1,5 @@
 <view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="全部错字" show-back="{{true}}" action-text="录入" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" bind:action="goManualWrongEntry" />
+  <bc-top-bar title="错字管理" show-back="{{true}}" action-text="录入" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" bind:action="goManualWrongEntry" />
 
   <view class="toolbar" style="background: {{theme.surfaceRaised}}; border-color: {{theme.borderDefault}};">
     <view class="search-input"><bc-input theme="{{theme}}" value="{{keyword}}" placeholder="搜索错字或关联听写词" bind:input="onSearchInput" /></view>

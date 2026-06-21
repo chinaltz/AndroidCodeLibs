@@ -46,7 +46,17 @@ function nowId(prefix) {
 }
 
 function getChildren() {
-  return load().children || [];
+  const data = load();
+  let changed = false;
+  data.children = (data.children || []).map((child) => {
+    if ((child.moduleConfigVersion || 1) >= 2) return child;
+    changed = true;
+    const modules = Array.isArray(child.modules) ? child.modules.slice() : ['phonics', 'pinyin', 'words'];
+    if (modules.indexOf('vocabulary') < 0) modules.push('vocabulary');
+    return Object.assign({}, child, { modules: normalizeModules(modules), moduleConfigVersion: 2 });
+  });
+  if (changed) save(data);
+  return data.children;
 }
 
 function getCurrentChildId() {
@@ -73,6 +83,7 @@ function createChild(input) {
     avatar: input.avatar || 'boy',
     themeKey: input.themeKey || 'sky',
     modules: normalizeModules(input.modules),
+    moduleConfigVersion: 2,
     createdAt: time,
     updatedAt: time,
   };
@@ -128,7 +139,7 @@ function deleteChild(id) {
 }
 
 function normalizeModules(modules) {
-  const allowed = ['phonics', 'pinyin', 'words'];
+  const allowed = ['phonics', 'pinyin', 'words', 'vocabulary'];
   const source = Array.isArray(modules) && modules.length ? modules : allowed;
   return allowed.filter((key) => source.indexOf(key) >= 0);
 }

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>9.9 元试遍国产编程 AI：火山方舟套餐实测</title>
+<style>
+ * { box-sizing: border-box; }
+ body {
+ font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+ font-size: 16px;
+ line-height: 1.8;
+ color: #365D82;
+ max-width: 680px;
+ margin: 0 auto;
+ padding: 20px;
+ background:
+ radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+ radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+ radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+ radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+ linear-gradient(180deg, #DDF4FF, #F9FDFF);
+ }
+ .toolbar {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background: rgba(255,255,255,0.90);
+ backdrop-filter: blur(8px);
+ border-bottom: 2px solid #C8EAFF;
+ padding: 12px 20px;
+ margin: -20px -20px 20px;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ flex-wrap: wrap;
+ }
+ .toolbar button {
+ background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+ color: #fff;
+ border: 2px solid rgba(255,255,255,0.55);
+ padding: 8px 16px;
+ border-radius: 999px;
+ font-size: 14px;
+ cursor: pointer;
+ font-family: inherit;
+ font-weight: 800;
+ box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+ }
+ .toolbar button:hover { background: #1479D6; }
+ .toolbar button.secondary {
+ background: #FFFFFF;
+ color: #173A62;
+ border: 2px solid #C8EAFF;
+ box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+ }
+ .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+ #article {
+ background:
+ radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+ radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+ radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+ rgba(255,255,255,0.97);
+ border: 2px solid #C8EAFF;
+ border-radius: 32px;
+ padding: 18px;
+ box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+ }
+ .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+</style>
+</head>
+<body>
+<div class="toolbar">
+ <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+ <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+ <span class="hint">本地图上方会显示文件名，便于对照上传。富文本复制会保留超链；图片需在公众号里重新上传。</span>
+</div>
+<div id="article">
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">title: &quot;9.9 元试遍国产编程 AI：火山方舟套餐实测&quot; difficulty: ⭐⭐ date: 2026-06-17 tags: [AI编程, 火山方舟, GLM-5.2, Claude Code, Coding Plan]</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">9.9 元试遍国产编程 AI：火山方舟套餐实测</h1>
+<section style="margin:20px 0;"><p style="margin:0 0 10px;padding:12px 16px;text-align:center;font-size:24px;font-weight:900;line-height:1.35;color:#173A62;background:#FFF7D7;border:2px dashed #31A8FF;border-radius:18px;letter-spacing:0.03em;user-select:all;-webkit-user-select:all;">header.png</p><p style="margin:0;"><img src="images/header.png" alt="头图：9.9 元试遍国产编程 AI，火山方舟套餐实测" style="max-width:100%;display:block;border-radius:26px;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p></section>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">火山方舟 Coding Plan 上手指南</p><p style="margin:4px 0;">技趣星球 · 用技术创造乐趣。</p><p style="margin:4px 0;">本文写作时间：2026 年 6 月 17 日。套餐价格、模型列表和接入方式可能随时调整，动手前以火山引擎官网为准。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">我前几天刷到一个活动：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">火山引擎方舟的 Coding Plan，首月 9.9 元起。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">没多想，直接买了。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">为什么？因为它把 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">GLM、豆包、DeepSeek、Kimi、MiniMax</strong> 等主流国产编程 AI 打包进同一个套餐，额度还能在 Claude Code、Cline（VSCode）、OpenCode 等近 10 款工具里共享——不用给每个工具单独充值。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以把它想成 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">AI 编程版的 Netflix</strong>：花一份订阅费，里面的模型随便切，工具也随便换。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">难度：⭐⭐</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">需要会打开一个编程工具（Claude Code 或 VSCode + Cline），照着改两行配置。第一次可能要花 10 分钟，但不用写代码。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>Coding Plan 到底卖什么？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一句话：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一个国产编程 AI 的订阅套餐，不是某一个模型。</strong></p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">和单独买各家 API 相比，它解决的是三个麻烦：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">痛点</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">Coding Plan 怎么解</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">每个工具各充各的</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">一套额度，Claude Code / Cline / OpenCode 通用</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">不知道哪个模型好用</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">豆包、GLM、Kimi、DeepSeek 等随时切换</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">各家接口地址不一样</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">统一 Base URL + API Key，改一次到处用</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">目前套餐里常见模型包括（以控制台实时列表为准）：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">模型</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">适合干什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">GLM-5.2</strong></td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">长任务、跨文件重构、项目级理解（新）</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Doubao-Seed-2.0-Code</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">前端、多模态看图写界面</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Kimi-K2.5 / K2.6</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">复杂逻辑、长文档推理</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">DeepSeek-V3.2</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">日常改代码、性价比高</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">MiniMax-M2.7</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Agent 类任务、多步执行</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">GLM-4.7</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">调试、全链路代码理解</td></tr></tbody></table></section>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">想先试用试一下？<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">可先查看官方试用额度</strong>，先尝后买，不亏。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>GLM-5.2：这次上新最值得关注的</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">智谱在 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">6 月 13 日</strong> 先向 Coding Plan 用户开放 GLM-5.2，<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">6 月 17 日</strong> 正式开源上线。普通人不用记参数表，记住下面三点就够：</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>① 真正能用的 100 万上下文</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">「100 万上下文」的意思是：它能一次性「记住」的内容特别多。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">别家模型标称长上下文，实际一塞就丢内容；GLM-5.2 实测可以把<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">整个项目的代码</strong>丢进去，接得住、不「断片」。你让它改一个跨好几个文件的项目，它不会改着改着忘了开头。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>② 专为「长任务」打造，写代码更稳</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">「长任务」就是那种需要分好多步、跨好多文件才能干完的活儿。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">比如「按团队规范重构这个模块」「把 Web 项目迁移成小程序」。GLM-5.2 在这种活儿上更稳，你说一句「按这个规范改」，它真能从头到尾守着规范走，不会中途放飞自我。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>③ 国产算力 + MIT 开源</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">它 Day 0 适配了华为昇腾等国产算力平台，权重已上线 Hugging Face 和 ModelScope，采用 <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">MIT 协议开源</strong>——能下载、能部署、能商用。</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">「思考模式 / 标准模式」切换、「工程规范遵循」这些，属于锦上添花。你用一个真实项目跑一遍，比看参数表更有感觉。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>这 9.9 到底值不值？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">适合</strong>：已经会写点代码、或者正在学编程，想低成本把主流国产编程 AI 都摸一遍的人。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">不太适合</strong>：完全零基础、还没用过任何编程工具的人。你得先会用一个编辑器（VSCode 装 Cline，或终端里跑 Claude Code），套餐里的模型才能帮你。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">换句话说，这 9.9 是给「想动手的人」准备的加速包，不是给「想躺平的人」的躺赢券。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Lite 和 Pro 两档套餐，差别主要在每月可用额度。中等强度日常开发，Lite 通常够用；复杂项目、高频 Agent 任务，再考虑 Pro。</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">提醒：9.9 是<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">首月优惠价</strong>，后续会回到常规价。先用试用跑一遍，觉得顺手再续，别一上来就囤年费。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>怎么接入？改两行配置 ⭐⭐</h2>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>第一步：拿到 API Key</h3>
+<ol style="margin:14px 0;padding:14px 18px 14px 34px;line-height:1.85;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:6px 0;padding-left:2px;">打开 <a href="https://www.volcengine.com/activity/codingplan" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">火山方舟 Coding Plan 活动页</a> 订阅或领取试用</li>
+<li style="margin:6px 0;padding-left:2px;">进入火山方舟控制台 → <strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">API Key 管理</strong>，创建并复制 Key</li></ol>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>Claude Code 用户</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Claude Code 走 Anthropic 兼容协议，在配置文件里填入：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">配置项</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">填什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Base URL</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">https://ark.cn-beijing.volces.com/api/coding</code></td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">API Key</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">刚才复制的火山方舟 Key</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Model Name</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">glm-5.2</code>（或 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">ark-code-latest</code> 在控制台统一切换）</td></tr></tbody></table></section>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">保存后跑一条命令测试，能正常回复就说明接通了。</p>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>Cline（VSCode）用户</h3>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">Cline 走 OpenAI 兼容协议，在扩展设置里填入：</p>
+<section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">配置项</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">填什么</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">API Base URL</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">https://ark.cn-beijing.volces.com/api/coding/v3</code></td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">API Key</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">刚才复制的火山方舟 Key</td></tr>
+<tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Model Name</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;"><code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">glm-5.2</code></td></tr></tbody></table></section>
+<h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>两种切模型方式</h3>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">方式 A</strong>：Model Name 填 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">ark-code-latest</code>，在火山方舟控制台一键切换，3～5 分钟生效</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">方式 B</strong>：直接在工具里填具体模型名（如 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">kimi-k2.5</code>、<code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">glm-5.2</code>），实时切换</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">写前端可以切豆包，跑长任务切 GLM-5.2，复杂推理切 Kimi——同一套额度，不用重新充值。</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">官方文档也写了 Cursor 等工具的接入方式，但 Cursor 目前不方便自定义 Base URL，本文以 Claude Code 和 Cline 为准。</p></blockquote>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>怎么测出 GLM-5.2 的真正价值？</h2>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">别拿「写个 hello world」测——那种测不出长上下文。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">领完试用后，挑一个你手头<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">真实的小项目</strong>（哪怕是个 demo），把项目目录丢给它，用下面这条提示词试试：</p>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">请阅读当前项目，输出系统架构图谱、核心模块职责、关键接口契约，以及后续改造时必须遵守的工程约束。然后在不改变业务逻辑的前提下，完成 [你具体想改的事]。</p></blockquote>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">如果一个任务能跨 3～5 个文件持续推进、中途不「失忆」，你就体会到「它真的记得住」是什么感觉了。</p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>今天小结</h2>
+<ul style="margin:14px 0;padding:14px 18px 14px 30px;line-height:1.85;list-style:disc;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.66),0 12px 26px rgba(49,168,255,0.06);"><li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">火山方舟 Coding Plan</strong> = 国产编程 AI 订阅套餐，GLM / 豆包 / DeepSeek / Kimi 等都能用，首月 9.9 元起，额度跨工具共享。</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">GLM-5.2</strong> = 智谱 6 月新发的旗舰模型，<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">100 万上下文 + 长任务稳 + MIT 开源</strong>是三个关键词。</li>
+<li style="margin:4px 0;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">接入方式</strong> = Base URL + API Key，Claude Code 或 Cline 改两行配置就能用。</li></ul>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;"><strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">一个能立刻做的动作</strong>：领完试用，用 Claude Code 或 Cline 接好配置，把 Model Name 设为 <code style="background:#FFF7D7;padding:2px 8px;border-radius:999px;font-size:14px;font-family:Menlo,Consolas,monospace;color:#173A62;border:1px solid #E4F5FF;">glm-5.2</code>，拿一个真实小项目跑一遍重构任务。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">一杯奶茶钱，试出一个值不值得长期用的答案——<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">先试再说，才是薅羊毛的正确姿势。</strong></p>
+<hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">参考资料：<br/>- <a href="https://docs.bigmodel.cn/cn/guide/models/text/glm-5.2" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">GLM-5.2 官方文档 — 智谱 AI 开放平台</a><br/>- <a href="https://www.volcengine.com/activity/codingplan" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">方舟 Coding Plan 官方活动页 — 火山引擎</a><br/>- <a href="https://www.volcengine.com/docs/82379/1925114" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">火山方舟套餐计费文档</a><br/>- <a href="https://www.volcengine.com/article/37467" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">火山方舟 Coding Plan 接入指南</a></p></blockquote>
+
+</div>
+<p class="meta">由 md-to-wechat 自动生成 · 2026/6/17 20:55:44</p>
+<script>
+function selectArticle() {
+ const el = document.getElementById('article');
+ const range = document.createRange();
+ range.selectNodeContents(el);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
+}
+
+function buildClipboardPayload() {
+ const el = document.getElementById('article');
+ const clone = el.cloneNode(true);
+
+ clone.querySelectorAll('a[href]').forEach((a) => {
+ const href = a.getAttribute('href') || '';
+ try {
+ a.href = new URL(href, window.location.href).href;
+ } catch (_) {
+ a.setAttribute('href', href);
+ }
+ a.setAttribute('target', '_blank');
+ a.setAttribute('rel', 'noopener noreferrer');
+ });
+
+ clone.querySelectorAll('img[src]').forEach((img) => {
+ const src = img.getAttribute('src') || '';
+ try {
+ img.src = new URL(src, window.location.href).href;
+ } catch (_) {
+ img.setAttribute('src', src);
+ }
+ });
+
+ const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+ const text = Array.from(clone.childNodes)
+ .map((node) => node.innerText || node.textContent || '')
+ .join('\n')
+ .replace(/\n{3,}/g, '\n\n');
+
+ const links = Array.from(clone.querySelectorAll('a[href]'))
+ .map((a) => {
+ const label = (a.innerText || a.textContent || '').trim();
+ const href = a.getAttribute('href');
+ return label && href ? label + '：' + href : href;
+ })
+ .filter(Boolean)
+ .join('\n');
+ const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+
+ return { html, text: textWithLinks.trim() };
+}
+
+function copyViaSelection(html) {
+ const holder = document.createElement('div');
+ holder.setAttribute('contenteditable', 'true');
+ holder.style.position = 'fixed';
+ holder.style.left = '-99999px';
+ holder.style.top = '0';
+ holder.innerHTML = html;
+ document.body.appendChild(holder);
+
+ const range = document.createRange();
+ range.selectNodeContents(holder);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
+ const ok = document.execCommand('copy');
+ sel.removeAllRanges();
+ document.body.removeChild(holder);
+ return ok;
+}
+
+async function copyArticle() {
+ try {
+ const { html, text } = buildClipboardPayload();
+ if (navigator.clipboard && window.ClipboardItem) {
+ await navigator.clipboard.write([
+ new ClipboardItem({
+ 'text/html': new Blob([html], { type: 'text/html' }),
+ 'text/plain': new Blob([text], { type: 'text/plain' })
+ })
+ ]);
+ } else {
+ copyViaSelection(html);
+ }
+ alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+ } catch (e) {
+ try {
+ const { html } = buildClipboardPayload();
+ copyViaSelection(html);
+ alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+ } catch (e2) {
+ alert('复制失败：请点「选中正文」后手动 Cmd+C');
+ }
+ }
+}
+</script>
+</body>
+</html>

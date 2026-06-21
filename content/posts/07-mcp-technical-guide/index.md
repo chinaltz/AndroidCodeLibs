@@ -2,7 +2,7 @@
 
 > 从概念到实操，手把手带你接上第一个 MCP 工具
 >
-> 关注 技趣星球，一起用技术创造乐趣。
+> 技趣星球 · 用技术创造乐趣。
 
 ![头图：MCP 像 AI 世界里的 Type-C 接口](./images/header.png)
 
@@ -20,11 +20,11 @@
 
 ```text
 打开设计稿
-  → 截图
-  → 手动看字号、间距、颜色
-  → 把页面结构描述给 AI
-  → AI 写代码
-  → 你再一点点对齐
+ → 截图
+ → 手动看字号、间距、颜色
+ → 把页面结构描述给 AI
+ → AI 写代码
+ → 你再一点点对齐
 ```
 
 接上 Figma MCP 之后，感觉就不一样了。
@@ -77,7 +77,7 @@ AI 可以读取设计稿里的页面结构、图层信息、颜色和尺寸，�
 
 别被名字吓到。一句话：**MCP 就是 AI 调用外部工具的「Type-C 接口」。以前每个工具都要单独接线，有了它，一套接口全搞定。**
 
-上手难度：⭐⭐⭐  
+上手难度：⭐⭐⭐ 
 只用现成 MCP 服务，难度不高；自己写 MCP Server，需要一点编程基础。
 
 ---
@@ -247,10 +247,10 @@ MCP 真正火起来，是 2025 年上半年的事：
 
 ```text
 找到 MCP 配置入口
-  → 添加一个 MCP Server
-  → 填入启动命令或远程地址
-  → 保存并重启客户端
-  → 在对话里授权 AI 调用工具
+ → 添加一个 MCP Server
+ → 填入启动命令或远程地址
+ → 保存并重启客户端
+ → 在对话里授权 AI 调用工具
 ```
 
 ### 3.2 安装一个最简单的 MCP Server
@@ -261,16 +261,16 @@ MCP 真正火起来，是 2025 年上半年的事：
 
 ```json
 {
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "/Users/你的用户名/Desktop"
-      ]
-    }
-  }
+ "mcpServers": {
+ "filesystem": {
+ "command": "npx",
+ "args": [
+ "-y",
+ "@modelcontextprotocol/server-filesystem",
+ "/Users/你的用户名/Desktop"
+ ]
+ }
+ }
 }
 ```
 
@@ -337,11 +337,11 @@ AI 客户端可以通过 MCP 调用它
 
 ```text
 你提出任务
-  → AI 判断需要查询订单
-  → MCP Client 发起工具调用
-  → MCP Server 调用真实订单系统
-  → 订单系统返回结果
-  → AI 把结果整理成人话
+ → AI 判断需要查询订单
+ → MCP Client 发起工具调用
+ → MCP Server 调用真实订单系统
+ → 订单系统返回结果
+ → AI 把结果整理成人话
 ```
 
 MCP Server 本质上就是个「工具转接头」——把真实系统的能力，整理成 AI 能看懂、能调用的工具。
@@ -392,16 +392,16 @@ MCP Tool 会告诉 AI 三件事：叫什么、能做什么、要什么参数。�
 
 ```json
 {
-  "name": "query_orders",
-  "description": "查询某个用户最近的订单",
-  "inputSchema": {
-    "type": "object",
-    "properties": {
-      "userId": { "type": "string", "description": "用户 ID" },
-      "limit": { "type": "number", "description": "返回订单数量" }
-    },
-    "required": ["userId"]
-  }
+ "name": "query_orders",
+ "description": "查询某个用户最近的订单",
+ "inputSchema": {
+ "type": "object",
+ "properties": {
+ "userId": { "type": "string", "description": "用户 ID" },
+ "limit": { "type": "number", "description": "返回订单数量" }
+ },
+ "required": ["userId"]
+ }
 }
 ```
 
@@ -415,8 +415,8 @@ MCP 关注的是「模型应用怎么拿到上下文、怎么调用工具、怎�
 
 ```text
 Host 连接 MCP Server → Client 初始化会话 → Server 声明能力
-  → Host 把可用工具展示给模型 → 模型选工具 → Client 发 tool call
-  → Server 执行并返回 → 模型继续推理或输出最终回答
+ → Host 把可用工具展示给模型 → 模型选工具 → Client 发 tool call
+ → Server 执行并返回 → 模型继续推理或输出最终回答
 ```
 
 核心概念速查：
@@ -482,11 +482,11 @@ AI 客户端 → MCP 协议 → MCP Server → 你的业务 API / 数据库 / �
 
 ```text
 打开 MCP 广场
-  → 搜索你需要的能力
-  → 查看 Server 说明
-  → 复制配置方式
-  → 粘贴到支持 MCP 的客户端
-  → 按要求填写 API Key 或账号信息
+ → 搜索你需要的能力
+ → 查看 Server 说明
+ → 复制配置方式
+ → 粘贴到支持 MCP 的客户端
+ → 按要求填写 API Key 或账号信息
 ```
 
 适合找这些类型的能力：
@@ -517,10 +517,10 @@ AI 客户端 → MCP 协议 → MCP Server → 你的业务 API / 数据库 / �
 
 ```text
 登录阿里云百炼
-  → 进入智能体或工具相关页面
-  → 查看 MCP 工具或服务接入
-  → 绑定需要的 API Key
-  → 在智能体里调用对应工具
+ → 进入智能体或工具相关页面
+ → 查看 MCP 工具或服务接入
+ → 绑定需要的 API Key
+ → 在智能体里调用对应工具
 ```
 
 如果你只是个人体验，ModelScope MCP 广场更轻。
@@ -541,10 +541,10 @@ MCP.so 是一个 MCP Server 导航站。
 
 ```text
 打开 MCP.so
-  → 输入关键词
-  → 查看 Server 的 GitHub、文档、安装命令
-  → 判断是否维护活跃
-  → 复制配置到客户端
+ → 输入关键词
+ → 查看 Server 的 GitHub、文档、安装命令
+ → 判断是否维护活跃
+ → 复制配置到客户端
 ```
 
 使用时建议重点看三件事：
@@ -571,10 +571,10 @@ Glama 的 MCP Server 目录分类比较清楚。
 
 ```text
 搜索能力
-  → 打开 Server 页面
-  → 查看安装命令
-  → 看文档和权限
-  → 放进客户端配置
+ → 打开 Server 页面
+ → 查看安装命令
+ → 看文档和权限
+ → 放进客户端配置
 ```
 
 如果 MCP.so 没找到，可以换 Glama 再搜一次。
@@ -591,10 +591,10 @@ Glama 的 MCP Server 目录分类比较清楚。
 
 ```text
 进入 GitHub 官方组织
-  → 找 SDK 或 Server 项目
-  → 阅读 README
-  → 按说明安装
-  → 遇到问题查 issue
+ → 找 SDK 或 Server 项目
+ → 阅读 README
+ → 按说明安装
+ → 遇到问题查 issue
 ```
 
 如果你想自己开发 MCP Server，这是必须看的入口。
@@ -659,12 +659,12 @@ Glama 的 MCP Server 目录分类比较清楚。
 
 ```text
 文件系统
-  → 搜索
-  → GitHub
-  → 浏览器
-  → 数据库只读
-  → 内部系统只读
-  → 写入类操作
+ → 搜索
+ → GitHub
+ → 浏览器
+ → 数据库只读
+ → 内部系统只读
+ → 写入类操作
 ```
 
 越往后，越要重视权限。
@@ -759,7 +759,7 @@ README 是否清楚说明权限
 ```text
 这个页面我有没有权限访问？
 截图或摘要是不是只用于个人学习 / 内部分析？
-有没有抓取评论、头像、手机号等隐私信息？
+有没有抓取评论、头像、手机号等隐留言息？
 会不会把别人的视频、图片、文案搬到自己的账号里？
 ```
 

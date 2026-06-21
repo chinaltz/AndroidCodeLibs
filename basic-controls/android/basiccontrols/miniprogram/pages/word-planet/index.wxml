@@ -35,10 +35,10 @@
           style="background: {{theme.selectedFill}}; border-color: {{theme.borderDefault}};"
           bindtap="goDictationList"
         >
-          <view class="quick-icon" style="background: {{theme.surfaceRaised}}; color: {{theme.brandPrimary}};">听</view>
+          <view class="quick-icon" style="background: {{theme.surfaceRaised}}; color: {{theme.brandPrimary}};">定</view>
           <view class="quick-main">
-            <view class="quick-title" style="color: {{theme.textPrimary}};">开始听写</view>
-            <view class="quick-desc" style="color: {{theme.textTertiary}};">管理本次听写词列表</view>
+            <view class="quick-title" style="color: {{theme.textPrimary}};">听写计划</view>
+            <view class="quick-desc" style="color: {{theme.textTertiary}};">家长设置今日内容 · {{dictationPlanCount}} 词</view>
           </view>
           <view class="entry-arrow" style="color: {{theme.textTertiary}};">›</view>
         </view>
@@ -46,12 +46,12 @@
           class="quick-entry"
           hover-class="quick-entry--pressed"
           style="background: {{theme.activeFill}}; border-color: {{theme.borderDefault}};"
-          bindtap="goTextbookDictation"
+          bindtap="goStartDictation"
         >
-          <view class="quick-icon" style="background: {{theme.surfaceRaised}}; color: {{theme.brandDark}};">本</view>
+          <view class="quick-icon" style="background: {{theme.surfaceRaised}}; color: {{theme.brandDark}};">听</view>
           <view class="quick-main">
-            <view class="quick-title" style="color: {{theme.textPrimary}};">课文听写</view>
-            <view class="quick-desc" style="color: {{theme.textTertiary}};">按年级和课本选词</view>
+            <view class="quick-title" style="color: {{theme.textPrimary}};">开始听写</view>
+            <view class="quick-desc" style="color: {{theme.textTertiary}};">孩子直接开始，只显示进度</view>
           </view>
           <view class="entry-arrow" style="color: {{theme.textTertiary}};">›</view>
         </view>
@@ -135,7 +135,7 @@
   <view class="word-planet-footer">
     <bc-sticky-footer theme="{{theme}}">
       <view class="footer-actions footer-actions--single">
-        <bc-button text="开始听写" variant="primary" block="{{true}}" theme="{{theme}}" bind:tap="goDictationList" />
+        <bc-button text="开始听写 · {{dictationPlanCount}} 词" variant="primary" block="{{true}}" theme="{{theme}}" bind:tap="goStartDictation" />
       </view>
     </bc-sticky-footer>
   </view>

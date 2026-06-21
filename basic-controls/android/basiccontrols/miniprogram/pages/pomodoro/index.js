@@ -43,9 +43,7 @@ Page({
   timerHandle: null,
   vibrateHandle: null,
   _compassCenter: null,
-  _dragLastAngle: 0,
-  _dragAccumulatedAngle: 0,
-  _dragStartMinutes: 25,
+  _compassRadius: 0,
   _dragging: false,
   _lastSnapMinutes: 25,
 
@@ -93,6 +91,7 @@ Page({
           x: rect.left + rect.width / 2,
           y: rect.top + rect.height / 2,
         };
+        this._compassRadius = Math.min(rect.width, rect.height) / 2;
       })
       .exec();
   },
@@ -202,7 +201,23 @@ Page({
 
   onPresetTap(e) {
     const minutes = Number(e.currentTarget.dataset.minutes);
-    this.refreshFrom(pomodoro.setTimerPreset(minutes));
+    if (!minutes) return;
+    const next = compass.clampMinutes(minutes);
+    this._dragging = false;
+    this.setData({
+      activePreset: next,
+      customMinutes: next,
+      ringRotate: compass.minutesToRotate(next),
+      timerDisplay: pomodoro.formatClock(next * 60),
+      timerProgress: 0,
+      timerProgressDeg: 0,
+      timerProgressStyle: 'background: conic-gradient(from -90deg, #31A8FF 0deg, #43CFC7 0deg, rgba(228,245,255,0.35) 0deg);',
+      timerRunning: false,
+      alarmActive: false,
+      compassEnabled: true,
+      compassHint: `已设定 ${next} 分钟`,
+    });
+    this.refreshFrom(pomodoro.setTimerPreset(next));
   },
 
   onDismissAlarm() {
@@ -216,10 +231,14 @@ Page({
     const touch = e.touches[0];
     if (!touch || !this._compassCenter) return;
     const point = touchPoint(touch);
+    const distance = Math.hypot(
+      point.x - this._compassCenter.x,
+      point.y - this._compassCenter.y,
+    );
+    if (!this._compassRadius
+      || distance < this._compassRadius * 0.58
+      || distance > this._compassRadius * 1.08) return;
     this._dragging = true;
-    this._dragStartMinutes = this.data.customMinutes;
-    this._dragLastAngle = compass.touchAngle(point.x, point.y, this._compassCenter.x, this._compassCenter.y);
-    this._dragAccumulatedAngle = 0;
     this.setData({ compassDragging: true });
   },
 
@@ -228,13 +247,14 @@ Page({
     const touch = e.touches[0];
     if (!touch) return;
     const point = touchPoint(touch);
+    const distance = Math.hypot(
+      point.x - this._compassCenter.x,
+      point.y - this._compassCenter.y,
+    );
+    if (distance < this._compassRadius * 0.42) return;
     const angle = compass.touchAngle(point.x, point.y, this._compassCenter.x, this._compassCenter.y);
-    const frameDelta = compass.normalizeDelta(angle - this._dragLastAngle);
-    this._dragLastAngle = angle;
-    this._dragAccumulatedAngle += frameDelta;
-    const customMinutes = compass.dragDeltaToMinutes(this._dragStartMinutes, this._dragAccumulatedAngle);
-    const ringRotate = compass.minutesToRotate(customMinutes);
-    if (customMinutes === this.data.customMinutes && ringRotate === this.data.ringRotate) return;
+    const customMinutes = compass.rotateToMinutes(angle);
+    const ringRotate = ((angle % 360) + 360) % 360;
     const matchedPreset = PRESET_OPTIONS.some((item) => item.minutes === customMinutes)
       ? customMinutes
       : -1;

@@ -1,0 +1,29 @@
+.calendar-page { height: 100vh; }
+.calendar-scroll { height: calc(100vh - 110rpx); padding: 20rpx 24rpx 0; box-sizing: border-box; }
+.calendar-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12rpx; }
+.calendar-stats > view { padding: 18rpx 8rpx; border-radius: 22rpx; background: #fff; border: 2rpx solid #d8eef8; text-align: center; }
+.calendar-stats strong, .calendar-stats text { display: block; }
+.calendar-stats strong { color: #1479d6; font-size: 34rpx; }
+.calendar-stats text { margin-top: 5rpx; color: #7895ae; font-size: 20rpx; }
+.calendar-card, .journal-card { margin-top: 18rpx; padding: 22rpx; border-radius: 28rpx; background: #fff; border: 2rpx solid #d8eef8; }
+.month-head { display: flex; align-items: center; justify-content: space-between; }
+.month-title { color: #173a62; font-size: 30rpx; font-weight: 900; }
+.month-btn { width: 64rpx; height: 64rpx; border-radius: 18rpx; background: #eef8ff; color: #1479d6; font-size: 42rpx; line-height: 60rpx; text-align: center; }
+.week-row, .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.week-row { margin-top: 18rpx; color: #7895ae; font-size: 20rpx; text-align: center; }
+.day-grid { margin-top: 8rpx; gap: 5rpx; }
+.day-cell { position: relative; aspect-ratio: 1; border-radius: 16rpx; color: #365d82; display: flex; align-items: center; justify-content: center; font-size: 23rpx; }
+.day-cell.is-other { opacity: .32; }
+.day-cell.is-completed { background: #fff4bd; color: #8f5300; font-weight: 900; }
+.day-cell.is-selected { box-shadow: inset 0 0 0 3rpx #31a8ff; }
+.day-star { position: absolute; right: 3rpx; top: 1rpx; color: #ffb11b; font-size: 17rpx; }
+.day-log-dot { position: absolute; bottom: 5rpx; width: 8rpx; height: 8rpx; border-radius: 50%; background: #43cfc7; }
+.journal-head { display: flex; align-items: center; justify-content: space-between; gap: 14rpx; }
+.journal-title { color: #173a62; font-size: 29rpx; font-weight: 900; }
+.journal-date { margin-top: 5rpx; color: #7895ae; font-size: 20rpx; }
+.journal-status { flex: 0 0 auto; padding: 9rpx 14rpx; border-radius: 999rpx; background: #f1f5f8; color: #7895ae; font-size: 20rpx; font-weight: 900; }
+.journal-status.is-done { background: #e9fbf6; color: #0c8f80; }
+.journal-input { width: 100%; height: 190rpx; margin-top: 18rpx; padding: 18rpx; border-radius: 20rpx; background: #f7fbfd; border: 2rpx solid #d8eef8; box-sizing: border-box; font-size: 25rpx; line-height: 1.55; }
+.journal-save { height: 78rpx; margin-top: 14rpx; border-radius: 20rpx; background: #1479d6; color: #fff; font-size: 27rpx; font-weight: 900; line-height: 78rpx; text-align: center; }
+.calendar-tip { margin: 18rpx 8rpx 0; color: #7895ae; font-size: 21rpx; line-height: 1.5; text-align: center; }
+.calendar-safe { height: calc(36rpx + env(safe-area-inset-bottom)); }

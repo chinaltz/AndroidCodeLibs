@@ -1,2 +1,0 @@
-.bc-link { color: var(--bc-brand); font-size: 28rpx; font-weight: 700; }
-.bc-link.is-inverse { color: #fff; }

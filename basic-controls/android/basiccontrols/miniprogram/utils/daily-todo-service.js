@@ -1,15 +1,15 @@
 const storage = require('./storage');
+const checkin = require('./checkin-service');
 
 const KEY = 'daily_todo_state_v1';
 
 const DEFAULT_TEMPLATE = [
+  { title: '暑假语文作业', presetMinutes: 20 },
+  { title: '暑假数学作业', presetMinutes: 20 },
+  { title: '暑假口算', presetMinutes: 15 },
   { title: '英语打卡', presetMinutes: 20 },
-  { title: '音标大书', presetMinutes: 15 },
-  { title: '听写', presetMinutes: 10 },
-  { title: '口算', presetMinutes: 15 },
   { title: '错题', presetMinutes: 10 },
-  { title: '实验班', presetMinutes: 20 },
-  { title: '卷子', presetMinutes: 30 },
+  { title: '听写', presetMinutes: 10 },
 ];
 
 function load() {
@@ -97,7 +97,7 @@ function ensureDaily(bucket) {
 }
 
 function persistItems(bucket, items) {
-  const sorted = items.slice().sort((a, b) => a.sortOrder - b.sortOrder);
+  const sorted = items.slice();
   sorted.forEach((item, index) => {
     item.sortOrder = index;
   });
@@ -134,7 +134,11 @@ function toggleItem(itemId) {
   if (target) target.done = !target.done;
   persistItems(bucket, items);
   save(root);
-  return state();
+  const snapshot = state();
+  if (snapshot.totalCount > 0 && snapshot.doneCount === snapshot.totalCount) {
+    snapshot.checkinResult = checkin.recordDailyCompletion(snapshot.totalCount);
+  }
+  return snapshot;
 }
 
 function addItem(title, presetMinutes) {

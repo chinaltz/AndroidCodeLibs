@@ -1,11 +1,23 @@
 <view class="page-shell todo-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="每日任务" show-back="{{true}}" action-text="全部重来" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" bind:action="onResetTasks" />
+  <view class="todo-topbar" style="padding-top: {{statusBarHeight}}px; background: {{theme.pageStart || '#DDF4FF'}};">
+    <view class="todo-topbar__row" style="height: {{navBarHeight}}px; padding-right: {{capsulePaddingRight}}px;">
+      <view class="todo-topbar__back" catchtap="onBack">‹</view>
+      <view class="todo-topbar__title">每日任务</view>
+      <view class="todo-topbar__action" bindtap="toggleEditMode">{{editMode ? '完成' : '编辑'}}</view>
+    </view>
+  </view>
 
   <scroll-view scroll-y class="page-scroll todo-scroll" enhanced show-scrollbar="{{false}}">
     <!-- 今日英雄区 -->
     <view class="todo-hero">
-      <view class="todo-hero__badge">🌟 今日小任务</view>
-      <view class="todo-hero__progress">已完成 {{doneCount}} / {{totalCount}}</view>
+      <view class="todo-hero__badge">
+        <image class="todo-hero__badge-icon" src="/assets/kids-ui/star-filled.png" mode="aspectFit" />
+        <text>今日小任务</text>
+      </view>
+      <view class="todo-hero__progress-row">
+        <view class="todo-hero__progress">已完成 {{doneCount}} / {{totalCount}}</view>
+        <view class="todo-hero__reset" bindtap="onResetTasks">全部重置</view>
+      </view>
       <view class="todo-stars">
         <image
           wx:for="{{stars}}"
@@ -23,17 +35,17 @@
     <view
       wx:for="{{items}}"
       wx:key="id"
-      class="todo-card {{item.done ? 'is-done' : ''}} {{dragIndex === index ? 'is-dragging' : ''}} {{dragOverIndex === index && dragIndex !== index ? 'is-over' : ''}}"
+      class="todo-card {{item.done ? 'is-done' : ''}} {{editMode ? 'is-editing' : ''}}"
     >
       <view
+        wx:if="{{editMode}}"
         class="todo-card__drag"
         data-index="{{index}}"
-        catchtouchstart="onDragStart"
-        catchtouchmove="onDragMove"
-        catchtouchend="onDragEnd"
-        catchtouchcancel="onDragEnd"
       >
-        <image class="todo-card__drag-icon" src="/assets/daily-todo/icon-drag.png" mode="aspectFit" />
+        <view class="todo-order">
+          <view class="todo-order__btn {{index === 0 ? 'is-disabled' : ''}}" data-index="{{index}}" data-dir="-1" catchtap="onMoveItem">↑</view>
+          <view class="todo-order__btn {{index === items.length - 1 ? 'is-disabled' : ''}}" data-index="{{index}}" data-dir="1" catchtap="onMoveItem">↓</view>
+        </view>
       </view>
 
       <view class="todo-card__badge {{item.done ? 'is-done' : ''}}">
@@ -45,21 +57,12 @@
         <view wx:if="{{item.presetMinutes}}" class="todo-card__meta">大概 {{item.presetMinutes}} 分钟</view>
       </view>
 
-      <view class="todo-card__slider" data-id="{{item.id}}" bindtap="onToggleTask">
-        <view class="todo-slider__track">
-          <view class="todo-slider__done {{item.done ? 'is-visible' : ''}}">
-            <image src="/assets/daily-todo/icon-check.png" mode="aspectFit" />
-          </view>
-          <view class="todo-slider__fail {{item.done ? '' : 'is-visible'}}">
-            <image src="/assets/daily-todo/icon-x.png" mode="aspectFit" />
-          </view>
-          <view class="todo-slider__knob {{item.done ? 'is-left' : 'is-right'}}">
-            <image src="/assets/daily-todo/slider-knob.png" mode="aspectFit" />
-          </view>
-        </view>
+      <view wx:if="{{!editMode}}" class="todo-complete-btn {{item.done ? 'is-done' : ''}}" data-id="{{item.id}}" bindtap="onToggleTask">
+        {{item.done ? '已完成' : '完成'}}
       </view>
 
-      <view class="todo-card__delete" data-id="{{item.id}}" catchtap="onDeleteItem">×</view>
+      <view wx:if="{{editMode}}" class="todo-card__edit" data-id="{{item.id}}" catchtap="openEdit">改</view>
+      <view wx:if="{{editMode}}" class="todo-card__delete" data-id="{{item.id}}" catchtap="onDeleteItem">×</view>
     </view>
 
     <view wx:if="{{!items.length}}" class="todo-empty">
@@ -68,12 +71,12 @@
       <view class="todo-empty__copy">点下面按钮，加一个吧～</view>
     </view>
 
-    <view class="todo-tip">💡 按住左边点点，可以换顺序</view>
+    <view class="todo-tip">{{editMode ? '编辑模式：用上下箭头换顺序，点“改”修改内容。' : '点右侧完成按钮记录进度，点右上角编辑任务。'}}</view>
     <view class="page-safe"></view>
   </scroll-view>
 
   <!-- 底部大按钮 -->
-  <view class="page-action todo-footer">
+  <view wx:if="{{editMode}}" class="page-action todo-footer">
     <view class="todo-add-btn" hover-class="is-pressed" bindtap="openAddSheet">＋ 加一个任务</view>
   </view>
 

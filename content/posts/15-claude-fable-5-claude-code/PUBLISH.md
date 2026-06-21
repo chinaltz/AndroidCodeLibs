@@ -1,6 +1,6 @@
 # 发布适配清单 · Claude Fable 5
 
-> 审核时间：2026-06-10  
+> 审核时间：2026-06-10 
 > 文章路径：`content/posts/15-claude-fable-5-claude-code/index.md`
 
 ---
@@ -12,7 +12,7 @@
 | ① 选题确认 | ✅ | 热点解读 + 普通人视角；读者：白领/创作者/小开发者 |
 | ② 初稿 | ✅ | 已写入 `index.md`，约 1700 字 |
 | ③ 风格润色 | ✅ | 口语化、短句、无「先说人话」套话 |
-| ④ 比喻注入 | ✅ | 微信问朋友 / 资深同事 / 曲速引擎 |
+| ④ 比喻注入 | ✅ | 问朋友 / 资深同事 / 曲速引擎 |
 | ⑤ 标题选定 | ⚠️ | 见下方 TOP 3，发布前确认一版 |
 | ⑥ 配图方案 | ⚠️ | 正文图 `header.png` / `scene1-before-after.png` 仍缺；搜一搜 5 卡已生成 |
 | ⑦ 终审质检 | ✅ | 已按审查意见改 `index.md` |
@@ -39,7 +39,7 @@
 | 原则5：带走东西 | ✅ | 小结 + 3 个提示词 + 今晚可试的一条 |
 | 模板结构 | ⚠️ | 缺独立「一句话结论」行；有「今天只需要记住」模板句 |
 | 语气 | ✅ | 无敏感套话；emoji 仅 📁×2，未超标 |
-| 敏感词 | ✅ | 无翻墙/VPN/梯子等词 |
+| 敏感词 | ✅ | 无网络工具/网络工具/梯子等词 |
 | 跨文章链接 | ✅ | 仅纯文本引用《Claude Code 怎么用？…》，无相对路径 |
 | 配图 | ❌ | `header.png`、`scene1-before-after.png` 不存在 |
 | 发布规范 | ⚠️ | 正文含即梦提示词与 `📁 保存路径`，发布前须删除 |
@@ -61,7 +61,7 @@
 **🟢 锦上添花**
 
 1. 补一张 ASCII 基准对比表截图或 `overview.png` 信息图（少图策略下可省略）
-2. 生成微信搜一搜 5 卡：`social/wechat-search/cards.json` + 脚本
+2. 生成搜一搜 5 卡：`social/wechat-search/cards.json` + 脚本
 
 ### 快速改动清单
 
@@ -96,7 +96,7 @@
 
 ## 多平台适配
 
-### 微信公众号（首发）
+### 公众号（首发）
 
 **摘要（≤120 字）：**
 
@@ -197,7 +197,7 @@ Claude、Anthropic、AI Agent、Claude Code、大模型
 - [x] 开头 3 句有场景感
 - [x] 有可复用提示词（≥3 个）
 - [x] 有小结 + 行动建议
-- [x] 无引流「关注回复」文案（正文）
+- [x] 无导流口令文案（正文）
 - [x] 无敏感词
 - [x] 权威链接有效
 - [x] 删除正文内即梦制作备注
@@ -209,7 +209,7 @@ Claude、Anthropic、AI Agent、Claude Code、大模型
 - [ ] `images/header.png`
 - [ ] `images/scene1-before-after.png`
 - [ ] 公众号封面 900×383
-- [x] 微信搜一搜 5 卡（`social/wechat-search/wechat-card-01~05.png`）
+- [x] 搜一搜 5 卡（`social/wechat-search/wechat-card-01~05.png`）
 - [ ] 小红书竖图 3:4（可选）
 
 ### 导出
@@ -226,7 +226,7 @@ Claude、Anthropic、AI Agent、Claude Code、大模型
 - [ ] 同日/次日：知乎 + 掘金 + CSDN
 - [ ] Wechatsync 已授权
 - [ ] 小红书改短图文版
-- [x] 微信搜一搜图文包（见 `social/wechat-search/UPLOAD.md`）
+- [x] 搜一搜图文包（见 `social/wechat-search/UPLOAD.md`）
 
 ---
 
@@ -249,10 +249,10 @@ npm run convert -- content/posts/15-claude-fable-5-claude-code
 
 ```
 今天/明天：补齐 2 张图 → 删制作备注 → publish:post
-        ↓
+ ↓
 公众号首发（抢 6/22 前时效）
-        ↓
+ ↓
 知乎 + 掘金 + CSDN（同日或次日）
-        ↓
+ ↓
 小红书要点卡 + 抖音短脚本
 ```

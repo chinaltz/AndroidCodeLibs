@@ -33,7 +33,7 @@
         <view class="pet-shadow {{bodyAnimClass}}"></view>
         <view class="pet-body {{bodyAnimClass}}" bindtap="react">
           <image class="home-pet" src="{{petImage}}" mode="aspectFit" />
-          <image wx:for="{{state.equippedImages}}" wx:key="id" class="equipped-layer equipped-{{item.slot}}" src="{{item.image}}" mode="aspectFit" lazy-load />
+          <image wx:for="{{state.equippedImages}}" wx:key="id" class="equipped-layer" style="{{item.style}}" src="{{item.image}}" mode="aspectFit" lazy-load />
         </view>
         <view
           wx:for="{{floaters}}"
@@ -53,16 +53,17 @@
       <view class="points-pill">★ {{state.points}}</view>
     </view>
     <view class="status-grid">
-      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_hunger.svg" /><strong>{{state.status.hunger}}</strong><text>饱腹</text></view>
-      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_mood.svg" /><strong>{{state.status.mood}}</strong><text>心情</text></view>
-      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_energy.svg" /><strong>{{state.status.energy}}</strong><text>活力</text></view>
+      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_hunger.svg" mode="aspectFit" /><strong>{{state.status.hunger}}</strong><text>饱腹</text></view>
+      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_mood.svg" mode="aspectFit" /><strong>{{state.status.mood}}</strong><text>心情</text></view>
+      <view class="status-box"><image src="/packages/pet/assets/runtime/ui/icon_pet_energy.svg" mode="aspectFit" /><strong>{{state.status.energy}}</strong><text>活力</text></view>
     </view>
     <view class="quick-grid">
-      <view class="quick-action {{canFeed ? '' : 'is-disabled'}} {{guideFeed ? 'is-guide' : ''}}" bindtap="feed"><image src="/packages/pet/assets/runtime/ui/icon_pet_feed.svg" /><text>喂养</text></view>
-      <view class="quick-action {{canPlay ? '' : 'is-disabled'}}" bindtap="play"><image src="/packages/pet/assets/runtime/ui/icon_pet_play.svg" /><text>玩耍</text></view>
-      <view class="quick-action {{canSleep ? '' : 'is-disabled'}}" bindtap="sleep"><image src="/packages/pet/assets/runtime/ui/icon_pet_sleep.svg" /><text>睡觉</text></view>
+      <view class="quick-action {{canFeed ? '' : 'is-disabled'}} {{guideFeed ? 'is-guide' : ''}}" bindtap="feed"><image src="/packages/pet/assets/runtime/ui/icon_pet_feed.svg" mode="aspectFit" /><text>喂养</text></view>
+      <view class="quick-action {{canPlay ? '' : 'is-disabled'}}" bindtap="play"><image src="/packages/pet/assets/runtime/ui/icon_pet_play.svg" mode="aspectFit" /><text>玩耍</text></view>
+      <view class="quick-action {{canSleep ? '' : 'is-disabled'}}" bindtap="sleep"><image src="/packages/pet/assets/runtime/ui/icon_pet_sleep.svg" mode="aspectFit" /><text>睡觉</text></view>
     </view>
     <view class="module-grid">
+      <view class="module-card" data-path="/pages/checkin-calendar/index" bindtap="go"><strong>打卡日历</strong><text>每日任务与假期日志</text></view>
       <view class="module-card" data-path="/packages/pet/pages/pet-tasks/index" bindtap="go"><strong>今日任务</strong><text>查看学习进度</text></view>
       <view class="module-card" data-path="/packages/pet/pages/pet-rewards/index" bindtap="go"><strong>学习奖励</strong><text>积分记录与分享</text></view>
       <view class="module-card" data-path="/packages/pet/pages/pet-growth/index" bindtap="go"><strong>成长手册</strong><text>{{state.nextText}}</text></view>

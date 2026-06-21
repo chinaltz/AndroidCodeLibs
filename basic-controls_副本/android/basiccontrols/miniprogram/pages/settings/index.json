@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "bc-card": "/basic-controls/components/bc-card/bc-card",
-    "bc-top-bar": "/basic-controls/components/bc-top-bar/bc-top-bar"
-  }
-}

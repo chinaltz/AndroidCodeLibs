@@ -1,0 +1,18 @@
+<view class="page-shell calendar-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="打卡日历" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+  <scroll-view scroll-y class="calendar-scroll">
+    <view class="calendar-stats"><view><strong>{{stats.total}}</strong><text>累计打卡</text></view><view><strong>{{stats.streak}}</strong><text>连续天数</text></view><view><strong>{{stats.todayCompleted ? '✓' : '—'}}</strong><text>今日状态</text></view></view>
+    <view class="calendar-card">
+      <view class="month-head"><view class="month-btn" data-delta="-1" bindtap="changeMonth">‹</view><view class="month-title">{{monthTitle}}</view><view class="month-btn" data-delta="1" bindtap="changeMonth">›</view></view>
+      <view class="week-row"><text>日</text><text>一</text><text>二</text><text>三</text><text>四</text><text>五</text><text>六</text></view>
+      <view class="day-grid"><view wx:for="{{cells}}" wx:key="date" class="day-cell {{item.currentMonth ? '' : 'is-other'}} {{item.completed ? 'is-completed' : ''}} {{item.selected ? 'is-selected' : ''}}" data-date="{{item.date}}" bindtap="selectDay"><text>{{item.day}}</text><view wx:if="{{item.completed}}" class="day-star">★</view><view wx:elif="{{item.hasLog}}" class="day-log-dot"></view></view></view>
+    </view>
+    <view class="journal-card">
+      <view class="journal-head"><view><view class="journal-title">假期日志</view><view class="journal-date">{{selectedDate}} · {{selectedCompleted ? '任务已全部完成' : '未完成全部任务'}}</view></view><view class="journal-status {{selectedCompleted ? 'is-done' : ''}}">{{selectedCompleted ? '已打卡' : '未打卡'}}</view></view>
+      <textarea class="journal-input" value="{{note}}" maxlength="500" placeholder="记录今天完成了什么、去了哪里，或者最开心的事…" bindinput="onNoteInput" />
+      <view class="journal-save" bindtap="saveNote">保存日志</view>
+    </view>
+    <view class="calendar-tip">每日任务全部完成后自动点亮星星，并给电子宠物发放奖励。</view>
+    <view class="calendar-safe"></view>
+  </scroll-view>
+</view>

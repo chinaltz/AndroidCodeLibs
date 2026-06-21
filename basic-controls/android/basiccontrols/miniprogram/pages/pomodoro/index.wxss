@@ -50,14 +50,17 @@
 
 .pomo-mute {
   position: relative;
-  width: 64rpx;
+  width: 118rpx;
   height: 64rpx;
   border-radius: 20rpx;
-  background: #eef8ff;
+  background: linear-gradient(180deg, #f7fcff 0%, #e5f5ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 4rpx;
   flex: 0 0 auto;
+  border: 2rpx solid rgba(49, 168, 255, 0.18);
+  box-shadow: inset 0 -4rpx 0 rgba(20, 121, 214, 0.08);
 }
 
 .pomo-mute.is-pressed,
@@ -66,26 +69,26 @@
   transform: scale(0.96);
 }
 
-.pomo-mute image {
-  width: 36rpx;
-  height: 36rpx;
+.pomo-mute__icon {
+  width: 38rpx;
+  height: 38rpx;
+  flex: 0 0 auto;
 }
 
 .pomo-mute.is-muted {
-  background: #fff1f1;
+  background: linear-gradient(180deg, #fff7f7 0%, #ffe5e8 100%);
+  border-color: rgba(228, 91, 101, 0.24);
 }
 
-.pomo-mute.is-muted image {
-  opacity: 0.55;
+.pomo-mute__label {
+  font-size: 20rpx;
+  font-weight: 900;
+  color: #1479d6;
+  white-space: nowrap;
 }
 
-.pomo-mute__slash {
-  position: absolute;
-  width: 42rpx;
-  height: 5rpx;
-  border-radius: 999rpx;
-  background: #e45b65;
-  transform: rotate(-45deg);
+.pomo-mute.is-muted .pomo-mute__label {
+  color: #d84f5c;
 }
 
 /* ── 罗盘表盘 ── */
@@ -110,6 +113,19 @@
   opacity: 0.92;
 }
 
+
+.compass-pointer-orbit {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  transition: transform 0.12s ease-out;
+}
+
+.compass.is-dragging .compass-pointer-orbit {
+  transition: none;
+}
+
 .compass-pointer {
   position: absolute;
   left: 50%;
@@ -117,8 +133,6 @@
   width: 72rpx;
   height: 96rpx;
   margin-left: -36rpx;
-  z-index: 30;
-  pointer-events: none;
 }
 
 .compass-progress {
@@ -152,16 +166,6 @@
 .compass-ring__img {
   width: 100%;
   height: 100%;
-}
-
-.compass-knob {
-  position: absolute;
-  left: 50%;
-  top: 14rpx;
-  width: 80rpx;
-  height: 80rpx;
-  margin-left: -40rpx;
-  filter: drop-shadow(0 8rpx 14rpx rgba(255, 122, 24, 0.28));
 }
 
 .compass-center {
@@ -403,6 +407,7 @@
 .pomo-alarm__icon {
   width: 160rpx;
   height: 160rpx;
+  margin: 0 auto;
 }
 
 .pomo-alarm__title {

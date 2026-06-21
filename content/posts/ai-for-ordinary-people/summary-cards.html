@@ -4,250 +4,250 @@
 <meta charset="UTF-8">
 <title>AI 能帮普通人做的 7 件事 · 摘要卡片</title>
 <style>
-  * { margin:0;padding:0;box-sizing:border-box; }
-  :root {
-    --blue: #3B82F6;
-    --card1: #4F46E5; --card2: #059669; --card3: #D97706;
-    --card4: #DC2626; --card5: #7C3AED; --card6: #DB2777; --card7: #0891B2;
-  }
-  body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background:#E5E7EB; }
-  .controls {
-    position: fixed; top:0; left:0; right:0; z-index:999;
-    background: rgba(255,255,255,0.95); backdrop-filter:blur(8px);
-    padding: 10px 20px; display:flex; align-items:center; gap:12px;
-    border-bottom:1px solid #E5E7EB; flex-wrap:wrap;
-  }
-  .controls button { padding:8px 16px; border-radius:6px; border:1px solid #D1D5DB; background:#fff; cursor:pointer; font-size:13px; font-family:inherit; }
-  .controls button.active { background:var(--blue); color:#fff; border-color:var(--blue); }
-  .controls .sep { color:#9CA3AF; }
-  .container { display:flex; flex-direction:column; align-items:center; gap:40px; padding:80px 20px 40px; }
-  .card-wrap { background:#fff; border-radius:20px; overflow:hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.12); transition: width 0.3s, height 0.3s; position:relative; }
-  .card-wrap.narrow { width:360px; height:480px; }  /* 3:4 小红书 */
-  .card-wrap.wide   { width:360px; height:640px; }  /* 9:16 抖音 */
-  .card { width:100%; height:100%; display:flex; flex-direction:column; justify-content:space-between; padding:28px 24px 20px; position:relative; }
+ * { margin:0;padding:0;box-sizing:border-box; }
+ :root {
+ --blue: #3B82F6;
+ --card1: #4F46E5; --card2: #059669; --card3: #D97706;
+ --card4: #DC2626; --card5: #7C3AED; --card6: #DB2777; --card7: #0891B2;
+ }
+ body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background:#E5E7EB; }
+ .controls {
+ position: fixed; top:0; left:0; right:0; z-index:999;
+ background: rgba(255,255,255,0.95); backdrop-filter:blur(8px);
+ padding: 10px 20px; display:flex; align-items:center; gap:12px;
+ border-bottom:1px solid #E5E7EB; flex-wrap:wrap;
+ }
+ .controls button { padding:8px 16px; border-radius:6px; border:1px solid #D1D5DB; background:#fff; cursor:pointer; font-size:13px; font-family:inherit; }
+ .controls button.active { background:var(--blue); color:#fff; border-color:var(--blue); }
+ .controls .sep { color:#9CA3AF; }
+ .container { display:flex; flex-direction:column; align-items:center; gap:40px; padding:80px 20px 40px; }
+ .card-wrap { background:#fff; border-radius:20px; overflow:hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.12); transition: width 0.3s, height 0.3s; position:relative; }
+ .card-wrap.narrow { width:360px; height:480px; } /* 3:4 小红书 */
+ .card-wrap.wide { width:360px; height:640px; } /* 9:16 抖音 */
+ .card { width:100%; height:100%; display:flex; flex-direction:column; justify-content:space-between; padding:28px 24px 20px; position:relative; }
 
-  .card-num { font-size:72px; font-weight:900; opacity:0.12; position:absolute; top:12px; right:20px; line-height:1; }
-  .card-icon { font-size:48px; margin-bottom:8px; }
-  .card-title { font-size:22px; font-weight:800; color:#111; margin-bottom:6px; line-height:1.3; }
-  .card-sub { font-size:14px; color:#6B7280; margin-bottom:14px; line-height:1.5; }
-  .card-stars { font-size:18px; margin-bottom:14px; letter-spacing:2px; }
-  .card-body { flex:1; display:flex; flex-direction:column; justify-content:center; }
-  .card-highlight { background: rgba(59,130,246,0.08); border-radius:12px; padding:14px; font-size:14px; color:#1E40AF; line-height:1.6; margin-bottom:12px; }
-  .card-tag { display:inline-block; background:#F3F4F6; color:#6B7280; padding:4px 10px; border-radius:20px; font-size:12px; margin-right:6px; }
-  .card-cta { font-size:11px; color:#9CA3AF; text-align:center; margin-top:auto; padding-top:8px; border-top:1px dashed #E5E7EB; }
+ .card-num { font-size:72px; font-weight:900; opacity:0.12; position:absolute; top:12px; right:20px; line-height:1; }
+ .card-icon { font-size:48px; margin-bottom:8px; }
+ .card-title { font-size:22px; font-weight:800; color:#111; margin-bottom:6px; line-height:1.3; }
+ .card-sub { font-size:14px; color:#6B7280; margin-bottom:14px; line-height:1.5; }
+ .card-stars { font-size:18px; margin-bottom:14px; letter-spacing:2px; }
+ .card-body { flex:1; display:flex; flex-direction:column; justify-content:center; }
+ .card-highlight { background: rgba(59,130,246,0.08); border-radius:12px; padding:14px; font-size:14px; color:#1E40AF; line-height:1.6; margin-bottom:12px; }
+ .card-tag { display:inline-block; background:#F3F4F6; color:#6B7280; padding:4px 10px; border-radius:20px; font-size:12px; margin-right:6px; }
+ .card-cta { font-size:11px; color:#9CA3AF; text-align:center; margin-top:auto; padding-top:8px; border-top:1px dashed #E5E7EB; }
 
-  .card.overview { background:linear-gradient(135deg,#1E40AF,#3B82F6); color:#fff; }
-  .card.overview .card-title { color:#fff; }
-  .card.overview .card-sub { color:rgba(255,255,255,0.75); }
-  .card.overview .card-highlight { background:rgba(255,255,255,0.15); color:#fff; }
-  .card.overview .card-tag { background:rgba(255,255,255,0.2); color:#fff; }
-  .card.overview .card-cta { color:rgba(255,255,255,0.5); border-color:rgba(255,255,255,0.2); }
-  .card.overview .card-num { color:#fff; opacity:0.15; }
+ .card.overview { background:linear-gradient(135deg,#1E40AF,#3B82F6); color:#fff; }
+ .card.overview .card-title { color:#fff; }
+ .card.overview .card-sub { color:rgba(255,255,255,0.75); }
+ .card.overview .card-highlight { background:rgba(255,255,255,0.15); color:#fff; }
+ .card.overview .card-tag { background:rgba(255,255,255,0.2); color:#fff; }
+ .card.overview .card-cta { color:rgba(255,255,255,0.5); border-color:rgba(255,255,255,0.2); }
+ .card.overview .card-num { color:#fff; opacity:0.15; }
 
-  .grid-7 { display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%; }
-  .grid-7 .gi { background:rgba(255,255,255,0.12); border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.4; }
-  .grid-7 .gi .gi-icon { font-size:20px; display:block; margin-bottom:2px; }
-  .grid-7 .gi .gi-star { font-size:10px; }
+ .grid-7 { display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%; }
+ .grid-7 .gi { background:rgba(255,255,255,0.12); border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.4; }
+ .grid-7 .gi .gi-icon { font-size:20px; display:block; margin-bottom:2px; }
+ .grid-7 .gi .gi-star { font-size:10px; }
 
-  .overview-footer { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
-  .overview-cta { font-size:13px; opacity:0.8; }
+ .overview-footer { display:flex; align-items:center; justify-content:space-between; margin-top:10px; }
+ .overview-cta { font-size:13px; opacity:0.8; }
 
-  @media print {
-    .controls { display:none; }
-    .container { padding-top:20px; gap:0; }
-    .card-wrap { box-shadow:none; margin-bottom:20px; break-inside:avoid; page-break-after:always; }
-  }
+ @media print {
+ .controls { display:none; }
+ .container { padding-top:20px; gap:0; }
+ .card-wrap { box-shadow:none; margin-bottom:20px; break-inside:avoid; page-break-after:always; }
+ }
 </style>
 </head>
 <body>
 
 <div class="controls">
-  <b>📱 摘要卡片</b>
-  <span class="sep">|</span>
-  <button onclick="switchSize('narrow')" id="btn-narrow" class="active">📕 小红书 3:4</button>
-  <button onclick="switchSize('wide')" id="btn-wide">🎵 抖音 9:16</button>
-  <span class="sep">|</span>
-  <button onclick="scrollToCard(0)">📋 概览</button>
-  <button onclick="scrollToCard(1)">1</button>
-  <button onclick="scrollToCard(2)">2</button>
-  <button onclick="scrollToCard(3)">3</button>
-  <button onclick="scrollToCard(4)">4</button>
-  <button onclick="scrollToCard(5)">5</button>
-  <button onclick="scrollToCard(6)">6</button>
-  <button onclick="scrollToCard(7)">7</button>
-  <span style="flex:1"></span>
-  <span style="font-size:12px;color:#9CA3AF;">💡 滚动到卡片 → 截图发布</span>
+ <b>📱 摘要卡片</b>
+ <span class="sep">|</span>
+ <button onclick="switchSize('narrow')" id="btn-narrow" class="active">📕 小红书 3:4</button>
+ <button onclick="switchSize('wide')" id="btn-wide">🎵 抖音 9:16</button>
+ <span class="sep">|</span>
+ <button onclick="scrollToCard(0)">📋 概览</button>
+ <button onclick="scrollToCard(1)">1</button>
+ <button onclick="scrollToCard(2)">2</button>
+ <button onclick="scrollToCard(3)">3</button>
+ <button onclick="scrollToCard(4)">4</button>
+ <button onclick="scrollToCard(5)">5</button>
+ <button onclick="scrollToCard(6)">6</button>
+ <button onclick="scrollToCard(7)">7</button>
+ <span style="flex:1"></span>
+ <span style="font-size:12px;color:#9CA3AF;">💡 滚动到卡片 → 截图发布</span>
 </div>
 
 <div class="container" id="container">
 
 <!-- ====== 概览卡片 ====== -->
 <div class="card-wrap narrow" id="card-0">
-  <div class="card overview">
-    <div class="card-icon">✨</div>
-    <div class="card-title">AI 能帮普通人做什么？</div>
-    <div class="card-sub">7 件事，你全部都能上手<br>不需要懂技术</div>
-    <div class="grid-7">
-      <div class="gi"><span class="gi-icon">📱</span>做 App<span class="gi-star"> ⭐⭐⭐</span></div>
-      <div class="gi"><span class="gi-icon">🌐</span>搭网站<span class="gi-star"> ⭐⭐</span></div>
-      <div class="gi"><span class="gi-icon">🛠</span>写工具<span class="gi-star"> ⭐⭐</span></div>
-      <div class="gi"><span class="gi-icon">🎵</span>做音乐<span class="gi-star"> ⭐</span></div>
-      <div class="gi"><span class="gi-icon">🎬</span>做视频<span class="gi-star"> ⭐⭐</span></div>
-      <div class="gi"><span class="gi-icon">✨</span>做特效<span class="gi-star"> ⭐</span></div>
-      <div class="gi"><span class="gi-icon">📝</span>写报告<span class="gi-star"> ⭐</span></div>
-    </div>
-    <div class="overview-footer">
-      <span class="overview-cta">打开 AI → 描述需求 → 出成品</span>
-      <span style="font-size:11px;opacity:0.5;">技趣星球</span>
-    </div>
-  </div>
+ <div class="card overview">
+ <div class="card-icon">✨</div>
+ <div class="card-title">AI 能帮普通人做什么？</div>
+ <div class="card-sub">7 件事，你全部都能上手<br>不需要懂技术</div>
+ <div class="grid-7">
+ <div class="gi"><span class="gi-icon">📱</span>做 App<span class="gi-star"> ⭐⭐⭐</span></div>
+ <div class="gi"><span class="gi-icon">🌐</span>搭网站<span class="gi-star"> ⭐⭐</span></div>
+ <div class="gi"><span class="gi-icon">🛠</span>写工具<span class="gi-star"> ⭐⭐</span></div>
+ <div class="gi"><span class="gi-icon">🎵</span>做音乐<span class="gi-star"> ⭐</span></div>
+ <div class="gi"><span class="gi-icon">🎬</span>做视频<span class="gi-star"> ⭐⭐</span></div>
+ <div class="gi"><span class="gi-icon">✨</span>做特效<span class="gi-star"> ⭐</span></div>
+ <div class="gi"><span class="gi-icon">📝</span>写报告<span class="gi-star"> ⭐</span></div>
+ </div>
+ <div class="overview-footer">
+ <span class="overview-cta">打开 AI → 描述需求 → 出成品</span>
+ <span style="font-size:11px;opacity:0.5;">技趣星球</span>
+ </div>
+ </div>
 </div>
 
 <!-- ====== 场景 1 ====== -->
 <div class="card-wrap narrow" id="card-1">
-  <div class="card" style="border-top:4px solid var(--card1);">
-    <div class="card-num" style="color:var(--card1);">01</div>
-    <div class="card-body">
-      <div class="card-icon">📱</div>
-      <div class="card-title">不用写一行代码，AI 帮你做 App</div>
-      <div class="card-stars">⭐⭐⭐</div>
-      <div class="card-highlight">说话就能出 App：告诉 AI 你要什么功能，它生成完整代码，复制→打包→装手机，搞定。</div>
-      <div>
-        <span class="card-tag">Claude Code</span>
-        <span class="card-tag">Cursor</span>
-        <span class="card-tag">Android Studio</span>
-      </div>
-    </div>
-    <div class="card-cta">你只需要「描述需求」，AI 写所有代码</div>
-  </div>
+ <div class="card" style="border-top:4px solid var(--card1);">
+ <div class="card-num" style="color:var(--card1);">01</div>
+ <div class="card-body">
+ <div class="card-icon">📱</div>
+ <div class="card-title">不用写一行代码，AI 帮你做 App</div>
+ <div class="card-stars">⭐⭐⭐</div>
+ <div class="card-highlight">说话就能出 App：告诉 AI 你要什么功能，它生成完整代码，复制→打包→装手机，搞定。</div>
+ <div>
+ <span class="card-tag">Claude Code</span>
+ <span class="card-tag">Cursor</span>
+ <span class="card-tag">Android Studio</span>
+ </div>
+ </div>
+ <div class="card-cta">你只需要「描述需求」，AI 写所有代码</div>
+ </div>
 </div>
 
 <!-- ====== 场景 2 ====== -->
 <div class="card-wrap narrow" id="card-2">
-  <div class="card" style="border-top:4px solid var(--card2);">
-    <div class="card-num" style="color:var(--card2);">02</div>
-    <div class="card-body">
-      <div class="card-icon">🌐</div>
-      <div class="card-title">从零到上线，AI 帮你搭一个网页</div>
-      <div class="card-stars">⭐⭐</div>
-      <div class="card-highlight">不用学 HTML/CSS，告诉 AI 你想要什么样的页面，几分钟出成品。免费托管一键上线，全世界都能看。</div>
-      <div>
-        <span class="card-tag">ChatGPT</span>
-        <span class="card-tag">GitHub Pages</span>
-        <span class="card-tag">Vercel</span>
-      </div>
-    </div>
-    <div class="card-cta">每个人都可以有一个个人网站</div>
-  </div>
+ <div class="card" style="border-top:4px solid var(--card2);">
+ <div class="card-num" style="color:var(--card2);">02</div>
+ <div class="card-body">
+ <div class="card-icon">🌐</div>
+ <div class="card-title">从零到上线，AI 帮你搭一个网页</div>
+ <div class="card-stars">⭐⭐</div>
+ <div class="card-highlight">不用学 HTML/CSS，告诉 AI 你想要什么样的页面，几分钟出成品。免费托管一键上线，全世界都能看。</div>
+ <div>
+ <span class="card-tag">ChatGPT</span>
+ <span class="card-tag">GitHub Pages</span>
+ <span class="card-tag">Vercel</span>
+ </div>
+ </div>
+ <div class="card-cta">每个人都可以有一个个人网站</div>
+ </div>
 </div>
 
 <!-- ====== 场景 3 ====== -->
 <div class="card-wrap narrow" id="card-3">
-  <div class="card" style="border-top:4px solid var(--card3);">
-    <div class="card-num" style="color:var(--card3);">03</div>
-    <div class="card-body">
-      <div class="card-icon">🛠</div>
-      <div class="card-title">让 AI 写一个本地小工具</div>
-      <div class="card-stars">⭐⭐</div>
-      <div class="card-highlight">批量重命名图片、自动填表、PDF 提取……所有重复劳动，AI 帮你变成一键工具。</div>
-      <div>
-        <span class="card-tag">ChatGPT</span>
-        <span class="card-tag">VS Code</span>
-        <span class="card-tag">Python</span>
-      </div>
-    </div>
-    <div class="card-cta">「会写程序的秘书」帮你搞定重复劳动</div>
-  </div>
+ <div class="card" style="border-top:4px solid var(--card3);">
+ <div class="card-num" style="color:var(--card3);">03</div>
+ <div class="card-body">
+ <div class="card-icon">🛠</div>
+ <div class="card-title">让 AI 写一个本地小工具</div>
+ <div class="card-stars">⭐⭐</div>
+ <div class="card-highlight">批量重命名图片、自动填表、PDF 提取……所有重复劳动，AI 帮你变成一键工具。</div>
+ <div>
+ <span class="card-tag">ChatGPT</span>
+ <span class="card-tag">VS Code</span>
+ <span class="card-tag">Python</span>
+ </div>
+ </div>
+ <div class="card-cta">「会写程序的秘书」帮你搞定重复劳动</div>
+ </div>
 </div>
 
 <!-- ====== 场景 4 ====== -->
 <div class="card-wrap narrow" id="card-4">
-  <div class="card" style="border-top:4px solid var(--card4);">
-    <div class="card-num" style="color:var(--card4);">04</div>
-    <div class="card-body">
-      <div class="card-icon">🎵</div>
-      <div class="card-title">零基础做一首歌</div>
-      <div class="card-stars">⭐</div>
-      <div class="card-highlight">不需要乐器，不需要乐理。告诉 AI 主题和风格 → 写词 → 生成旋律 → 合成演唱，几分钟出歌。</div>
-      <div>
-        <span class="card-tag">Suno</span>
-        <span class="card-tag">Udio</span>
-        <span class="card-tag">剪映</span>
-      </div>
-    </div>
-    <div class="card-cta">发朋友圈收获一堆「这也行？？？」</div>
-  </div>
+ <div class="card" style="border-top:4px solid var(--card4);">
+ <div class="card-num" style="color:var(--card4);">04</div>
+ <div class="card-body">
+ <div class="card-icon">🎵</div>
+ <div class="card-title">零基础做一首歌</div>
+ <div class="card-stars">⭐</div>
+ <div class="card-highlight">不需要乐器，不需要乐理。告诉 AI 主题和风格 → 写词 → 生成旋律 → 合成演唱，几分钟出歌。</div>
+ <div>
+ <span class="card-tag">Suno</span>
+ <span class="card-tag">Udio</span>
+ <span class="card-tag">剪映</span>
+ </div>
+ </div>
+ <div class="card-cta">发朋友圈收获一堆「这也行？？？」</div>
+ </div>
 </div>
 
 <!-- ====== 场景 5 ====== -->
 <div class="card-wrap narrow" id="card-5">
-  <div class="card" style="border-top:4px solid var(--card5);">
-    <div class="card-num" style="color:var(--card5);">05</div>
-    <div class="card-body">
-      <div class="card-icon">🎬</div>
-      <div class="card-title">从脚本到成片，AI 辅助做视频</div>
-      <div class="card-stars">⭐⭐</div>
-      <div class="card-highlight">策划→脚本→录制→剪辑→发布。AI 帮你搞定策划+脚本+剪辑，你只需要对着镜头说。</div>
-      <div>
-        <span class="card-tag">ChatGPT</span>
-        <span class="card-tag">剪映</span>
-        <span class="card-tag">HeyGen</span>
-      </div>
-    </div>
-    <div class="card-cta">做视频最累的几步，AI 全包了</div>
-  </div>
+ <div class="card" style="border-top:4px solid var(--card5);">
+ <div class="card-num" style="color:var(--card5);">05</div>
+ <div class="card-body">
+ <div class="card-icon">🎬</div>
+ <div class="card-title">从脚本到成片，AI 辅助做视频</div>
+ <div class="card-stars">⭐⭐</div>
+ <div class="card-highlight">策划→脚本→录制→剪辑→发布。AI 帮你搞定策划+脚本+剪辑，你只需要对着镜头说。</div>
+ <div>
+ <span class="card-tag">ChatGPT</span>
+ <span class="card-tag">剪映</span>
+ <span class="card-tag">HeyGen</span>
+ </div>
+ </div>
+ <div class="card-cta">做视频最累的几步，AI 全包了</div>
+ </div>
 </div>
 
 <!-- ====== 场景 6 ====== -->
 <div class="card-wrap narrow" id="card-6">
-  <div class="card" style="border-top:4px solid var(--card6);">
-    <div class="card-num" style="color:var(--card6);">06</div>
-    <div class="card-body">
-      <div class="card-icon">✨</div>
-      <div class="card-title">不会设计？AI 帮你做特效和设计</div>
-      <div class="card-stars">⭐</div>
-      <div class="card-highlight">老照片变清晰、去掉路人、换背景、做海报……不用学 PS，告诉 AI 你要什么效果就行。</div>
-      <div>
-        <span class="card-tag">即梦</span>
-        <span class="card-tag">Canva</span>
-        <span class="card-tag">Midjourney</span>
-      </div>
-    </div>
-    <div class="card-cta">你描述想法，AI 负责设计</div>
-  </div>
+ <div class="card" style="border-top:4px solid var(--card6);">
+ <div class="card-num" style="color:var(--card6);">06</div>
+ <div class="card-body">
+ <div class="card-icon">✨</div>
+ <div class="card-title">不会设计？AI 帮你做特效和设计</div>
+ <div class="card-stars">⭐</div>
+ <div class="card-highlight">老照片变清晰、去掉路人、换背景、做海报……不用学 PS，告诉 AI 你要什么效果就行。</div>
+ <div>
+ <span class="card-tag">即梦</span>
+ <span class="card-tag">Canva</span>
+ <span class="card-tag">Midjourney</span>
+ </div>
+ </div>
+ <div class="card-cta">你描述想法，AI 负责设计</div>
+ </div>
 </div>
 
 <!-- ====== 场景 7 ====== -->
 <div class="card-wrap narrow" id="card-7">
-  <div class="card" style="border-top:4px solid var(--card7);">
-    <div class="card-num" style="color:var(--card7);">07</div>
-    <div class="card-body">
-      <div class="card-icon">📝</div>
-      <div class="card-title">让 AI 帮你写报告、做 PPT</div>
-      <div class="card-stars">⭐</div>
-      <div class="card-highlight">从零生成 / 碎片整理 / 写完审查，AI 给你三个用法。周报、调研、商业计划书，打开就能用。</div>
-      <div>
-        <span class="card-tag">豆包</span>
-        <span class="card-tag">Kimi</span>
-        <span class="card-tag">通义千问</span>
-      </div>
-    </div>
-    <div class="card-cta">上班族、学生、创业者——都用得上</div>
-  </div>
+ <div class="card" style="border-top:4px solid var(--card7);">
+ <div class="card-num" style="color:var(--card7);">07</div>
+ <div class="card-body">
+ <div class="card-icon">📝</div>
+ <div class="card-title">让 AI 帮你写报告、做 PPT</div>
+ <div class="card-stars">⭐</div>
+ <div class="card-highlight">从零生成 / 碎片整理 / 写完审查，AI 给你三个用法。周报、调研、商业计划书，打开就能用。</div>
+ <div>
+ <span class="card-tag">豆包</span>
+ <span class="card-tag">Kimi</span>
+ <span class="card-tag">通义千问</span>
+ </div>
+ </div>
+ <div class="card-cta">上班族、学生、创业者——都用得上</div>
+ </div>
 </div>
 
 </div>
 
 <script>
 function switchSize(size) {
-  document.querySelectorAll('.card-wrap').forEach(c => {
-    c.className = c.className.replace(/\b(narrow|wide)\b/g, '').trim() + ' card-wrap ' + size;
-  });
-  document.querySelectorAll('.controls button[id^="btn-"]').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-' + size).classList.add('active');
+ document.querySelectorAll('.card-wrap').forEach(c => {
+ c.className = c.className.replace(/\b(narrow|wide)\b/g, '').trim() + ' card-wrap ' + size;
+ });
+ document.querySelectorAll('.controls button[id^="btn-"]').forEach(b => b.classList.remove('active'));
+ document.getElementById('btn-' + size).classList.add('active');
 }
 function scrollToCard(n) {
-  document.getElementById('card-' + n).scrollIntoView({ behavior:'smooth', block:'center' });
+ document.getElementById('card-' + n).scrollIntoView({ behavior:'smooth', block:'center' });
 }
 </script>
 </body>

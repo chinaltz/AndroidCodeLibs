@@ -1,4 +1,0 @@
-<view class="bc-alert bc-alert--{{variant}}" style="--bc-success: {{theme.success}}; --bc-text: {{theme.textPrimary}}; --bc-body: {{theme.textSecondary}};">
-  <view class="bc-alert__title">{{title}}</view>
-  <view class="bc-alert__msg">{{message}}</view>
-</view>

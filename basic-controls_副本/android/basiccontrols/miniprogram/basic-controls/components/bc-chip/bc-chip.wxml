@@ -1,1 +1,0 @@
-<view class="bc-chip" style="background: {{bg}}; color: {{color}};">{{text}}</view>

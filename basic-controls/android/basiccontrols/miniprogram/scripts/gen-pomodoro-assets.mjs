@@ -202,6 +202,17 @@ function iconMuteSvg(size = 128) {
 </svg>`;
 }
 
+function iconSoundSvg(size = 128) {
+  const cx = size / 2;
+  const cy = size / 2;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+  <rect width="${size}" height="${size}" rx="28" fill="#EEF8FF"/>
+  <path d="M ${cx - 8} ${cy - 18} L ${cx - 28} ${cy - 18} L ${cx - 28} ${cy + 18} L ${cx - 8} ${cy + 18} L ${cx + 18} ${cy + 32} L ${cx + 18} ${cy - 32} Z" fill="${COLORS.blueDark}"/>
+  <path d="M ${cx + 28} ${cy - 18} Q ${cx + 46} ${cy} ${cx + 28} ${cy + 18}" fill="none" stroke="${COLORS.blue}" stroke-width="7" stroke-linecap="round"/>
+  <path d="M ${cx + 38} ${cy - 30} Q ${cx + 64} ${cy} ${cx + 38} ${cy + 30}" fill="none" stroke="${COLORS.blue}" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+</svg>`;
+}
+
 function iconAlarmSvg(size = 320) {
   const cx = size / 2;
   const cy = size / 2 + 10;
@@ -238,9 +249,9 @@ async function main() {
   await savePng('compass-ring.png', ringSvg(640), 640, 640);
   await savePng('compass-face.png', faceSvg(420), 420, 420);
   await savePng('compass-pointer.png', pointerSvg(120, 160), 120, 160);
-  await savePng('compass-knob.png', knobSvg(128), 128, 128);
   await savePng('mascot-tomato.png', mascotSvg(512), 512, 512);
   await savePng('icon-mute.png', iconMuteSvg(128), 128, 128);
+  await savePng('icon-sound.png', iconSoundSvg(128), 128, 128);
   await savePng('icon-alarm.png', iconAlarmSvg(320), 320, 320);
   await savePng('icon-timer.png', iconTimerSvg(128), 128, 128);
   console.log('\n全部切图已输出到 assets/pomodoro/');

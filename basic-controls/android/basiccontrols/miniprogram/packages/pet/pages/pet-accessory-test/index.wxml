@@ -1,0 +1,18 @@
+<view class="accessory-page"><bc-top-bar title="配饰视觉验收" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+<scroll-view scroll-y class="accessory-scroll">
+  <view class="preview-stage">
+    <view class="preview-actor"><image class="preview-pet" src="{{petImage}}" mode="aspectFit" /><image wx:for="{{previewImages}}" wx:key="id" class="preview-layer" style="{{item.previewStyle}}" src="{{item.image}}" mode="aspectFit" /></view>
+    <view class="preview-caption">{{comboMode ? '三类组合预览' : selectedItem.title + ' · ' + selectedItem.slotLabel}}</view>
+  </view>
+  <view class="mode-row"><view class="{{!comboMode ? 'active' : ''}}" data-mode="single" bindtap="setMode">单件最终效果</view><view class="{{comboMode ? 'active' : ''}}" data-mode="combo" bindtap="setMode">三类组合效果</view></view>
+  <view class="preview-controls"><view data-delta="-1" bindtap="changeItem">‹</view><view class="preview-name"><strong>{{selectedItem.title}}</strong><text>{{selectedIndex + 1}} / {{items.length}}</text></view><view data-delta="1" bindtap="changeItem">›</view></view>
+  <view class="combo-add" bindtap="addToCombo">把“{{selectedItem.title}}”放入组合预览</view>
+  <scroll-view scroll-x class="slot-scroll" enable-flex show-scrollbar="{{false}}"><view class="slot-row"><view wx:for="{{slotTabs}}" wx:key="key" class="slot-tab {{activeSlot === item.key ? 'active' : ''}}" data-slot="{{item.key}}" bindtap="setSlot">{{item.label}}</view></view></scroll-view>
+  <view class="accessory-grid">
+    <view wx:for="{{visibleItems}}" wx:key="id" class="accessory-card {{selectedItem.id === item.id ? 'is-selected' : ''}}" data-id="{{item.id}}" bindtap="selectItem">
+      <view class="mini-actor"><image class="mini-pet" src="{{petImage}}" mode="aspectFit" /><image class="mini-layer" style="{{item.miniStyle}}" src="{{item.image}}" mode="aspectFit" /></view>
+      <view class="card-title">{{item.title}}</view><view class="card-meta">{{item.slotLabel}} · Lv.{{item.minLevel}}</view>
+    </view>
+  </view>
+  <view class="qa-note">验收重点：配饰是否贴合身体、是否遮挡眼睛和表情、背部配饰是否穿帮、手持物是否接近手部、三类配饰同时穿戴是否互相重叠。</view><view class="accessory-safe"></view>
+</scroll-view></view>

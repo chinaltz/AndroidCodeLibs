@@ -1,22 +1,22 @@
-# 看一看 / 搜一搜 / 问一问图文素材
+# 其他平台图文素材
 
 适配文章：`不会画原型？我用 Google Stitch 十分钟搭出「消消大作战」四屏界面`
 
-卡片图目录：`../wechat-search/`（5 张竖版图文卡）
+卡片图目录：`../platform-cards/`（5 张竖版图文卡）
 
 使用原则：
 
-- 看一看：讲真实体验，强调免费、浏览器可用。
-- 搜一搜：标题和正文多放 Google Stitch、AI 出界面等关键词。
-- 问一问：用问答结构，直接回答一个具体问题。
+- 推荐流：讲真实体验，强调免费、浏览器可用。
+- 搜索平台：标题和正文多放 Google Stitch、AI 出界面等关键词。
+- 问答平台：用问答结构，直接回答一个具体问题。
 
 ---
 
-## 版本一：看一看图文
+## 版本一：推荐流图文
 
 配图：
 
-1. `../wechat-search/wechat-card-01.png`
+1. `../platform-cards/card-01.png`
 2. `../../images/header.png`
 3. `../../images/demo-03-screens.gif`
 
@@ -41,7 +41,7 @@ Stitch 走另一条路：先出高保真界面，再导出 Figma 或 HTML 代码
 
 适合「想法还不成熟，但想先看见长什么样」的阶段。
 
-关注微信公众号 AI技趣星球，回复MF 一起用技术创造乐趣。
+技趣星球 · 用技术创造乐趣。
 ```
 
 推荐话题：
@@ -52,11 +52,11 @@ Stitch 走另一条路：先出高保真界面，再导出 Figma 或 HTML 代码
 
 ---
 
-## 版本二：搜一搜图文
+## 版本二：搜索平台图文
 
 配图：
 
-1. `../wechat-search/wechat-card-01.png`
+1. `../platform-cards/card-01.png`
 2. `../../images/demo-02-generating.gif`
 3. `../../images/demo-03-screens.gif`
 
@@ -103,7 +103,7 @@ Google Stitch 是 Google Labs 的免费 AI 设计工具，地址 stitch.withgoog
 
 我踩过的坑：一条提示词塞 10 个屏质量会掉；实验模式能上传草图但不能直接导出 Figma。
 
-关注微信公众号 AI技趣星球，回复MF 一起用技术创造乐趣。
+技趣星球 · 用技术创造乐趣。
 ```
 
 推荐话题：
@@ -114,11 +114,11 @@ Google Stitch 是 Google Labs 的免费 AI 设计工具，地址 stitch.withgoog
 
 ---
 
-## 版本三：问一问图文
+## 版本三：问答平台图文
 
 配图：
 
-1. `../wechat-search/wechat-card-02.png`
+1. `../platform-cards/card-02.png`
 2. `../../images/header.png`
 
 问答标题备选：
@@ -165,7 +165,7 @@ Google Stitch 是 Google Labs 的免费 AI 设计工具，地址 stitch.withgoog
 ## 发布检查
 
 - [ ] 配图是否先用对应入口的卡片图
-- [ ] GIF 在公众号若不动，需单独上传素材库后插入
-- [ ] 搜一搜版本是否包含搜索关键词
+- [ ] GIF 若不动，需按平台要求单独上传后插入
+- [ ] 搜索平台版本是否包含搜索关键词
 - [ ] 问一问版本是否是明确问答结构
-- [ ] 是否加了「关注微信公众号 AI技趣星球，回复MF 一起用技术创造乐趣。」
+- [ ] 是否加了「技趣星球 · 用技术创造乐趣。」

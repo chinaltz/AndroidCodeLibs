@@ -1,10 +1,14 @@
 const PROGRESS_KEY = 'phonics_progress';
 const SESSION_KEYS = [
   'dictation_queue',
+  'dictation_plan_date',
+  'dictation_plan_config',
+  'vocabulary_state_v1',
   'dictation_session_results',
   'dictation_session_summary',
   'pet_reward_state_v1',
   'daily_todo_state_v1',
+  'holiday_checkin_v1',
   'pomodoro_state_v1',
 ];
 const BACKUP_VERSION = 1;

@@ -1,7 +1,0 @@
-.mt-card { margin-top: 16rpx; }
-
-.word-play {
-  flex: 0 0 176rpx;
-  width: 176rpx;
-  margin-left: 20rpx;
-}

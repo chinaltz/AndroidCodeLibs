@@ -3,222 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Google I/O vs WWDC 2026 微信搜一搜图文卡</title>
+<title>Google I/O vs WWDC 2026 搜一搜图文卡</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
-  width: 1080px;
-  height: 1440px;
-  overflow: hidden;
-  font-family: "Noto Sans CJK SC", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
-  color: #173a62;
-  background: #eef7ff;
+ width: 1080px;
+ height: 1440px;
+ overflow: hidden;
+ font-family: "Noto Sans CJK SC", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+ color: #173a62;
+ background: #eef7ff;
 }
 .card {
-  width: 1080px;
-  height: 1440px;
-  padding: 64px 68px 56px;
-  display: none;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 14% 12%, rgba(49,168,255,0.22), transparent 36%),
-    radial-gradient(circle at 86% 18%, rgba(67,207,199,0.18), transparent 32%),
-    radial-gradient(circle at 72% 88%, rgba(255,209,102,0.14), transparent 28%),
-    linear-gradient(180deg, #f9fdff 0%, #e8f6ff 55%, #ddf4ff 100%);
+ width: 1080px;
+ height: 1440px;
+ padding: 64px 68px 56px;
+ display: none;
+ flex-direction: column;
+ position: relative;
+ overflow: hidden;
+ background:
+ radial-gradient(circle at 14% 12%, rgba(49,168,255,0.22), transparent 36%),
+ radial-gradient(circle at 86% 18%, rgba(67,207,199,0.18), transparent 32%),
+ radial-gradient(circle at 72% 88%, rgba(255,209,102,0.14), transparent 28%),
+ linear-gradient(180deg, #f9fdff 0%, #e8f6ff 55%, #ddf4ff 100%);
 }
 .card.active { display: flex; }
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  align-self: flex-start;
-  padding: 12px 22px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.88);
-  border: 2px solid #c8eaff;
-  font-size: 26px;
-  font-weight: 800;
-  color: #1479d6;
-  box-shadow: 0 10px 28px rgba(49,168,255,0.10);
-  flex-shrink: 0;
+ display: inline-flex;
+ align-items: center;
+ gap: 12px;
+ align-self: flex-start;
+ padding: 12px 22px;
+ border-radius: 999px;
+ background: rgba(255,255,255,0.88);
+ border: 2px solid #c8eaff;
+ font-size: 26px;
+ font-weight: 800;
+ color: #1479d6;
+ box-shadow: 0 10px 28px rgba(49,168,255,0.10);
+ flex-shrink: 0;
 }
 .brand-dot {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #31a8ff;
-  box-shadow: 0 0 0 6px rgba(49,168,255,0.14);
+ width: 16px;
+ height: 16px;
+ border-radius: 50%;
+ background: #31a8ff;
+ box-shadow: 0 0 0 6px rgba(49,168,255,0.14);
 }
 .eyebrow {
-  margin-top: 40px;
-  font-size: 28px;
-  line-height: 1.35;
-  color: #427095;
-  font-weight: 700;
-  flex-shrink: 0;
+ margin-top: 40px;
+ font-size: 28px;
+ line-height: 1.35;
+ color: #427095;
+ font-weight: 700;
+ flex-shrink: 0;
 }
 h1 {
-  margin-top: 22px;
-  font-size: 72px;
-  line-height: 1.08;
-  color: #102a4d;
-  font-weight: 900;
-  flex-shrink: 0;
+ margin-top: 22px;
+ font-size: 72px;
+ line-height: 1.08;
+ color: #102a4d;
+ font-weight: 900;
+ flex-shrink: 0;
 }
 h2 {
-  margin-top: 36px;
-  font-size: 58px;
-  line-height: 1.12;
-  color: #102a4d;
-  font-weight: 900;
-  flex-shrink: 0;
+ margin-top: 36px;
+ font-size: 58px;
+ line-height: 1.12;
+ color: #102a4d;
+ font-weight: 900;
+ flex-shrink: 0;
 }
 .sub {
-  margin-top: 24px;
-  font-size: 32px;
-  line-height: 1.55;
-  color: #365d82;
-  font-weight: 650;
-  flex-shrink: 0;
+ margin-top: 24px;
+ font-size: 32px;
+ line-height: 1.55;
+ color: #365d82;
+ font-weight: 650;
+ flex-shrink: 0;
 }
 .hero {
-  margin-top: 28px;
-  width: 100%;
-  height: 220px;
-  border-radius: 28px;
-  overflow: hidden;
-  border: 2px solid #c8eaff;
-  box-shadow: 0 16px 40px rgba(49,168,255,0.12);
-  flex-shrink: 0;
+ margin-top: 28px;
+ width: 100%;
+ height: 220px;
+ border-radius: 28px;
+ overflow: hidden;
+ border: 2px solid #c8eaff;
+ box-shadow: 0 16px 40px rgba(49,168,255,0.12);
+ flex-shrink: 0;
 }
 .hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
 }
 .content {
-  margin-top: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-  flex: 1;
-  min-height: 0;
+ margin-top: 28px;
+ display: flex;
+ flex-direction: column;
+ gap: 22px;
+ flex: 1;
+ min-height: 0;
 }
 .panel {
-  padding: 28px 30px;
-  border-radius: 28px;
-  background: rgba(255,255,255,0.92);
-  border: 2px solid #c8eaff;
-  box-shadow: 0 14px 36px rgba(49,168,255,0.10), 0 6px 0 rgba(200,234,255,0.72);
-  flex-shrink: 0;
+ padding: 28px 30px;
+ border-radius: 28px;
+ background: rgba(255,255,255,0.92);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 14px 36px rgba(49,168,255,0.10), 0 6px 0 rgba(200,234,255,0.72);
+ flex-shrink: 0;
 }
 .panel.warn {
-  background: rgba(255,247,215,0.96);
-  border-color: #ffe28a;
+ background: rgba(255,247,215,0.96);
+ border-color: #ffe28a;
 }
 .panel.cta {
-  background: linear-gradient(180deg, #31a8ff, #1479d6);
-  border-color: #1479d6;
-  color: #fff;
+ background: linear-gradient(180deg, #31a8ff, #1479d6);
+ border-color: #1479d6;
+ color: #fff;
 }
 .panel-title {
-  font-size: 30px;
-  font-weight: 900;
-  color: #1479d6;
-  margin-bottom: 14px;
-  line-height: 1.3;
+ font-size: 30px;
+ font-weight: 900;
+ color: #1479d6;
+ margin-bottom: 14px;
+ line-height: 1.3;
 }
 .panel.cta .panel-title,
 .panel.cta .item span:last-child {
-  color: #fff;
+ color: #fff;
 }
 .list { display: grid; gap: 14px; }
 .item {
-  display: grid;
-  grid-template-columns: 52px 1fr;
-  gap: 14px;
-  align-items: start;
-  font-size: 28px;
-  line-height: 1.46;
-  font-weight: 700;
-  color: #20456e;
+ display: grid;
+ grid-template-columns: 52px 1fr;
+ gap: 14px;
+ align-items: start;
+ font-size: 28px;
+ line-height: 1.46;
+ font-weight: 700;
+ color: #20456e;
 }
 .num {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  background: #31a8ff;
-  color: #fff;
-  font-size: 24px;
-  font-weight: 900;
-  flex-shrink: 0;
+ width: 52px;
+ height: 52px;
+ border-radius: 16px;
+ display: grid;
+ place-items: center;
+ background: #31a8ff;
+ color: #fff;
+ font-size: 24px;
+ font-weight: 900;
+ flex-shrink: 0;
 }
 .lines { display: grid; gap: 10px; }
 .line {
-  font-size: 28px;
-  line-height: 1.48;
-  font-weight: 700;
-  color: #365d82;
-  word-break: break-word;
+ font-size: 28px;
+ line-height: 1.48;
+ font-weight: 700;
+ color: #365d82;
+ word-break: break-word;
 }
 .compare {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 20px;
 }
 .choice {
-  padding: 26px 24px;
-  border-radius: 28px;
-  background: rgba(255,255,255,0.92);
-  border: 2px solid #c8eaff;
-  box-shadow: 0 12px 30px rgba(49,168,255,0.08);
+ padding: 26px 24px;
+ border-radius: 28px;
+ background: rgba(255,255,255,0.92);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 12px 30px rgba(49,168,255,0.08);
 }
 .choice.alt {
-  background: rgba(255,247,215,0.96);
-  border-color: #ffe28a;
+ background: rgba(255,247,215,0.96);
+ border-color: #ffe28a;
 }
 .choice h3 {
-  font-size: 30px;
-  color: #1479d6;
-  margin-bottom: 12px;
-  line-height: 1.2;
+ font-size: 30px;
+ color: #1479d6;
+ margin-bottom: 12px;
+ line-height: 1.2;
 }
 .choice p {
-  font-size: 26px;
-  line-height: 1.5;
-  color: #365d82;
-  font-weight: 650;
+ font-size: 26px;
+ line-height: 1.5;
+ color: #365d82;
+ font-weight: 650;
 }
 .footer {
-  margin-top: auto;
-  padding-top: 28px;
-  font-size: 24px;
-  line-height: 1.45;
-  color: #6788a7;
-  font-weight: 700;
-  flex-shrink: 0;
+ margin-top: auto;
+ padding-top: 28px;
+ font-size: 24px;
+ line-height: 1.45;
+ color: #6788a7;
+ font-weight: 700;
+ flex-shrink: 0;
 }
 .footer strong { color: #173a62; }
 .badge-row {
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  flex-shrink: 0;
+ margin-top: 22px;
+ display: flex;
+ flex-wrap: wrap;
+ gap: 12px;
+ flex-shrink: 0;
 }
 .badge {
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: #fff7d7;
-  border: 2px solid #ffe28a;
-  color: #745610;
-  font-size: 24px;
-  font-weight: 800;
+ padding: 12px 18px;
+ border-radius: 999px;
+ background: #fff7d7;
+ border: 2px solid #ffe28a;
+ color: #745610;
+ font-size: 24px;
+ font-weight: 800;
 }
 .card[data-card="5"] { padding-bottom: 48px; }
 .card[data-card="5"] h2 { font-size: 52px; margin-top: 28px; }
@@ -229,149 +229,149 @@ h2 {
 <body>
 
 <section class="card active" data-card="1">
-  <div class="brand"><span class="brand-dot"></span>发布会速览</div>
-  <div class="eyebrow">5月19日 Google I/O · 6月8日 Apple WWDC</div>
-  <h1>5月谷歌、6月苹果<br>又更新了</h1>
-  <p class="sub">AI 能自己跑腿，Siri 也大改版。5 张图搞懂跟我们有什么关系。</p>
-  <div class="hero"><img src="../../images/header.png" alt="封面"></div>
-  <div class="content">
-    <div class="panel">
-      <div class="panel-title">时间线</div>
-      <div class="lines">
-        <div class="line">5月19日 · Google I/O 2026 主题演讲</div>
-        <div class="line">6月8日 · Apple WWDC 2026 主题演讲</div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title">权威来源</div>
-      <div class="lines">
-        <div class="line">Apple Newsroom</div>
-        <div class="line">Google 官方博客 · Google Developers Blog</div>
-      </div>
-    </div>
-  </div>
-  <div class="footer">先看重点，再回长文看完整对比表。</div>
+ <div class="brand"><span class="brand-dot"></span>发布会速览</div>
+ <div class="eyebrow">5月19日 Google I/O · 6月8日 Apple WWDC</div>
+ <h1>5月谷歌、6月苹果<br>又更新了</h1>
+ <p class="sub">AI 能自己跑腿，Siri 也大改版。5 张图搞懂跟我们有什么关系。</p>
+ <div class="hero"><img src="../../images/header.png" alt="封面"></div>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">时间线</div>
+ <div class="lines">
+ <div class="line">5月19日 · Google I/O 2026 主题演讲</div>
+ <div class="line">6月8日 · Apple WWDC 2026 主题演讲</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">权威来源</div>
+ <div class="lines">
+ <div class="line">Apple Newsroom</div>
+ <div class="line">Google 官方博客 · Google Developers Blog</div>
+ </div>
+ </div>
+ </div>
+ <div class="footer">先看重点，再回长文看完整对比表。</div>
 </section>
 
 <section class="card" data-card="2">
-  <div class="brand"><span class="brand-dot"></span>核心问题</div>
-  <h2>跟我们有什么关系？</h2>
-  <p class="sub">两家都在把 AI 从「问答机」升级成「办事助手」。不用换手机，用法会变。</p>
-  <div class="content">
-    <div class="panel">
-      <div class="panel-title">一句话结论</div>
-      <div class="lines">
-        <div class="line">Google 走云端智能体，Apple 走设备内隐私。</div>
-      </div>
-    </div>
-    <div class="compare">
-      <div class="choice">
-        <h3>谷歌 5 月 I/O</h3>
-        <p>Gemini 3.5 Flash 已上线<br>Information Agent 后台盯新闻<br>Daily Brief 早晨汇总待办</p>
-      </div>
-      <div class="choice alt">
-        <h3>苹果 6 月 WWDC</h3>
-        <p>Siri AI 跨 App 读数据<br>看屏幕内容直接回答<br>iOS 27 性能全面提速</p>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title">补充</div>
-      <div class="lines">
-        <div class="line">TechCrunch：Siri AI 部分能力底层使用 Google Gemini。</div>
-      </div>
-    </div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>核心问题</div>
+ <h2>跟我们有什么关系？</h2>
+ <p class="sub">两家都在把 AI 从「问答机」升级成「办事助手」。不用换手机，用法会变。</p>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">一句话结论</div>
+ <div class="lines">
+ <div class="line">Google 走云端智能体，Apple 走设备内隐私。</div>
+ </div>
+ </div>
+ <div class="compare">
+ <div class="choice">
+ <h3>谷歌 5 月 I/O</h3>
+ <p>Gemini 3.5 Flash 已上线<br>Information Agent 后台盯新闻<br>Daily Brief 早晨汇总待办</p>
+ </div>
+ <div class="choice alt">
+ <h3>苹果 6 月 WWDC</h3>
+ <p>Siri AI 跨 App 读数据<br>看屏幕内容直接回答<br>iOS 27 性能全面提速</p>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">补充</div>
+ <div class="lines">
+ <div class="line">TechCrunch：Siri AI 部分能力底层使用 Google Gemini。</div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section class="card" data-card="3">
-  <div class="brand"><span class="brand-dot"></span>事实速览</div>
-  <h2>两场发布，三个要点</h2>
-  <div class="content">
-    <div class="panel">
-      <div class="panel-title">5月19日 Google I/O</div>
-      <div class="list">
-        <div class="item"><span class="num">1</span><span>发布 Gemini 3.5 Flash，搜索 AI 模式默认模型。</span></div>
-        <div class="item"><span class="num">2</span><span>Information Agent 夏季开放，后台盯话题更新。</span></div>
-        <div class="item"><span class="num">3</span><span>Universal Cart 跨搜索、YouTube、Gmail 统一购物车。</span></div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title">6月8日 Apple WWDC</div>
-      <div class="list">
-        <div class="item"><span class="num">1</span><span>发布 Siri AI 与下一代 Apple Intelligence。</span></div>
-        <div class="item"><span class="num">2</span><span>iOS 27 至 visionOS 27 全家桶更新。</span></div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title">普通人怎么理解</div>
-      <div class="lines">
-        <div class="line">谷歌让 AI 在云端跑腿；苹果让 Siri 在设备内读数据并办事。</div>
-      </div>
-    </div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>事实速览</div>
+ <h2>两场发布，三个要点</h2>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">5月19日 Google I/O</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>发布 Gemini 3.5 Flash，搜索 AI 模式默认模型。</span></div>
+ <div class="item"><span class="num">2</span><span>Information Agent 夏季开放，后台盯话题更新。</span></div>
+ <div class="item"><span class="num">3</span><span>Universal Cart 跨搜索、YouTube、Gmail 统一购物车。</span></div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">6月8日 Apple WWDC</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>发布 Siri AI 与下一代 Apple Intelligence。</span></div>
+ <div class="item"><span class="num">2</span><span>iOS 27 至 visionOS 27 全家桶更新。</span></div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">普通人怎么理解</div>
+ <div class="lines">
+ <div class="line">谷歌让 AI 在云端跑腿；苹果让 Siri 在设备内读数据并办事。</div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section class="card" data-card="4">
-  <div class="brand"><span class="brand-dot"></span>边界提醒</div>
-  <h2>别急着换手机<br>先看清边界</h2>
-  <div class="content">
-    <div class="panel">
-      <div class="panel-title">上线时间</div>
-      <div class="lines">
-        <div class="line">正式版今年秋天推送。</div>
-        <div class="line">6 月开发者测试，公开测试版预计 7 月。</div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title">语言与地区</div>
-      <div class="lines">
-        <div class="line">Siri AI 初期仅英语。</div>
-        <div class="line">中国大陆暂不提供；欧盟 iPhone/iPad 暂不可用。</div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-title">订阅与区域</div>
-      <div class="lines">
-        <div class="line">Gemini 高级功能需订阅。</div>
-        <div class="line">Information Agent 等多先限美国。</div>
-      </div>
-    </div>
-    <div class="panel warn">
-      <div class="panel-title">国内怎么用</div>
-      <div class="lines">
-        <div class="line">可先用豆包、Kimi、DeepSeek 问清发布要点。</div>
-        <div class="line">不必等设备更新，今天就能搞懂两场发布。</div>
-      </div>
-    </div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>边界提醒</div>
+ <h2>别急着换手机<br>先看清边界</h2>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">上线时间</div>
+ <div class="lines">
+ <div class="line">正式版今年秋天推送。</div>
+ <div class="line">6 月开发者测试，公开测试版预计 7 月。</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">语言与地区</div>
+ <div class="lines">
+ <div class="line">Siri AI 初期仅英语。</div>
+ <div class="line">中国大陆暂不提供；欧盟 iPhone/iPad 暂不可用。</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">订阅与区域</div>
+ <div class="lines">
+ <div class="line">Gemini 高级功能需订阅。</div>
+ <div class="line">Information Agent 等多先限美国。</div>
+ </div>
+ </div>
+ <div class="panel warn">
+ <div class="panel-title">国内怎么用</div>
+ <div class="lines">
+ <div class="line">可先用豆包、Kimi、DeepSeek 问清发布要点。</div>
+ <div class="line">不必等设备更新，今天就能搞懂两场发布。</div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section class="card" data-card="5">
-  <div class="brand"><span class="brand-dot"></span>带走重点</div>
-  <h2>记住 3 件事</h2>
-  <div class="content">
-    <div class="panel">
-      <div class="list">
-        <div class="item"><span class="num">1</span><span><strong>Google 押智能体</strong>：AI 从聊天变后台助手，Gemini 3.5 Flash 已可用。</span></div>
-        <div class="item"><span class="num">2</span><span><strong>Apple 押 Siri AI</strong>：拖了两年的大改版来了，跨 App 读数据是杀手锏。</span></div>
-        <div class="item"><span class="num">3</span><span><strong>你不必站队</strong>：用 Google 盯 Gemini，用 iPhone 等 iOS 27。</span></div>
-      </div>
-    </div>
-    <div class="panel cta">
-      <div class="panel-title">立刻可做</div>
-      <div class="list">
-        <div class="item"><span class="num">1</span><span>打开豆包或 Kimi</span></div>
-        <div class="item"><span class="num">2</span><span>粘贴正文里的对比提示词</span></div>
-        <div class="item"><span class="num">3</span><span>30 秒搞懂两场发布</span></div>
-      </div>
-    </div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>带走重点</div>
+ <h2>记住 3 件事</h2>
+ <div class="content">
+ <div class="panel">
+ <div class="list">
+ <div class="item"><span class="num">1</span><span><strong>Google 押智能体</strong>：AI 从聊天变后台助手，Gemini 3.5 Flash 已可用。</span></div>
+ <div class="item"><span class="num">2</span><span><strong>Apple 押 Siri AI</strong>：拖了两年的大改版来了，跨 App 读数据是杀手锏。</span></div>
+ <div class="item"><span class="num">3</span><span><strong>你不必站队</strong>：用 Google 盯 Gemini，用 iPhone 等 iOS 27。</span></div>
+ </div>
+ </div>
+ <div class="panel cta">
+ <div class="panel-title">立刻可做</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>打开豆包或 Kimi</span></div>
+ <div class="item"><span class="num">2</span><span>粘贴正文里的对比提示词</span></div>
+ <div class="item"><span class="num">3</span><span>30 秒搞懂两场发布</span></div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <script>
 const card = new URLSearchParams(location.search).get("card") || "1";
 for (const el of document.querySelectorAll(".card")) {
-  el.classList.toggle("active", el.dataset.card === card);
+ el.classList.toggle("active", el.dataset.card === card);
 }
 </script>
 </body>

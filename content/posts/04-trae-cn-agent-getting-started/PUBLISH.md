@@ -1,6 +1,6 @@
 # 发布适配清单
 
-**文章目录**：`content/posts/04-trae-cn-agent-getting-started`  
+**文章目录**：`content/posts/04-trae-cn-agent-getting-started` 
 **Slug**：`04-trae-cn-agent-getting-started`
 
 ## 推荐主标题
@@ -74,7 +74,7 @@ AI、Agent、Trae、前端入门、提示词、零基础
 
 ## 发布前检查
 
-- [x] 敏感词检查通过（无翻墙/VPN 等）
+- [x] 敏感词检查通过（无网络工具/网络工具 等）
 - [x] 有明确小结与可复用 Prompt
 - [x] 链接：Trae 官网、快速入门文档、系列前文
 - [x] `npm run convert` 已生成 HTML + DOCX
@@ -85,10 +85,10 @@ AI、Agent、Trae、前端入门、提示词、零基础
 ## 发布顺序建议
 
 ```
-微信公众号（首发）
-  → 知乎 + 掘金 + CSDN（同日或次日）
-  → 简书 / 头条 / 百家号
-  → 小红书要点版
+公众号（首发）
+ → 知乎 + 掘金 + CSDN（同日或次日）
+ → 简书 / 头条 / 百家号
+ → 小红书要点版
 ```
 
 ## 终审摘要（2026-05-22）

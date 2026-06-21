@@ -6,6 +6,13 @@ const MAX_LEDGER = 200;
 const MIN_ENERGY_TO_PLAY = 10;
 const SLEEP_ENERGY_THRESHOLD = 45;
 const SLEEP_ENERGY_RESTORE = 40;
+const RETIRED_NECK_ACCESSORIES = {
+  accessory_neck_mint_bow: 80,
+  accessory_neck_rainbow_scarf: 90,
+  accessory_neck_medal: 120,
+  accessory_neck_comet_pendant: 250,
+  accessory_neck_explorer_neckerchief: 390,
+};
 
 function playEnergyCost(toy) {
   return Math.max(MIN_ENERGY_TO_PLAY, Math.abs(toy.energy || MIN_ENERGY_TO_PLAY));
@@ -33,25 +40,46 @@ function defaultBucket() {
     profile: { adopted: false, speciesId: 'star_sprout', colorId: 'sky_blue', name: '芽芽' },
     status: { hunger: 75, mood: 80, energy: 80, lastDailyReset: '' },
     inventory: { ownedItemIds: ['toy_bouncy_ball'], consumables: {} },
-    equipped: { head: '', neck: '', back: '', hand: '', room: 'room_default' },
-    dailyCare: { date: '', freeFeedUsed: false },
+    equipped: { head: '', back: '', hand: '', room: 'room_default' },
+    dailyCare: { date: '', freeFeedUsed: false, petCount: 0 },
+    checkinBoosts: {},
     claimedLevelRewards: [],
+    highestClaimedLevel: 1,
   };
 }
 
 function bucketFor(root) {
   const childId = storage.getCurrentChildId() || 'default';
   root.children = root.children || {};
-  const bucket = Object.assign(defaultBucket(), root.children[childId] || {});
+  const persistedBucket = root.children[childId] || {};
+  const bucket = Object.assign(defaultBucket(), persistedBucket);
   bucket.profile = Object.assign(defaultBucket().profile, bucket.profile || {});
   bucket.status = Object.assign(defaultBucket().status, bucket.status || {});
   bucket.inventory = Object.assign(defaultBucket().inventory, bucket.inventory || {});
   bucket.inventory.ownedItemIds = bucket.inventory.ownedItemIds || ['toy_bouncy_ball'];
   bucket.inventory.consumables = bucket.inventory.consumables || {};
   bucket.equipped = Object.assign(defaultBucket().equipped, bucket.equipped || {});
-  bucket.dailyCare = Object.assign(defaultBucket().dailyCare, bucket.dailyCare || {});
-  bucket.claimedLevelRewards = bucket.claimedLevelRewards || [];
   bucket.ledger = bucket.ledger || [];
+  let retiredRefund = 0;
+  const refundedIds = {};
+  bucket.inventory.ownedItemIds = bucket.inventory.ownedItemIds.filter((itemId) => {
+    if (!Object.prototype.hasOwnProperty.call(RETIRED_NECK_ACCESSORIES, itemId)) return true;
+    if (!refundedIds[itemId]) retiredRefund += RETIRED_NECK_ACCESSORIES[itemId];
+    refundedIds[itemId] = true;
+    return false;
+  });
+  delete bucket.equipped.neck;
+  if (retiredRefund > 0) {
+    bucket.points += retiredRefund;
+    addLedger(bucket, { eventId: 'retired-neck-accessories', type: 'refund', title: '颈部配饰下架退款', points: retiredRefund, xp: 0 });
+  }
+  bucket.dailyCare = Object.assign(defaultBucket().dailyCare, bucket.dailyCare || {});
+  bucket.checkinBoosts = bucket.checkinBoosts || {};
+  bucket.claimedLevelRewards = bucket.claimedLevelRewards || [];
+  const legacyClaimedLevel = bucket.claimedLevelRewards.length ? Math.max.apply(null, bucket.claimedLevelRewards) : 1;
+  bucket.highestClaimedLevel = Object.prototype.hasOwnProperty.call(persistedBucket, 'highestClaimedLevel')
+    ? Math.max(1, Number(persistedBucket.highestClaimedLevel) || 1)
+    : legacyClaimedLevel;
   bucket.shareClaims = bucket.shareClaims || {};
   root.children[childId] = bucket;
   return bucket;
@@ -69,9 +97,27 @@ function applyDailyReset(bucket) {
     bucket.status.energy = Math.min(100, bucket.status.energy + 20);
   }
   if (bucket.dailyCare.date !== today) {
-    bucket.dailyCare = { date: today, freeFeedUsed: false };
+    bucket.dailyCare = { date: today, freeFeedUsed: false, petCount: 0 };
   }
   bucket.status.lastDailyReset = today;
+}
+
+function applyLevelRewards(bucket, currentLevel) {
+  const fromLevel = Math.max(2, (bucket.highestClaimedLevel || 1) + 1);
+  if (fromLevel > currentLevel) return;
+  let rewardPoints = 0;
+  for (let level = fromLevel; level <= currentLevel; level += 1) {
+    rewardPoints += catalog.levelRewardPoints(level);
+  }
+  bucket.highestClaimedLevel = currentLevel;
+  bucket.points += rewardPoints;
+  addLedger(bucket, {
+    eventId: `level_reward:${fromLevel}-${currentLevel}`,
+    type: 'level',
+    title: fromLevel === currentLevel ? `${currentLevel} 级成长奖励` : `${fromLevel}-${currentLevel} 级成长奖励`,
+    points: rewardPoints,
+    xp: 0,
+  });
 }
 
 function state() {
@@ -79,19 +125,7 @@ function state() {
   const bucket = bucketFor(root);
   applyDailyReset(bucket);
   const level = catalog.levelForXp(bucket.xp);
-  catalog.LEVELS.forEach((item) => {
-    if (item.level <= level.level && item.rewardPoints > 0 && bucket.claimedLevelRewards.indexOf(item.level) < 0) {
-      bucket.claimedLevelRewards.push(item.level);
-      bucket.points += item.rewardPoints;
-      addLedger(bucket, {
-        eventId: `level_reward:${item.level}`,
-        type: 'level',
-        title: `${item.level} 级成长奖励`,
-        points: item.rewardPoints,
-        xp: 0,
-      });
-    }
-  });
+  applyLevelRewards(bucket, level.level);
   save(root);
   const next = catalog.nextLevel(bucket.xp);
   return {
@@ -101,13 +135,14 @@ function state() {
     xp: bucket.xp,
     level: level.level,
     stageTitle: level.title,
+    growthStage: level.stage,
     nextLevel: next,
     levelProgress: next ? Math.round(((bucket.xp - level.totalXp) / (next.totalXp - level.totalXp)) * 100) : 100,
     status: bucket.status,
     inventory: bucket.inventory,
     equipped: bucket.equipped,
     ledger: bucket.ledger,
-    petImage: catalog.PET_BLUE,
+    petImage: catalog.petImageForLevel(level.level, 'idle'),
   };
 }
 
@@ -144,12 +179,12 @@ function feed(foodId) {
   const food = catalog.findItem(resolvedId);
   if (!food || food.type !== 'food') return { ok: false, message: '食物不存在' };
   if (bucket.status.hunger >= 90) return { ok: false, message: '已经吃得很饱啦' };
-  const owned = bucket.inventory.consumables[foodId] || 0;
-  const free = foodId === 'food_star_cookie' && !bucket.dailyCare.freeFeedUsed;
+  const owned = bucket.inventory.consumables[resolvedId] || 0;
+  const free = resolvedId === 'food_star_cookie' && !bucket.dailyCare.freeFeedUsed;
   if (!owned && !free && bucket.points < food.price) {
     return { ok: false, message: `还差 ${food.price - bucket.points} 星星积分` };
   }
-  if (owned) bucket.inventory.consumables[foodId] = owned - 1;
+  if (owned) bucket.inventory.consumables[resolvedId] = owned - 1;
   else if (free) bucket.dailyCare.freeFeedUsed = true;
   else bucket.points -= food.price;
   bucket.status.hunger = Math.min(100, bucket.status.hunger + food.hunger);
@@ -191,6 +226,52 @@ function sleep() {
   addLedger(bucket, { eventId: `sleep:${Date.now()}`, type: 'care', title: '小睡恢复活力', points: 0, xp: 0 });
   save(root);
   return { ok: true, message: '好好睡了一觉，活力恢复啦', state: bucket.status };
+}
+
+function pet() {
+  const root = load();
+  const bucket = bucketFor(root);
+  applyDailyReset(bucket);
+  if (bucket.dailyCare.petCount >= 3) return { ok: false, message: '今天已经摸摸很多次啦，明天再来吧' };
+  bucket.dailyCare.petCount += 1;
+  bucket.status.mood = Math.min(100, bucket.status.mood + 2);
+  addLedger(bucket, { eventId: `pet:${todayKey()}:${bucket.dailyCare.petCount}`, type: 'care', title: '摸摸小宠', points: 0, xp: 0 });
+  save(root);
+  return { ok: true, message: '摸摸头，心情 +2', state: bucket.status, remaining: 3 - bucket.dailyCare.petCount };
+}
+
+function applyDailyCheckin(dateKey) {
+  const root = load();
+  const bucket = bucketFor(root);
+  applyDailyReset(bucket);
+  const key = dateKey || todayKey();
+  if (bucket.checkinBoosts[key]) return { applied: false, status: bucket.status };
+  bucket.checkinBoosts[key] = Date.now();
+  bucket.status.mood = Math.min(100, bucket.status.mood + 10);
+  bucket.status.energy = Math.min(100, bucket.status.energy + 5);
+  addLedger(bucket, { eventId: `checkin-boost:${key}`, type: 'care', title: '每日任务全完成', points: 0, xp: 0 });
+  save(root);
+  return { applied: true, status: bucket.status };
+}
+
+function debugPatch(patch) {
+  const root = load();
+  const bucket = bucketFor(root);
+  const input = patch || {};
+  if (input.adopted != null) bucket.profile.adopted = !!input.adopted;
+  if (input.points != null) bucket.points = Math.max(0, Number(input.points) || 0);
+  if (input.xp != null) bucket.xp = Math.max(0, Number(input.xp) || 0);
+  if (Array.isArray(input.claimedLevelRewards)) {
+    bucket.claimedLevelRewards = input.claimedLevelRewards.slice();
+    bucket.highestClaimedLevel = input.claimedLevelRewards.length ? Math.max.apply(null, input.claimedLevelRewards) : 1;
+  }
+  if (input.highestClaimedLevel != null) bucket.highestClaimedLevel = Math.max(1, Number(input.highestClaimedLevel) || 1);
+  ['hunger', 'mood', 'energy'].forEach((key) => {
+    if (input[key] != null) bucket.status[key] = Math.max(0, Math.min(100, Number(input[key]) || 0));
+  });
+  if (Array.isArray(input.ownedItemIds)) bucket.inventory.ownedItemIds = input.ownedItemIds.slice();
+  save(root);
+  return state();
 }
 
 function purchase(itemId) {
@@ -241,6 +322,9 @@ module.exports = {
   feed,
   play,
   sleep,
+  pet,
+  applyDailyCheckin,
+  debugPatch,
   purchase,
   equip,
   unequip,

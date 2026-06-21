@@ -9,3 +9,6 @@
   bottom: 0;
   z-index: 40;
 }
+
+.settings-row--test { display: flex; align-items: center; gap: 16rpx; }
+.settings-test-badge { width: 58rpx; height: 58rpx; flex: 0 0 auto; border-radius: 18rpx; background: #fff4bd; color: #8f5300; font-size: 25rpx; font-weight: 900; line-height: 58rpx; text-align: center; }

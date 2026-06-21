@@ -18,8 +18,8 @@ Page({
     const equippedImages = Object.keys(state.equipped)
       .map((slot) => catalog.findItem(state.equipped[slot]))
       .filter(Boolean)
-      .map((item) => ({ id: item.id, image: item.image, slot: item.slot }));
-    this.setData({ theme: getApp().globalData.theme, items, equippedImages, level: state.level });
+      .map((item) => ({ id: item.id, image: item.image, slot: item.slot, style: catalog.accessoryStyle(item, 0.88) }));
+    this.setData({ theme: getApp().globalData.theme, petImage: state.petImage, items, equippedImages, level: state.level });
   },
   onBack() { nav.navigateBack({ fallbackUrl: petRoutes.home }); },
   setSlot(e) { this.setData({ slot: e.currentTarget.dataset.slot }, () => this.refresh()); },

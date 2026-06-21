@@ -1,53 +1,44 @@
-<view class="page-shell" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
-  <bc-top-bar title="听写播放" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+<view class="page-shell dictation-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="开始听写" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
 
-  <scroll-view scroll-y class="page-body page-scroll">
-    <view class="dictation-hero">
-      <view class="hero-copy">
-        <view class="eyebrow">课本听写机</view>
-        <view class="hero-title">{{currentText}}</view>
-        <view class="hero-subtitle">{{statusText}}</view>
-      </view>
-      <image class="hero-planet" src="/assets/images/planets/planet-words.png" mode="aspectFit" />
+  <view class="dictation-stage">
+    <view class="dictation-mascot">
+      <image src="/assets/images/planets/planet-words.png" mode="aspectFit" />
     </view>
 
-    <view wx:if="{{configHint}}" class="content-card-wrap">
-      <view class="tts-hint">{{configHint}}</view>
+    <view class="dictation-progress__label">{{progressText}}</view>
+    <view class="dictation-progress">
+      <view class="dictation-progress__fill" style="width: {{progressPercent}}%;"></view>
     </view>
 
-    <view class="content-card-wrap"><bc-card theme="{{theme}}">
-      <view class="panel-title">播报设置</view>
-      <view class="settings-grid">
-        <view class="setting-card">
-          <view class="setting-label">词间隔秒数</view>
-          <bc-input theme="{{theme}}" type="number" value="{{intervalSeconds}}" bind:input="onIntervalInput" bind:blur="onIntervalBlur" />
+    <view class="dictation-status {{playing ? 'is-playing' : ''}}">
+      <view class="dictation-status__icon">{{playing ? '▶' : '✎'}}</view>
+      <view class="dictation-status__text">{{statusText}}</view>
+    </view>
+
+    <view wx:if="{{configHint}}" class="dictation-error">{{configHint}}</view>
+
+    <view wx:if="{{!sessionStarted}}" class="dictation-start" hover-class="is-pressed" bindtap="startQueue">
+      开始听写
+    </view>
+
+    <block wx:else>
+      <view class="dictation-controls">
+        <view class="dictation-control {{currentIndex <= 0 ? 'is-disabled' : ''}}" bindtap="previousItem">
+          <view class="dictation-control__icon">‹</view>
+          <view class="dictation-control__text">上一个</view>
         </view>
-        <view class="setting-card">
-          <view class="setting-label">每词总播放次数</view>
-          <bc-input theme="{{theme}}" type="number" value="{{repeatCount}}" bind:input="onRepeatInput" bind:blur="onRepeatBlur" />
+        <view class="dictation-control" bindtap="replayCurrent">
+          <view class="dictation-control__icon">↻</view>
+          <view class="dictation-control__text">再听一次</view>
+        </view>
+        <view class="dictation-control {{finished ? 'is-disabled' : ''}}" bindtap="nextItem">
+          <view class="dictation-control__icon">›</view>
+          <view class="dictation-control__text">下一个</view>
         </view>
       </view>
-      <view class="setting-note" style="color: {{theme.textTertiary}};">每次播报一个词后等待词间隔秒数，同一词按设定次数重复播报后再进入下一个词。例如「天地、人们」间隔 8 秒、每词 2 次：天地 → 8 秒 → 天地 → 8 秒 → 人们 → 8 秒 → 人们。</view>
-      <view class="primary-row">
-        <bc-button wx:if="{{finished}}" text="开始批改" variant="primary" theme="{{theme}}" bind:tap="goCorrection" />
-        <bc-button wx:elif="{{!playing}}" text="开始听写" variant="primary" theme="{{theme}}" bind:tap="startQueue" />
-        <bc-button wx:else text="暂停" variant="primary" theme="{{theme}}" bind:tap="stopQueue" />
-      </view>
-    </bc-card></view>
 
-    <view class="content-card-wrap"><bc-card theme="{{theme}}">
-      <view class="section-title">听写队列</view>
-      <block wx:for="{{queue}}" wx:key="id">
-        <view class="queue-row {{currentIndex === index ? 'is-current' : ''}}">
-          <view class="queue-index">{{index + 1}}</view>
-          <view class="queue-main">
-            <view class="queue-text">{{item.text}}</view>
-            <view class="queue-source">{{item.sourceLabel}}</view>
-          </view>
-          <bc-choice-chip text="试听" theme="{{theme}}" data-index="{{index}}" bind:tap="playOne" />
-        </view>
-      </block>
-    </bc-card></view>
-  </scroll-view>
-
+      <view wx:if="{{finished}}" class="dictation-finish" hover-class="is-pressed" bindtap="finishSession">我写完了</view>
+    </block>
+  </view>
 </view>

@@ -1,0 +1,19 @@
+<view class="page-shell book-page" style="background: linear-gradient(180deg, {{theme.pageStart}}, {{theme.pageEnd}}); color: {{theme.textPrimary}};">
+  <bc-top-bar title="单词本" show-back="{{true}}" bg-color="{{theme.pageStart || '#DDF4FF'}}" theme="{{theme}}" bind:back="onBack" />
+  <view class="book-form">
+    <input class="book-input" value="{{word}}" placeholder="英语单词，例如 apple" bindinput="onWordInput" />
+    <input class="book-input" value="{{meaning}}" placeholder="中文释义，例如 苹果" bindinput="onMeaningInput" />
+    <view class="book-form-actions">
+      <view wx:if="{{editingId}}" class="book-cancel" bindtap="cancelEdit">取消</view>
+      <view class="book-add" bindtap="addWord">{{editingId ? '保存修改' : '加入单词本'}}</view>
+    </view>
+  </view>
+  <scroll-view scroll-y class="book-list">
+    <view wx:if="{{!words.length}}" class="book-empty">还没有单词，先添加一个吧</view>
+    <view wx:for="{{words}}" wx:key="id" class="book-item">
+      <view class="book-copy" data-id="{{item.id}}" bindtap="editWord"><view class="book-word">{{item.word}}</view><view class="book-meaning">{{item.meaning || '未填写释义'}} · 点击编辑</view></view>
+      <view class="book-delete" data-id="{{item.id}}" bindtap="deleteWord">删除</view>
+    </view>
+    <view class="book-safe"></view>
+  </scroll-view>
+</view>

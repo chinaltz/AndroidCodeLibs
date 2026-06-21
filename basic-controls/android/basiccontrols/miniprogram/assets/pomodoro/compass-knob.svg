@@ -1,0 +1,14 @@
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="knobGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#ffb347"/>
+      <stop offset="100%" stop-color="#ff7a18"/>
+    </linearGradient>
+    <radialGradient id="innerGrad" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#ffecd1"/>
+    </radialGradient>
+  </defs>
+  <circle cx="36" cy="36" r="32" fill="url(#knobGrad)"/>
+  <circle cx="36" cy="36" r="14" fill="url(#innerGrad)"/>
+</svg>

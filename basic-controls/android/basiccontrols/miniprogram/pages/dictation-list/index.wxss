@@ -73,3 +73,10 @@
   box-sizing: border-box;
   text-align: center;
 }
+
+.plan-setting-title { font-size: 28rpx; font-weight: 900; }
+.plan-setting-row { min-height: 102rpx; border-bottom: 2rpx solid #edf4f8; display: flex; align-items: center; justify-content: space-between; gap: 20rpx; }
+.plan-setting-label { color: #173a62; font-size: 25rpx; font-weight: 900; }
+.plan-setting-desc { margin-top: 5rpx; color: #7895ae; font-size: 21rpx; }
+.plan-setting-value { min-width: 126rpx; height: 62rpx; padding: 0 16rpx; border-radius: 18rpx; background: #eef8ff; color: #1479d6; font-size: 24rpx; font-weight: 900; line-height: 62rpx; text-align: center; box-sizing: border-box; }
+.plan-expire-note { margin-top: 18rpx; }

@@ -1,0 +1,2 @@
+@import "../dictation-player/index.wxss";
+.vocabulary-mark { width: 200rpx; height: 200rpx; margin: 0 auto 16rpx; border-radius: 50%; background: linear-gradient(145deg, #fff2a8, #8de5d2); color: #173a62; font-size: 54rpx; font-weight: 900; line-height: 200rpx; box-shadow: 0 16rpx 30rpx rgba(23,58,98,.12); }

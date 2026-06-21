@@ -5,79 +5,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MCP：就是我们日常使用的 Type-C 接口</title>
 <style>
-  * { box-sizing: border-box; }
-  body {
-    font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #365D82;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 20px;
-    background:
-      radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
-      radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
-      radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
-      radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
-      linear-gradient(180deg, #DDF4FF, #F9FDFF);
-  }
-  .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255,255,255,0.90);
-    backdrop-filter: blur(8px);
-    border-bottom: 2px solid #C8EAFF;
-    padding: 12px 20px;
-    margin: -20px -20px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .toolbar button {
-    background: linear-gradient(135deg, #31A8FF, #8BD5FF);
-    color: #fff;
-    border: 2px solid rgba(255,255,255,0.55);
-    padding: 8px 16px;
-    border-radius: 999px;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 800;
-    box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
-  }
-  .toolbar button:hover { background: #1479D6; }
-  .toolbar button.secondary {
-    background: #FFFFFF;
-    color: #173A62;
-    border: 2px solid #C8EAFF;
-    box-shadow: 0 4px 0 rgba(54,163,255,0.14);
-  }
-  .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
-  #article {
-    background:
-      radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
-      radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
-      radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
-      rgba(255,255,255,0.97);
-    border: 2px solid #C8EAFF;
-    border-radius: 32px;
-    padding: 18px;
-    box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
-  }
-  .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
+ * { box-sizing: border-box; }
+ body {
+ font-family: "Nunito", "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+ font-size: 16px;
+ line-height: 1.8;
+ color: #365D82;
+ max-width: 680px;
+ margin: 0 auto;
+ padding: 20px;
+ background:
+ radial-gradient(ellipse at 18% 10%, rgba(255,255,255,0.96) 0 10%, rgba(255,255,255,0.56) 11%, transparent 30%),
+ radial-gradient(ellipse at 78% 16%, rgba(255,255,255,0.92) 0 9%, rgba(255,255,255,0.50) 10%, transparent 29%),
+ radial-gradient(ellipse at 44% 0%, rgba(139,213,255,0.52), transparent 34%),
+ radial-gradient(ellipse at 50% 108%, rgba(255,247,215,0.46), transparent 24%),
+ linear-gradient(180deg, #DDF4FF, #F9FDFF);
+ }
+ .toolbar {
+ position: sticky;
+ top: 0;
+ z-index: 100;
+ background: rgba(255,255,255,0.90);
+ backdrop-filter: blur(8px);
+ border-bottom: 2px solid #C8EAFF;
+ padding: 12px 20px;
+ margin: -20px -20px 20px;
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ flex-wrap: wrap;
+ }
+ .toolbar button {
+ background: linear-gradient(135deg, #31A8FF, #8BD5FF);
+ color: #fff;
+ border: 2px solid rgba(255,255,255,0.55);
+ padding: 8px 16px;
+ border-radius: 999px;
+ font-size: 14px;
+ cursor: pointer;
+ font-family: inherit;
+ font-weight: 800;
+ box-shadow: 0 4px 0 rgba(20,121,214,0.24),0 0 0 4px rgba(255,255,255,0.54);
+ }
+ .toolbar button:hover { background: #1479D6; }
+ .toolbar button.secondary {
+ background: #FFFFFF;
+ color: #173A62;
+ border: 2px solid #C8EAFF;
+ box-shadow: 0 4px 0 rgba(54,163,255,0.14);
+ }
+ .toolbar .hint { font-size: 13px; color: #7895AE; flex: 1; min-width: 200px; }
+ #article {
+ background:
+ radial-gradient(ellipse at 18% 2%, rgba(229,246,255,0.86), transparent 23%),
+ radial-gradient(ellipse at 92% 5%, rgba(255,247,215,0.30), transparent 18%),
+ radial-gradient(ellipse at 50% 100%, rgba(139,213,255,0.10), transparent 25%),
+ rgba(255,255,255,0.97);
+ border: 2px solid #C8EAFF;
+ border-radius: 32px;
+ padding: 18px;
+ box-shadow: 0 18px 42px rgba(49,168,255,0.12),0 0 0 1px rgba(255,255,255,0.82) inset;
+ }
+ .meta { font-size: 12px; color: #7895AE; margin-top: 24px; padding-top: 16px; border-top: 2px dashed rgba(183,224,255,0.75); }
 </style>
 </head>
 <body>
 <div class="toolbar">
-  <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
-  <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
-  <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
+ <button type="button" onclick="copyArticle()">📋 一键复制正文</button>
+ <button type="button" class="secondary" onclick="selectArticle()">选中正文</button>
+ <span class="hint">富文本复制会保留超链；若平台降级为纯文本，文末会附参考链接。图片需在公众号里重新上传。</span>
 </div>
 <div id="article">
 <h1 style="font-size:24px;font-weight:900;line-height:1.38;margin:24px 0 18px;color:#173A62;padding:18px 20px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:30px;box-shadow:0 7px 0 rgba(200,234,255,0.86),0 18px 34px rgba(49,168,255,0.10);">MCP：就是我们日常使用的 Type-C 接口</h1>
-<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">从概念到实操，手把手带你接上第一个 MCP 工具</p><p style="margin:4px 0;">关注 技趣星球，一起用技术创造乐趣。</p></blockquote>
+<blockquote style="margin:16px 0;padding:14px 18px;background:#FFFFFF;border:2px solid #C8EAFF;border-left:8px solid #C8EAFF;border-radius:24px;color:#365D82;box-shadow:0 6px 0 rgba(200,234,255,0.58),0 10px 24px rgba(49,168,255,0.06);"><p style="margin:4px 0;line-height:1.85;">从概念到实操，手把手带你接上第一个 MCP 工具</p><p style="margin:4px 0;">技趣星球 · 用技术创造乐趣。</p></blockquote>
 <p style="margin:18px 0;"><img src="images/header.png" alt="头图：MCP 像 AI 世界里的 Type-C 接口" style="max-width:100%;border-radius:26px;display:block;border:2px solid #C8EAFF;box-shadow:0 14px 32px rgba(49,168,255,0.14),0 0 0 8px rgba(255,255,255,0.70);" /></p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">你有没有遇到过这种尴尬——</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">想让 AI 帮你读个本地文件？不行。 想让 AI 查一下你的数据库？也不行。 想让 AI 直接翻翻 GitHub 上的代码？还是不行。</p>
@@ -85,11 +85,11 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">我第一次真正觉得 MCP 有用，是在做页面开发的时候。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">以前拿到 Figma 设计稿，流程大概是这样：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">打开设计稿
-  → 截图
-  → 手动看字号、间距、颜色
-  → 把页面结构描述给 AI
-  → AI 写代码
-  → 你再一点点对齐</code></pre>
+ → 截图
+ → 手动看字号、间距、颜色
+ → 把页面结构描述给 AI
+ → AI 写代码
+ → 你再一点点对齐</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">接上 Figma MCP 之后，感觉就不一样了。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 可以读取设计稿里的页面结构、图层信息、颜色和尺寸，再结合项目代码，辅助你生成页面代码。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">你不再是在给 AI 口述设计稿。</p>
@@ -116,7 +116,7 @@
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">不要用它批量抓取、搬运别人的内容、绕过登录限制，或者把别人视频/图片二次发布成自己的素材。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">这就是为什么最近 Cursor、Claude Desktop、VS Code、Cherry Studio 全都在讲一个词：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">MCP</strong>。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">别被名字吓到。一句话：<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">MCP 就是 AI 调用外部工具的「Type-C 接口」。以前每个工具都要单独接线，有了它，一套接口全搞定。</strong></p>
-<p style="margin:12px 0;line-height:1.9;color:#365D82;">上手难度：⭐⭐⭐   只用现成 MCP 服务，难度不高；自己写 MCP Server，需要一点编程基础。</p>
+<p style="margin:12px 0;line-height:1.9;color:#365D82;">上手难度：⭐⭐⭐ 只用现成 MCP 服务，难度不高；自己写 MCP Server，需要一点编程基础。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>1. MCP 是什么：一个比喻讲清楚</h2>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 很聪明，会思考、会写字、会拆任务。</p>
@@ -204,24 +204,24 @@ AI 不能直接执行工具</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">不同客户端的配置文件格式会有差异。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">但核心思路都差不多：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">找到 MCP 配置入口
-  → 添加一个 MCP Server
-  → 填入启动命令或远程地址
-  → 保存并重启客户端
-  → 在对话里授权 AI 调用工具</code></pre>
+ → 添加一个 MCP Server
+ → 填入启动命令或远程地址
+ → 保存并重启客户端
+ → 在对话里授权 AI 调用工具</code></pre>
 <h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>3.2 安装一个最简单的 MCP Server</h3>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">很多 MCP Server 是用 Node.js 包发布的。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">常见配置长这样：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">{
-  &quot;mcpServers&quot;: {
-    &quot;filesystem&quot;: {
-      &quot;command&quot;: &quot;npx&quot;,
-      &quot;args&quot;: [
-        &quot;-y&quot;,
-        &quot;@modelcontextprotocol/server-filesystem&quot;,
-        &quot;/Users/你的用户名/Desktop&quot;
-      ]
-    }
-  }
+ &quot;mcpServers&quot;: {
+ &quot;filesystem&quot;: {
+ &quot;command&quot;: &quot;npx&quot;,
+ &quot;args&quot;: [
+ &quot;-y&quot;,
+ &quot;@modelcontextprotocol/server-filesystem&quot;,
+ &quot;/Users/你的用户名/Desktop&quot;
+ ]
+ }
+ }
 }</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">这段配置的意思是：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">启动一个文件系统 MCP Server
@@ -255,11 +255,11 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">你在聊天框说：&quot;查一下用户 10086 最近 3 笔订单，给订单号、金额和状态就好。&quot;</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">普通聊天 AI 只能猜。接了 MCP 的 AI 是这样做的：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">你提出任务
-  → AI 判断需要查询订单
-  → MCP Client 发起工具调用
-  → MCP Server 调用真实订单系统
-  → 订单系统返回结果
-  → AI 把结果整理成人话</code></pre>
+ → AI 判断需要查询订单
+ → MCP Client 发起工具调用
+ → MCP Server 调用真实订单系统
+ → 订单系统返回结果
+ → AI 把结果整理成人话</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">MCP Server 本质上就是个「工具转接头」——把真实系统的能力，整理成 AI 能看懂、能调用的工具。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它提供的能力分三类：</p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">能力</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">人话解释</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">例子</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Tools</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">可以执行的动作</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">查询订单、创建 issue、搜索</td></tr>
@@ -284,24 +284,24 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">浏览器 / App</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">MCP Host / Client</td></tr></tbody></table></section>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">MCP Tool 会告诉 AI 三件事：叫什么、能做什么、要什么参数。跟写接口文档一个道理。比如：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">{
-  &quot;name&quot;: &quot;query_orders&quot;,
-  &quot;description&quot;: &quot;查询某个用户最近的订单&quot;,
-  &quot;inputSchema&quot;: {
-    &quot;type&quot;: &quot;object&quot;,
-    &quot;properties&quot;: {
-      &quot;userId&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;用户 ID&quot; },
-      &quot;limit&quot;: { &quot;type&quot;: &quot;number&quot;, &quot;description&quot;: &quot;返回订单数量&quot; }
-    },
-    &quot;required&quot;: [&quot;userId&quot;]
-  }
+ &quot;name&quot;: &quot;query_orders&quot;,
+ &quot;description&quot;: &quot;查询某个用户最近的订单&quot;,
+ &quot;inputSchema&quot;: {
+ &quot;type&quot;: &quot;object&quot;,
+ &quot;properties&quot;: {
+ &quot;userId&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;用户 ID&quot; },
+ &quot;limit&quot;: { &quot;type&quot;: &quot;number&quot;, &quot;description&quot;: &quot;返回订单数量&quot; }
+ },
+ &quot;required&quot;: [&quot;userId&quot;]
+ }
 }</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">AI 看到这个，就知道什么时候该调、参数怎么填、结果怎么解释。<strong style="font-weight:900;color:#173A62;background:linear-gradient(transparent 64%, #FFF7D7 64%);padding:0 2px;">MCP 不是让 AI 蒙着猜接口，是用结构化方式把能力告诉它。</strong></p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h4 style="font-size:16px;font-weight:900;margin:20px 0 8px;color:#1479D6;line-height:1.45;">从系统设计角度看 MCP（写给做平台 / 后端的人）</h4>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">MCP 关注的是「模型应用怎么拿到上下文、怎么调用工具、怎么拿回结果」。一个完整的调用链条：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">Host 连接 MCP Server → Client 初始化会话 → Server 声明能力
-  → Host 把可用工具展示给模型 → 模型选工具 → Client 发 tool call
-  → Server 执行并返回 → 模型继续推理或输出最终回答</code></pre>
+ → Host 把可用工具展示给模型 → 模型选工具 → Client 发 tool call
+ → Server 执行并返回 → 模型继续推理或输出最终回答</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">核心概念速查：</p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">概念</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">作用</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">Tools</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">暴露可执行动作（查询、搜索、创建任务）</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">Resources</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">暴露可读取内容（文件、文档、表结构）</td></tr>
@@ -334,11 +334,11 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它的 MCP 广场会整理可用的 MCP Server，并提供服务说明。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">常见使用方式：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">打开 MCP 广场
-  → 搜索你需要的能力
-  → 查看 Server 说明
-  → 复制配置方式
-  → 粘贴到支持 MCP 的客户端
-  → 按要求填写 API Key 或账号信息</code></pre>
+ → 搜索你需要的能力
+ → 查看 Server 说明
+ → 复制配置方式
+ → 粘贴到支持 MCP 的客户端
+ → 按要求填写 API Key 或账号信息</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">适合找这些类型的能力：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">搜索
 地图
@@ -355,10 +355,10 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它不只是给你看 MCP 列表，还会和模型应用、智能体编排、企业服务接在一起。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">常见使用方式：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">登录阿里云百炼
-  → 进入智能体或工具相关页面
-  → 查看 MCP 工具或服务接入
-  → 绑定需要的 API Key
-  → 在智能体里调用对应工具</code></pre>
+ → 进入智能体或工具相关页面
+ → 查看 MCP 工具或服务接入
+ → 绑定需要的 API Key
+ → 在智能体里调用对应工具</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你只是个人体验，ModelScope MCP 广场更轻。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你要做企业项目，百炼这类平台更适合统一管理权限和服务。</p>
 <h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>4.3 MCP.so</h3>
@@ -368,10 +368,10 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">它的好处是覆盖面广，搜索方便。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">常见使用方式：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">打开 MCP.so
-  → 输入关键词
-  → 查看 Server 的 GitHub、文档、安装命令
-  → 判断是否维护活跃
-  → 复制配置到客户端</code></pre>
+ → 输入关键词
+ → 查看 Server 的 GitHub、文档、安装命令
+ → 判断是否维护活跃
+ → 复制配置到客户端</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">使用时建议重点看三件事：</p>
 <section style="margin:16px 0;padding:7px;background:#FEFFFF;border:2px solid #C8EAFF;border-radius:24px;box-shadow:0 6px 0 rgba(200,234,255,0.72),0 14px 30px rgba(49,168,255,0.08);overflow:hidden;"><table style="width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border-radius:18px;overflow:hidden;"><thead><tr><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">检查项</th><th style="background:linear-gradient(180deg,#E5F6FF,#F4FBFF);color:#173A62;padding:12px 14px;text-align:left;font-weight:900;border:1px solid #C8EAFF;">为什么重要</th></tr></thead><tbody><tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">最近更新时间</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#FFFFFF;color:#365D82;">太久不更新，可能已经失效</td></tr>
 <tr><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">GitHub Star 和 issue</td><td style="padding:10px 14px;border:1px solid #E4F5FF;background:#F6FBFF;color:#365D82;">可以粗略判断维护情况</td></tr>
@@ -384,10 +384,10 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">你可以按能力查找，比如数据库、搜索、浏览器、文件、开发工具。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">常见使用方式和 MCP.so 类似：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">搜索能力
-  → 打开 Server 页面
-  → 查看安装命令
-  → 看文档和权限
-  → 放进客户端配置</code></pre>
+ → 打开 Server 页面
+ → 查看安装命令
+ → 看文档和权限
+ → 放进客户端配置</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">如果 MCP.so 没找到，可以换 Glama 再搜一次。</p>
 <h3 style="font-size:17px;font-weight:900;margin:24px 0 10px;color:#173A62;line-height:1.45;"><span style="display:inline-block;width:12px;height:12px;border-radius:999px;background:#FFD166;margin-right:8px;box-shadow:0 0 0 4px rgba(255,209,102,0.22);"></span>4.5 GitHub 官方与社区列表</h3>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">官方组织：<a href="https://github.com/modelcontextprotocol" style="color:#1479D6;text-decoration:none;border-bottom:1px dashed #43CFC7;font-weight:800;">https://github.com/modelcontextprotocol</a></p>
@@ -395,10 +395,10 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">这里可以找到 MCP 规范、SDK、官方示例和一些 Server 项目。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">常见使用方式：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">进入 GitHub 官方组织
-  → 找 SDK 或 Server 项目
-  → 阅读 README
-  → 按说明安装
-  → 遇到问题查 issue</code></pre>
+ → 找 SDK 或 Server 项目
+ → 阅读 README
+ → 按说明安装
+ → 遇到问题查 issue</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">如果你想自己开发 MCP Server，这是必须看的入口。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>5. 新手四步走：从装好到用顺</h2>
@@ -430,12 +430,12 @@ AI 客户端可以通过 MCP 调用它</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">当你确认 MCP 配置和授权流程都没问题，再逐步接更强的能力。</p>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">推荐顺序是：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">文件系统
-  → 搜索
-  → GitHub
-  → 浏览器
-  → 数据库只读
-  → 内部系统只读
-  → 写入类操作</code></pre>
+ → 搜索
+ → GitHub
+ → 浏览器
+ → 数据库只读
+ → 内部系统只读
+ → 写入类操作</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">越往后，越要重视权限。</p>
 <hr style="border:none;border-top:2px dashed #C8EAFF;margin:30px 0;" />
 <h2 style="font-size:19px;font-weight:900;margin:34px 0 14px;color:#173A62;line-height:1.45;padding:12px 16px;background:linear-gradient(180deg,#FFFFFF,#F4FBFF);border:2px solid #C8EAFF;border-radius:999px;box-shadow:0 6px 0 rgba(200,234,255,0.78),0 12px 26px rgba(49,168,255,0.08);"><span style="display:inline-block;width:10px;height:10px;border-radius:999px;background:#31A8FF;margin-right:8px;box-shadow:0 0 0 5px rgba(229,246,255,0.95);"></span>6. 安全红线：这几件事别做</h2>
@@ -487,7 +487,7 @@ README 是否清楚说明权限
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">使用前先问自己 4 个问题：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">这个页面我有没有权限访问？
 截图或摘要是不是只用于个人学习 / 内部分析？
-有没有抓取评论、头像、手机号等隐私信息？
+有没有抓取评论、头像、手机号等隐留言息？
 会不会把别人的视频、图片、文案搬到自己的账号里？</code></pre>
 <p style="margin:12px 0;line-height:1.9;color:#365D82;">比较安全的用法是：</p>
 <pre style="background:#FEFFFF;color:#173A62;border:2px solid #C8EAFF;padding:16px;border-radius:24px;overflow-x:auto;font-size:14px;line-height:1.7;font-family:Menlo,Consolas,monospace;margin:16px 0;white-space:pre-wrap;box-shadow:0 6px 0 rgba(200,234,255,0.70),0 12px 28px rgba(49,168,255,0.07);"><code style="color:#173A62;background-color:transparent;">给自己的页面做截图归档
@@ -543,100 +543,100 @@ README 是否清楚说明权限
 <p class="meta">由 md-to-wechat 自动生成 · 2026/5/30 08:51:37</p>
 <script>
 function selectArticle() {
-  const el = document.getElementById('article');
-  const range = document.createRange();
-  range.selectNodeContents(el);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
+ const el = document.getElementById('article');
+ const range = document.createRange();
+ range.selectNodeContents(el);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
 }
 
 function buildClipboardPayload() {
-  const el = document.getElementById('article');
-  const clone = el.cloneNode(true);
+ const el = document.getElementById('article');
+ const clone = el.cloneNode(true);
 
-  clone.querySelectorAll('a[href]').forEach((a) => {
-    const href = a.getAttribute('href') || '';
-    try {
-      a.href = new URL(href, window.location.href).href;
-    } catch (_) {
-      a.setAttribute('href', href);
-    }
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
-  });
+ clone.querySelectorAll('a[href]').forEach((a) => {
+ const href = a.getAttribute('href') || '';
+ try {
+ a.href = new URL(href, window.location.href).href;
+ } catch (_) {
+ a.setAttribute('href', href);
+ }
+ a.setAttribute('target', '_blank');
+ a.setAttribute('rel', 'noopener noreferrer');
+ });
 
-  clone.querySelectorAll('img[src]').forEach((img) => {
-    const src = img.getAttribute('src') || '';
-    try {
-      img.src = new URL(src, window.location.href).href;
-    } catch (_) {
-      img.setAttribute('src', src);
-    }
-  });
+ clone.querySelectorAll('img[src]').forEach((img) => {
+ const src = img.getAttribute('src') || '';
+ try {
+ img.src = new URL(src, window.location.href).href;
+ } catch (_) {
+ img.setAttribute('src', src);
+ }
+ });
 
-  const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
-  const text = Array.from(clone.childNodes)
-    .map((node) => node.innerText || node.textContent || '')
-    .join('\n')
-    .replace(/\n{3,}/g, '\n\n');
+ const html = '<!doctype html><html><head><meta charset="utf-8"></head><body>' + clone.innerHTML + '</body></html>';
+ const text = Array.from(clone.childNodes)
+ .map((node) => node.innerText || node.textContent || '')
+ .join('\n')
+ .replace(/\n{3,}/g, '\n\n');
 
-  const links = Array.from(clone.querySelectorAll('a[href]'))
-    .map((a) => {
-      const label = (a.innerText || a.textContent || '').trim();
-      const href = a.getAttribute('href');
-      return label && href ? label + '：' + href : href;
-    })
-    .filter(Boolean)
-    .join('\n');
-  const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
+ const links = Array.from(clone.querySelectorAll('a[href]'))
+ .map((a) => {
+ const label = (a.innerText || a.textContent || '').trim();
+ const href = a.getAttribute('href');
+ return label && href ? label + '：' + href : href;
+ })
+ .filter(Boolean)
+ .join('\n');
+ const textWithLinks = links ? text + '\n\n参考链接：\n' + links : text;
 
-  return { html, text: textWithLinks.trim() };
+ return { html, text: textWithLinks.trim() };
 }
 
 function copyViaSelection(html) {
-  const holder = document.createElement('div');
-  holder.setAttribute('contenteditable', 'true');
-  holder.style.position = 'fixed';
-  holder.style.left = '-99999px';
-  holder.style.top = '0';
-  holder.innerHTML = html;
-  document.body.appendChild(holder);
+ const holder = document.createElement('div');
+ holder.setAttribute('contenteditable', 'true');
+ holder.style.position = 'fixed';
+ holder.style.left = '-99999px';
+ holder.style.top = '0';
+ holder.innerHTML = html;
+ document.body.appendChild(holder);
 
-  const range = document.createRange();
-  range.selectNodeContents(holder);
-  const sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-  const ok = document.execCommand('copy');
-  sel.removeAllRanges();
-  document.body.removeChild(holder);
-  return ok;
+ const range = document.createRange();
+ range.selectNodeContents(holder);
+ const sel = window.getSelection();
+ sel.removeAllRanges();
+ sel.addRange(range);
+ const ok = document.execCommand('copy');
+ sel.removeAllRanges();
+ document.body.removeChild(holder);
+ return ok;
 }
 
 async function copyArticle() {
-  try {
-    const { html, text } = buildClipboardPayload();
-    if (navigator.clipboard && window.ClipboardItem) {
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          'text/html': new Blob([html], { type: 'text/html' }),
-          'text/plain': new Blob([text], { type: 'text/plain' })
-        })
-      ]);
-    } else {
-      copyViaSelection(html);
-    }
-    alert('✅ 已复制富文本！请到微信公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
-  } catch (e) {
-    try {
-      const { html } = buildClipboardPayload();
-      copyViaSelection(html);
-      alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
-    } catch (e2) {
-      alert('复制失败：请点「选中正文」后手动 Cmd+C');
-    }
-  }
+ try {
+ const { html, text } = buildClipboardPayload();
+ if (navigator.clipboard && window.ClipboardItem) {
+ await navigator.clipboard.write([
+ new ClipboardItem({
+ 'text/html': new Blob([html], { type: 'text/html' }),
+ 'text/plain': new Blob([text], { type: 'text/plain' })
+ })
+ ]);
+ } else {
+ copyViaSelection(html);
+ }
+ alert('✅ 已复制富文本！请到公众号后台正文区粘贴。若平台退回纯文本，文末也会保留参考链接。');
+ } catch (e) {
+ try {
+ const { html } = buildClipboardPayload();
+ copyViaSelection(html);
+ alert('✅ 已复制富文本（兼容模式）！请到公众号后台粘贴');
+ } catch (e2) {
+ alert('复制失败：请点「选中正文」后手动 Cmd+C');
+ }
+ }
 }
 </script>
 </body>

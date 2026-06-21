@@ -33,7 +33,7 @@ function decorate(state) {
   const equippedImages = Object.keys(state.equipped)
     .map((slot) => catalog.findItem(state.equipped[slot]))
     .filter(Boolean)
-    .map((item) => ({ id: item.id, image: item.image, slot: item.slot }));
+    .map((item) => ({ id: item.id, image: item.image, slot: item.slot, style: catalog.accessoryStyle(item, 1) }));
   return {
     profile: state.profile,
     points: state.points,
@@ -44,6 +44,7 @@ function decorate(state) {
     status: state.status,
     nextText: next ? `再获得 ${next.totalXp - state.xp} XP 升到 ${next.level} 级` : '已达到当前最高等级',
     progressStyle: `width:${state.levelProgress}%;`,
+    petImage: state.petImage,
     equippedImages,
     canFeed: state.status.hunger < 90,
     canPlay: state.status.energy >= playCost,
@@ -100,7 +101,7 @@ Page({
     const patch = {
       theme: getApp().globalData.theme,
       state: decorated,
-      petImage: catalog.PET_BLUE_IDLE,
+      petImage: decorated.petImage,
       canFeed: decorated.canFeed,
       canPlay: decorated.canPlay,
       canSleep: decorated.canSleep,
@@ -125,7 +126,10 @@ Page({
     if (typeof wx.vibrateShort === 'function') {
       wx.vibrateShort({ type: 'light' });
     }
-    const behavior = TAP_BEHAVIORS[Math.floor(Math.random() * TAP_BEHAVIORS.length)];
+    const petResult = petService.pet();
+    if (petResult.ok) this.refreshState();
+    const preset = TAP_BEHAVIORS[Math.floor(Math.random() * TAP_BEHAVIORS.length)];
+    const behavior = Object.assign({}, preset, { caption: petResult.message || preset.caption });
     this.spawnFloaters(3);
     this.runBehavior(behavior);
   },
@@ -207,8 +211,13 @@ Page({
   },
   runBehavior(behavior) {
     this.clearBehaviorTimers();
+    let emotion = 'idle';
+    if (behavior.image === catalog.PET_BLUE_HAPPY) emotion = 'happy';
+    else if (behavior.image === catalog.PET_BLUE_EAT) emotion = 'eat';
+    else if (behavior.image === catalog.PET_BLUE_PLAY) emotion = 'play';
+    else if (behavior.image === catalog.PET_BLUE_SLEEPY) emotion = 'sleepy';
     this.setData({
-      petImage: behavior.image,
+      petImage: catalog.petImageForLevel(this.data.state.level || 1, emotion),
       reaction: behavior.caption,
       reactionClass: behavior.className,
       bodyAnimClass: behavior.className,
@@ -217,7 +226,7 @@ Page({
     this._behaviorResetTimer = setTimeout(() => {
       if (this._pageHidden || this._navPending) return;
       this.setData({
-        petImage: catalog.PET_BLUE_IDLE,
+        petImage: catalog.petImageForLevel(this.data.state.level || 1, 'idle'),
         reaction: IDLE_CAPTION,
         reactionClass: '',
         bodyAnimClass: 'is-idle-live',

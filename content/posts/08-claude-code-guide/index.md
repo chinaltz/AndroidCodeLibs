@@ -4,9 +4,9 @@
 
 > Claude Code 上手指南
 >
-> 关注微信公众号 **AI技趣星球**，回复 **MF**，一起用技术创造乐趣。
+> 技趣星球 · 用技术创造乐趣。
 >
-> 照着做还是装不上？关注后私信我，安装和配置问题可以帮你一起排查。
+> 照着做还是装不上？留言区告诉我，安装和配置问题可以帮你一起排查。
 
 你可能听过一句话：
 
@@ -36,7 +36,7 @@
 
 普通 AI 聊天工具像什么？
 
-像你在微信上问朋友：
+像你在上问朋友：
 
 > “这个网页怎么写？”
 
@@ -162,13 +162,13 @@ claude --version
 >
 > 1. **不要用 `sudo npm install -g`**。容易把权限搞乱，后面更新、卸载都麻烦。如果报 `EACCES` 权限错误，把 npm 全局目录改到用户文件夹即可：
 >
->    ```bash
->    mkdir -p ~/.npm-global
->    npm config set prefix '~/.npm-global'
->    echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
->    source ~/.zshrc
->    npm install -g @anthropic-ai/claude-code
->    ```
+> ```bash
+> mkdir -p ~/.npm-global
+> npm config set prefix '~/.npm-global'
+> echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+> source ~/.zshrc
+> npm install -g @anthropic-ai/claude-code
+> ```
 >
 > 2. **想更新时，再跑一遍同样的安装命令就行**。不用记版本号，npm 会帮你装当前最新版。
 
@@ -492,7 +492,7 @@ claude
 - 安装就一行 `npm install -g @anthropic-ai/claude-code`，装完用 `claude --version` 确认成功
 - 接 DeepSeek 时，主模型填 `deepseek-v4-pro[1m]`，接口地址填 `https://api.deepseek.com/anthropic`
 
-关注微信公众号 **AI技趣星球**，回复 **MF**，我会继续把这类工具拆成普通人也能照做的教程。
+技趣星球 · 用技术创造乐趣。
 
 ---
 

@@ -1,5 +1,6 @@
 const storage = require('../../utils/storage');
 const nav = require('../../utils/nav');
+const dictationQueue = require('../../utils/dictation-queue');
 
 const DAY = 24 * 60 * 60 * 1000;
 const HIGH_FREQ_THRESHOLD = 3;
@@ -112,6 +113,7 @@ Page({
     filterDesc: getFilterDesc('全部'),
     allCharacters: [],
     characters: [],
+    dictationPlanCount: 0,
   },
 
   onShow() {
@@ -129,6 +131,7 @@ Page({
       filterTabs: buildFilterTabs(allCharacters),
       characters: applyFilter(allCharacters, activeFilter),
       filterDesc: getFilterDesc(activeFilter),
+      dictationPlanCount: dictationQueue.getQueue().length,
     });
   },
 
@@ -152,6 +155,21 @@ Page({
 
   goDictationList() {
     nav.navigateTo('/pages/dictation-list/index');
+  },
+
+  goStartDictation() {
+    if (!dictationQueue.getQueue().length) {
+      wx.showModal({
+        title: '今天还没有听写计划',
+        content: '请先让家长设置今天要听写的内容。',
+        confirmText: '设置计划',
+        success: (res) => {
+          if (res.confirm) this.goDictationList();
+        },
+      });
+      return;
+    }
+    nav.navigateTo('/pages/dictation-player/index');
   },
 
   goAllWords() {

@@ -259,7 +259,7 @@
     <div class="container">
         <div class="header">
             <h1>🌟 技趣星球</h1>
-            <p>博客发布平台注册进度 · 第一梯队 + 第二梯队</p>
+            <p>博客发布平台注册进度 · 当前 4 平台（公众号 / 微博 / 知乎 / CSDN）</p>
             <div class="stats">
                 <div class="stat-box">
                     <div class="number" id="totalCount">11</div>
@@ -290,7 +290,7 @@
             <h2><span class="emoji">📡</span> 博客发布主平台</h2>
 
             <div class="tier">
-                <div class="tier-title must">⭐ 第一梯队（必注）</div>
+                <div class="tier-title must">⭐ 当前发布平台（4 个）</div>
                 <table>
                     <thead>
                         <tr>
@@ -325,14 +325,14 @@
                             <td class="notes"><input type="text" placeholder="备注"></td>
                             <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
                         </tr>
-                        <tr data-platform="掘金">
+                        <tr data-platform="微博">
                             <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
-                            <td class="platform-name">掘金</td>
-                            <td><a class="platform-link" href="https://juejin.cn/" target="_blank">juejin.cn</a></td>
+                            <td class="platform-name">微博</td>
+                            <td><a class="platform-link" href="https://weibo.com/" target="_blank">weibo.com</a></td>
                             <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
                             <td class="platform-password"><input type="text" placeholder="密码"></td>
                             <td class="platform-id"><input type="text" placeholder="账号ID"></td>
-                            <td class="notes"><input type="text" placeholder="备注"></td>
+                            <td class="notes"><input type="text" value="短讯+链接" placeholder="备注"></td>
                             <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
                         </tr>
                         <tr data-platform="CSDN">
@@ -350,7 +350,7 @@
             </div>
 
             <div class="tier">
-                <div class="tier-title should">📌 第二梯队（建议）</div>
+                <div class="tier-title should">⏸ 已暂停（暂不发布）</div>
                 <table>
                     <thead>
                         <tr>
@@ -365,6 +365,16 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr data-platform="掘金">
+                            <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
+                            <td class="platform-name">掘金</td>
+                            <td><a class="platform-link" href="https://juejin.cn/" target="_blank">juejin.cn</a></td>
+                            <td class="platform-account"><input type="text" placeholder="邮箱/手机号"></td>
+                            <td class="platform-password"><input type="text" placeholder="密码"></td>
+                            <td class="platform-id"><input type="text" placeholder="账号ID"></td>
+                            <td class="notes"><input type="text" value="已暂停" placeholder="备注"></td>
+                            <td class="action-cell"><button class="save-btn" onclick="saveRow(this)">保存</button></td>
+                        </tr>
                         <tr data-platform="简书">
                             <td class="checkbox-cell"><input type="checkbox" onchange="updateStats()"></td>
                             <td class="platform-name">简书</td>

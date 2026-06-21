@@ -12,6 +12,12 @@
     "pages/dictation-list/index",
     "pages/dictation-correction/index",
     "pages/dictation-result/index",
+    "pages/vocabulary-planet/index",
+    "pages/vocabulary-book/index",
+    "pages/vocabulary-plan/index",
+    "pages/vocabulary-player/index",
+    "pages/parent-center/index",
+    "pages/checkin-calendar/index",
     "pages/settings/index",
     "pages/settings-data/index",
     "pages/settings-theme/index",
@@ -49,7 +55,9 @@
         "pages/pet-rewards/index",
         "pages/pet-wardrobe/index",
         "pages/pet-shop/index",
-        "pages/pet-growth/index"
+        "pages/pet-growth/index",
+        "pages/pet-test/index",
+        "pages/pet-accessory-test/index"
       ]
     }
   ],
@@ -57,8 +65,7 @@
     "pages/map/index": {
       "network": "all",
       "packages": [
-        "phonics-media",
-        "pet"
+        "phonics-media"
       ]
     }
   },

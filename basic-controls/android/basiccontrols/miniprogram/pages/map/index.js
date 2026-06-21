@@ -3,6 +3,9 @@ const share = require('../../utils/share');
 const storage = require('../../utils/storage');
 const petService = require('../../utils/pet-service');
 const petRoutes = require('../../utils/pet-routes');
+const dictationQueue = require('../../utils/dictation-queue');
+const vocabulary = require('../../utils/vocabulary-store');
+const checkin = require('../../utils/checkin-service');
 
 function measureHeader() {
   const info = wx.getSystemInfoSync();
@@ -72,6 +75,10 @@ Page({
     const completed = storage.getCompleted();
     const pinyinCompleted = storage.getPinyinCompleted();
     const wordStats = storage.getWordStats(child && child.id);
+    const dictationPlanCount = dictationQueue.getQueue().length;
+    const vocabularyWordCount = vocabulary.getWords().length;
+    const vocabularyPlanCount = vocabulary.getPlanWords().length;
+    const checkinStats = checkin.getStats();
     const childModules = child && child.modules && child.modules.length
       ? child.modules
       : ['phonics', 'pinyin', 'words'];
@@ -82,8 +89,30 @@ Page({
     const learningQuests = [
       { key: 'phonics', title: '音标闯关', desc: `已完成 ${completed.length}/48`, image: '/assets/icons/module-phonics.png', path: '/packages/phonics-media/pages/phonics/index' },
       { key: 'pinyin', title: '拼音拼读', desc: `已完成 ${pinyinCompleted.length}/63`, image: '/assets/icons/module-pinyin.png', path: '/packages/pinyin/pages/index' },
-      { key: 'words', title: '字词听写', desc: `${wordStats.pendingCount} 个错字待练`, image: '/assets/icons/module-words.png', path: '/pages/word-planet/index' },
-    ].filter((quest) => childModules.indexOf(quest.key) >= 0);
+      {
+        key: 'words',
+        title: '字词听写',
+        desc: `${dictationPlanCount} 个字待听写`,
+        image: '/assets/icons/module-words.png',
+        path: dictationPlanCount > 0
+          ? '/pages/dictation-player/index'
+          : '/pages/dictation-list/index',
+        actionText: dictationPlanCount > 0 ? '开始' : '添加计划',
+        actionClass: dictationPlanCount > 0 ? '' : 'is-plan',
+      },
+      {
+        key: 'vocabulary-dictation',
+        moduleKey: 'vocabulary',
+        title: '单词听写',
+        desc: `${vocabularyPlanCount} 个单词待听写`,
+        image: '/assets/icons/module-vocabulary.png',
+        path: vocabularyPlanCount > 0
+          ? '/pages/vocabulary-player/index'
+          : '/pages/vocabulary-plan/index',
+        actionText: vocabularyPlanCount > 0 ? '开始' : '添加计划',
+        actionClass: vocabularyPlanCount > 0 ? '' : 'is-plan',
+      },
+    ].filter((quest) => childModules.indexOf(quest.moduleKey || quest.key) >= 0);
     const petState = petService.state();
     const todayQuests = learningQuests.concat([
       {
@@ -92,6 +121,14 @@ Page({
         desc: '今天的小目标 · 打勾打卡',
         image: '/assets/icons/module-daily-todo.png',
         path: '/pages/daily-todo/index',
+      },
+      {
+        key: 'checkin-calendar',
+        title: '打卡日历',
+        desc: checkinStats.todayCompleted ? `今日已打卡 · 连续 ${checkinStats.streak} 天` : `完成全部任务后自动点亮`,
+        image: '/assets/icons/module-daily-todo.png',
+        path: '/pages/checkin-calendar/index',
+        actionText: '查看',
       },
       {
         key: 'pomodoro',
@@ -109,6 +146,15 @@ Page({
         image: '/assets/icons/module-pet.png',
         path: petState.adopted ? petRoutes.home : petRoutes.adopt,
       },
+      {
+        key: 'parent-center',
+        title: '家长管理',
+        desc: `听写计划 · 单词本 · 错字本 · 学习统计`,
+        image: '/assets/icons/app-learning.png',
+        path: '/pages/parent-center/index',
+        actionText: '管理',
+        actionClass: 'is-parent',
+      },
     ]);
     app.globalData.completed = completed;
     this.setData(Object.assign({
@@ -120,6 +166,9 @@ Page({
       phonicsText: `${completed.length}/48`,
       pinyinText: `${pinyinCompleted.length}/63`,
       wordPendingCount: wordStats.pendingCount,
+      dictationTodayCount: dictationPlanCount,
+      vocabularyWordCount,
+      vocabularyPlanCount,
       dictationPendingCount: wordStats.pendingCount,
       totalWrongCharCount: wordStats.totalCount,
       maxWrongCount: wordStats.maxWrongCount,

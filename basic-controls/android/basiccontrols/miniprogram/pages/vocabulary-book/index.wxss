@@ -1,0 +1,16 @@
+.book-page { height: 100vh; }
+.book-form { margin: 20rpx 24rpx; padding: 22rpx; border-radius: 26rpx; background: #fff; border: 2rpx solid #d8eef8; }
+.book-input { height: 82rpx; margin-top: 12rpx; padding: 0 20rpx; border-radius: 20rpx; background: #f5fbff; border: 2rpx solid #d8eef8; box-sizing: border-box; font-size: 27rpx; }
+.book-input:first-child { margin-top: 0; }
+.book-form-actions { display: flex; gap: 12rpx; margin-top: 16rpx; }
+.book-add, .book-cancel { height: 82rpx; border-radius: 20rpx; font-size: 28rpx; font-weight: 900; line-height: 82rpx; text-align: center; }
+.book-add { flex: 1; background: #1479d6; color: #fff; }
+.book-cancel { width: 128rpx; background: #eef8ff; color: #365d82; }
+.book-list { height: calc(100vh - 390rpx); padding: 0 24rpx; box-sizing: border-box; }
+.book-item { min-height: 112rpx; margin-top: 14rpx; padding: 18rpx 20rpx; border-radius: 24rpx; background: #fff; border: 2rpx solid #d8eef8; display: flex; align-items: center; box-sizing: border-box; }
+.book-copy { flex: 1; min-width: 0; }
+.book-word { color: #173a62; font-size: 32rpx; font-weight: 900; }
+.book-meaning { margin-top: 4rpx; color: #7895ae; font-size: 23rpx; }
+.book-delete { width: 92rpx; height: 58rpx; border-radius: 18rpx; color: #c74757; background: #fff1f3; font-size: 23rpx; line-height: 58rpx; text-align: center; }
+.book-empty { margin-top: 50rpx; color: #7895ae; text-align: center; font-size: 26rpx; }
+.book-safe { height: calc(30rpx + env(safe-area-inset-bottom)); }

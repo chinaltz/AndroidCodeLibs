@@ -371,16 +371,8 @@
 
 .equipped-layer {
   position: absolute;
-  z-index: 2;
-  width: 150rpx;
-  height: 150rpx;
   pointer-events: none;
 }
-
-.equipped-head { top: 105rpx; left: 50%; margin-left: -75rpx; }
-.equipped-neck { top: 295rpx; left: 50%; margin-left: -75rpx; }
-.equipped-back { left: 125rpx; top: 245rpx; }
-.equipped-hand { right: 100rpx; top: 320rpx; }
 
 .level-card {
   display: flex;

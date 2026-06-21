@@ -3,311 +3,311 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DeepSeek Reasonix CodeWhale 微信图文卡</title>
+<title>DeepSeek Reasonix CodeWhale 图文卡</title>
 <style>
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: #eef7ff; }
 body {
-  width: 1080px;
-  height: 1440px;
-  overflow: hidden;
-  font-family: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
-  color: #16365f;
+ width: 1080px;
+ height: 1440px;
+ overflow: hidden;
+ font-family: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+ color: #16365f;
 }
 .card {
-  width: 1080px;
-  height: 1440px;
-  padding: 72px 76px 58px;
-  display: none;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 10%, rgba(49,168,255,0.24), transparent 34%),
-    radial-gradient(circle at 88% 24%, rgba(67,207,199,0.22), transparent 30%),
-    linear-gradient(180deg, #f9fdff 0%, #e8f6ff 100%);
+ width: 1080px;
+ height: 1440px;
+ padding: 72px 76px 58px;
+ display: none;
+ position: relative;
+ overflow: hidden;
+ background:
+ radial-gradient(circle at 12% 10%, rgba(49,168,255,0.24), transparent 34%),
+ radial-gradient(circle at 88% 24%, rgba(67,207,199,0.22), transparent 30%),
+ linear-gradient(180deg, #f9fdff 0%, #e8f6ff 100%);
 }
 .card.active { display: flex; flex-direction: column; }
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  align-self: flex-start;
-  padding: 14px 22px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.76);
-  border: 2px solid rgba(154,216,255,0.82);
-  font-size: 28px;
-  font-weight: 800;
-  color: #1479d6;
-  box-shadow: 0 12px 34px rgba(49,168,255,0.12);
+ display: inline-flex;
+ align-items: center;
+ gap: 14px;
+ align-self: flex-start;
+ padding: 14px 22px;
+ border-radius: 999px;
+ background: rgba(255,255,255,0.76);
+ border: 2px solid rgba(154,216,255,0.82);
+ font-size: 28px;
+ font-weight: 800;
+ color: #1479d6;
+ box-shadow: 0 12px 34px rgba(49,168,255,0.12);
 }
 .brand-dot {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #31a8ff;
-  box-shadow: 0 0 0 8px rgba(49,168,255,0.14);
+ width: 18px;
+ height: 18px;
+ border-radius: 50%;
+ background: #31a8ff;
+ box-shadow: 0 0 0 8px rgba(49,168,255,0.14);
 }
 .eyebrow {
-  margin-top: 54px;
-  font-size: 30px;
-  line-height: 1.35;
-  color: #427095;
-  font-weight: 700;
+ margin-top: 54px;
+ font-size: 30px;
+ line-height: 1.35;
+ color: #427095;
+ font-weight: 700;
 }
 h1 {
-  margin: 28px 0 0;
-  font-size: 86px;
-  line-height: 1.08;
-  letter-spacing: 0;
-  color: #102a4d;
-  font-weight: 900;
+ margin: 28px 0 0;
+ font-size: 86px;
+ line-height: 1.08;
+ letter-spacing: 0;
+ color: #102a4d;
+ font-weight: 900;
 }
 h2 {
-  margin: 42px 0 0;
-  font-size: 66px;
-  line-height: 1.14;
-  letter-spacing: 0;
-  color: #102a4d;
-  font-weight: 900;
+ margin: 42px 0 0;
+ font-size: 66px;
+ line-height: 1.14;
+ letter-spacing: 0;
+ color: #102a4d;
+ font-weight: 900;
 }
 .sub {
-  margin-top: 34px;
-  font-size: 36px;
-  line-height: 1.58;
-  color: #365d82;
-  font-weight: 650;
+ margin-top: 34px;
+ font-size: 36px;
+ line-height: 1.58;
+ color: #365d82;
+ font-weight: 650;
 }
 .panel {
-  margin-top: 56px;
-  padding: 36px 38px;
-  border-radius: 34px;
-  background: rgba(255,255,255,0.82);
-  border: 2px solid #c8eaff;
-  box-shadow: 0 20px 56px rgba(49,168,255,0.12), 0 8px 0 rgba(200,234,255,0.72);
+ margin-top: 56px;
+ padding: 36px 38px;
+ border-radius: 34px;
+ background: rgba(255,255,255,0.82);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 20px 56px rgba(49,168,255,0.12), 0 8px 0 rgba(200,234,255,0.72);
 }
 .panel-title {
-  font-size: 34px;
-  font-weight: 900;
-  color: #1479d6;
-  margin-bottom: 20px;
+ font-size: 34px;
+ font-weight: 900;
+ color: #1479d6;
+ margin-bottom: 20px;
 }
 .list { display: grid; gap: 18px; }
 .item {
-  display: grid;
-  grid-template-columns: 58px 1fr;
-  gap: 18px;
-  align-items: start;
-  font-size: 34px;
-  line-height: 1.44;
-  font-weight: 730;
-  color: #20456e;
+ display: grid;
+ grid-template-columns: 58px 1fr;
+ gap: 18px;
+ align-items: start;
+ font-size: 34px;
+ line-height: 1.44;
+ font-weight: 730;
+ color: #20456e;
 }
 .num {
-  width: 58px;
-  height: 58px;
-  border-radius: 18px;
-  display: grid;
-  place-items: center;
-  background: #31a8ff;
-  color: white;
-  font-size: 28px;
-  font-weight: 900;
+ width: 58px;
+ height: 58px;
+ border-radius: 18px;
+ display: grid;
+ place-items: center;
+ background: #31a8ff;
+ color: white;
+ font-size: 28px;
+ font-weight: 900;
 }
 .code {
-  margin-top: 28px;
-  padding: 28px 30px;
-  border-radius: 24px;
-  background: #11263f;
-  color: #d8f2ff;
-  font: 700 34px/1.45 Menlo, Consolas, monospace;
-  word-break: break-all;
+ margin-top: 28px;
+ padding: 28px 30px;
+ border-radius: 24px;
+ background: #11263f;
+ color: #d8f2ff;
+ font: 700 34px/1.45 Menlo, Consolas, monospace;
+ word-break: break-all;
 }
 .compare {
-  margin-top: 54px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 26px;
+ margin-top: 54px;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 26px;
 }
 .choice {
-  min-height: 430px;
-  padding: 36px 30px;
-  border-radius: 34px;
-  background: rgba(255,255,255,0.84);
-  border: 2px solid #c8eaff;
-  box-shadow: 0 16px 44px rgba(49,168,255,0.11);
+ min-height: 430px;
+ padding: 36px 30px;
+ border-radius: 34px;
+ background: rgba(255,255,255,0.84);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 16px 44px rgba(49,168,255,0.11);
 }
 .choice h3 {
-  margin: 0 0 22px;
-  font-size: 44px;
-  color: #1479d6;
-  line-height: 1.12;
+ margin: 0 0 22px;
+ font-size: 44px;
+ color: #1479d6;
+ line-height: 1.12;
 }
 .choice p {
-  margin: 0;
-  font-size: 31px;
-  line-height: 1.52;
-  color: #365d82;
-  font-weight: 690;
+ margin: 0;
+ font-size: 31px;
+ line-height: 1.52;
+ color: #365d82;
+ font-weight: 690;
 }
 .footer {
-  margin-top: auto;
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 24px;
-  padding-top: 44px;
-  color: #6788a7;
-  font-size: 26px;
-  font-weight: 720;
+ margin-top: auto;
+ display: flex;
+ align-items: end;
+ justify-content: space-between;
+ gap: 24px;
+ padding-top: 44px;
+ color: #6788a7;
+ font-size: 26px;
+ font-weight: 720;
 }
 .cta {
-  max-width: 620px;
-  color: #173a62;
-  font-size: 30px;
-  line-height: 1.4;
-  font-weight: 850;
+ max-width: 620px;
+ color: #173a62;
+ font-size: 30px;
+ line-height: 1.4;
+ font-weight: 850;
 }
 .page {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #173a62;
-  color: #fff;
-  font-size: 27px;
-  font-weight: 900;
+ width: 72px;
+ height: 72px;
+ border-radius: 50%;
+ display: grid;
+ place-items: center;
+ background: #173a62;
+ color: #fff;
+ font-size: 27px;
+ font-weight: 900;
 }
 .badge-row {
-  margin-top: 34px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
+ margin-top: 34px;
+ display: flex;
+ flex-wrap: wrap;
+ gap: 14px;
 }
 .badge {
-  padding: 14px 20px;
-  border-radius: 999px;
-  background: #fff7d7;
-  border: 2px solid #ffe28a;
-  color: #745610;
-  font-size: 28px;
-  font-weight: 850;
+ padding: 14px 20px;
+ border-radius: 999px;
+ background: #fff7d7;
+ border: 2px solid #ffe28a;
+ color: #745610;
+ font-size: 28px;
+ font-weight: 850;
 }
 .small-note {
-  margin-top: 22px;
-  font-size: 25px;
-  line-height: 1.52;
-  color: #7895ae;
-  font-weight: 680;
+ margin-top: 22px;
+ font-size: 25px;
+ line-height: 1.52;
+ color: #7895ae;
+ font-weight: 680;
 }
 </style>
 </head>
 <body>
 <section class="card active" data-card="1">
-  <div class="brand"><span class="brand-dot"></span>DeepSeek 接入</div>
-  <div class="eyebrow">DeepSeek 降价后，别只拿来聊天</div>
-  <h1>把 DeepSeek 接进编程 Agent</h1>
-  <p class="sub">Reasonix 和 CodeWhale 怎么用？普通人照着这 5 张卡先跑起来。</p>
-  <div class="badge-row">
-    <span class="badge">难度：⭐⭐⭐</span>
-    <span class="badge">终端工具</span>
-    <span class="badge">可照做</span>
-  </div>
-  <div class="footer">
-    <div class="cta">看完先做一个小练习：让 AI 读项目，不要一上来大改。</div>
-    <div class="page">01</div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>DeepSeek 接入</div>
+ <div class="eyebrow">DeepSeek 降价后，别只拿来聊天</div>
+ <h1>把 DeepSeek 接进编程 Agent</h1>
+ <p class="sub">Reasonix 和 CodeWhale 怎么用？普通人照着这 5 张卡先跑起来。</p>
+ <div class="badge-row">
+ <span class="badge">难度：⭐⭐⭐</span>
+ <span class="badge">终端工具</span>
+ <span class="badge">可照做</span>
+ </div>
+ <div class="footer">
+ <div class="cta">看完先做一个小练习：让 AI 读项目，不要一上来大改。</div>
+ <div class="page">01</div>
+ </div>
 </section>
 
 <section class="card" data-card="2">
-  <div class="brand"><span class="brand-dot"></span>热点怎么用</div>
-  <h2>降价的重点，不是“便宜几分钱”</h2>
-  <p class="sub">真正的变化是：你可以把 DeepSeek 当成日常工具试错。</p>
-  <div class="panel">
-    <div class="panel-title">先记住这 3 件事</div>
-    <div class="list">
-      <div class="item"><span class="num">1</span><span>API 像按字数收费的外包助理，价格低了，试错更轻。</span></div>
-      <div class="item"><span class="num">2</span><span>编程 Agent 会读项目、改文件、跑命令，不只是回答问题。</span></div>
-      <div class="item"><span class="num">3</span><span>普通人第一次试，先让它解释项目，别直接重构。</span></div>
-    </div>
-  </div>
-  <div class="footer">
-    <div class="cta">一句话：少研究参数，多让它帮你做一个小东西。</div>
-    <div class="page">02</div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>热点怎么用</div>
+ <h2>降价的重点，不是“便宜几分钱”</h2>
+ <p class="sub">真正的变化是：你可以把 DeepSeek 当成日常工具试错。</p>
+ <div class="panel">
+ <div class="panel-title">先记住这 3 件事</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>API 像按字数收费的外包助理，价格低了，试错更轻。</span></div>
+ <div class="item"><span class="num">2</span><span>编程 Agent 会读项目、改文件、跑命令，不只是回答问题。</span></div>
+ <div class="item"><span class="num">3</span><span>普通人第一次试，先让它解释项目，别直接重构。</span></div>
+ </div>
+ </div>
+ <div class="footer">
+ <div class="cta">一句话：少研究参数，多让它帮你做一个小东西。</div>
+ <div class="page">02</div>
+ </div>
 </section>
 
 <section class="card" data-card="3">
-  <div class="brand"><span class="brand-dot"></span>方法一</div>
-  <h2>Reasonix：适合新手先稳稳跑起来</h2>
-  <p class="sub">DeepSeek 官方文档里列出的终端编程 Agent，围绕 DeepSeek API 设计。</p>
-  <div class="panel">
-    <div class="panel-title">接入步骤</div>
-    <div class="list">
-      <div class="item"><span class="num">1</span><span>安装 Node.js 20.10 或更高版本。</span></div>
-      <div class="item"><span class="num">2</span><span>进入一个练手项目目录。</span></div>
-      <div class="item"><span class="num">3</span><span>启动后按向导填写 DeepSeek API Key。</span></div>
-    </div>
-    <div class="code">npx reasonix code</div>
-  </div>
-  <div class="footer">
-    <div class="cta">推荐第一问：先阅读项目，不要修改文件。</div>
-    <div class="page">03</div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>方法一</div>
+ <h2>Reasonix：适合新手先稳稳跑起来</h2>
+ <p class="sub">DeepSeek 官方文档里列出的终端编程 Agent，围绕 DeepSeek API 设计。</p>
+ <div class="panel">
+ <div class="panel-title">接入步骤</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>安装 Node.js 20.10 或更高版本。</span></div>
+ <div class="item"><span class="num">2</span><span>进入一个练手项目目录。</span></div>
+ <div class="item"><span class="num">3</span><span>启动后按向导填写 DeepSeek API Key。</span></div>
+ </div>
+ <div class="code">npx reasonix code</div>
+ </div>
+ <div class="footer">
+ <div class="cta">推荐第一问：先阅读项目，不要修改文件。</div>
+ <div class="page">03</div>
+ </div>
 </section>
 
 <section class="card" data-card="4">
-  <div class="brand"><span class="brand-dot"></span>方法二</div>
-  <h2>CodeWhale：适合喜欢终端的人</h2>
-  <p class="sub">一个面向 DeepSeek V4 的开源终端编程工具，默认在项目目录里工作。</p>
-  <div class="panel">
-    <div class="panel-title">接入步骤</div>
-    <div class="list">
-      <div class="item"><span class="num">1</span><span>用 npm、Homebrew、Cargo 或二进制安装。</span></div>
-      <div class="item"><span class="num">2</span><span>设置 DeepSeek API Key。</span></div>
-      <div class="item"><span class="num">3</span><span>在项目目录运行 codewhale。</span></div>
-    </div>
-    <div class="code">npm install -g codewhale</div>
-  </div>
-  <div class="footer">
-    <div class="cta">适合小范围改 README、配置、脚本。</div>
-    <div class="page">04</div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>方法二</div>
+ <h2>CodeWhale：适合喜欢终端的人</h2>
+ <p class="sub">一个面向 DeepSeek V4 的开源终端编程工具，默认在项目目录里工作。</p>
+ <div class="panel">
+ <div class="panel-title">接入步骤</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>用 npm、Homebrew、Cargo 或二进制安装。</span></div>
+ <div class="item"><span class="num">2</span><span>设置 DeepSeek API Key。</span></div>
+ <div class="item"><span class="num">3</span><span>在项目目录运行 codewhale。</span></div>
+ </div>
+ <div class="code">npm install -g codewhale</div>
+ </div>
+ <div class="footer">
+ <div class="cta">适合小范围改 README、配置、脚本。</div>
+ <div class="page">04</div>
+ </div>
 </section>
 
 <section class="card" data-card="5">
-  <div class="brand"><span class="brand-dot"></span>怎么选</div>
-  <h2>别纠结工具，按场景选</h2>
-  <div class="compare">
-    <div class="choice">
-      <h3>选 Reasonix</h3>
-      <p>第一次体验 DeepSeek 编程 Agent。想先让 AI 读项目、解释结构、一步步给计划。</p>
-    </div>
-    <div class="choice">
-      <h3>选 CodeWhale</h3>
-      <p>已经习惯终端。想在项目里快速问答、改文件、跑命令，并且能接受更多配置。</p>
-    </div>
-  </div>
-  <div class="panel">
-    <div class="panel-title">新手保命提示</div>
-    <div class="list">
-      <div class="item"><span class="num">✓</span><span>每次只改一个小点。</span></div>
-      <div class="item"><span class="num">✓</span><span>改之前先给计划。</span></div>
-      <div class="item"><span class="num">✓</span><span>不要把 API Key 发给别人。</span></div>
-    </div>
-  </div>
-  <div class="footer">
-    <div class="cta">看完这 5 张，再选一个最小场景动手试。</div>
-    <div class="page">05</div>
-  </div>
+ <div class="brand"><span class="brand-dot"></span>怎么选</div>
+ <h2>别纠结工具，按场景选</h2>
+ <div class="compare">
+ <div class="choice">
+ <h3>选 Reasonix</h3>
+ <p>第一次体验 DeepSeek 编程 Agent。想先让 AI 读项目、解释结构、一步步给计划。</p>
+ </div>
+ <div class="choice">
+ <h3>选 CodeWhale</h3>
+ <p>已经习惯终端。想在项目里快速问答、改文件、跑命令，并且能接受更多配置。</p>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">新手保命提示</div>
+ <div class="list">
+ <div class="item"><span class="num">✓</span><span>每次只改一个小点。</span></div>
+ <div class="item"><span class="num">✓</span><span>改之前先给计划。</span></div>
+ <div class="item"><span class="num">✓</span><span>不要把 API Key 发给别人。</span></div>
+ </div>
+ </div>
+ <div class="footer">
+ <div class="cta">看完这 5 张，再选一个最小场景动手试。</div>
+ <div class="page">05</div>
+ </div>
 </section>
 
 <script>
 const params = new URLSearchParams(location.search);
 const card = params.get("card") || "1";
 for (const el of document.querySelectorAll(".card")) {
-  el.classList.toggle("active", el.dataset.card === card);
+ el.classList.toggle("active", el.dataset.card === card);
 }
 </script>
 </body>
