@@ -24,13 +24,40 @@ CHROME_CANDIDATES = [
     "chromium-browser",
 ]
 
+MACOS_CHROME_PATHS = [
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+]
 
-def find_chrome() -> str:
+
+def find_chrome() -> str | None:
     for name in CHROME_CANDIDATES:
         path = shutil.which(name)
         if path:
             return path
-    raise RuntimeError("未找到 Chrome/Chromium，无法截图 cards.html")
+    for path in MACOS_CHROME_PATHS:
+        if Path(path).exists():
+            return path
+    return None
+
+
+def screenshot_playwright(html: Path, out_dir: Path, card: int) -> None:
+    from playwright.sync_api import sync_playwright
+
+    url = html.resolve().as_uri() + f"?card={card}"
+    out = out_dir / f"wechat-card-{card:02d}.png"
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page(viewport={"width": W, "height": H})
+        page.goto(url, wait_until="networkidle")
+        page.screenshot(path=str(out))
+        browser.close()
+    with Image.open(out) as img:
+        if img.size != (W, H):
+            resized = img.resize((W, H), Image.Resampling.LANCZOS)
+            resized.save(out, quality=96)
+    print(f"ok {out.name} (playwright)")
 
 
 def screenshot(html: Path, out_dir: Path, card: int, chrome: str) -> None:
@@ -73,7 +100,10 @@ def main() -> None:
     chrome = find_chrome()
     out_dir.mkdir(parents=True, exist_ok=True)
     for i in range(1, 6):
-        screenshot(html, out_dir, i, chrome)
+        if chrome:
+            screenshot(html, out_dir, i, chrome)
+        else:
+            screenshot_playwright(html, out_dir, i)
 
 
 if __name__ == "__main__":

@@ -26,6 +26,9 @@ Component({
           capsulePaddingRight = Math.max(0, windowWidth - rect.left + 8);
         }
       }
+      if (capsulePaddingRight <= 0) {
+        capsulePaddingRight = 100;
+      }
       this.setData({
         statusBarHeight: info.statusBarHeight || 20,
         navBarHeight,

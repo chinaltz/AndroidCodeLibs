@@ -24,6 +24,10 @@ function measureHeader() {
     // DevTools and iPad can return incomplete capsule metrics.
   }
 
+  if (capsulePaddingRight <= 0) {
+    capsulePaddingRight = 100;
+  }
+
   return { statusBarHeight, navBarHeight, capsulePaddingRight };
 }
 
@@ -122,6 +126,7 @@ Page({
   },
 
   openAddSheet() {
+    this._newTitle = '';
     this.setData({ showAddSheet: true, newTitle: '', newMinutes: 15 });
   },
 
@@ -139,7 +144,7 @@ Page({
   },
 
   onNewTitleInput(e) {
-    this.setData({ newTitle: e.detail.value });
+    this._newTitle = e.detail.value;
   },
 
   onNewMinutesChange(e) {
@@ -147,8 +152,11 @@ Page({
   },
 
   confirmAdd() {
-    this.refreshFrom(dailyTodo.addItem(this.data.newTitle, this.data.newMinutes));
+    if (this._submitting) return;
+    this._submitting = true;
+    this.refreshFrom(dailyTodo.addItem(this._newTitle, this.data.newMinutes));
     this.closeAddSheet();
+    setTimeout(() => { this._submitting = false; }, 300);
   },
 
   openEdit(e) {
@@ -156,6 +164,7 @@ Page({
     const id = e.currentTarget.dataset.id;
     const item = this.data.items.find((row) => row.id === id);
     if (!item) return;
+    this._editTitle = item.title;
     this.setData({
       editingId: id,
       editTitle: item.title,
@@ -168,7 +177,7 @@ Page({
   },
 
   onEditTitleInput(e) {
-    this.setData({ editTitle: e.detail.value });
+    this._editTitle = e.detail.value;
   },
 
   onEditMinutesChange(e) {
@@ -176,11 +185,14 @@ Page({
   },
 
   confirmEdit() {
+    if (this._submitting) return;
+    this._submitting = true;
     this.refreshFrom(dailyTodo.updateItem(this.data.editingId, {
-      title: this.data.editTitle,
+      title: this._editTitle,
       presetMinutes: this.data.editMinutes,
     }));
     this.closeEdit();
+    setTimeout(() => { this._submitting = false; }, 300);
   },
 
   onDeleteItem(e) {

@@ -16,6 +16,9 @@ Component({
     },
     onTap() {
       if (this.data.disabled) return;
+      const now = Date.now();
+      if (this._lastTap && now - this._lastTap < 300) return;
+      this._lastTap = now;
       this.triggerEvent('tap');
     },
   },

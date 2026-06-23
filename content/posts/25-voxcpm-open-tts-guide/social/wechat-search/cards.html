@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VoxCPM2 搜一搜图文卡</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+ width: 1080px;
+ height: 1440px;
+ overflow: hidden;
+ font-family: "Noto Sans CJK SC", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+ color: #173a62;
+ background: #eef7ff;
+}
+.card {
+ width: 1080px;
+ height: 1440px;
+ padding: 64px 68px 56px;
+ display: none;
+ flex-direction: column;
+ position: relative;
+ overflow: hidden;
+ background:
+ radial-gradient(circle at 14% 12%, rgba(49,168,255,0.22), transparent 36%),
+ radial-gradient(circle at 86% 18%, rgba(67,207,199,0.18), transparent 32%),
+ radial-gradient(circle at 72% 88%, rgba(255,209,102,0.14), transparent 28%),
+ linear-gradient(180deg, #f9fdff 0%, #e8f6ff 55%, #ddf4ff 100%);
+}
+.card.active { display: flex; }
+.brand {
+ display: inline-flex;
+ align-items: center;
+ gap: 12px;
+ align-self: flex-start;
+ padding: 12px 22px;
+ border-radius: 999px;
+ background: rgba(255,255,255,0.88);
+ border: 2px solid #c8eaff;
+ font-size: 26px;
+ font-weight: 800;
+ color: #1479d6;
+ box-shadow: 0 10px 28px rgba(49,168,255,0.10);
+ flex-shrink: 0;
+}
+.brand-dot {
+ width: 16px;
+ height: 16px;
+ border-radius: 50%;
+ background: #31a8ff;
+ box-shadow: 0 0 0 6px rgba(49,168,255,0.14);
+}
+.eyebrow {
+ margin-top: 40px;
+ font-size: 28px;
+ line-height: 1.35;
+ color: #427095;
+ font-weight: 700;
+ flex-shrink: 0;
+}
+h1 {
+ margin-top: 22px;
+ font-size: 68px;
+ line-height: 1.08;
+ color: #102a4d;
+ font-weight: 900;
+ flex-shrink: 0;
+}
+h2 {
+ margin-top: 36px;
+ font-size: 58px;
+ line-height: 1.12;
+ color: #102a4d;
+ font-weight: 900;
+ flex-shrink: 0;
+}
+.sub {
+ margin-top: 24px;
+ font-size: 32px;
+ line-height: 1.55;
+ color: #365d82;
+ font-weight: 650;
+ flex-shrink: 0;
+}
+.hero {
+ margin-top: 28px;
+ width: 100%;
+ height: 220px;
+ border-radius: 28px;
+ overflow: hidden;
+ border: 2px solid #c8eaff;
+ box-shadow: 0 16px 40px rgba(49,168,255,0.12);
+ flex-shrink: 0;
+}
+.hero-sm { height: 200px; margin-top: 20px; }
+.hero img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+}
+.content {
+ margin-top: 28px;
+ display: flex;
+ flex-direction: column;
+ gap: 22px;
+ flex: 1;
+ min-height: 0;
+}
+.panel {
+ padding: 28px 30px;
+ border-radius: 28px;
+ background: rgba(255,255,255,0.92);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 14px 36px rgba(49,168,255,0.10), 0 6px 0 rgba(200,234,255,0.72);
+ flex-shrink: 0;
+}
+.panel.warn {
+ background: rgba(255,247,215,0.96);
+ border-color: #ffe28a;
+}
+.panel.cta {
+ background: linear-gradient(180deg, #31a8ff, #1479d6);
+ border-color: #1479d6;
+ color: #fff;
+}
+.panel-title {
+ font-size: 30px;
+ font-weight: 900;
+ color: #1479d6;
+ margin-bottom: 14px;
+ line-height: 1.3;
+}
+.panel.cta .panel-title,
+.panel.cta .item span:last-child {
+ color: #fff;
+}
+.list { display: grid; gap: 14px; }
+.item {
+ display: grid;
+ grid-template-columns: 52px 1fr;
+ gap: 14px;
+ align-items: start;
+ font-size: 28px;
+ line-height: 1.46;
+ font-weight: 700;
+ color: #20456e;
+}
+.num {
+ width: 52px;
+ height: 52px;
+ border-radius: 16px;
+ display: grid;
+ place-items: center;
+ background: #31a8ff;
+ color: #fff;
+ font-size: 24px;
+ font-weight: 900;
+ flex-shrink: 0;
+}
+.lines { display: grid; gap: 10px; }
+.line {
+ font-size: 28px;
+ line-height: 1.48;
+ font-weight: 700;
+ color: #365d82;
+ word-break: break-word;
+}
+.compare {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 20px;
+}
+.choice {
+ padding: 26px 24px;
+ border-radius: 28px;
+ background: rgba(255,255,255,0.92);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 12px 30px rgba(49,168,255,0.08);
+}
+.choice.alt {
+ background: rgba(255,247,215,0.96);
+ border-color: #ffe28a;
+}
+.choice h3 {
+ font-size: 30px;
+ color: #1479d6;
+ margin-bottom: 12px;
+ line-height: 1.2;
+}
+.choice p {
+ font-size: 26px;
+ line-height: 1.5;
+ color: #365d82;
+ font-weight: 650;
+}
+.footer {
+ margin-top: auto;
+ padding-top: 28px;
+ font-size: 24px;
+ line-height: 1.45;
+ color: #6788a7;
+ font-weight: 700;
+ flex-shrink: 0;
+}
+.card[data-card="5"] { padding-bottom: 48px; }
+.card[data-card="5"] h2 { font-size: 52px; margin-top: 28px; }
+.card[data-card="5"] .content { gap: 18px; margin-top: 22px; }
+.card[data-card="5"] .item { font-size: 26px; }
+.card[data-card="3"] h2 { font-size: 52px; }
+.card[data-card="3"] .content { gap: 18px; }
+</style>
+</head>
+<body>
+
+<section class="card active" data-card="1">
+ <div class="brand"><span class="brand-dot"></span>开源 TTS</div>
+ <div class="eyebrow">面壁智能 · Apache-2.0 可商用</div>
+ <h1>VoxCPM2<br>30 种语言、一句话设计音色</h1>
+ <p class="sub">比机械女声更像真人。5 张图搞懂能做什么、怎么在线试、企业怎么部署。</p>
+ <div class="hero"><img src="../../images/header.png" alt="封面"></div>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">核心数字</div>
+ <div class="lines">
+ <div class="line">20 亿参数 · 30 种语言 + 9 种中文方言</div>
+ <div class="line">48kHz 输出 · 4090 上 RTF 约 0.3</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">权威来源</div>
+ <div class="lines">
+ <div class="line">github.com/OpenBMB/VoxCPM</div>
+ <div class="line">Hugging Face Demo · voxcpm.modelbest.cn</div>
+ </div>
+ </div>
+ </div>
+ <div class="footer">写作时间 2026 年 6 月，模型与 Demo 可能更新。</div>
+</section>
+
+<section class="card" data-card="2">
+ <div class="brand"><span class="brand-dot"></span>核心问题</div>
+ <h2>跟我们有什么关系？</h2>
+ <p class="sub">做短视频旁白、文章有声版、App 内置朗读，或想试「用一句话设计声音」，VoxCPM2 值得先在线听一遍。</p>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">一句话结论</div>
+ <div class="lines">
+ <div class="line">传统 TTS 选固定音色；VoxCPM2 能设计、能克隆、多语言一条链路。</div>
+ </div>
+ </div>
+ <div class="compare">
+ <div class="choice">
+ <h3>普通人</h3>
+ <p>浏览器开 Demo 就能试<br>pip install 本地出 wav<br>旁白初稿、有声文章</p>
+ </div>
+ <div class="choice alt">
+ <h3>企业</h3>
+ <p>Nano-vLLM 高吞吐 API<br>vLLM-Omni 兼容 OpenAI<br>客服、有声产线、App 朗读</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="card" data-card="3">
+ <div class="brand"><span class="brand-dot"></span>能力速览</div>
+ <h2>五种模式<br>一张图看懂</h2>
+ <div class="content">
+ <div class="hero hero-sm"><img src="../../images/demo-playground.png" alt="在线 Demo"></div>
+ <div class="panel">
+ <div class="list">
+ <div class="item"><span class="num">1</span><span><strong>音色设计</strong>：不上传音频，控制指令写「年轻女性，温柔」。</span></div>
+ <div class="item"><span class="num">2</span><span><strong>声音克隆</strong>：上传 5～15 秒清晰人声，让 TA 读目标文本。</span></div>
+ <div class="item"><span class="num">3</span><span><strong>极致克隆</strong>：参考音频 + 准确转录，无缝续读更像本人。</span></div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="card" data-card="4">
+ <div class="brand"><span class="brand-dot"></span>边界提醒</div>
+ <h2>克隆很强<br>合规先看清</h2>
+ <div class="content">
+ <div class="panel warn">
+ <div class="panel-title">合规红线</div>
+ <div class="lines">
+ <div class="line">禁止冒充他人、诈骗或虚假信息。</div>
+ <div class="line">AI 生成内容需明确标注。</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">网络与硬件</div>
+ <div class="lines">
+ <div class="line">Hugging Face Demo 国内可能慢，可换 voxcpm.modelbest.cn。</div>
+ <div class="line">本地 GPU 约 8GB 显存；Mac 可 CPU 跑但较慢。</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">国内拉模型</div>
+ <div class="lines">
+ <div class="line">ModelScope OpenBMB/VoxCPM2 可减少 HF 超时。</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="card" data-card="5">
+ <div class="brand"><span class="brand-dot"></span>带走重点</div>
+ <h2>记住 3 件事</h2>
+ <div class="content">
+ <div class="panel">
+ <div class="list">
+ <div class="item"><span class="num">1</span><span><strong>先在线听</strong>：HF Demo 或国内体验页，控制指令 + 目标文本点生成。</span></div>
+ <div class="item"><span class="num">2</span><span><strong>本地一条命令</strong>：pip install voxcpm，voxcpm design 出 wav。</span></div>
+ <div class="item"><span class="num">3</span><span><strong>进产品看 vLLM</strong>：Nano-vLLM 或 vLLM-Omni，接口接近 OpenAI 语音 API。</span></div>
+ </div>
+ </div>
+ <div class="panel cta">
+ <div class="panel-title">立刻可做</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>打开 VoxCPM Demo 页面</span></div>
+ <div class="item"><span class="num">2</span><span>控制指令填「年轻女性，温柔」</span></div>
+ <div class="item"><span class="num">3</span><span>目标文本贴 100 字，点开始生成</span></div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<script>
+const card = new URLSearchParams(location.search).get("card") || "1";
+for (const el of document.querySelectorAll(".card")) {
+ el.classList.toggle("active", el.dataset.card === card);
+}
+</script>
+</body>
+</html>

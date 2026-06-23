@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiMo V2.5 Pro 搜一搜图文卡</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+ width: 1080px;
+ height: 1440px;
+ overflow: hidden;
+ font-family: "Noto Sans CJK SC", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+ color: #173a62;
+ background: #eef7ff;
+}
+.card {
+ width: 1080px;
+ height: 1440px;
+ padding: 64px 68px 56px;
+ display: none;
+ flex-direction: column;
+ position: relative;
+ overflow: hidden;
+ background:
+ radial-gradient(circle at 14% 12%, rgba(49,168,255,0.22), transparent 36%),
+ radial-gradient(circle at 86% 18%, rgba(67,207,199,0.18), transparent 32%),
+ radial-gradient(circle at 72% 88%, rgba(255,209,102,0.14), transparent 28%),
+ linear-gradient(180deg, #f9fdff 0%, #e8f6ff 55%, #ddf4ff 100%);
+}
+.card.active { display: flex; }
+.brand {
+ display: inline-flex;
+ align-items: center;
+ gap: 12px;
+ align-self: flex-start;
+ padding: 12px 22px;
+ border-radius: 999px;
+ background: rgba(255,255,255,0.88);
+ border: 2px solid #c8eaff;
+ font-size: 26px;
+ font-weight: 800;
+ color: #1479d6;
+ box-shadow: 0 10px 28px rgba(49,168,255,0.10);
+ flex-shrink: 0;
+}
+.brand-dot {
+ width: 16px;
+ height: 16px;
+ border-radius: 50%;
+ background: #31a8ff;
+ box-shadow: 0 0 0 6px rgba(49,168,255,0.14);
+}
+.eyebrow {
+ margin-top: 40px;
+ font-size: 28px;
+ line-height: 1.35;
+ color: #427095;
+ font-weight: 700;
+ flex-shrink: 0;
+}
+h1 {
+ margin-top: 22px;
+ font-size: 68px;
+ line-height: 1.08;
+ color: #102a4d;
+ font-weight: 900;
+ flex-shrink: 0;
+}
+h2 {
+ margin-top: 36px;
+ font-size: 58px;
+ line-height: 1.12;
+ color: #102a4d;
+ font-weight: 900;
+ flex-shrink: 0;
+}
+.sub {
+ margin-top: 24px;
+ font-size: 32px;
+ line-height: 1.55;
+ color: #365d82;
+ font-weight: 650;
+ flex-shrink: 0;
+}
+.hero {
+ margin-top: 28px;
+ width: 100%;
+ height: 220px;
+ border-radius: 28px;
+ overflow: hidden;
+ border: 2px solid #c8eaff;
+ box-shadow: 0 16px 40px rgba(49,168,255,0.12);
+ flex-shrink: 0;
+}
+.hero img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+}
+.content {
+ margin-top: 28px;
+ display: flex;
+ flex-direction: column;
+ gap: 22px;
+ flex: 1;
+ min-height: 0;
+}
+.panel {
+ padding: 28px 30px;
+ border-radius: 28px;
+ background: rgba(255,255,255,0.92);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 14px 36px rgba(49,168,255,0.10), 0 6px 0 rgba(200,234,255,0.72);
+ flex-shrink: 0;
+}
+.panel.warn {
+ background: rgba(255,247,215,0.96);
+ border-color: #ffe28a;
+}
+.panel.cta {
+ background: linear-gradient(180deg, #31a8ff, #1479d6);
+ border-color: #1479d6;
+ color: #fff;
+}
+.panel-title {
+ font-size: 30px;
+ font-weight: 900;
+ color: #1479d6;
+ margin-bottom: 14px;
+ line-height: 1.3;
+}
+.panel.cta .panel-title,
+.panel.cta .item span:last-child {
+ color: #fff;
+}
+.list { display: grid; gap: 14px; }
+.item {
+ display: grid;
+ grid-template-columns: 52px 1fr;
+ gap: 14px;
+ align-items: start;
+ font-size: 28px;
+ line-height: 1.46;
+ font-weight: 700;
+ color: #20456e;
+}
+.num {
+ width: 52px;
+ height: 52px;
+ border-radius: 16px;
+ display: grid;
+ place-items: center;
+ background: #31a8ff;
+ color: #fff;
+ font-size: 24px;
+ font-weight: 900;
+ flex-shrink: 0;
+}
+.lines { display: grid; gap: 10px; }
+.line {
+ font-size: 28px;
+ line-height: 1.48;
+ font-weight: 700;
+ color: #365d82;
+ word-break: break-word;
+}
+.compare {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 20px;
+}
+.choice {
+ padding: 26px 24px;
+ border-radius: 28px;
+ background: rgba(255,255,255,0.92);
+ border: 2px solid #c8eaff;
+ box-shadow: 0 12px 30px rgba(49,168,255,0.08);
+}
+.choice.alt {
+ background: rgba(255,247,215,0.96);
+ border-color: #ffe28a;
+}
+.choice h3 {
+ font-size: 30px;
+ color: #1479d6;
+ margin-bottom: 12px;
+ line-height: 1.2;
+}
+.choice p {
+ font-size: 26px;
+ line-height: 1.5;
+ color: #365d82;
+ font-weight: 650;
+}
+.footer {
+ margin-top: auto;
+ padding-top: 28px;
+ font-size: 24px;
+ line-height: 1.45;
+ color: #6788a7;
+ font-weight: 700;
+ flex-shrink: 0;
+}
+.card[data-card="5"] { padding-bottom: 48px; }
+.card[data-card="5"] h2 { font-size: 52px; margin-top: 28px; }
+.card[data-card="5"] .content { gap: 18px; margin-top: 22px; }
+.card[data-card="5"] .item { font-size: 26px; }
+</style>
+</head>
+<body>
+
+<section class="card active" data-card="1">
+ <div class="brand"><span class="brand-dot"></span>终端 AI 编程</div>
+ <div class="eyebrow">MiMo Code + V2.5 Pro · 限时免费</div>
+ <h1>小米 AI 编程助手<br>我帮你试了一圈</h1>
+ <p class="sub">终端里的 AI 程序员，一条命令安装，无需注册、无需 API Key。5 张图搞懂值不值得试。</p>
+ <div class="hero"><img src="../../images/header.png" alt="封面"></div>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">模型亮点</div>
+ <div class="lines">
+ <div class="line">1 万亿参数规模，激活 42B，100 万 Token 上下文</div>
+ <div class="line">编程能力超 Claude Sonnet 4.6（官方数据）</div>
+ <div class="line">工具开源，支持 75+ LLM 提供商</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">权威来源</div>
+ <div class="lines">
+ <div class="line">mimo.xiaomi.com · Artificial Analysis 榜单</div>
+ </div>
+ </div>
+ </div>
+ <div class="footer">写作时间 2026 年 6 月，政策可能变化，以官网为准。</div>
+</section>
+
+<section class="card" data-card="2">
+ <div class="brand"><span class="brand-dot"></span>核心问题</div>
+ <h2>跟我们有什么关系？</h2>
+ <p class="sub">平时在终端写代码，又舍不得 Claude Code 月费，MiMo Code 现在值得装一次。</p>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">一句话结论</div>
+ <div class="lines">
+ <div class="line">工具免费开源，模型限时免费，不锁定供应商。</div>
+ </div>
+ </div>
+ <div class="compare">
+ <div class="choice">
+ <h3>MiMo Code</h3>
+ <p>终端运行 · 工具免费<br>75+ 模型可换<br>限时免 Key 直接用</p>
+ </div>
+ <div class="choice alt">
+ <h3>Claude Code</h3>
+ <p>终端运行 · $20/月起<br>仅 Claude 模型<br>生态更成熟</p>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">实测印象</div>
+ <div class="lines">
+ <div class="line">一句话「做个 H5 小游戏」，32.7 秒生成完整打地鼠游戏。</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="card" data-card="3">
+ <div class="brand"><span class="brand-dot"></span>上手速览</div>
+ <h2>安装一条命令<br>三种工作模式</h2>
+ <div class="content">
+ <div class="panel">
+ <div class="panel-title">Mac / Linux 安装</div>
+ <div class="lines">
+ <div class="line">curl -fsSL https://mimo.xiaomi.com/install | bash</div>
+ <div class="line">进项目目录运行 mimo，直接输入需求</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="list">
+ <div class="item"><span class="num">1</span><span><strong>Build</strong>：日常写代码、跑命令（默认，能改文件）。</span></div>
+ <div class="item"><span class="num">2</span><span><strong>Plan</strong>：大改动前先分析，只读不动手。</span></div>
+ <div class="item"><span class="num">3</span><span><strong>Compose</strong>：复杂流程编排，自动调用内置技能。</span></div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">常用技巧</div>
+ <div class="lines">
+ <div class="line">@文件名 引用文件 · !npm test 跑命令 · Tab 切模式</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="card" data-card="4">
+ <div class="brand"><span class="brand-dot"></span>边界提醒</div>
+ <h2>免费期与权限<br>先看清边界</h2>
+ <div class="content">
+ <div class="panel warn">
+ <div class="panel-title">限时免费</div>
+ <div class="lines">
+ <div class="line">小米 V2 系列模型 2026 年 6 月 30 日正式下线。</div>
+ <div class="line">免费期结束后可能需自行配置 API Key。</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">权限管理</div>
+ <div class="lines">
+ <div class="line">项目根目录 mimocode.json 可设 bash 权限。</div>
+ <div class="line">建议新手把 rm 设成 deny，防止误删文件。</div>
+ </div>
+ </div>
+ <div class="panel">
+ <div class="panel-title">能力边界</div>
+ <div class="lines">
+ <div class="line">日常业务代码、小工具、改 Bug 够用。</div>
+ <div class="line">复杂架构设计 Claude Opus 仍更强。</div>
+ <div class="line">V2.5 Pro 本身暂不支持拖截图多模态。</div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="card" data-card="5">
+ <div class="brand"><span class="brand-dot"></span>带走重点</div>
+ <h2>记住 3 件事</h2>
+ <div class="content">
+ <div class="panel">
+ <div class="list">
+ <div class="item"><span class="num">1</span><span><strong>安装极简</strong>：一条 curl 命令，进项目敲 mimo 就能用。</span></div>
+ <div class="item"><span class="num">2</span><span><strong>不锁模型</strong>：75+ 提供商，/connect 可换 DeepSeek、Claude 等。</span></div>
+ <div class="item"><span class="num">3</span><span><strong>趁免费试</strong>：V2 系列 6 月 30 日下线，现在是入坑好时机。</span></div>
+ </div>
+ </div>
+ <div class="panel cta">
+ <div class="panel-title">立刻可做</div>
+ <div class="list">
+ <div class="item"><span class="num">1</span><span>终端粘贴安装命令</span></div>
+ <div class="item"><span class="num">2</span><span>进任意项目目录运行 mimo</span></div>
+ <div class="item"><span class="num">3</span><span>输入「帮我分析项目结构」试一轮</span></div>
+ </div>
+ </div>
+ </div>
+</section>
+
+<script>
+const card = new URLSearchParams(location.search).get("card") || "1";
+for (const el of document.querySelectorAll(".card")) {
+ el.classList.toggle("active", el.dataset.card === card);
+}
+</script>
+</body>
+</html>
